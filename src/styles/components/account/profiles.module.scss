@@ -1,0 +1,15 @@
+.profiles {
+  width: 100%;
+  padding: var(--lg);
+}
+
+.top {
+  margin-bottom: var(--md);
+}
+
+.buttons {
+  width: 100%;
+  > *:first-child {
+    margin-right: var(--md);
+  }
+}

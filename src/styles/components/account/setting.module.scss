@@ -1,0 +1,33 @@
+.content {
+  > * {
+    margin-bottom: var(--md);
+  }
+}
+
+.name {
+  width: 100%;
+  background-color: white;
+  border-radius: 13px;
+  margin-bottom: var(--md);
+  &.name_root {
+    padding: var(--sm);
+  }
+}
+
+.name_option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.name_length {
+  &.name_length_root {
+    margin-right: var(--md);
+  }
+}
+
+.option {
+  &.option_root {
+    margin-right: var(--md);
+  }
+}

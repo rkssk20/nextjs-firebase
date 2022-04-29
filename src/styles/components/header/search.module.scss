@@ -1,0 +1,27 @@
+.dialog_title {
+  display: flex;
+}
+
+.input {
+  width: calc(100% - 85px);
+  margin: 0;
+  background-color: white;
+  border-radius: 9999px;
+}
+
+.button {
+  border-radius: 9999px;
+  &.button_root {
+    width: 85px;
+    font-size: 13px;
+  }
+}
+
+.input_base {
+  width: calc(100% - 40px);
+  padding-right: var(--sm);
+}
+
+.list_item_button {
+  border-radius: 9999px;
+}

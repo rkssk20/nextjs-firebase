@@ -1,0 +1,28 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #eeeeee;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  // 色
+  --c-gray: rgb(239, 243, 244);
+  // ボーダー
+  --border: 1px solid rgba(0, 0, 0, 0.12);
+  // 幅
+  --xs: 4px;
+  --sm: 8px;
+  --md: 16px;
+  --lg: 24px;
+  --xl: 32px;
+}

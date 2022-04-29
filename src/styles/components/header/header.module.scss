@@ -1,0 +1,17 @@
+.appbar_root {
+  &.appbar_root {
+    box-shadow: none;
+  }
+}
+
+.side_button {
+  margin-right: var(--sm);
+}
+
+.title {
+  flex-grow: 1;
+}
+
+.search {
+  margin-right: var(--xs);
+}

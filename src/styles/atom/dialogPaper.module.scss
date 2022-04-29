@@ -1,0 +1,10 @@
+@use '@/styles/utils';
+
+.dialog {
+  .dialog_paper {
+    background-color: #eeeeee;
+    @include utils.mq(sm) {
+      width: 600px;
+    }
+  }
+}
