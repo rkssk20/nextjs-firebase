@@ -3,6 +3,8 @@ import useCreatedAt from '@/hooks/useCreatedAt'
 import Tips from '@/atoms/Tip'
 import DialogPaper from '@/atoms/DialogPaper'
 import Share from '@/components/post/Share'
+import Report from '@/components/post/Report'
+import Delete from '@/components/post/Delete'
 
 import styles from '@/styles/components/post/actions.module.scss'
 import CardActions from '@mui/material/CardActions'
@@ -17,13 +19,14 @@ import Stack from '@mui/material/Stack'
 import MenuItem from '@mui/material/MenuItem'
 
 interface ActionsProps {
+  id: string;
   likes: number;
   like: boolean;
   mine: boolean;
   created_at: string;
 }
 
-const Actions = ({ likes, like, mine, created_at }: ActionsProps) => {
+const Actions = ({ id, likes, like, mine, created_at }: ActionsProps) => {
   const [shareOpen, setShareOpen] = useState(false)
   const [detailsOpen, setDetailsOpen] = useState<null | HTMLElement>(null)
   const open = Boolean(detailsOpen);
@@ -129,34 +132,36 @@ const Actions = ({ likes, like, mine, created_at }: ActionsProps) => {
         }}
         open={ open }
         onClose={ handleDetailsClose }
-        onClick={ handleDetailsClose }
+        onClick={ handleDetails }
         onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
         onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
       >
         { mine ?
-          <MenuItem>削除</MenuItem>
+          <MenuItem onClick={ () => setDialogOpen(3) }>削除</MenuItem>
           :
-          <MenuItem>報告</MenuItem>
+          <MenuItem onClick={ () => setDialogOpen(2) }>報告</MenuItem>
         }
       </Menu>
 
       { dialogOpen &&
         (dialogOpen === 1) ?
-        <Share open={ Boolean(dialogOpen) } handleClose={ handleDialogClose } />
-        : (dialogOpen === 2) ?
-        <DialogPaper
-        open={ Boolean(dialogOpen) }
-        handleClose={ handleDialogClose }
-        >
-
-        </DialogPaper>
-        :
-        <DialogPaper
+        <Share
+          id={ id }
           open={ Boolean(dialogOpen) }
           handleClose={ handleDialogClose }
-        >
-
-        </DialogPaper>
+        />
+        : ((dialogOpen === 2) ?
+        <Report
+          id={ id }
+          open={ Boolean(dialogOpen) }
+          handleClose={ handleDialogClose }
+        />
+        :
+        <Delete
+          open={ Boolean(dialogOpen) }
+          handleClose={ handleDialogClose }
+          id={ id }
+        />)
       }
     </CardActions>
   )

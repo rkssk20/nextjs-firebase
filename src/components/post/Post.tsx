@@ -48,6 +48,7 @@ const Post = ({ id, display_id, image, name, title, details, tags, created_at, l
 
         {/* 投稿時間、各種ボタン */}
         <Actions
+          id={ id }
           likes={ likes }
           like={ like }
           mine={ mine }
