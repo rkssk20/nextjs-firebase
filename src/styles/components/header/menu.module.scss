@@ -1,0 +1,31 @@
+.drawer {
+  .drawer_paper {
+    width: 250px;
+    height: calc((100% - 104px));
+    padding-right: 15px;
+    padding-left: 15px;
+    top: 80px;
+    left: calc((100% - 1132px) / 2);
+    border-radius: 5px;
+    border: none;
+    background-color: #eeeeee;
+  }
+}
+
+.list {
+  flex-grow: 1;
+}
+
+.list_item_button {
+  border-radius: 9999px;
+}
+
+.divider {
+  &.divider_root {
+    margin: var(--xs) var(--md);
+  }
+}
+
+.caption {
+  padding: var(--sm) var(--md);
+}

@@ -1,6 +1,20 @@
+@use '@/styles/utils';
+
 .appbar_root {
   &.appbar_root {
     box-shadow: none;
+  }
+}
+
+.toolbar {
+  &.toolbar_root {
+    min-height: 56px;
+    width: 100%;
+    margin: auto;
+    max-width: 882px;
+    @include utils.mq(xl) {
+      max-width: 600px;
+    }
   }
 }
 
@@ -10,6 +24,7 @@
 
 .title {
   flex-grow: 1;
+  user-select: none;
 }
 
 .search {

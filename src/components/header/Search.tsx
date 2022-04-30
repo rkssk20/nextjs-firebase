@@ -98,9 +98,9 @@ const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
             ))}
           </List>
           :
-          <List>
+          <List className={ styles.none }>
             <Typography variant="body1">履歴がありません</Typography>
-            <Typography variant="body1">例) Next.js, supabase ...</Typography>
+            <Typography variant="body1">例) 「Next.js」、「supabase」</Typography>
           </List>
         }
       </DialogContent>

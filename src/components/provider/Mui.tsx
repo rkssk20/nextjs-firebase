@@ -1,19 +1,26 @@
-import { ReactNode } from 'react'
+import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import { useRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import Header from '@/components/header/Header'
+import Menu from '@/components/header/Menu'
+import Side from '@/components/side/side'
 
+import styles from '@/styles/components/provider/mui.module.scss'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Snackbar from '@mui/material/Snackbar'
 import Container from '@mui/material/Container'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-interface Props {
+interface MuiProps {
   children: ReactNode
 }
 
-const Mui: NextPage<Props> = ({ children }) => {
+const Mui: NextPage<MuiProps> = ({ children }) => {
+  const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
+  const tablet = useMediaQuery('(min-width:882px)')
+  const pc = useMediaQuery('(min-width: 1148px)')
 
   const theme = createTheme({
     palette: {
@@ -77,17 +84,17 @@ const Mui: NextPage<Props> = ({ children }) => {
       // タグ、色付きリンク
       subtitle2: {
         fontSize: 15,
-        color: '#1F94E6',
+        color: '#3FCF8E',
       },
       // 標準 #黒
       body1: {
         fontSize: 15,
         color: '#0F1419',
       },
-      // 標準 #グレー
+      // 標準 #黒
       body2: {
         fontSize: 15,
-        color: '#536471',
+        color: '#0F1419',
       },
       // ボタン用 #白 bold
       button: {
@@ -106,8 +113,8 @@ const Mui: NextPage<Props> = ({ children }) => {
       values: {
         xs: 0,
         sm: 600,
-        md: 900,
-        lg: 1160,
+        md: 882,
+        lg: 1148,
         xl: 1200,
       },
     },
@@ -115,7 +122,7 @@ const Mui: NextPage<Props> = ({ children }) => {
 
   return (
     <ThemeProvider theme={ theme }> 
-      <Header />
+      <Header setMenuOpen={ setMenuOpen } />
 
       <Snackbar
         open={ notificate.open }
@@ -127,11 +134,18 @@ const Mui: NextPage<Props> = ({ children }) => {
         }}
       />
 
-      <Container disableGutters maxWidth='lg'>
-        <Container disableGutters maxWidth='sm'>
-          {children}
-        </Container>
+      <Menu menuOpen={ menuOpen } setMenuOpen={ setMenuOpen } />
+
+      <Container
+        className={ styles.container }
+        classes={{ root: (tablet && !pc) ? styles.container_root : '' }}
+        disableGutters
+        maxWidth='sm'
+      >
+        { children }
       </Container>
+
+      <Side />
     </ThemeProvider>
   )
 }

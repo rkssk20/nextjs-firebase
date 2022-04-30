@@ -1,0 +1,24 @@
+@use '@/styles/utils';
+
+@mixin side {
+  width: 250px;
+  margin: 24px 0 24px 16px;
+  position: fixed;
+  top: 56px;
+}
+
+.list{
+  height: calc(100% - 104px);
+  background-color: white;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: auto;
+  @include utils.mq(md) {
+    @include side;
+    right: calc((100% - 866px) / 2);
+  }
+  @include utils.mq(lg) {
+    @include side;
+    right: calc((100% - 1120px) / 2);
+  }
+}

@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 
-import styles from '@/styles/atom/button.module.scss'
+import styles from '@/styles/atoms/button.module.scss'
 
 export const ContainedButton = ({ text, handle }: { text: string, handle: () => void }) => {
   return (

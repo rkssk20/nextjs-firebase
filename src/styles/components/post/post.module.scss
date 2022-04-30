@@ -1,0 +1,14 @@
+.card {
+  border-bottom: var(--border);
+}
+
+.noimage {
+  width: 100%;
+  height: calc((100vw / 16) * 9);
+  max-height: 337.5px;
+  background-color: #F8BBD0;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

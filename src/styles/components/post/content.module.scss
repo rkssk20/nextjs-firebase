@@ -1,0 +1,11 @@
+.content {
+  &.content_root {
+    padding-bottom: var(--sm);
+  }
+}
+
+.tags {
+  > *:not(:first-child) {
+    padding-left: var(--sm);
+  }
+}

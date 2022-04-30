@@ -15,7 +15,7 @@ const Profile = () => {
   return (
     <Stack className={ styles.profiles }>
       <Stack className={ styles.top } direction='row'>
-        <UserIcon name={ test_name.slice(0, 1) } size='large' />
+        <UserIcon name={ test_name.slice(0, 1) } variant='large' />
 
         <Stack
           className={ styles.buttons }

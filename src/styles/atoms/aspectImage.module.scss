@@ -1,0 +1,9 @@
+.image_fill {
+  width: 100%;
+  max-width: 600px;
+  height: calc((100vw / 16) * 9);
+  max-height: 337.5px;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+}

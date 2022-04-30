@@ -1,0 +1,7 @@
+.container {
+  min-height: calc(100vh - 56px);
+  margin-top: 56px;
+  &.container_root {
+    margin-left: calc((100% - 866px) / 2);
+  }
+}

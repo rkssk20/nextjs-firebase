@@ -1,6 +1,7 @@
 import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
 import DialogPaper from "@/atoms/DialogPaper"
 import { ContainedButton, DisabledButton } from "@/atoms/Button";
+import Tips from '@/atoms/Tip'
 
 import styles from '@/styles/components/account/setting.module.scss'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -33,9 +34,11 @@ const Setting = ({ setting, setSetting }: SettingProps) => {
       handleClose={ handleClose }
     >
       <DialogTitle className={ styles.dialog_title }>
-        <IconButton onClick={ handleClose }>
-          <CloseIcon />
-        </IconButton>
+        <Tips title='キャンセル'>
+          <IconButton onClick={ handleClose }>
+            <CloseIcon />
+          </IconButton>
+        </Tips>
       </DialogTitle>
 
       <DialogContent className={ styles.content }>

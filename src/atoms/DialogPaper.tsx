@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import styles from '@/styles/atom/dialogPaper.module.scss'
+import styles from '@/styles/atoms/dialogPaper.module.scss'
 import Dialog from '@mui/material/Dialog';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles'; 
