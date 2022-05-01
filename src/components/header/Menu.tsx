@@ -25,6 +25,11 @@ const Menu = ({ menuOpen, setMenuOpen }: MenuProps) => {
   const test_name = 'アカウント'
   const menuList = [{ text: 'フロントエンド', url: '/front' }, { text: 'サーバーレス', url: 'serverless' }]
 
+  const test_session = {
+    display_id: 'gowngorng',
+    name: 'test_user'
+  }
+
   return (
     <Drawer
       className={ styles.drawer }
@@ -34,7 +39,7 @@ const Menu = ({ menuOpen, setMenuOpen }: MenuProps) => {
       onClose={ () => setMenuOpen(false) }
     >
       <List className={ styles.list }>
-        <Link href='/account' passHref>
+        <Link href={ `/account/${ test_session.display_id }` } passHref>
           <ListItemButton
             className={ styles.list_item_button }
             component='a'

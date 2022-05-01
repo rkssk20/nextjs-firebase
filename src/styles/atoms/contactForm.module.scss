@@ -1,0 +1,19 @@
+.address {
+  &.address {
+    width: 100%;
+    padding: var(--sm);
+    text-align: center;
+    background-color: white;
+    border-radius: 13px;
+  }
+}
+
+.details {
+  &.details_root {
+    width: 100%;
+    padding: var(--sm);
+    text-align: center;
+    background-color: white;
+    border-radius: 13px;
+  }
+}

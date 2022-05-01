@@ -74,26 +74,13 @@ const Home: NextPage = () => {
   ]
 
   return (
-    <div>      
+    <div>
       <Typography className={ styles.title } variant='h6'>
         Next.js × Supabaseのテンプレート
       </Typography>
 
       { test_data.map(item => (
-        <Post
-          key={ item.id }
-          id={ item.id }
-          display_id={ item.display_id }
-          image={ item.image }
-          title={ item.title }
-          details={ item.details }
-          name={ item.name }
-          tags={ item.tags }
-          created_at={ item.created_at }
-          likes={ item.likes }
-          like={ item.like }
-          mine={ item.mine }
-        />
+        <Post key={ item.id } data={ item } />
       ))}
     </div>
   )

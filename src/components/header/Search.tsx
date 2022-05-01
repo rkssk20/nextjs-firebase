@@ -30,7 +30,7 @@ const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
   const router = useRouter()
 
   const handleClose = () => {
-    setSearchOpen(false)
+    router.push({pathname: router.asPath, query: {}})
   }
 
   const handlePost = (e: FormEvent) => {
@@ -46,7 +46,7 @@ const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
 
   return (
     <DialogPaper
-      open={ searchOpen }
+      open={ router.asPath.split('#')[1] === 'search' }
       handleClose={ handleClose }
     >
       <DialogTitle className={ styles.dialog_title }>

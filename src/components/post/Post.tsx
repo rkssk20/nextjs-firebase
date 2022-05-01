@@ -3,58 +3,95 @@ import AspectImage from '@/atoms/AspectImage'
 import Header from '@/components/post/Header'
 import Content from '@/components/post/Content'
 import Actions from '@/components/post/Actions'
+import Share from '@/components/post/Share'
 
-import styles from '@/styles/components/post/post.module.scss'
+import styles from '@/styles/pages/index.module.scss'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import Typography from '@mui/material/Typography'
 
 interface PostProps {
-  id: string;
-  display_id: string;
-  image: string;
-  name: string;
-  title: string;
-  details: string;
-  created_at: string;
-  tags: number[],
-  likes: number;
-  like: boolean;
-  mine: boolean;
+  data: {
+    id: string;
+    display_id: string;
+    title: string;
+    created_at: string;
+    image: string;
+    likes: number;
+    like: boolean;
+    details: string;
+    name: string;
+    tags: number[];
+    mine: boolean;
+  }
 }
 
-const Post = ({ id, display_id, image, name, title, details, tags, created_at, likes, like, mine }: PostProps) => {
+const Post = ({ data }: PostProps) => {
   const router = useRouter()
 
   return (
-    <Card className={ styles.card } elevation={ 0 }>
-      <CardActionArea onClick={ () => router.push(`/post/${ id }`) }>
+    <Card key={ data.id } className={ styles.card } elevation={ 0 }>
+      <CardActionArea onClick={ () => router.push(`/post/${ data.id }`) }>
         {/* ヘッダー */}
-        <Header display_id={ display_id } name={ name } />
+        <Header display_id={ data.display_id } name={ data.name } />
 
         {/* 画像 */}
-        { (image.length > 0) ?
-          <AspectImage image={ image } />
+        { (data.image.length > 0) ?
+          <AspectImage image={ data.image } />
           :
           <div className={ styles.noimage }>
             <Typography variant='h1' color='white'>
-              { title }
+              { data.title }
             </Typography>
           </div>
         }
 
         {/* タイトル、詳細、タグ */}
-        <Content title={ title } details={ details } tags={ tags } />
+        <Content
+          title={ data.title }
+          details={ data.details }
+          tags={ data.tags }
+        />
 
         {/* 投稿時間、各種ボタン */}
         <Actions
-          id={ id }
-          likes={ likes }
-          like={ like }
-          mine={ mine }
-          created_at={ created_at }
+          id={ data.id }
+          likes={ data.likes }
+          like={ data.like }
+          created_at={ data.created_at }
         />
       </CardActionArea>
+
+      {/* 詳細メニュー */}
+      {/* <Menu
+        elevation={ 3 }
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={ detailsOpen }
+        transformOrigin={{
+          horizontal: 'right',
+          vertical: 'top'
+        }}
+        anchorOrigin={{
+          horizontal: 'right',
+          vertical: 'bottom'
+        }}
+        open={ detailsBoolean }
+        onClose={ handleDetailsClose }
+        onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
+        onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
+      >
+        <MenuItem
+          onClick={ () => {
+            Router.push({ pathname: `${ router.asPath }`, query: { dialog: 'share' } })
+          }}
+        >
+          { data.mine ? '削除' : '報告' }
+        </MenuItem>
+      </Menu> */}
+
+      {/* 投稿を共有 */}
+      { (router.query.share === data.id) &&  <Share /> }
     </Card>
   )
 }

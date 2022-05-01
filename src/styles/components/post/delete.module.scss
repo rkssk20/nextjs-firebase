@@ -1,0 +1,13 @@
+.error {
+  margin-top: var(--sm);
+  margin-bottom: var(--lg);
+}
+
+.button {
+  border-radius: 9999px;
+}
+
+.cancel {
+  @extend.button;
+  margin-left: var(--xl);
+}

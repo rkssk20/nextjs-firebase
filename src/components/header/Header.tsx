@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
+import { useRouter } from 'next/router'
 import Search from '@/components/header/Search';
 import Post from '@/components/header/Post';
 import Tips from '@/atoms/Tip'
@@ -17,10 +18,12 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
   const [searchOpen, setSearchOpen] = useState(false)
   const [postOpen, setPostOpen] = useState(false)
   const pc = useMediaQuery('(min-width: 1148px')
+  const router = useRouter()
+  const hash = router.asPath.split('#')[1]
 
-  const handleTop = () => {
-    window.scroll({top: 0, behavior: 'smooth'})
-  }
+  console.log(router);
+  console.log(hash);
+  
 
   return (
     <AppBar
@@ -28,7 +31,6 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
       classes={{ root: styles.appbar_root }}
       color='inherit'
       position="fixed"
-      onClick={ handleTop }
     >
       <Toolbar
         className={ styles.toolbar }
@@ -59,7 +61,9 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
         <Tips title='検索'>
           <IconButton
             className={ styles.search }
-            onClick={ () => setSearchOpen(true) }  
+            onClick={ () => 
+              router.push(router.asPath + '#search')
+            }  
           >
             <SearchIcon />
           </IconButton>
@@ -67,21 +71,21 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
 
         <Tips title='投稿'>
           <IconButton
-            onClick={ () => setPostOpen(true) }
+            onClick={ () => router.push(router.asPath + '#post') }
           >
             <CreateIcon />
           </IconButton>
         </Tips>
       </Toolbar>
 
-      { searchOpen &&
+      { (hash === 'search') &&
         <Search
           searchOpen={ searchOpen }
           setSearchOpen={ setSearchOpen }
         />
       }
 
-      { postOpen &&
+      { (hash === 'post') &&
         <Post
           postOpen={ postOpen }
           setPostOpen={ setPostOpen }

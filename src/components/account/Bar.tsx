@@ -7,11 +7,14 @@ import Tab from '@mui/material/Tab';
 
 const Bar = () => {
   const router = useRouter()
-  const tabList = [{ name: '投稿', url: '/account' }, { name: 'いいね', url: '/account/likes' }]
+  const tabList = [
+    { name: '投稿', url: `/account/${ router.query.display_id }` },
+    { name: 'いいね', url: `${ router.asPath }/likes` }
+  ]
 
   return (
     <Tabs
-      value={(router.pathname === '/account') ? 0 : 1}
+      value={ (router.pathname === '/account/[display_id]') ? 0 : 1 }
       aria-label="basic tabs example"
       variant='fullWidth'
       textColor='inherit'

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import DialogPaper from '@/atoms/DialogPaper'
 import ShareButton from '@/atoms/ShareButton'
 import Tips from '@/atoms/Tip'
@@ -11,16 +12,16 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-interface ShareProps {
-  id: string;
-  open: boolean;
-  handleClose: () => void;
-}
+const Share = () => {
+  const router = useRouter()
 
-const Share = ({ id, open, handleClose }: ShareProps) => {
+  const handleClose = () => {
+    router.push(router.pathname)
+  }
+
   return (
     <DialogPaper
-      open={ open }
+      open={ true }
       handleClose={ handleClose }
     >
       <DialogTitle>
