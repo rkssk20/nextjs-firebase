@@ -46,7 +46,7 @@ const Report = () => {
       </DialogTitle>
 
       <DialogContent>
-        <Typography variant='h4'>問題を報告する</Typography>
+        <Typography variant='h3'>問題を報告する</Typography>
         <Typography variant='caption'>問題の詳細をお知らせください。</Typography>
 
         <RadioGroup

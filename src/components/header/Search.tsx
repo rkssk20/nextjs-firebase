@@ -1,9 +1,8 @@
-import { useState, Dispatch, SetStateAction, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from 'recoil'
 import { searchHistorySelector } from "@/lib/recoil";
 import DialogPaper from "@/atoms/DialogPaper"
-import Tips from '@/atoms/Tip'
 
 import styles from '@/styles/components/header/search.module.scss'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -18,19 +17,22 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
+import TagIcon from '@mui/icons-material/Tag';
 
-interface SearchProps {
-  searchOpen: boolean;
-  setSearchOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
+const Search = () => {
   const [search, setSearch] = useState('')
   const [searchHistory, setSearchHistory] = useRecoilState(searchHistorySelector)
   const router = useRouter()
+  const categories = [{
+    text: 'フロント',
+    url: 'front'
+  }, {
+    text: 'サーバーレス',
+    url: 'serverless'
+  }]
 
   const handleClose = () => {
-    router.push({pathname: router.asPath, query: {}})
+    router.push(router.asPath.replace(/\?.*$/, ""), undefined, { shallow: true })
   }
 
   const handlePost = (e: FormEvent) => {
@@ -46,16 +48,14 @@ const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
 
   return (
     <DialogPaper
-      open={ router.asPath.split('#')[1] === 'search' }
+      open={ router.query.dialog === 'search' }
       handleClose={ handleClose }
     >
       <DialogTitle className={ styles.dialog_title }>
         <form className={ styles.input } onSubmit={ handlePost }>
-          <Tips title='検索'>
-            <IconButton onClick={ handlePost }>
-              <SearchIcon />
-            </IconButton>
-          </Tips>
+          <IconButton aria-label='戻る' onClick={ handlePost }>
+            <SearchIcon />
+          </IconButton>
 
           <InputBase
             className={ styles.input_base }
@@ -100,9 +100,26 @@ const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
           :
           <List className={ styles.none }>
             <Typography variant="body1">履歴がありません</Typography>
-            <Typography variant="body1">例) 「Next.js」、「supabase」</Typography>
+            <Typography className={ styles.ex } variant="body1">例) 「Next.js」、「supabase」</Typography>
           </List>
         }
+
+        <Typography className={ styles.categories } variant='h6'>カテゴリ</Typography>
+
+        <List>
+          { categories.map(item => (
+            <ListItemButton
+              key={ item.url }
+              onClick={ () => router.push(`/categories/${ item.url }`) }
+            >
+              <ListItemIcon>
+                <TagIcon />
+              </ListItemIcon>
+
+              { item.text }
+            </ListItemButton>
+          )) }
+        </List>
       </DialogContent>
     </DialogPaper>
   )

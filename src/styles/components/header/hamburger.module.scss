@@ -5,15 +5,11 @@
     padding-right: 15px;
     padding-left: 15px;
     top: 80px;
-    left: calc((100% - 1132px) / 2);
+    left: calc((100% - 1164px) / 2);
     border-radius: 5px;
     border: none;
     background-color: #eeeeee;
   }
-}
-
-.list {
-  flex-grow: 1;
 }
 
 .list_item_button {
@@ -24,6 +20,14 @@
   &.divider_root {
     margin: var(--xs) var(--md);
   }
+}
+
+.list {
+  flex-grow: 1;
+}
+
+.sub_header {
+  background-color: transparent;
 }
 
 .caption {

@@ -5,7 +5,7 @@
 }
 
 .tags {
-  > *:not(:first-child) {
+  > a:not(:first-child) {
     padding-left: var(--sm);
   }
 }

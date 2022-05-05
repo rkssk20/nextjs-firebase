@@ -1,3 +1,10 @@
+.app_bar {
+  &.app_bar_root {
+    top: 56px;
+    border-bottom: var(--border);
+  }
+}
+
 .tab {
   width: calc(100% / 2);
 }

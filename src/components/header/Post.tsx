@@ -1,7 +1,7 @@
-import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
+import { useRouter } from "next/router";
 import DialogPaper from "@/atoms/DialogPaper"
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
-import Tips from '@/atoms/Tip'
 
 import styles from '@/styles/components/header/post.module.scss'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -17,19 +17,15 @@ import Button from '@mui/material/Button'
 import Badge from '@mui/material/Badge'
 import ClearIcon from '@mui/icons-material/Clear'
 
-interface PostProps {
-  postOpen: boolean;
-  setPostOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-const Post = ({ postOpen, setPostOpen }: PostProps) => {
+const Post = () => {
   const [title, setTitle] = useState('')
   const [details, setDetails] = useState('')
   const [tags, setTags] = useState({ front: false, serverless: false })
   const [image, setImage] = useState('')
+  const router = useRouter()
 
   const handleClose = () => {
-    setPostOpen(false)
+    router.push(router.asPath.replace(/\?.*$/, ""), undefined, { shallow: true })
   }
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,15 +48,13 @@ const Post = ({ postOpen, setPostOpen }: PostProps) => {
 
   return (
     <DialogPaper
-      open={ postOpen }
+      open={ router.query.dialog === 'post' }
       handleClose={ handleClose }
     >
       <DialogTitle className={ styles.dialog_title }>
-        <Tips title='キャンセル'>
-          <IconButton onClick={ handleClose }>
-            <CloseIcon />
-          </IconButton>
-        </Tips>
+        <IconButton aria-label='戻る' onClick={ handleClose }>
+          <CloseIcon />
+        </IconButton>
 
         { ((title.length > 0) && (details.length > 0) ?
           <ContainedButton text='送信' handle={ handlePost } />

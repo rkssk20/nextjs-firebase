@@ -1,8 +1,7 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router'
 import Search from '@/components/header/Search';
 import Post from '@/components/header/Post';
-import Tips from '@/atoms/Tip'
 
 import styles from '@/styles/components/header/header.module.scss'
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -15,15 +14,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 
 const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>> }) => {
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [postOpen, setPostOpen] = useState(false)
-  const pc = useMediaQuery('(min-width: 1148px')
+  const pc = useMediaQuery('(min-width: 1164px')
   const router = useRouter()
-  const hash = router.asPath.split('#')[1]
-
-  console.log(router);
-  console.log(hash);
-  
+  const dialog = router.query.dialog
 
   return (
     <AppBar
@@ -37,16 +30,15 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
         classes={{ root: styles.toolbar_root }}
       >
         { !pc &&
-          <Tips title='メニュー'>
-            <IconButton
-              className={ styles.side_button }
-              size="large"
-              edge="start"
-              onClick={ () => setMenuOpen(true) }
-            >
-              <MenuIcon />
-            </IconButton>
-          </Tips>
+          <IconButton
+            className={ styles.side_button }
+            aria-label='メニュー'
+            size="large"
+            edge="start"
+            onClick={ () => setMenuOpen(true) }
+          >
+            <MenuIcon />
+          </IconButton>
         }
 
         <Typography
@@ -58,39 +50,43 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
           Next.js × Supabase
         </Typography>
 
-        <Tips title='検索'>
-          <IconButton
-            className={ styles.search }
-            onClick={ () => 
-              router.push(router.asPath + '#search')
-            }  
-          >
-            <SearchIcon />
-          </IconButton>
-        </Tips>
+        <IconButton
+          className={ styles.search }
+          aria-label='検索'
+          onClick={ () => 
+            router.push({
+              pathname: router.asPath,
+              query: {
+                dialog: 'search'
+              }
+            }, undefined, {
+              shallow: true
+            })
+          }  
+        >
+          <SearchIcon />
+        </IconButton>
 
-        <Tips title='投稿'>
-          <IconButton
-            onClick={ () => router.push(router.asPath + '#post') }
-          >
-            <CreateIcon />
-          </IconButton>
-        </Tips>
+        <IconButton
+          aria-label='投稿'
+          onClick={ () => 
+            router.push({
+              pathname: router.asPath,
+              query: {
+                dialog: 'post'
+              }
+            }, undefined, {
+              shallow: true
+            })
+          }
+        >
+          <CreateIcon />
+        </IconButton>
       </Toolbar>
 
-      { (hash === 'search') &&
-        <Search
-          searchOpen={ searchOpen }
-          setSearchOpen={ setSearchOpen }
-        />
-      }
+      { (dialog === 'search') && <Search /> }
 
-      { (hash === 'post') &&
-        <Post
-          postOpen={ postOpen }
-          setPostOpen={ setPostOpen }
-        />
-      }
+      { (dialog === 'post') && <Post /> }
     </AppBar>
   )
 }

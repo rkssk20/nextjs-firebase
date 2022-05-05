@@ -1,0 +1,9 @@
+.stack {
+  flex-grow: 1;
+}
+
+.favorite {
+  &.favorite_root {
+    margin-right: var(--sm);
+  }
+}

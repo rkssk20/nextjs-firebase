@@ -1,14 +1,13 @@
 import type {MouseEvent, TouchEvent } from 'react'
 import { useRouter } from 'next/router'
 import useCreatedAt from '@/hooks/useCreatedAt'
-import Tips from '@/atoms/Tip'
+import Favorite from '@/atoms/Favorite'
 
 import styles from '@/styles/components/post/actions.module.scss'
 import CardActions from '@mui/material/CardActions'
 import IconButton from '@mui/material/IconButton'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
@@ -32,7 +31,7 @@ const Actions = ({ id, likes, like, created_at }: ActionsProps) => {
   const handleShare = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     router.push({
-      pathname: router.pathname,
+      pathname: router.asPath,
       query: { share: id }
     })
     // setDialogOpen(1)
@@ -49,42 +48,22 @@ const Actions = ({ id, likes, like, created_at }: ActionsProps) => {
       </Typography>
 
       {/* いいねボタンといいね数 */}
-      <Stack
-        className={ styles.stack }
-        direction='row'
-        alignItems='center'
-      >
-        <Tips title='いいね'>
-          <IconButton
-            className={ styles.favorite }
-            classes={{ root: styles.favorite_root }}
-            component='div'
-            onClick={ handleLikes }
-            onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
-            onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
-          >
-            { like ? <FavoriteIcon color='primary' /> : <FavoriteBorderIcon /> }
-        </IconButton>
-        </Tips>
-
-        <Typography variant='caption'>{ likes }</Typography>
-      </Stack>
+      <Favorite like={ like } likes={ likes } />
 
       {/* 共有ボタン */}
-      <Tips title='共有'>
-        <IconButton
-          component='div'
-          onClick={ handleShare }
-          onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
-          onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
-          >
-          <ShareIcon />
-        </IconButton>
-      </Tips>
+      <IconButton
+        aria-label='共有'
+        component='div'
+        onClick={ handleShare }
+        onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
+        onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
+        >
+        <ShareIcon />
+      </IconButton>
 
       {/* 詳細ボタン */}
-      {/* <Tips title='詳細'>
-        <IconButton
+        {/* <IconButton
+          aria-label='詳細'
           component='div'
           id="demo-positioned-button"
           aria-controls={ detailsBoolean ? 'demo-positioned-menu' : undefined }
@@ -95,8 +74,7 @@ const Actions = ({ id, likes, like, created_at }: ActionsProps) => {
           onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
         >
           <MoreVertIcon />
-        </IconButton>
-      </Tips> */}
+        </IconButton> */}
     </CardActions>
   )
 }

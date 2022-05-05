@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { useRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import Header from '@/components/header/Header'
-import Menu from '@/components/header/Menu'
+import Hamburger from '@/components/header/Hamburger'
 import Side from '@/components/side/side'
 
 import styles from '@/styles/components/provider/mui.module.scss'
@@ -19,8 +19,6 @@ interface MuiProps {
 const Mui: NextPage<MuiProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
-  const tablet = useMediaQuery('(min-width:882px)')
-  const pc = useMediaQuery('(min-width: 1148px)')
 
   const theme = createTheme({
     palette: {
@@ -114,7 +112,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
         xs: 0,
         sm: 600,
         md: 882,
-        lg: 1148,
+        lg: 1164,
         xl: 1200,
       },
     },
@@ -122,8 +120,26 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
 
   return (
     <ThemeProvider theme={ theme }> 
+      {/* ヘッダー */}
       <Header setMenuOpen={ setMenuOpen } />
 
+      {/* ハンバーガーメニュー */}
+      <Hamburger menuOpen={ menuOpen } setMenuOpen={ setMenuOpen } />
+
+      {/* メインコンテンツ */}
+      <Container
+        className={ styles.container }
+        classes={{ root: styles.container_root }}
+        disableGutters
+        maxWidth='sm'
+      >
+        { children }
+      </Container>
+
+      {/* おすすめなど */}
+      <Side />
+
+      {/* 通知 */}
       <Snackbar
         open={ notificate.open }
         onClose={ () => setNotificate({ open: false, message: '' })}
@@ -133,19 +149,6 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
           horizontal: 'center',
         }}
       />
-
-      <Menu menuOpen={ menuOpen } setMenuOpen={ setMenuOpen } />
-
-      <Container
-        className={ styles.container }
-        classes={{ root: (tablet && !pc) ? styles.container_root : '' }}
-        disableGutters
-        maxWidth='sm'
-      >
-        { children }
-      </Container>
-
-      <Side />
     </ThemeProvider>
   )
 }

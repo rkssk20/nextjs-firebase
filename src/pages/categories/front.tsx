@@ -1,9 +1,16 @@
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 import Layout from '@/components/provider/Layout'
-import Profile from '@/components/account/Profile'
-import Bar from '@/components/account/Bar'
 import Post from '@/components/post/Post'
 
-const Account = () => {
+import styles from '@/styles/pages/categories/front.module.scss'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const Front = () => {
+  const router = useRouter()
+
   const test_data = [
     {
       id: 'fsdf-sdf-s-sdfs',
@@ -74,18 +81,31 @@ const Account = () => {
 
   return (
     <Layout
-      type='profile'
-      title='account'
+      type='article'
+      title='フロント'
       description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
       ogp='nextjssupabase'
     >
-      {/* アカウント情報 */}
-      <Profile />
+      <div className={ styles.category }>
+        <IconButton onClick={ () => router.push('/categories') }>
+          <ArrowBackIcon />
+        </IconButton>
+        
+        <Typography>カテゴリ一覧</Typography>
+      </div>
 
-      {/* ページ選択バー */}
-      <Bar />
+      <div className={ styles.title }>
+        <Image
+          src='/image/front.png'
+          alt='フロント'
+          width={ 60 }
+          height={ 60 }
+          quality={ 70}
+        />
 
-      {/* 自分の投稿一覧 */}
+        <Typography className={ styles.title_text } variant='h6'># フロント</Typography>
+      </div>
+
       { test_data.map(item => (
         <Post key={ item.id } data={ item } />
       ))}
@@ -93,4 +113,4 @@ const Account = () => {
   )
 }
 
-export default Account
+export default Front

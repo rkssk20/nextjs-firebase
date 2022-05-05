@@ -1,7 +1,19 @@
+@use '@/styles/utils';
+
 .container {
   min-height: calc(100vh - 56px);
   margin-top: 56px;
+  background-color: white;
   &.container_root {
-    margin-left: calc((100% - 866px) / 2);
+    @include utils.mq(sm) {
+      margin-top: 80px;
+      border-radius: 5px;
+    }
+    @include utils.mq(md) {
+      margin-left: calc((100% - 882px) / 2);
+    }
+    @include utils.mq(lg) {
+      margin-left: auto;
+    }
   }
 }

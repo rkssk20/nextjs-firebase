@@ -1,0 +1,24 @@
+.title {
+  padding: var(--lg);
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  border-radius: 13px;
+  min-width: 150px;
+  min-height: 130px;
+  padding: var(--sm);
+  margin: var(--md);
+  &.button_root {
+    flex-direction: column;
+  }
+  .button_start_icon {
+    margin: 0 0 var(--sm);
+  }
+}

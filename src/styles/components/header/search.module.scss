@@ -26,9 +26,10 @@
   border-radius: 9999px;
 }
 
-.none {
-  min-height: 300px;
-  > *:not(:last-child) {
-    margin-bottom: var(--md);
-  }
+.ex {
+  margin-bottom: var(--md);
+}
+
+.categories {
+  margin-top: var(--md);
 }

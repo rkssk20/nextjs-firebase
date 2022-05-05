@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
 import styles from '@/styles/pages/index.module.scss'
@@ -74,7 +75,12 @@ const Home: NextPage = () => {
   ]
 
   return (
-    <div>
+    <Layout
+      type='website'
+      title=''
+      description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+      ogp='nextjssupabase'
+    >
       <Typography className={ styles.title } variant='h6'>
         Next.js × Supabaseのテンプレート
       </Typography>
@@ -82,7 +88,7 @@ const Home: NextPage = () => {
       { test_data.map(item => (
         <Post key={ item.id } data={ item } />
       ))}
-    </div>
+    </Layout>
   )
 }
 

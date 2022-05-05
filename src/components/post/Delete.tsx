@@ -28,7 +28,7 @@ const Delete = ({ open, handleClose, id }: DeleteProps) => {
       </DialogTitle>
 
       <DialogContent>
-        <Typography variant='h4'>この記事を削除しますか？</Typography>
+        <Typography variant='h3'>この記事を削除しますか？</Typography>
         <Typography
           className={ styles.error }
           variant='body1'

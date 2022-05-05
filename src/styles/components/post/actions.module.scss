@@ -3,6 +3,7 @@
     padding: 0 var(--md) var(--md);
   }
 }
+
 .created {
   min-width: 80px;
   padding-right: var(--md);
@@ -10,10 +11,4 @@
 
 .stack {
   flex-grow: 1;
-}
-
-.favorite {
-  &.favorite_root {
-    margin-right: var(--sm);
-  }
 }

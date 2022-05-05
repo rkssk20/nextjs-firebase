@@ -1,0 +1,20 @@
+@mixin flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.category {
+  @include flex;
+  padding: var(--md) var(--md) 0;
+}
+
+.title {
+  @include flex;
+  padding: var(--md);
+  justify-content: center;
+}
+
+.title_text {
+  margin-left: var(--xl);
+}
