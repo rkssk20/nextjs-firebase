@@ -83,7 +83,7 @@ const Front = () => {
     <Layout
       type='article'
       title='フロント'
-      description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+      description=''
       ogp='nextjssupabase'
     >
       <div className={ styles.category }>

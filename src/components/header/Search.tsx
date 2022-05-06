@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from 'recoil'
 import { searchHistorySelector } from "@/lib/recoil";
@@ -8,7 +8,6 @@ import styles from '@/styles/components/header/search.module.scss'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase'
 import Button from '@mui/material/Button'
@@ -19,7 +18,12 @@ import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import TagIcon from '@mui/icons-material/Tag';
 
-const Search = () => {
+interface SearchProps {
+  searchOpen: boolean;
+  setSearchOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const Search = ({ searchOpen, setSearchOpen }: SearchProps) => {
   const [search, setSearch] = useState('')
   const [searchHistory, setSearchHistory] = useRecoilState(searchHistorySelector)
   const router = useRouter()
@@ -32,7 +36,7 @@ const Search = () => {
   }]
 
   const handleClose = () => {
-    router.push(router.asPath.replace(/\?.*$/, ""), undefined, { shallow: true })
+    setSearchOpen(false)
   }
 
   const handlePost = (e: FormEvent) => {
@@ -48,7 +52,7 @@ const Search = () => {
 
   return (
     <DialogPaper
-      open={ router.query.dialog === 'search' }
+      open={ searchOpen }
       handleClose={ handleClose }
     >
       <DialogTitle className={ styles.dialog_title }>

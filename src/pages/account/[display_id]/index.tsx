@@ -76,7 +76,7 @@ const Account = () => {
     <Layout
       type='profile'
       title='account'
-      description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+      description=''
       ogp='nextjssupabase'
     >
       {/* アカウント情報 */}

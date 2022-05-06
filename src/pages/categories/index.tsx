@@ -19,7 +19,7 @@ const Categories = () => {
     <Layout
       type='article'
       title=''
-      description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+      description=''
       ogp='nextjssupabase'
     >
       <Typography className={ styles.title } variant='h3'>

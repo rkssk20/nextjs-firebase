@@ -13,8 +13,6 @@ const Bar = () => {
     { name: 'いいね', url: `${ router.asPath }/likes` }
   ]
 
-  console.log(router)
-
   return (
     <AppBar
       className={ styles.app_bar }

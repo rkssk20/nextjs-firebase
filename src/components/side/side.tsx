@@ -1,5 +1,3 @@
-
-
 import styles from '@/styles/components/side/side.module.scss'
 import List from '@mui/material/List'
 

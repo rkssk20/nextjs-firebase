@@ -1,5 +1,6 @@
 import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { useRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import Header from '@/components/header/Header'
@@ -19,6 +20,8 @@ interface MuiProps {
 const Mui: NextPage<MuiProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
+  const tablet = useMediaQuery('(min-width: 882px')
+  const router = useRouter()
 
   const theme = createTheme({
     palette: {
@@ -137,7 +140,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       </Container>
 
       {/* おすすめなど */}
-      <Side />
+      { ((router.pathname !== '/edit') || tablet ) && <Side /> }
 
       {/* 通知 */}
       <Snackbar

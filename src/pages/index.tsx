@@ -78,7 +78,7 @@ const Home: NextPage = () => {
     <Layout
       type='website'
       title=''
-      description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+      description=''
       ogp='nextjssupabase'
     >
       <Typography className={ styles.title } variant='h6'>

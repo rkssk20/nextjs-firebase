@@ -5,7 +5,7 @@ const Search = () => {
     <Layout
       type='article'
       title='検索結果'
-      description='Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+      description=''
       ogp='nextjssupabase'
     >
       

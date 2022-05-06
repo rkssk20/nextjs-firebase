@@ -12,7 +12,8 @@ type Props = {
 
 const Layout: NextPage<Props> = ({ type, title, description, ogp, children }) => {
   const ogpImageUrl = `${ process.env.NEXT_PUBLIC_STORAGE_URL }/${ ogp }.png`
-  const ogpTitle = title ? (title + '| Next.js × Supabase') : 'Next.js × Supabase'
+  const ogpTitle = title ? (title + ' | Next.js × Supabase') : 'Next.js × Supabase'
+  const ogpDescription = description ? description : 'Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
 
   return (
     <>
@@ -20,7 +21,7 @@ const Layout: NextPage<Props> = ({ type, title, description, ogp, children }) =>
         {/* ページのタイトル */}
         <title>{ ogpTitle }</title>
         {/* ページの概要。検索結果にも表示される */}
-        <meta name='description' content={description} />
+        <meta name='description' content={ogpDescription} />
         {/* ページの種類 */}
         <meta property='og:type' content={type} />
 
@@ -29,7 +30,7 @@ const Layout: NextPage<Props> = ({ type, title, description, ogp, children }) =>
         {/* OGPにおけるサイト名 */}
         <meta property='og:site_name' content={ ogpTitle } />
         {/* OGPにおけるページの概要 */}
-        <meta property='og:description' content={description} />
+        <meta property='og:description' content={ogpDescription} />
         {/* OGPにおける画像 */}
         <meta property='og:image' content={ ogpImageUrl } />
 
@@ -38,7 +39,7 @@ const Layout: NextPage<Props> = ({ type, title, description, ogp, children }) =>
         {/* Twitterカードのタイトル */}
         <meta name='twitter:title' content={ ogpTitle } />
         {/* Twitterカードの説明文 */}
-        <meta name='twitter:description' content={ description } />
+        <meta name='twitter:description' content={ ogpDescription } />
         {/* Twitterカードの画像 */}
         
         {/* Twitterアカウント */}

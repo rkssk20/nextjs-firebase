@@ -14,6 +14,7 @@ interface DialogPaperProps {
 const DialogPaper = ({ open, handleClose, children }: DialogPaperProps) => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
     <Dialog
       className={ styles.dialog }

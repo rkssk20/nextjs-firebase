@@ -1,7 +1,6 @@
-import type { Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router'
 import Search from '@/components/header/Search';
-import Post from '@/components/header/Post';
 
 import styles from '@/styles/components/header/header.module.scss'
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -14,9 +13,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 
 const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>> }) => {
+  const [searchOpen, setSearchOpen] = useState(false)
   const pc = useMediaQuery('(min-width: 1164px')
   const router = useRouter()
-  const dialog = router.query.dialog
 
   return (
     <AppBar
@@ -53,16 +52,7 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
         <IconButton
           className={ styles.search }
           aria-label='検索'
-          onClick={ () => 
-            router.push({
-              pathname: router.asPath,
-              query: {
-                dialog: 'search'
-              }
-            }, undefined, {
-              shallow: true
-            })
-          }  
+          onClick={ () => setSearchOpen(true) }  
         >
           <SearchIcon />
         </IconButton>
@@ -71,12 +61,8 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
           aria-label='投稿'
           onClick={ () => 
             router.push({
-              pathname: router.asPath,
-              query: {
-                dialog: 'post'
-              }
-            }, undefined, {
-              shallow: true
+              pathname: '/edit',
+              query: { back: router.asPath }
             })
           }
         >
@@ -84,9 +70,9 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
         </IconButton>
       </Toolbar>
 
-      { (dialog === 'search') && <Search /> }
-
-      { (dialog === 'post') && <Post /> }
+      { searchOpen &&
+        <Search searchOpen={ searchOpen } setSearchOpen={ setSearchOpen } />
+      }
     </AppBar>
   )
 }
