@@ -1,7 +1,9 @@
+// 全体
 .stack {
   flex-grow: 1;
 }
 
+// いいねボタン
 .favorite {
   &.favorite_root {
     margin-right: var(--sm);

@@ -1,32 +1,38 @@
 @use '@/styles/utils';
 
+// 全体
 .appbar_root {
   &.appbar_root {
     box-shadow: none;
   }
 }
 
+// ヘッダーの中身全体
 .toolbar {
   &.toolbar_root {
     min-height: 56px;
     width: 100%;
     margin: auto;
     max-width: 882px;
+    // 中身の横幅は600pxまで
     @include utils.mq(xl) {
       max-width: 600px;
     }
   }
 }
 
-.side_button {
+// ハンバーガーメニューのボタン
+.hamburger_button {
   margin-right: var(--sm);
 }
 
+// タイトル
 .title {
   flex-grow: 1;
   user-select: none;
 }
 
-.search {
+// 検索ボタン
+.search_button {
   margin-right: var(--xs);
 }

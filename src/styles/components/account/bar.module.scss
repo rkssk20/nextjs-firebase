@@ -1,3 +1,4 @@
+// 全体
 .app_bar {
   &.app_bar_root {
     top: 56px;
@@ -5,6 +6,7 @@
   }
 }
 
+// 各タブ
 .tab {
   width: calc(100% / 2);
 }

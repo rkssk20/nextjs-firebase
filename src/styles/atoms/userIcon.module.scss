@@ -3,14 +3,18 @@
   height: 35px;
 }
 
+// アバター
 .avatar {
+  // 中サイズ
   &.avatar_medium {
     @include medium;
   }
+  // 大サイズ
   &.avatar_large {
     width: 100px;
     height: 100px;
   }
+  // リンク時
   &.avatar_link {
     @include medium;
     &:hover {

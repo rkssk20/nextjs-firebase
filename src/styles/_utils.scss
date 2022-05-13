@@ -5,6 +5,7 @@ $breakpoints: (
   'xl': 'screen and (min-width: 1200px)',
 ) !default;
 
+// メディアクエリ
 @mixin mq($size) {
   @media #{map-get($breakpoints, $size)} {
     @content;

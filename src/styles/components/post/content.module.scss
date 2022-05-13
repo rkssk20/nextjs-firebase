@@ -1,9 +1,11 @@
+// 全体
 .content {
   &.content_root {
     padding-bottom: var(--sm);
   }
 }
 
+// タグ
 .tags {
   > a:not(:first-child) {
     padding-left: var(--sm);

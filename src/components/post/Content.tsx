@@ -14,7 +14,7 @@ interface ContentProps {
 const Content = ({ title, details, tags }: ContentProps) => {
   return (
     <CardContent className={ styles.content } classes={{ root: styles.content_root }}>
-      <Typography variant='h6'>{ title }</Typography>
+      <Typography variant='h5'>{ title }</Typography>
       <Typography variant='body1'>{ details + '...' }</Typography>
 
       { (tags.length > 0) &&

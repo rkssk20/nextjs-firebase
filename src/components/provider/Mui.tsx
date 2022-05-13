@@ -26,7 +26,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#3FCF8E'
+        main: '#2b825b'
       },
       secondary: {
         main: '#F8BBD0'
@@ -66,15 +66,15 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
         fontSize: 20,
         color: '0F1419',
       },
-      // 少し大きいタイトル
+      // 少し大きいタイトル (太字)
       h5: {
         fontSize: 17,
+        fontWeight: 'bold',
         color: '0F1419',
       },
-      // 太い文字
+      // 少し大きいタイトル
       h6: {
         fontSize: 17,
-        fontWeight: 'bold',
         color: '0F1419'
       },
       // 少し大きい タグ、色付きリンク

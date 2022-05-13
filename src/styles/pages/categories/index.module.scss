@@ -1,7 +1,9 @@
+// タイトル
 .title {
   padding: var(--lg);
 }
 
+// カテゴリ全体
 .content {
   display: flex;
   flex-direction: row;
@@ -9,11 +11,12 @@
   justify-content: center;
 }
 
+// 各カテゴリボタン
 .button {
   border-radius: 13px;
   min-width: 150px;
   min-height: 130px;
-  padding: var(--sm);
+  padding: var(--md);
   margin: var(--md);
   &.button_root {
     flex-direction: column;

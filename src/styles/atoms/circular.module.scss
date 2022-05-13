@@ -1,0 +1,13 @@
+// 読み込み小
+.small_circular {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// 読み込み大
+.large_circular {
+  @extend .small_circular;
+  margin-top: var(--md-width);
+  margin-bottom: var(--md-width);
+}

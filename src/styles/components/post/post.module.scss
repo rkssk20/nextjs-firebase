@@ -1,0 +1,31 @@
+// タイトル
+.title {
+  padding: var(--md);
+}
+
+// 投稿全体
+.card_actionarea {
+  border-bottom: var(--border);
+}
+
+// 画像がないときの背景
+.noimage {
+  width: 100%;
+  height: calc((100vw / 16) * 9);
+  max-height: 337.5px;
+  background-color: #2b825b;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 画像がない時の文字
+.noimage_text {
+  font-size: 25px;
+  &.noimage_text_root {
+    padding: var(--md);
+    font-weight: 600;
+    text-align: center;
+  }
+}

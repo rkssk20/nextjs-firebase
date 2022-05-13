@@ -1,22 +1,15 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Layout from '@/components/provider/Layout'
+import Categories from '@/components/edit/Categories'
+import Image from '@/components/edit/Image'
 
 import styles from '@/styles/pages/edit.module.scss'
 import CardContent from '@mui/material/CardContent'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button'
-import TagIcon from '@mui/icons-material/Tag';
-import Select from '@mui/material/Select'
-import { SelectChangeEvent } from "@mui/material";
-import MenuItem from '@Mui/material/MenuItem'
 import InputBase from '@mui/material/InputBase'
-import Checkbox from '@mui/material/Checkbox';
-import ImageIcon from '@mui/icons-material/Image';
-import Badge from '@mui/material/Badge'
-import ClearIcon from '@mui/icons-material/Clear'
 
 const Edit = () => {
   const [title, setTitle] = useState('')
@@ -27,43 +20,13 @@ const Edit = () => {
 
   // 前のページに戻る (入力中の場合は確認)
   const handleBack = () => {
-    if((title.length > 0) || (details.length > 0) || (image.length > 0)) {
+    if((title.length > 0) || (details.length > 0) || (image.length > 0) || (tags.length > 0)) {
       if(confirm('入力中の内容を消去して、このページを離れますか?')) {
-        if(router.query.back) {
-          router.push(router.query.back as string)
-          return
-        }
-        router.push('/')
+        router.back()
       }
     } else {
-      if(router.query.back) {
-        router.push(router.query.back as string)
-        return
-      }
-      router.push('/')
+      router.back()
     }
-  }
-
-  // カテゴリを選択
-  const handleChange = (e: SelectChangeEvent<number[]>) => {
-    setTags(e.target.value as number[])
-    // setTags()
-  }
-
-  // 画像選択
-  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    
-    if(e.target.files === null) return
-
-    setImage(window.URL.createObjectURL(e.target.files[0]))
-  }
-
-  // 洗濯中の画像をキャンセル
-  const handleCancel = () => {
-    (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-
-    setImage('')
   }
 
   // 投稿する
@@ -74,9 +37,9 @@ const Edit = () => {
   return (
     <Layout
       type='article'
-      title='投稿の作成'
+      title='記事の作成'
       description=''
-      ogp='nextjssupabase'
+      image=''
     >
       <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
        <IconButton aria-label='戻る' onClick={ handleBack }>
@@ -84,9 +47,9 @@ const Edit = () => {
         </IconButton>
 
         { ((title.length > 0) && (details.length > 0) ?
-          <ContainedButton text='送信' handle={ handlePost } />
+          <ContainedButton text='投稿' handle={ handlePost } />
           :
-          <DisabledButton text='送信' />
+          <DisabledButton text='投稿' />
         )}
       </CardContent>
 
@@ -99,7 +62,7 @@ const Edit = () => {
           inputProps={{
             maxLength: 20,
           }}
-          placeholder='タイトル (必須)'
+          placeholder='記事タイトル (必須)'
           value={ title }
           onChange={ (e) => setTitle(e.target.value) }
         />
@@ -117,84 +80,11 @@ const Edit = () => {
           onChange={ (e) => setDetails(e.target.value) }
         />
 
-        <Select
-          className={ styles.select }
-          classes={{ select: styles.select_root }}
-          SelectDisplayProps={{ style: { padding: '6px 16px' } }}
-          multiple
-          displayEmpty
-          value={ tags }
-          renderValue={ (selected) =>
-            (selected.length === 0) ?
-            <span className={ styles.categories }>
-              <TagIcon className={ styles.tag_icon } />
-              カテゴリを選択
-            </span>
-            :
-            selected.map(item => (
-              <span>
-                { (item === 0) ? '# フロント' : '# サーバーレス' }
-              </span>
-            ))
-          }
-          input={
-            <InputBase className={ styles.input } classes={{ focused: styles.input_focused }} />
-          }
-          MenuProps={{ PaperProps: { elevation: 3 } }}
-          IconComponent={ () => <></> }
-          onChange={ handleChange }
-        >
-          { ['# フロント', '# サーバーレス'].map((item, index) => (
-            <MenuItem
-              className={ styles.menu_item }
-              classes={{ root: styles.menu_item_selected }}
-              key={item }
-              value={ index }
-            >
-              <Checkbox checked={ tags.indexOf(index) > -1 } />
-              { item }
-            </MenuItem>
-          )) }
-        </Select>
+        {/* カテゴリを選択 */}
+        <Categories tags={ tags } setTags={ setTags } />
 
-        <label htmlFor="icon-button-file">
-          <input
-            className={ styles.hidden_button }
-            accept="image/*"
-            id="icon-button-file"
-            type="file"
-            onChange={ handleImage }
-          />
-
-          { (image.length === 0) &&
-            <Button
-              className={ styles.image_button }
-              aria-label="upload picture"
-              component='span'
-              variant='contained'
-              color="inherit"
-              disableElevation
-              startIcon={ <ImageIcon />}
-            >
-              画像を選択
-            </Button>
-          }
-        </label>
-
-        { (image.length > 0) &&
-          <div className={ styles.image_field }>
-            <Badge
-              badgeContent={
-                <IconButton className={ styles.cancel } onClick={ handleCancel }>
-                  <ClearIcon className={ styles.clear } color='info' />
-                </IconButton>
-              }
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-            >
-              <img className={ styles.image } alt='選択中の画像' src={ image } />
-            </Badge>
-          </div>
-        }
+        {/* 画像を選択 */}
+        <Image image={ image } setImage={ setImage } />
       </CardContent>
     </Layout>
   )

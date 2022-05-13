@@ -6,14 +6,14 @@ type Props = {
   type: 'website' | 'article' | 'profile'
   title: string
   description: string
-  ogp: string | number
+  image: string | number
   children: ReactNode
 }
 
-const Layout: NextPage<Props> = ({ type, title, description, ogp, children }) => {
-  const ogpImageUrl = `${ process.env.NEXT_PUBLIC_STORAGE_URL }/${ ogp }.png`
+const Layout: NextPage<Props> = ({ type, title, description, image, children }) => {
   const ogpTitle = title ? (title + ' | Next.js × Supabase') : 'Next.js × Supabase'
   const ogpDescription = description ? description : 'Next.jsとSupabaseを使用したテンプレート。技術ブログ風。'
+  const ogpImageUrl = image ? `${ process.env.NEXT_PUBLIC_STORAGE_URL }/${ image }.png` : `${ process.env.NEXT_PUBLIC_STORAGE_URL }/nextjssupabase.png`
 
   return (
     <>

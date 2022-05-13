@@ -1,3 +1,4 @@
+// 全体
 .drawer {
   .drawer_paper {
     width: 250px;
@@ -8,28 +9,33 @@
     left: calc((100% - 1164px) / 2);
     border-radius: 5px;
     border: none;
-    background-color: #eeeeee;
+    background-color: var(--c-gray);
   }
 }
 
+// 各ボタン
 .list_item_button {
   border-radius: 9999px;
 }
 
+// 「カテゴリ」
+.sub_header {
+  background-color: transparent;
+}
+
+// 線
 .divider {
   &.divider_root {
     margin: var(--xs) var(--md);
   }
 }
 
+// 最後のリスト
 .list {
   flex-grow: 1;
 }
 
-.sub_header {
-  background-color: transparent;
-}
-
+// 最下部の薄いテキスト
 .caption {
   padding: var(--sm) var(--md);
 }

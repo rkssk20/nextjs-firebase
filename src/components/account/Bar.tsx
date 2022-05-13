@@ -8,9 +8,11 @@ import Tab from '@mui/material/Tab';
 
 const Bar = () => {
   const router = useRouter()
+  const display_id = router.query.display_id
+  
   const tabList = [
-    { name: '投稿', url: `/account/${ router.query.display_id }` },
-    { name: 'いいね', url: `${ router.asPath }/likes` }
+    { name: '投稿', url: `/account/${ display_id }` },
+    { name: 'いいね', url: `/account/${ display_id }/likes` }
   ]
 
   return (
@@ -22,9 +24,8 @@ const Bar = () => {
       elevation={ 0 }
     >
       <Tabs
-        className={ styles.tabs }
-        value={ (router.pathname === '/account/[display_id]') ? 0 : 1 }
-        aria-label="basic tabs example"
+        value={ (router.pathname === '/account/[display_id]/likes') ? 1 : 0 }
+        aria-label="タブ"
         variant='fullWidth'
         textColor='inherit'
       >

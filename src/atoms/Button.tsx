@@ -6,6 +6,7 @@ export const ContainedButton = ({ text, handle }: { text: string, handle: () => 
   return (
     <Button
       className={ styles.button }
+      classes={{ root: styles.button_root }}
       variant='contained'
       disableElevation
       onClick={ handle }

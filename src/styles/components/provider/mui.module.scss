@@ -3,15 +3,19 @@
 .container {
   min-height: calc(100vh - 56px);
   margin-top: 56px;
+  position: relative;
   background-color: white;
   &.container_root {
+    // 600以上
     @include utils.mq(sm) {
       margin-top: 80px;
       border-radius: 5px;
     }
+    // 右側リストだけのとき
     @include utils.mq(md) {
       margin-left: calc((100% - 882px) / 2);
     }
+    // 左側メニューもあるとき
     @include utils.mq(lg) {
       margin-left: auto;
     }

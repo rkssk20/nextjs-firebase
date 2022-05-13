@@ -1,0 +1,31 @@
+// 各設定項目のタイトル
+.sub_title {
+  padding-top: var(--md);
+  padding-bottom: var(--sm);
+}
+
+// 入力欄全体
+.input_field {
+  background-color: var(--c-gray);
+  border-radius: 13px;
+  padding: var(--sm);
+  text-align: end;
+}
+
+// 各入力
+.input {
+  width: 100%;
+}
+
+// 変更ボタン
+.save {
+  margin-top: var(--md);
+  text-align: end;
+}
+
+// ポートフォリオとしての補足
+.option {
+  &.option_root {
+    margin-right: var(--md);
+  }
+}

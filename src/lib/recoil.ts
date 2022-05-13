@@ -8,6 +8,7 @@ interface NotificateProps {
   message: string;
 }
 
+// 通知
 export const notificateState = atom<NotificateProps>({
   key: 'notificate',
   default: {
@@ -16,6 +17,7 @@ export const notificateState = atom<NotificateProps>({
   }
 })
 
+// 検索履歴
 export const searchHistoryState = atom<string[]>({
   key: 'searchHistroy',
   default: [],

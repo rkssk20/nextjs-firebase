@@ -1,16 +1,20 @@
+import { useState, MutableRefObject } from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import AspectImage from '@/atoms/AspectImage'
 import Header from '@/components/post/Header'
 import Content from '@/components/post/Content'
 import Actions from '@/components/post/Actions'
-import Share from '@/components/post/Share'
 
-import styles from '@/styles/pages/index.module.scss'
+const Share = dynamic(() => import('@/components/dialog/Share'))
+
+import styles from '@/styles/components/post/post.module.scss'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import Typography from '@mui/material/Typography'
 
-interface PostProps {
+type PostProps = {
+  lastRef: MutableRefObject<HTMLDivElement | null> | false
   data: {
     id: string;
     display_id: string;
@@ -26,12 +30,16 @@ interface PostProps {
   }
 }
 
-const Post = ({ data }: PostProps) => {
+const Post = ({ lastRef, data }: PostProps) => {
+  const [shareDialog, setShareDialog] = useState(false)
   const router = useRouter()
 
   return (
-    <Card key={ data.id } className={ styles.card } elevation={ 0 }>
-      <CardActionArea onClick={ () => router.push(`/post/${ data.id }`) }>
+    <Card elevation={ 0 }>
+      <CardActionArea
+        className={ styles.card_actionarea }
+        onClick={ () => router.push(`/article/${ data.id }`) }
+      >
         {/* ヘッダー */}
         <Header display_id={ data.display_id } name={ data.name } />
 
@@ -40,7 +48,11 @@ const Post = ({ data }: PostProps) => {
           <AspectImage image={ data.image } />
           :
           <div className={ styles.noimage }>
-            <Typography variant='h1' color='white'>
+            <Typography
+              className={ styles.noimage_text }
+              classes={{ root: styles.noimage_text_root }}
+              color='white'
+            >
               { data.title }
             </Typography>
           </div>
@@ -55,43 +67,24 @@ const Post = ({ data }: PostProps) => {
 
         {/* 投稿時間、各種ボタン */}
         <Actions
-          id={ data.id }
           likes={ data.likes }
           like={ data.like }
           created_at={ data.created_at }
+          setShareDialog={ setShareDialog }
         />
       </CardActionArea>
 
-      {/* 詳細メニュー */}
-      {/* <Menu
-        elevation={ 3 }
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={ detailsOpen }
-        transformOrigin={{
-          horizontal: 'right',
-          vertical: 'top'
-        }}
-        anchorOrigin={{
-          horizontal: 'right',
-          vertical: 'bottom'
-        }}
-        open={ detailsBoolean }
-        onClose={ handleDetailsClose }
-        onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
-        onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
-      >
-        <MenuItem
-          onClick={ () => {
-            Router.push({ pathname: `${ router.asPath }`, query: { dialog: 'share' } })
-          }}
-        >
-          { data.mine ? '削除' : '報告' }
-        </MenuItem>
-      </Menu> */}
+      {/* 無限スクロールのref */}
+      { lastRef && <div ref={ lastRef } /> }
 
-      {/* 投稿を共有 */}
-      { (router.query.share === data.id) &&  <Share /> }
+      {/* 共有ダイアログ */}
+      { shareDialog &&
+        <Share
+          id={ data.id }
+          open={ shareDialog }
+          handleClose={ () => setShareDialog(false) }
+        />
+      }
     </Card>
   )
 }

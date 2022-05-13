@@ -1,0 +1,10 @@
+@use '@/styles/utils';
+
+.dialog {
+  .dialog_paper {
+    // pcサイズ時にダイアログ横幅を600pxに
+    @include utils.mq(sm) {
+      width: 600px;
+    }
+  }
+}

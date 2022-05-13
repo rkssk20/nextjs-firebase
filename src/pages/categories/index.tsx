@@ -20,7 +20,7 @@ const Categories = () => {
       type='article'
       title=''
       description=''
-      ogp='nextjssupabase'
+      image=''
     >
       <Typography className={ styles.title } variant='h3'>
         カテゴリ一覧
@@ -35,7 +35,7 @@ const Categories = () => {
                 root: styles.button_root,
                 startIcon: styles.button_start_icon
               }}
-              color='inherit'
+              color='info'
               variant='contained'
               disableElevation
               component='a'

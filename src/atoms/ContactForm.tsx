@@ -1,9 +1,9 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { useRouter } from 'next/router'
+import type { Dispatch, SetStateAction, ChangeEvent } from 'react'
 
 import styles from '@/styles/atoms/contactForm.module.scss'
 import Typography from '@mui/material/Typography'
 import InputBase from '@mui/material/InputBase'
+import Checkbox from '@mui/material/Checkbox'
 
 interface ContactFormProps {
   address: string;
@@ -11,14 +11,20 @@ interface ContactFormProps {
   details: string;
   setDetails: Dispatch<SetStateAction<string>>;
   error: boolean;
+  checked: boolean;
+  setChecked: Dispatch<SetStateAction<boolean>>;
 }
 
-const ContactForm = ({ address, setAddress, details, setDetails, error }: ContactFormProps) => {
-  const router = useRouter()
-  
+const ContactForm = ({ address, setAddress, details, setDetails, error, checked, setChecked }: ContactFormProps) => {
+  const hadnleChecked = (e: ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked)
+  }
+
   return (
     <div>
-      <Typography variant='h6'>メールアドレス (必須)</Typography>
+      <Typography className={ styles.title } variant='h5'>
+        メールアドレス (必須)
+      </Typography>
 
       <InputBase
         className={ styles.address }
@@ -26,6 +32,7 @@ const ContactForm = ({ address, setAddress, details, setDetails, error }: Contac
         inputProps={{
           maxLength: 254,
         }}
+        placeholder='連絡先を入力'
         value={ address }
         onChange={ (e) => setAddress(e.target.value) }
       />
@@ -36,7 +43,9 @@ const ContactForm = ({ address, setAddress, details, setDetails, error }: Contac
         </Typography>
       }
 
-      <Typography variant='h6'>詳細 (必須)</Typography>
+      <Typography className={ styles.title } variant='h5'>
+        詳細 (必須)
+      </Typography>
 
       <InputBase
         className={ styles.details }
@@ -46,10 +55,17 @@ const ContactForm = ({ address, setAddress, details, setDetails, error }: Contac
         inputProps={{
           maxLength: 1000,
         }}
+        placeholder='詳細を1000文字以内で教えてください'
         value={ details }
         onChange={ (e) => setDetails(e.target.value) }
         error={ true }
       />
+
+      <div className={ styles.rule }>
+        <Checkbox checked={ checked } onChange={ hadnleChecked } />
+
+        <Typography>利用規約に同意してお問い合わせする。</Typography>
+      </div>
     </div>
   )
 }

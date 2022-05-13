@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import Link from 'next/link'
 import UserIcon from '@/atoms/UserIcon'
 
@@ -10,6 +10,7 @@ import ListSubheader from '@mui/material/ListSubheader'
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import StarIcon from '@mui/icons-material/Star';
 import Divider from '@mui/material/Divider'
@@ -25,6 +26,8 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
   const pc = useMediaQuery('(min-width: 1164px')
   const test_name = 'アカウント'
   const menuList = [{ text: 'フロント', url: 'front' }, { text: 'サーバーレス', url: 'serverless' }]
+
+  const test_login = false;
 
   const handleClose = () => {
     setMenuOpen(false)
@@ -44,21 +47,41 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
       onClose={ handleClose }
     >
       <List>
-        <Link href={ `/account/${ test_session.display_id }` } passHref>
-          <ListItemButton
-            className={ styles.list_item_button }
-            component='a'
-            onClick={ handleClose }
-          >
-            <ListItemIcon>
-              <UserIcon name={ test_name.slice(0, 1) } variant='medium' />
-            </ListItemIcon>
+        { test_login ?
+          // ログイン時、アカウントへのリンク
+          <Link href={ `/account/${ test_session.display_id }` } passHref>
+            <ListItemButton
+              className={ styles.list_item_button }
+              component='a'
+              onClick={ handleClose }
+            >
+              <ListItemIcon>
+                <UserIcon name={ test_name.slice(0, 1) } variant='medium' />
+              </ListItemIcon>
 
-            <ListItemText primaryTypographyProps={{ variant: 'h6' }}>
-              { test_name }
-            </ListItemText>
-          </ListItemButton>
-        </Link>
+              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
+                { test_name }
+              </ListItemText>
+            </ListItemButton>
+          </Link>
+          :
+          // ログアウト時、ログインダイアログのボタン
+          <Link href='/login' passHref>
+            <ListItemButton
+              className={ styles.list_item_button }
+              component='a'
+              onClick={ handleClose }
+            >
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+
+              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
+                ログイン
+              </ListItemText>
+            </ListItemButton>
+          </Link>
+        }
 
         <Link href='/' passHref>
           <ListItemButton
@@ -70,7 +93,7 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
               <HomeIcon />
             </ListItemIcon>
 
-            <ListItemText primaryTypographyProps={{ variant: 'h6' }}>
+            <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
               トップ
             </ListItemText>
           </ListItemButton>
@@ -86,17 +109,14 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
               <StarIcon />
             </ListItemIcon>
 
-            <ListItemText primaryTypographyProps={{ variant: 'h6' }}>
+            <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
               ランキング
             </ListItemText>
           </ListItemButton>
         </Link>
       </List>
 
-        <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
-
       <List
-        className={ styles.list }
         subheader={
           <ListSubheader
             className={ styles.sub_header }
@@ -117,12 +137,30 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
                 <TagIcon />
               </ListItemIcon>
 
-              <ListItemText primaryTypographyProps={{ variant: 'h6' }}>
+              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
                 { item.text }
               </ListItemText>
             </ListItemButton>
           </Link>
         ))}
+      </List>
+
+      <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
+
+      
+
+      <List className={ styles.list }>
+        <Link href='/about' passHref>
+          <ListItemButton
+            className={ styles.list_item_button }
+            component='a'
+            onClick={ handleClose }
+          >
+            <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
+              このサイトについて
+            </ListItemText>
+          </ListItemButton>
+        </Link>
       </List>
 
       <Typography className={ styles.caption } variant='caption'>

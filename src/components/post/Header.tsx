@@ -17,6 +17,7 @@ const Header = ({ display_id, name }: HeaderProps) => {
       className={ styles.header }
       classes={{ avatar: styles.header_avatar }}
       avatar={
+        // アバター
         <NextLink href={ `/account/${ display_id }` } passHref>
           <MuiLink
             underline='none'
@@ -29,6 +30,7 @@ const Header = ({ display_id, name }: HeaderProps) => {
         </NextLink>
       }
       title={
+        // 投稿者名
         <NextLink
           href={ `/account/${ display_id }` }
           passHref
@@ -45,6 +47,7 @@ const Header = ({ display_id, name }: HeaderProps) => {
         </NextLink>
       }
       subheader={
+        // 投稿者ID
         <NextLink
           href={ `/account/${ display_id }` }
           passHref

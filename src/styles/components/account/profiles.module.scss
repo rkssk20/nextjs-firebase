@@ -1,14 +1,28 @@
+// 全体
 .profiles {
   width: 100%;
-  padding: var(--lg);
+  padding: var(--lg) var(--lg) 12px;
 }
 
+// プロフィール上部
 .top {
   margin-bottom: var(--md);
 }
 
+// プロフィール右側
+.profile_right {
+  padding-left: var(--lg);
+}
+
+// id
+.display_id {
+  padding-top: var(--sm);
+}
+
+// 各ボタン
 .buttons {
   width: 100%;
+  margin-top: var(--md);
   > *:first-child {
     margin-right: var(--md);
   }
