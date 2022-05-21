@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 const Circular = ({ size }: { size: 'small' | 'large' }) => {
   return (
     <CircularProgress
-      size={size === 'small' ? 32 : 40}
+      size={ 40 }
       className={size === 'small' ? styles.small_circular : styles.large_circular}
     />
   )

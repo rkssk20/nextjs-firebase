@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { useRouter } from 'next/router'
 import Circular from '@/atoms/Circular'
 import useObserver from '@/hooks/useObserver'
@@ -9,8 +8,7 @@ import Bar from '@/components/search/Bar'
 import Post from '@/components/post/Post'
 
 const Search = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const intersect = useObserver(ref)
+  const { intersect, setRef } = useObserver()
   const { loading, articles } = useArticles(intersect)
   const router = useRouter()
 
@@ -36,7 +34,7 @@ const Search = () => {
           <Post
             key={ item.id }
             data={ item }
-            lastRef={ ((articles.length - 1) === index) && ref }
+            setRef={ ((articles.length - 1) === index) && setRef }
           />
         ))
         :

@@ -1,11 +1,18 @@
 import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useRecoilState } from 'recoil'
-import { notificateState } from '@/lib/recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { notificateState, dialogState } from '@/lib/recoil'
+import useAuth from '@/hooks/useAuth'
 import Header from '@/components/header/Header'
 import Hamburger from '@/components/header/Hamburger'
 import Side from '@/components/side/side'
+
+const Login = dynamic(() => import('@/components/dialog/Login'))
+const Share = dynamic(() => import('@/components/dialog/Share'))
+const Report = dynamic(() => import('@/components/dialog/Report'))
+const Delete = dynamic(() => import('@/components/dialog/Delete'))
 
 import styles from '@/styles/components/provider/mui.module.scss'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -20,8 +27,13 @@ interface MuiProps {
 const Mui: NextPage<MuiProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
+  const dialog = useRecoilValue(dialogState)
   const tablet = useMediaQuery('(min-width: 882px')
   const router = useRouter()
+  const content = dialog.content
+
+  // ついでにログイン処理も行う
+  useAuth()
 
   const theme = createTheme({
     palette: {
@@ -32,7 +44,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
         main: '#F8BBD0'
       },
       info: {
-        main: '#eff3f4'
+        main: '#536471'
       }
     },
     typography: {
@@ -145,13 +157,21 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       {/* 通知 */}
       <Snackbar
         open={ notificate.open }
-        onClose={ () => setNotificate({ open: false, message: '' })}
+        onClose={ () => setNotificate({ open: false, message: '' }) }
         message={ notificate.message }
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
         }}
       />
+
+      {/* ダイアログ */}
+      { (content !== '') &&
+        (content === 'login') ? <Login /> :
+        (content === 'share') ? <Share /> :
+        ((content === 'article_report') || (content === 'comment_report')) ? <Report /> :
+        ((content === 'article_delete') || (content === 'comment_delete')) && <Delete />
+      }
     </ThemeProvider>
   )
 }

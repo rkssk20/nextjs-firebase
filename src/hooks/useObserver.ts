@@ -1,28 +1,29 @@
-import { useState, useEffect, MutableRefObject } from 'react'
+import { useState, useEffect } from 'react'
 
 // 無限スクロール
 // (対象を監視し、表示の状態を返す)
-const useObserver = (ref: MutableRefObject<HTMLDivElement | null>) => {
+const useObserver = () => {
+  const [ref, setRef] = useState<HTMLDivElement | null>(null)
   const [intersect, setIntersect] = useState(false)
 
   useEffect(() => {
-    if (ref.current === null) return
+    if (ref === null) return
 
     const observer = new IntersectionObserver(([entry]) => {
       setIntersect(entry.isIntersecting)
     })
 
-    observer.observe(ref.current)
+    observer.observe(ref)
 
     // useEffectのreturnはアンマウント時の処理
     return () => {
-      if (ref.current !== null) {
-        observer.unobserve(ref.current)
+      if (ref !== null) {
+        observer.unobserve(ref)
       }
     }
-  }, [ref.current])
+  }, [ref])
 
-  return intersect
+  return { intersect, setRef }
 }
 
 export default useObserver

@@ -1,24 +1,15 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { DialogProps } from '@/types/types'
-import DialogHeader from '@/components/dialog/DialogHeader'
 import DialogPaper from '@/components/dialog/DialogPaper'
 
 import styles from '@/styles/components/dialog/share.module.scss'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-type ShareProps = DialogProps & {
-  id: string;
-}
-
-const Share = ({ open, handleClose, id }: ShareProps) => {
+const Share = () => {
   const router = useRouter()
   const share: {
     url: string;
@@ -47,56 +38,52 @@ const Share = ({ open, handleClose, id }: ShareProps) => {
   }]
 
   return (
-    <DialogPaper open={ open } handleClose={ handleClose }>
-      <DialogHeader handleClose={ handleClose } />
+    <DialogPaper>        
+      <Typography variant='h3'>
+        この投稿をシェアする
+      </Typography>
 
-      <DialogContent>
-        <Typography variant='h3'>
-          この投稿をシェアする
-        </Typography>
+      <DialogActions
+        className={ styles.stack }
+        classes={{ root: styles.stack_root }}
+      >
+        <FormControlLabel
+          className={ styles.label }
+          classes={{ root: styles.label_root }}
+          control={
+            <IconButton className={ styles.copy_button }>
+              <ContentCopyIcon className={ styles.copy } />
+            </IconButton> 
+          }
+          label='URLをコピー'
+          labelPlacement='bottom'
+        />
 
-        <DialogActions
-          className={ styles.stack }
-          classes={{ root: styles.stack_root }}
-        >
+        { share.map(item => (
           <FormControlLabel
+            key={ item.social }
             className={ styles.label }
             classes={{ root: styles.label_root }}
             control={
-              <IconButton className={ styles.copy_button }>
-                <ContentCopyIcon className={ styles.copy } />
-              </IconButton> 
+              <IconButton
+                className={ styles.button }
+                classes={{ root: styles.button_root }}
+                onClick={ () => router.push(item.url) }
+              >
+                <Image
+                  src={ `/image/${ item.social }.png` }
+                  alt='共有アイコン'
+                  width={ 70 }
+                  height={ 70 }
+                  quality={ 70 }
+                />
+              </IconButton>
             }
-            label='URLをコピー'
+            label={ item.label }
             labelPlacement='bottom'
           />
-
-          { share.map(item => (
-            <FormControlLabel
-              key={ item.social }
-              className={ styles.label }
-              classes={{ root: styles.label_root }}
-              control={
-                <IconButton
-                  className={ styles.button }
-                  classes={{ root: styles.button_root }}
-                  onClick={ () => router.push(item.url) }
-                >
-                  <Image
-                    src={ `/image/${ item.social }.png` }
-                    alt='共有アイコン'
-                    width={ 70 }
-                    height={ 70 }
-                    quality={ 70 }
-                  />
-                </IconButton>
-              }
-              label={ item.label }
-              labelPlacement='bottom'
-            />
-          ))}
-        </DialogActions>
-      </DialogContent>
+        ))}
+      </DialogActions>
     </DialogPaper>
   )
 }

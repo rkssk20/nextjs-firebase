@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil';
 
 import '@/styles/globals.scss'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <RecoilRoot>
       <Mui>

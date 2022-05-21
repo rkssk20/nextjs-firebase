@@ -1,7 +1,6 @@
 import Image from 'next/image'
 
-import styles from '@/styles/atoms/login.module.scss'
-import DialogContent from '@mui/material/DialogContent'
+import styles from '@/styles/atoms/loginContent.module.scss'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
@@ -18,9 +17,13 @@ const LoginContent = () => {
   }]
 
   return (
-    <DialogContent className={ styles.content }>
-        <Typography variant='h3'>ログイン</Typography>
-
+    <div className={ styles.content }>
+      <Typography variant='h5'>
+          ログイン
+          <span className={ styles.title_slash }>/</span>
+          新規登録
+        </Typography>
+  
         <Button
           className={ styles.eazy }
           classes={{ root: styles.eazy_root }}
@@ -29,16 +32,16 @@ const LoginContent = () => {
         >
           簡単ログイン
         </Button>
-
+  
         <Typography
           className={ styles.eazy_caption }
           classes={{ root: styles.eazy_caption_root }}
           variant='caption'
           color='error'
         >
-          ポートフォリオ用 (そのままログイン状態になります。)
+          (ポートフォリオ用) 登録なしでログイン状態になります。
         </Typography>
-
+  
         { social.map(item => (
           <Button
             key={ item.text }
@@ -56,11 +59,11 @@ const LoginContent = () => {
             }
           >
             <Typography className={ styles.social_text } variant='h5'>
-              { item.text + ' ログイン / 登録' }
+              { item.text }
             </Typography>
           </Button>
         )) }
-      </DialogContent>
+    </div>
   )
 }
 

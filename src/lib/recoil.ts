@@ -3,10 +3,33 @@ import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist()
 
-interface NotificateProps {
+type AccountProps = {
+  name: string
+  display_id: string
+  image: string
+  loading: boolean
+}
+
+type NotificateProps = {
   open: boolean;
   message: string;
 }
+
+type DialogProps = {
+  content: '' | 'share' | 'login' | 'article_report' | 'comment_report' | 'article_delete' | 'comment_delete'
+  id: string | null
+}
+
+// アカウント
+export const accountState = atom<AccountProps>({
+  key: 'account',
+  default: {
+    name: '',
+    display_id: '',
+    image: '',
+    loading: true
+  }
+})
 
 // 通知
 export const notificateState = atom<NotificateProps>({
@@ -14,6 +37,15 @@ export const notificateState = atom<NotificateProps>({
   default: {
     open: false,
     message: ''
+  }
+})
+
+// ダイアログ
+export const dialogState = atom<DialogProps>({
+  key: 'dialog',
+  default: {
+    content: '',
+    id: null
   }
 })
 

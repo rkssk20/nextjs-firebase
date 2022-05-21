@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import styles from '@/styles/atoms/aspectImage.module.scss'
 
-const AspectImage = ({ image }: { image: string}) => {
+const TopImage = ({ image }: { image: string}) => {
   return (
     <div className={ styles.image_fill }>
       <Image
@@ -16,4 +16,4 @@ const AspectImage = ({ image }: { image: string}) => {
   )
 }
 
-export default AspectImage
+export default TopImage

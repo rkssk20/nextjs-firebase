@@ -1,16 +1,6 @@
-// 全体
-.profiles {
-  width: 100%;
-  padding: var(--lg) var(--lg) 12px;
-}
-
-// プロフィール上部
-.top {
-  margin-bottom: var(--md);
-}
-
 // プロフィール右側
 .profile_right {
+  width: 100%;
   padding-left: var(--lg);
 }
 
@@ -26,4 +16,27 @@
   > *:first-child {
     margin-right: var(--md);
   }
+}
+
+// 詳細
+.details {
+  margin-top: var(--md);
+  margin-bottom: var(--md);
+}
+
+// フォローボタン
+.follow_button {
+  margin-top: var(--md);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// フォロー、フォロワー数
+.span_count {
+  font-weight: 600;
+}
+
+// フォロワー
+.follower {
+  padding-left: var(--md);
 }

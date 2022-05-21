@@ -1,6 +1,6 @@
 // 全体
 .drawer {
-  .drawer_paper {
+  .drawer_paper_pc {
     width: 250px;
     height: calc((100% - 104px));
     padding-right: 15px;
@@ -9,13 +9,26 @@
     left: calc((100% - 1164px) / 2);
     border-radius: 5px;
     border: none;
-    background-color: var(--c-gray);
+    background-color: transparent;
+  }
+  .drawer_paper_mobile {
+    width: 220px;
   }
 }
 
 // 各ボタン
 .list_item_button {
   border-radius: 9999px;
+}
+
+// アカウント名
+.account_text {
+  .account_text_primary {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 // 「カテゴリ」

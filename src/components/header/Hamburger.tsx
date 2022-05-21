@@ -1,5 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 import Link from 'next/link'
+import { useRecoilValue } from 'recoil'
+import { accountState } from '@/lib/recoil'
+import Circular from '@/atoms/Circular'
 import UserIcon from '@/atoms/UserIcon'
 
 import styles from '@/styles/components/header/hamburger.module.scss'
@@ -17,51 +20,48 @@ import Divider from '@mui/material/Divider'
 import TagIcon from '@mui/icons-material/Tag';
 import Typography from '@mui/material/Typography';
 
-interface HamburgerProps {
-  menuOpen: boolean;
-  setMenuOpen: Dispatch<SetStateAction<boolean>>;
+type HamburgerProps = {
+  menuOpen: boolean
+  setMenuOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
+  const account = useRecoilValue(accountState)
   const pc = useMediaQuery('(min-width: 1164px')
-  const test_name = 'アカウント'
   const menuList = [{ text: 'フロント', url: 'front' }, { text: 'サーバーレス', url: 'serverless' }]
-
-  const test_login = false;
 
   const handleClose = () => {
     setMenuOpen(false)
   }
 
-  const test_session = {
-    display_id: 'gowngorng',
-    name: 'test_user'
-  }
-
   return (
     <Drawer
       className={ styles.drawer }
-      classes={{ paper: pc ? styles.drawer_paper : '' }}
+      classes={{ paper: pc ? styles.drawer_paper_pc : styles.drawer_paper_mobile }}
       variant={ pc ? 'permanent' : 'temporary' }
       open={ menuOpen }
       onClose={ handleClose }
     >
       <List>
-        { test_login ?
+        { account.loading ? <Circular size='small' /> :
+          account.display_id ?
           // ログイン時、アカウントへのリンク
-          <Link href={ `/account/${ test_session.display_id }` } passHref>
+          <Link href={ `/account/${ account.display_id }` } passHref>
             <ListItemButton
               className={ styles.list_item_button }
               component='a'
               onClick={ handleClose }
             >
               <ListItemIcon>
-                <UserIcon name={ test_name.slice(0, 1) } variant='medium' />
+                <UserIcon name={ account.name.slice(0, 1) } variant='medium' />
               </ListItemIcon>
 
-              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
-                { test_name }
-              </ListItemText>
+              <ListItemText
+                className={ styles.account_text }
+                classes={{ primary: styles.account_text_primary }}
+                primaryTypographyProps={{ variant: 'h5' }}
+                primary={ account.name }
+              />
             </ListItemButton>
           </Link>
           :

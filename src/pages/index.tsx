@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import type { NextPage } from 'next'
 import useArticles from '@/hooks/useArticles'
 import useObserver from '@/hooks/useObserver'
@@ -7,11 +6,8 @@ import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
 const Home: NextPage = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const intersect = useObserver(ref)
+  const { intersect, setRef } = useObserver()
   const { loading, articles } = useArticles(intersect)
-
-  console.log(loading)
 
   return (
     <Layout
@@ -23,8 +19,8 @@ const Home: NextPage = () => {
       { articles.map((item, index) => (
         <Post
           key={ item.id }
-          lastRef={ ((articles.length - 1) === index) && ref }
           data={ item }
+          setRef={ ((articles.length - 1) === index) && setRef }
         />
       )) }
 

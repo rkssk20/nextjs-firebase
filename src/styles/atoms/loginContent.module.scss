@@ -4,6 +4,12 @@
   flex-direction: column;
 }
 
+// タイトルのスラッシュ
+.title_slash {
+  margin-right: var(--xs);
+  margin-left: var(--xs);
+}
+
 // 簡単ログインボタン
 .eazy {
   padding-top: var(--sm);

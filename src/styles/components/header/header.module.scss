@@ -32,7 +32,7 @@
   user-select: none;
 }
 
-// 検索ボタン
-.search_button {
-  margin-right: var(--xs);
+// ロード中に投稿ボタン分のmarginを取る
+.loading_margin {
+  margin-right: 40px;
 }

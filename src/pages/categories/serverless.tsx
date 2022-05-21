@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import useObserver from '@/hooks/useObserver'
 import useArticles from '@/hooks/useArticles'
 import Circular from '@/atoms/Circular'
@@ -7,8 +6,7 @@ import Header from '@/components/categories/Header'
 import Post from '@/components/post/Post'
 
 const Serverless = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const intersect = useObserver(ref)
+  const { intersect, setRef } = useObserver()
   const { loading, articles } = useArticles(intersect)
 
   return (
@@ -24,7 +22,7 @@ const Serverless = () => {
         <Post
           key={ item.id }
           data={ item }
-          lastRef={ ((articles.length - 1) === index) && ref }
+          setRef={ ((articles.length - 1) === index) && setRef }
         />
       ))}
 

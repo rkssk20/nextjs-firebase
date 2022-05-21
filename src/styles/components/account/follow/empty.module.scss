@@ -1,0 +1,10 @@
+.field {
+  padding: var(--md);
+}
+
+.search_button {
+  border-radius: 9999px;
+  &.search_button_root {
+    margin: var(--md) auto;
+  }
+}

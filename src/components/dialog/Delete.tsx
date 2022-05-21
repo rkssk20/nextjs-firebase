@@ -1,63 +1,55 @@
-import { DialogProps } from '@/types/types'
-import DialogHeader from '@/components/dialog/DialogHeader'
+import { useRecoilState } from 'recoil'
+import { dialogState } from '@/lib/recoil'
 import DialogPaper from '@/components/dialog/DialogPaper'
 
 import styles from '@/styles/components/dialog/delete.module.scss'
-import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 
-type DeleteProps = DialogProps & {
-  id: string;
-}
-
-const Delete = ({ id, open, handleClose }: DeleteProps) => {
+const Delete = () => {
+  const [dialog, setDialog] = useRecoilState(dialogState)
   // 記事を削除
   const handleDelete = () => {
-    console.log(id)
+    console.log(dialog.id)
   }
 
   return (
-    <DialogPaper open={ open } handleClose={ handleClose }>
-      <DialogHeader handleClose={ handleClose } />
+    <DialogPaper>
+      <Typography variant='h3'>
+        この記事を削除しますか？
+      </Typography>
 
-      <DialogContent>
-        <Typography variant='h3'>
-          この記事を削除しますか？
-        </Typography>
+      <Typography
+        className={ styles.error }
+        variant='body1'
+        color='error'
+      >
+        削除された記事は戻すことができません。
+      </Typography>
 
-        <Typography
-          className={ styles.error }
-          variant='body1'
-          color='error'
+      <Stack direction='row' justifyContent='center'>
+        <Button
+          className={ styles.button }
+          color="error"
+          variant="contained"
+          disableElevation
+          onClick={ handleDelete }
         >
-          削除された記事は戻すことができません。
-        </Typography>
+          削除
+        </Button>
 
-        <Stack direction='row' justifyContent='center'>
-          <Button
-            className={ styles.button }
-            color="error"
-            variant="contained"
-            disableElevation
-            onClick={ handleDelete }
-          >
-            削除
-          </Button>
-
-          <Button
-            className={ styles.cancel }
-            classes={{ root: styles.cancel_root }}
-            color="inherit"
-            variant="contained"
-            disableElevation
-            onClick={ handleClose }
-          >
-            キャンセル
-          </Button>
-        </Stack>
-      </DialogContent>
+        <Button
+          className={ styles.cancel }
+          classes={{ root: styles.cancel_root }}
+          color="inherit"
+          variant="contained"
+          disableElevation
+          onClick={ () => setDialog({ content: '', id: null }) }
+        >
+          キャンセル
+        </Button>
+      </Stack>
     </DialogPaper>
   )
 }

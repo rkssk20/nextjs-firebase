@@ -12,11 +12,9 @@ interface ImageProps {
   setImage: Dispatch<SetStateAction<string>>
 }
 
-const Image = ({ image , setImage}: ImageProps) => {
+const Image = ({ image , setImage }: ImageProps) => {
   // 画像選択
-  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {    
     if(e.target.files === null) return
 
     setImage(window.URL.createObjectURL(e.target.files[0]))
@@ -25,7 +23,6 @@ const Image = ({ image , setImage}: ImageProps) => {
   // 洗濯中の画像をキャンセル
   const handleCancel = () => {
     (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-
     setImage('')
   }
 

@@ -1,20 +1,16 @@
-import { useState, MutableRefObject } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
-import AspectImage from '@/atoms/AspectImage'
+import TopImage from '@/atoms/TopImage'
+import NoImage from '@/atoms/NoImage'
 import Header from '@/components/post/Header'
 import Content from '@/components/post/Content'
 import Actions from '@/components/post/Actions'
 
-const Share = dynamic(() => import('@/components/dialog/Share'))
-
 import styles from '@/styles/components/post/post.module.scss'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
-import Typography from '@mui/material/Typography'
 
 type PostProps = {
-  lastRef: MutableRefObject<HTMLDivElement | null> | false
   data: {
     id: string;
     display_id: string;
@@ -28,14 +24,14 @@ type PostProps = {
     tags: number[];
     mine: boolean;
   }
+  setRef: Dispatch<SetStateAction<HTMLDivElement | null>> | false
 }
 
-const Post = ({ lastRef, data }: PostProps) => {
-  const [shareDialog, setShareDialog] = useState(false)
+const Post = ({ data, setRef }: PostProps) => {
   const router = useRouter()
 
   return (
-    <Card elevation={ 0 }>
+    <Card ref={ setRef ? (ref) => setRef(ref) : undefined } elevation={ 0 }>
       <CardActionArea
         className={ styles.card_actionarea }
         onClick={ () => router.push(`/article/${ data.id }`) }
@@ -45,17 +41,9 @@ const Post = ({ lastRef, data }: PostProps) => {
 
         {/* 画像 */}
         { (data.image.length > 0) ?
-          <AspectImage image={ data.image } />
+          <TopImage image={ data.image } />
           :
-          <div className={ styles.noimage }>
-            <Typography
-              className={ styles.noimage_text }
-              classes={{ root: styles.noimage_text_root }}
-              color='white'
-            >
-              { data.title }
-            </Typography>
-          </div>
+          <NoImage title={ data.title } />
         }
 
         {/* タイトル、詳細、タグ */}
@@ -67,24 +55,12 @@ const Post = ({ lastRef, data }: PostProps) => {
 
         {/* 投稿時間、各種ボタン */}
         <Actions
+          display_id={ data.display_id }
           likes={ data.likes }
           like={ data.like }
           created_at={ data.created_at }
-          setShareDialog={ setShareDialog }
         />
       </CardActionArea>
-
-      {/* 無限スクロールのref */}
-      { lastRef && <div ref={ lastRef } /> }
-
-      {/* 共有ダイアログ */}
-      { shareDialog &&
-        <Share
-          id={ data.id }
-          open={ shareDialog }
-          handleClose={ () => setShareDialog(false) }
-        />
-      }
     </Card>
   )
 }

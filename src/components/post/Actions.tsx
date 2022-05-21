@@ -1,6 +1,8 @@
-import type { Dispatch, MouseEvent, SetStateAction, TouchEvent } from 'react'
+import type { MouseEvent, TouchEvent } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { dialogState } from '@/lib/recoil'
 import useCreatedAt from '@/hooks/useCreatedAt'
-import { LoginFavorite, LogoutFavorite } from '@/atoms/Favorite'
+import Favorite from '@/atoms/Favorite'
 
 import styles from '@/styles/components/post/actions.module.scss'
 import CardActions from '@mui/material/CardActions'
@@ -8,22 +10,21 @@ import IconButton from '@mui/material/IconButton'
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography'
 
-interface ActionsProps {
+type ActionsProps = {
+  display_id: string
   likes: number;
   like: boolean;
   created_at: string;
-  setShareDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-const Actions = ({ likes, like, created_at, setShareDialog }: ActionsProps) => {
+const Actions = ({ display_id, likes, like, created_at }: ActionsProps) => {
+  const setDialog = useSetRecoilState(dialogState)
   const created = useCreatedAt(created_at)
-
-  const test_login = false
 
   // 共有ダイアログを開く
   const handleShare = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    setShareDialog(true)
+    setDialog({ content: 'share', id: display_id })
   }
 
   return (
@@ -37,11 +38,7 @@ const Actions = ({ likes, like, created_at, setShareDialog }: ActionsProps) => {
       </Typography>
 
       {/* いいねボタンといいね数 */}
-      { test_login ?
-        <LoginFavorite like={ like } likes={ likes } />
-        :
-        <LogoutFavorite likes={ likes } />
-      }
+      <Favorite like={ like } likes={ likes } />
 
       {/* 共有ボタン */}
       <IconButton

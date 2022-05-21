@@ -13,11 +13,11 @@ const UserIcon = ({ name, variant }: UserIconProps) => {
   
   return (
     <Avatar
-    className={ styles.avatar }
-    classes={{
-      root: (variant === 'link') ? styles.avatar_link : ((variant === 'medium') ? styles.avatar_medium : styles.avatar_large)
-    }}
-    sx={{ bgcolor: color }}
+      className={ styles.avatar }
+      classes={{
+        root: (variant === 'link') ? styles.avatar_link : ((variant === 'medium') ? styles.avatar_medium : styles.avatar_large)
+      }}
+      sx={{ bgcolor: color }}
     >
       { name }
     </Avatar>

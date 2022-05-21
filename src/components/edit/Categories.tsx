@@ -36,7 +36,7 @@ const Categories = ({ tags, setTags }: CategoriesProps) => {
         </span>
         :
         selected.map(item => (
-          <span>
+          <span key={ item }>
             { (item === 0) ? '# フロント' : '# サーバーレス' }
           </span>
         ))

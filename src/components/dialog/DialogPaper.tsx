@@ -1,18 +1,22 @@
 import { useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { dialogState } from '@/lib/recoil';
+import Header from '@/components/dialog/Header'
 
-import styles from '@/styles/components/dialog/dialog.module.scss'
 import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent'
 
-interface DialogPaperProps {
-  open: boolean;
-  handleClose: () => void;
-  children: ReactNode;
-}
-
-const DialogPaper = ({ open, handleClose, children }: DialogPaperProps) => {
+const DialogPaper = ({ children }: { children: ReactNode }) => {
+  const [dialog, setDialog] = useRecoilState(dialogState)
   const router = useRouter()
+  const content = dialog.content
 
+  const handleClose = () => {
+    setDialog({ content: '', id: null })
+  }
+
+  // ページ遷移でダイアログを閉じる
   useEffect(() => {
     router.beforePopState(() => {
       handleClose()
@@ -25,12 +29,16 @@ const DialogPaper = ({ open, handleClose, children }: DialogPaperProps) => {
 
   return (
     <Dialog
-      className={ styles.dialog }
-      classes={{ paper: styles.dialog_paper }}
-      open={ open }
+      open={ content !== '' }
+      fullWidth
+      maxWidth='sm'
       onClose={ handleClose }
     >
-      { children }
+      <Header handleClose={ handleClose } />
+
+      <DialogContent>
+        { children }
+      </DialogContent>
     </Dialog>
   )
 }

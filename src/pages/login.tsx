@@ -1,6 +1,8 @@
 import LoginContent from '@/atoms/LoginContent'
 import Layout from '@/components/provider/Layout'
 
+import DialogContent from '@mui/material/DialogContent'
+
 const Login = () => {
   return (
     <Layout
@@ -9,7 +11,9 @@ const Login = () => {
       description=''
       image=''
     >
-      <LoginContent />
+      <DialogContent>
+        <LoginContent />
+      </DialogContent>
     </Layout>
   )
 }

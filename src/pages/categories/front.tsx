@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import Circular from '@/atoms/Circular'
 import useObserver from '@/hooks/useObserver'
 import useArticles from '@/hooks/useArticles'
@@ -7,8 +6,7 @@ import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
 const Front = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const intersect = useObserver(ref)
+  const { intersect, setRef } = useObserver()
   const { loading, articles } = useArticles(intersect)
 
   return (
@@ -24,7 +22,7 @@ const Front = () => {
         <Post
           key={ item.id }
           data={ item }
-          lastRef={ ((articles.length - 1) === index) && ref }
+          setRef={ ((articles.length - 1) === index) && setRef }
         />
       ))}
       
