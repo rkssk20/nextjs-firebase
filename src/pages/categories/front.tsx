@@ -26,7 +26,7 @@ const Front = () => {
         />
       ))}
       
-      { loading && <Circular size='large' /> }
+      { loading && <Circular /> }
     </Layout>
   )
 }

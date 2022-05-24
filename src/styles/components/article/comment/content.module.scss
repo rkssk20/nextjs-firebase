@@ -1,0 +1,23 @@
+.field {
+  padding-right: var(--md);
+  padding-left: var(--md);
+}
+
+// 下部の全体
+.actions_field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+// いいね数
+.favorite_count {
+  padding-left: var(--sm);
+}
+
+// 詳細ボタン
+.icon_button {
+  &.icon_button_root {
+    margin-left: auto;
+  }
+}

@@ -4,8 +4,11 @@
 }
 
 // 投稿全体
-.card_actionarea {
+.actionarea {
   border-bottom: var(--border);
+  &.actionarea_root {
+    padding: var(--md);
+  }
 }
 
 // 画像がないときの背景

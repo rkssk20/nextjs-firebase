@@ -20,6 +20,8 @@
   margin: var(--md);
   &.button_root {
     flex-direction: column;
+    color: black;
+    background-color: #e7e7e8;
   }
   .button_start_icon {
     margin: 0 0 var(--sm);

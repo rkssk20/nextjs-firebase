@@ -57,8 +57,8 @@ const Edit = () => {
         <InputBase
           className={ styles.title }
           classes={{ root: styles.title_root }}
-          autoFocus={ true }
-          multiline={ true }
+          autoFocus
+          multiline
           inputProps={{
             maxLength: 20,
           }}
@@ -70,8 +70,8 @@ const Edit = () => {
         <InputBase
           className={ styles.details }
           classes={{ root: styles.details_root }}
-          multiline={ true }
-          rows={ 15 }
+          multiline
+          rows={ 10 }
           inputProps={{
             maxLength: 1000,
           }}

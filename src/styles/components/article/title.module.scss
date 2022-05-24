@@ -1,0 +1,13 @@
+// タグ一覧
+.tags {
+  margin-bottom: var(--md);
+  flex-wrap: wrap;
+  > a:not(:first-child) {
+    margin-left: var(--sm);
+  }
+}
+
+// タイトル
+.title {
+  padding-bottom: var(--xs);
+}

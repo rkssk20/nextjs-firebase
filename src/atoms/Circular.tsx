@@ -1,12 +1,11 @@
 import styles from '@/styles/atoms/circular.module.scss'
 import CircularProgress from '@mui/material/CircularProgress'
 
-const Circular = ({ size }: { size: 'small' | 'large' }) => {
+const Circular = () => {
   return (
-    <CircularProgress
-      size={ 40 }
-      className={size === 'small' ? styles.small_circular : styles.large_circular}
-    />
+    <div className={ styles.field }>
+      <CircularProgress className={ styles.circular } size={ 40 } />
+    </div>
   )
 }
 

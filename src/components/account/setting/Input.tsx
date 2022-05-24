@@ -43,6 +43,7 @@ const Input = ({ data }: InputProps) => {
       <div className={ styles.input_field }>
         <InputBase
           className={ styles.input }
+          classes={{ root: styles.input_root }}
           inputProps={{
             maxLength: 15,
           }}
@@ -59,6 +60,7 @@ const Input = ({ data }: InputProps) => {
       <div className={ styles.input_field }>
         <InputBase
           className={ styles.input }
+          classes={{ root: styles.input_root }}
           inputProps={{
             maxLength: 15,
           }}
@@ -75,6 +77,7 @@ const Input = ({ data }: InputProps) => {
       <div className={ styles.input_field }>
         <InputBase
           className={ styles.input }
+          classes={{ root: styles.input_root }}
           inputProps={{
             maxLength: 140,
           }}

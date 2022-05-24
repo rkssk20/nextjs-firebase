@@ -2,20 +2,19 @@ import NextLink from 'next/link'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
 import useProfilePage from '@/hooks/useProfilePage'
-import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import LoginOnly from '@/components/provider/LoginOnly'
 import Input from '@/components/account/setting/Input'
 
 import styles from '@/styles/pages/account/setting.module.scss'
 import DialogContent from '@mui/material/DialogContent'
+import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import MuiLink from '@mui/material/Link'
 
 const Setting = () => {
   const account = useRecoilValue(accountState)
-  console.log(account)
-  const { loading, data } = useProfilePage(account.display_id)  
+  const { loading, data } = useProfilePage(account.display_id)
   
   return (
     <Layout
@@ -27,7 +26,7 @@ const Setting = () => {
       <LoginOnly>
         <DialogContent>
         { loading ?
-          <Circular size='large' />
+          <CircularProgress size={ 40 } />
           :
            data &&<Input data={ data } />
         }

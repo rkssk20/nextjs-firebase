@@ -1,22 +1,3 @@
-// タグ一覧
-.tags {
-  margin-bottom: var(--md);
-  flex-wrap: wrap;
-  > a:not(:first-child) {
-    margin-left: var(--sm);
-  }
-}
-
-// タイトル
-.title {
-  padding-bottom: var(--xs);
-}
-
-// 共有タイトル
-.share_title {
-  padding-top: var(--xl);
-}
-
 // 各共有ボタン
 .share_button {
   &.share_button_root {

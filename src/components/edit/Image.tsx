@@ -60,7 +60,7 @@ const Image = ({ image , setImage }: ImageProps) => {
         <Badge
           badgeContent={
             <IconButton className={ styles.cancel } onClick={ handleCancel }>
-              <ClearIcon className={ styles.clear } color='info' />
+              <ClearIcon className={ styles.clear } fontSize='large' />
             </IconButton>
           }
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}

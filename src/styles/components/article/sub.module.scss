@@ -1,0 +1,19 @@
+// 全体
+.card_actions {
+  &.card_actions_root {
+    padding-right: var(--md);
+    padding-left: var(--md);
+  }
+}
+
+// いいね数
+.favorite_count {
+  padding-left: var(--sm);
+}
+
+// 詳細ボタン
+.detail_button {
+  &.detail_button_root {
+    margin-left: auto;
+  }
+}

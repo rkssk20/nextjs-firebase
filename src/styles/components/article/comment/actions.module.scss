@@ -1,0 +1,18 @@
+// 全体
+.actions {
+  &.actions_root {
+    padding: 0 var(--md) var(--md);
+  }
+}
+
+// いいね数
+.favorite_count {
+  padding-left: var(--sm);
+}
+
+// 詳細ボタン
+.icon_button {
+  &.icon_button_root {
+    margin-left: auto;
+  }
+}

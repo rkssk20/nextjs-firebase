@@ -14,7 +14,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'Tailwind UIとMaterial UIを選ぶ時に考えること。Tailwind UIの場合は、',
     name: 'フロントエンジニア',
     tags: [0],
-    mine: true
+    mine: true,
+    comments: 1
   }, {  
     id: '222222222222222222222',
     display_id: 'front_end',
@@ -26,7 +27,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'できるだけサーバーレスで開発したい場合の技術選定を考えます。フロント: Next.js SSRで動的',
     name: 'フロントエンジニア',
     tags: [0, 1],
-    mine: true
+    mine: true,
+    comments: 0
   }, {
     id: '333333333333333333333',
     display_id: 'serverless',
@@ -38,7 +40,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'GraphQLを使用する場合にHasuraとPrismaのどちらを選択するか。Hasuraはバックエ',
     name: 'サーバーレス開発',
     tags: [1],
-    mine: false
+    mine: false,
+    comments: 100
   }, {
     id: '444444444444444444444',
     display_id: 'front_end',
@@ -50,7 +53,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'このサイトは、Next.jsとサーバーレスを掛け合わせる時のテンプレートです。Next.jsでのIS',
     name: 'フロントエンジニア',
     tags: [],
-    mine: true
+    mine: true,
+    comments: 1000
   }, {
     id: '555555555555555555555',
     display_id: 'serverless',
@@ -62,7 +66,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'Next.jsはSSG, SSR, ISRが使用できます。SSRではアクセスするたびに新しくページを',
     name: 'サーバーレス開発',
     tags: [1],
-    mine: false
+    mine: false,
+    comments: 10000
   }, {
     id: '666666666666666666666',
     display_id: 'serverless',
@@ -74,7 +79,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'Firebaseは使いやすいサービスですが、DB周りでRDBとの違いが複数あります。まず、同一レコー',
     name: 'サーバーレス開発',
     tags: [1],
-    mine: false
+    mine: false,
+    comments: 0
   }, {
     id: '777777777777777777777',
     display_id: 'front_end',
@@ -86,7 +92,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     details: 'Next.jsはVercelにデプロイすると楽ですが、帯域幅の問題があります。帯域幅が一ヶ月に1TB',
     name: 'フロントエンジニア',
     tags: [1],
-    mine: false
+    mine: false,
+    comments: 0
   }]
 
   let number: number | null = null;

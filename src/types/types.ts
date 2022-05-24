@@ -23,6 +23,7 @@ export type ArticleType = {
   name: string;
   tags: number[];
   mine: boolean;
+  comments: number;
 }
 
 // プロフィールのISR用api
@@ -46,3 +47,31 @@ export type FollowType = {
   display_id: string
   name: string
 }[]
+
+// コメント
+export type CommentType = {
+  id: number
+  display_id: string
+  created_at: string
+  image: string
+  likes: number,
+  like: boolean,
+  content: string
+  name: string
+  mine: boolean,
+  replies: number
+}
+
+// リプライ
+export type RepliesType = {
+  id: number
+  comment_id: number
+  display_id: string
+  created_at: string
+  image: string
+  likes: number,
+  like: boolean,
+  content: string
+  name: string
+  mine: boolean
+}

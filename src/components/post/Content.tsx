@@ -1,7 +1,6 @@
 import Tags from '@/atoms/Tag'
 
 import styles from '@/styles/components/post/content.module.scss'
-import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 
@@ -13,7 +12,7 @@ interface ContentProps {
 
 const Content = ({ title, details, tags }: ContentProps) => {
   return (
-    <CardContent className={ styles.content } classes={{ root: styles.content_root }}>
+    <div className={ styles.content }>
       <Typography variant='h5'>{ title }</Typography>
       <Typography variant='body1'>{ details + '...' }</Typography>
 
@@ -22,7 +21,7 @@ const Content = ({ title, details, tags }: ContentProps) => {
           { tags.map(item => <Tags key={ item } tag={ item } />) }
         </Stack>
       }
-    </CardContent>
+    </div>
   )
 }
 

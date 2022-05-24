@@ -45,6 +45,9 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       },
       info: {
         main: '#536471'
+      },
+      warning: {
+        main: '#F4212E'
       }
     },
     typography: {

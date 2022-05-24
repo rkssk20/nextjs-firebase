@@ -15,6 +15,9 @@
 // 各入力
 .input {
   width: 100%;
+  &.input_root {
+    font-size: 16px;
+  }
 }
 
 // 変更ボタンの周り

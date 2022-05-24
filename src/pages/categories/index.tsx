@@ -35,7 +35,6 @@ const Categories = () => {
                 root: styles.button_root,
                 startIcon: styles.button_start_icon
               }}
-              color='info'
               variant='contained'
               disableElevation
               component='a'

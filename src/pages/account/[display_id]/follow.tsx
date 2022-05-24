@@ -80,7 +80,7 @@ const Follow = ({ item, path }: FollowProps) => {
 
       { !loading && (data.length === 0) && <FollowEmpty path={ path } /> }
 
-      { loading && <Circular size='large' /> }
+      { loading && <Circular /> }
     </Layout>
   )
 }

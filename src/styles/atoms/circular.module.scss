@@ -1,12 +1,9 @@
-// 読み込み小
-.small_circular {
-  margin: 5.5px auto;
-  display: block;
+// 全体
+.field {
+  width: 100%;
+  text-align: center;
 }
 
-// 読み込み大
-.large_circular {
-  @extend .small_circular;
-  margin-top: var(--md-width);
-  margin-bottom: var(--md-width);
+.circular {
+  margin: var(--md);
 }

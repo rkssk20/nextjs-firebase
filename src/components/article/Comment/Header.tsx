@@ -1,31 +1,25 @@
-import type { MouseEvent, TouchEvent } from 'react'
 import NextLink from 'next/link'
 import useCreatedAt from '@/hooks/useCreatedAt'
 import UserIcon from '@/atoms/UserIcon'
 
-import styles from '@/styles/components/post/header.module.scss'
+import styles from '@/styles/components/article/comment/header.module.scss'
 import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
-interface HeaderProps {
-  display_id: string;
-  name: string;
+type HeaderProps = {
+  name: string
+  display_id: string
   created_at: string
 }
 
-const Header = ({ display_id, name, created_at }: HeaderProps) => {
+const Header = ({ name, display_id, created_at }: HeaderProps) => {
   const created = useCreatedAt(created_at)
 
   return (
     <div className={ styles.field }>
       {/* アバター */}
       <NextLink href={ `/account/${ display_id }` } passHref>
-        <MuiLink
-          underline='none'
-          onClick={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
-          onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
-          onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
-        >
+        <MuiLink underline='none'>
           <UserIcon name={ name.slice(0, 1) } variant='link' />
         </MuiLink>
       </NextLink>
@@ -38,11 +32,8 @@ const Header = ({ display_id, name, created_at }: HeaderProps) => {
           variant='body1'
           color='inherit'
           noWrap
-          onClick={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
-          onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
-          onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
         >
-          { name + '・@' + display_id }
+          { name }
         </MuiLink>
       </NextLink>
 

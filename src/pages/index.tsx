@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         />
       )) }
 
-      { loading && <Circular size='large' /> }
+      { loading && <Circular /> }
     </Layout>
   )
 }

@@ -38,5 +38,7 @@
 
 // フォロワー
 .follower {
-  padding-left: var(--md);
+  &.follower_root {
+    margin-left: var(--md);
+  }
 }

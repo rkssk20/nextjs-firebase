@@ -2,7 +2,6 @@ import type { Dispatch, SetStateAction } from 'react'
 import Link from 'next/link'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
-import Circular from '@/atoms/Circular'
 import UserIcon from '@/atoms/UserIcon'
 
 import styles from '@/styles/components/header/hamburger.module.scss'
@@ -10,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader'
+import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -19,6 +19,7 @@ import StarIcon from '@mui/icons-material/Star';
 import Divider from '@mui/material/Divider'
 import TagIcon from '@mui/icons-material/Tag';
 import Typography from '@mui/material/Typography';
+import Skeleton from '@mui/material/Skeleton'
 
 type HamburgerProps = {
   menuOpen: boolean
@@ -43,7 +44,19 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
       onClose={ handleClose }
     >
       <List>
-        { account.loading ? <Circular size='small' /> :
+        { account.loading ?
+          <ListItem>
+            <ListItemIcon>
+              <Skeleton variant='circular' width={ 35 } height={ 35 } />
+            </ListItemIcon>
+
+            <ListItemText
+              primary={
+              <Skeleton variant='text' height={ 22.67 } />
+            }
+            />
+          </ListItem>
+          :
           account.display_id ?
           // ログイン時、アカウントへのリンク
           <Link href={ `/account/${ account.display_id }` } passHref>
@@ -57,9 +70,10 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
               </ListItemIcon>
 
               <ListItemText
-                className={ styles.account_text }
-                classes={{ primary: styles.account_text_primary }}
-                primaryTypographyProps={{ variant: 'h5' }}
+                primaryTypographyProps={{
+                  variant: 'h5',
+                  noWrap: true
+                }}
                 primary={ account.name }
               />
             </ListItemButton>

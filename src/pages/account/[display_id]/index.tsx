@@ -80,7 +80,7 @@ const Account = ({ item , path }: AccountProps) => {
         />
       ))}
 
-      { (loading || profile_loading) && <Circular size='large' /> }
+      { loading && <Circular /> }
     </Layout>
   )
 }

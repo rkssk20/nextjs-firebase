@@ -1,12 +1,29 @@
 // 全体
 .actions {
-  &.actions_root {
-    padding: 0 var(--md) var(--md);
-  }
+  padding-top: var(--sm);
+  display: flex;
+  align-items: center;
 }
 
-// 投稿日時
-.created {
-  min-width: 80px;
-  padding-right: var(--md);
+// コメント数全体
+.comments_field {
+  display: flex;
+  align-items: center;
+}
+
+// コメントアイコン
+.comments_icon {
+  margin-left: var(--md);
+}
+
+// コメント数
+.comments_count {
+  padding-left: var(--sm);
+}
+
+// 詳細ボタン
+.icon_button {
+  &.icon_button_root {
+    margin-left: auto;
+  }
 }

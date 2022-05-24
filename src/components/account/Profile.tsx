@@ -65,14 +65,20 @@ const Profile = ({ path, data, name, details }: ProfileProps) => {
       <Stack direction='row'>
         <NextLink href={ `/account/${ router.query.display_id }/follow` } passHref>
           <MuiLink color='inherit' underline='hover' variant='body1'>
-            <span className={ styles.span_count }>{ data.follow }</span>
+            <span className={ styles.span_count }>{ data.follow.toLocaleString() }</span>
             フォロー
           </MuiLink>
         </NextLink>
 
         <NextLink href={ `/account/${ router.query.display_id }/follower` } passHref>
-          <MuiLink className={ styles.follower } color='inherit' underline='hover' variant='body1'>
-            <span className={ styles.span_count }>{ data.follow }</span>
+          <MuiLink
+            className={ styles.follower }
+            classes={{ root: styles.follower_root }}
+            color='inherit'
+            underline='hover'
+            variant='body1'
+          >
+            <span className={ styles.span_count }>{ data.follower.toLocaleString() }</span>
             フォロワー
           </MuiLink>
         </NextLink>
