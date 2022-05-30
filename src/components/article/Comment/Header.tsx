@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import useCreatedAt from '@/hooks/useCreatedAt'
+import CreatedAt from '@/lib/createdAt'
 import UserIcon from '@/atoms/UserIcon'
 
 import styles from '@/styles/components/article/comment/header.module.scss'
@@ -13,14 +13,14 @@ type HeaderProps = {
 }
 
 const Header = ({ name, display_id, created_at }: HeaderProps) => {
-  const created = useCreatedAt(created_at)
+  const created = CreatedAt(created_at)
 
   return (
     <div className={ styles.field }>
       {/* アバター */}
       <NextLink href={ `/account/${ display_id }` } passHref>
         <MuiLink underline='none'>
-          <UserIcon name={ name.slice(0, 1) } variant='link' />
+          <UserIcon name={ name } variant='link' />
         </MuiLink>
       </NextLink>
 

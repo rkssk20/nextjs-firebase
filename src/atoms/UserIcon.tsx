@@ -1,4 +1,4 @@
-import useColor from '@/hooks/useColor'
+import Color from '@/lib/color'
 
 import styles from '@/styles/atoms/userIcon.module.scss'
 import Avatar from '@mui/material/Avatar'
@@ -9,7 +9,7 @@ interface UserIconProps {
 }
 
 const UserIcon = ({ name, variant }: UserIconProps) => {
-  const color = useColor(name)
+  const color = Color(name)
   
   return (
     <Avatar
@@ -19,7 +19,7 @@ const UserIcon = ({ name, variant }: UserIconProps) => {
       }}
       sx={{ bgcolor: color }}
     >
-      { name }
+      { name.slice(0, 1) }
     </Avatar>
   )
 }

@@ -1,7 +1,9 @@
 import type { GetStaticProps, GetStaticPaths } from 'next'
+import { useRouter } from 'next/router'
 import { ProfilePageType } from '@/types/types'
 import useFollow from '@/hooks/useFollow'
-import useObserver from '@/hooks/useObserver'
+import useObserver from '@/hooks/atoms/useObserver'
+import Bar from '@/atoms/Bar'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import Header from '@/components/account/follow/Header'
@@ -46,11 +48,19 @@ type FollowProps = {
 }
 
 const Follow = ({ item, path }: FollowProps) => {
-  const { intersect, setRef } = useObserver()
-  const { loading, data } = useFollow({ path, intersect })
+  const { loading, data, Fetch } = useFollow(item.display_id)
+  const setRef = useObserver(Fetch)
+  const router = useRouter()
 
-  console.log(!loading)
-  console.log(!data)
+  console.log(router)
+
+  const tab_list = [{
+    name: 'フォロー中',
+    url: `/account/${ router.query.display_id }/follow`
+  }, {
+    name: 'フォロワー',
+    url: `/account/${ router.query.display_id }/follower`
+  }]
   
   return (
     <Layout
@@ -64,6 +74,12 @@ const Follow = ({ item, path }: FollowProps) => {
         path={ path }
         name={ item.name }
         categories='follow'
+      />
+
+      {/* 選択バー */}
+      <Bar
+        tab_list={ tab_list }
+        value={ router.pathname === '/account/[display_id]/follow' ? 0 : 1 }
       />
 
       {/* 各アカウント */}

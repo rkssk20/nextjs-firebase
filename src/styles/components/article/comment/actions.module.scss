@@ -1,8 +1,28 @@
-// 全体
-.actions {
-  &.actions_root {
-    padding: 0 var(--md) var(--md);
-  }
+// 本文
+.content {
+  padding-right: var(--md);
+  padding-left: var(--md);
+}
+
+// 下部の全体
+.actions_field {
+  width: 100%;
+  padding-top: var(--md);
+  padding-right: var(--sm);
+  padding-left: var(--md);
+  padding-bottom: var(--md);
+  display: flex;
+  align-items: center;
+}
+
+// 返信ボタン
+.reply_button {
+  border-radius: 9999px;
+}
+
+// 返信数
+.reply_count {
+  margin-right: var(--md);
 }
 
 // いいね数

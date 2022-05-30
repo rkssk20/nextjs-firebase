@@ -1,0 +1,26 @@
+// タイトル
+.title {
+  padding: var(--md);
+}
+
+// コメント数
+.comments {
+  padding-left: var(--sm);
+  font-weight: 600;
+}
+
+// 各コメント
+.card {
+  border-bottom: var(--border);
+}
+
+// さらに表示ボタン
+.more_button {
+  &.more_button_root {
+    width: 100%;
+    padding-top: var(--sm);
+    padding-bottom: var(--sm);
+    font-weight: 400;
+    border-bottom: var(--border);
+  }
+}

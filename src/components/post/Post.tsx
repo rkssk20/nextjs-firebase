@@ -1,8 +1,8 @@
-import type { Dispatch, SetStateAction } from 'react'
+import { useRef, MutableRefObject, Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
 import { ArticleType } from '@/types/types'
 import ArticleImage from '@/atoms/ArticleImage'
-import NoImage from '@/atoms/NoImage'
+import NoArticleImage from '@/atoms/NoArticleImage'
 import Header from '@/components/post/Header'
 import Content from '@/components/post/Content'
 import Actions from '@/components/post/Actions'
@@ -37,7 +37,7 @@ const Post = ({ data, setRef }: PostProps) => {
       { (data.image.length > 0) ?
         <ArticleImage image={ data.image } />
         :
-        <NoImage title={ data.title } />
+        <NoArticleImage title={ data.title } />
       }
 
       {/* タイトル、詳細、タグ */}

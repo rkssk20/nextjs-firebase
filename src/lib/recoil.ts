@@ -20,6 +20,12 @@ type DialogProps = {
   id: string | null
 }
 
+type DraftProps = {
+  title: string
+  details: string
+  tags: number[]
+}
+
 // アカウント
 export const accountState = atom<AccountProps>({
   key: 'account',
@@ -47,6 +53,17 @@ export const dialogState = atom<DialogProps>({
     content: '',
     id: null
   }
+})
+
+// 下書き
+export const draftState = atom<DraftProps>({
+  key: 'draft',
+  default: {
+    title: '',
+    details: '',
+    tags: []
+  },
+  effects_UNSTABLE: [persistAtom],
 })
 
 // 検索履歴

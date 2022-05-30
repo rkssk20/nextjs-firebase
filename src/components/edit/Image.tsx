@@ -15,8 +15,7 @@ interface ImageProps {
 const Image = ({ image , setImage }: ImageProps) => {
   // 画像選択
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {    
-    if(e.target.files === null) return
-
+    if(!e.target.files || !e.target.files[0]) return
     setImage(window.URL.createObjectURL(e.target.files[0]))
   }
 
@@ -44,8 +43,6 @@ const Image = ({ image , setImage }: ImageProps) => {
             className={ styles.image_button }
             aria-label="upload picture"
             component='span'
-            variant='contained'
-            color="inherit"
             disableElevation
             startIcon={ <ImageIcon />}
           >

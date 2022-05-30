@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { notificateState, dialogState } from '@/lib/recoil'
 import useAuth from '@/hooks/useAuth'
 import Header from '@/components/header/Header'
-import Hamburger from '@/components/header/Hamburger'
+import Hamburger from '@/components/header/hamburger/Hamburger'
 import Side from '@/components/side/side'
 
 const Login = dynamic(() => import('@/components/dialog/Login'))

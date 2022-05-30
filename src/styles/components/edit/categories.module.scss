@@ -1,6 +1,7 @@
 // カテゴリ選択全体
 .select {
   .select_root {
+    width: 100%;
     font-weight: 600;
     > span:not(:first-child) {
       padding-left: var(--sm);
@@ -8,30 +9,27 @@
   }
 }
 
-// 未入力時の「カテゴリを選択」の全体
-.categories {
+// カテゴリ未選択時
+.empty {
+  color: #8e8e8e;
   display: flex;
-  align-items: center
-}
-
-// ハッシュタグアイコン
-.tag_icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  margin-left: -4px;
+  align-items: center;
 }
 
 // 入力部分
 .input {
+  width: 100%;
   margin-bottom: var(--md);
-  background-color: #E0E0E0;
-  border-radius: 9999px;
+  border: none;
+  border-radius: 5px;
+  .input_input {
+    padding: var(--sm);
+  }
   &:hover {
-    background-color: #f5f5f5;
+    border: none;
   }
   &.input_focused {
-    background-color: #f5f5f5;
+    border: none;
   }
 }
 

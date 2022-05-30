@@ -1,6 +1,12 @@
-// タグ一覧
+// 全体
+.field {
+  padding: var(--md);
+}
+
+// タグ一覧 
 .tags {
-  margin-bottom: var(--md);
+  display: flex;
+  margin-bottom: var(--sm);
   flex-wrap: wrap;
   > a:not(:first-child) {
     margin-left: var(--sm);

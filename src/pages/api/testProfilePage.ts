@@ -10,12 +10,12 @@ export default (req: NextApiRequest, res: NextApiResponse<Response>) => {
 
   const test_data = [{
     image: '',
-    name: 'フロントエンドエンジニア',
+    name: 'フロントエンジニア',
     display_id: 'front_end',
-    details: 'フロントエンドエンジニアのアカウント。Next.jsを使用して開発します。'
+    details: 'フロントエンジニアのアカウント。Next.jsを使用して開発します。'
   }, {
     image: '/image/hose.png',
-    name: 'サーバーレスのエンジニア',
+    name: 'サーバーレス開発',
     display_id: 'serverless',
     details: 'サーバーレスで開発するエンジニアのアカウント。今回はsupabaseを使用します。'
   }]

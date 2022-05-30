@@ -1,11 +1,11 @@
 import LoginContent from '@/atoms/LoginContent'
-import DialogPaper from '@/components/dialog/DialogPaper'
+import Dialog from '@/components/dialog/Dialog'
 
 const Login = () => {
   return (
-    <DialogPaper>
+    <Dialog>
       <LoginContent />
-    </DialogPaper>
+    </Dialog>
   )
 }
 

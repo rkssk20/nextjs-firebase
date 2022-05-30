@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import styles from '@/styles/atoms/aspectImage.module.scss'
+import styles from '@/styles/atoms/articleImage.module.scss'
 
 const ArticleImage = ({ image }: { image: string}) => {
   return (

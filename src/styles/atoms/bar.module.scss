@@ -1,0 +1,9 @@
+// タブ全体
+.tabs {
+  border-bottom: var(--border);
+}
+
+// 各タブ
+.tab {
+  width: calc(100% / 2);
+}

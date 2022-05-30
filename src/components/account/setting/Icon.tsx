@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, Dispatch, SetStateAction } from 'react'
-import useColor from '@/hooks/useColor'
+import Color from '@/lib/color'
 import Crop from '@/components/account/setting/Crop'
 
 import styles from '@/styles/components/account/setting/icon.module.scss'
@@ -9,13 +9,13 @@ import Button from '@mui/material/Button'
 
 type IconProps = {
   name: string
-  cropImage: string
-  setCropImage: Dispatch<SetStateAction<string>>
+  newImage: string
+  setNewImage: Dispatch<SetStateAction<string>>
 }
 
-const Icon = ({ name, cropImage, setCropImage }: IconProps) => {
+const Icon = ({ name, newImage, setNewImage }: IconProps) => {
   const [selectImage, setSelectImage] = useState('')
-  const color = useColor(name)
+  const color = Color(name)
 
   // 画像選択
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {    
@@ -26,7 +26,7 @@ const Icon = ({ name, cropImage, setCropImage }: IconProps) => {
   // 切り抜いた画像を削除
   const handleCancel = () => {
     (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-    setCropImage('')
+    setNewImage('')
   }
 
   return (
@@ -46,12 +46,12 @@ const Icon = ({ name, cropImage, setCropImage }: IconProps) => {
         aria-label="upload picture"
         component='span'
       >
-        { Boolean(cropImage) ?
+        { Boolean(newImage) ?
           // 切り抜いた画像のアバター
           <Avatar
             className={ styles.avatar }
             classes={{ root: styles.avatar_root }}
-            src={ cropImage }
+            src={ newImage }
           />
           :
           // 画像なしのアバター
@@ -87,7 +87,7 @@ const Icon = ({ name, cropImage, setCropImage }: IconProps) => {
       <Crop
         selectImage={ selectImage }
         setSelectImage={ setSelectImage }
-        setCropImage={ setCropImage }
+        setNewImage={ setNewImage }
       />
     </label>
   )

@@ -1,0 +1,26 @@
+// 各ボタン
+.list_item_button {
+  border-radius: 9999px;
+}
+
+// モバイル表示時、フォロー、フォロワーの全体
+.follow_field {
+  padding-top: var(--sm);
+  padding-bottom: var(--sm);
+}
+
+// フォロー、フォロワー
+.list_item_follow {
+  &.list_item_follow_root {
+    padding-top: 0;
+  }
+}
+
+// フォロワー
+.list_text_follow {
+  .list_text_follow_primary {
+    > a:last-child {
+      margin-left: var(--md);
+    }
+  }
+}

@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
-import useArticles from '@/hooks/useArticles'
-import useObserver from '@/hooks/useObserver'
+import useArticles from '@/hooks/article/useArticles'
+import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
 const Home: NextPage = () => {
-  const { intersect, setRef } = useObserver()
-  const { loading, articles } = useArticles(intersect)
+  const { loading, data, Fetch } = useArticles()
+  const setRef = useObserver(Fetch)
 
   return (
     <Layout
@@ -16,11 +16,11 @@ const Home: NextPage = () => {
       description=''
       image=''
     >
-      { articles.map((item, index) => (
+      { data.map((item, index) => (
         <Post
           key={ item.id }
           data={ item }
-          setRef={ ((articles.length - 1) === index) && setRef }
+          setRef={ ((data.length - 1) === index) && setRef }
         />
       )) }
 

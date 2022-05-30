@@ -46,5 +46,5 @@ export default (req: NextApiRequest, res: NextApiResponse<Response>) => {
     }]
   }
 
-  res.status(200).json({ data:{ follower: [] } })
+  res.status(200).json({ data: { follower: (page === 0) ? test_data.follower.slice(0, 10) : [test_data.follower[10]] } })
 }

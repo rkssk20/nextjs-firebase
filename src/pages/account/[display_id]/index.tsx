@@ -1,8 +1,8 @@
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import { ProfilePageType } from '@/types/types'
 import useProfileDetails from '@/hooks/useProfileDetails'
-import useObserver from '@/hooks/useObserver'
-import useArticles from '@/hooks/useArticles'
+import useObserver from '@/hooks/atoms/useObserver'
+import useArticles from '@/hooks/article/useArticles'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import Profile from '@/components/account/Profile'
@@ -48,8 +48,8 @@ type AccountProps = {
 
 const Account = ({ item , path }: AccountProps) => {
   const { loading: profile_loading, data: profile_data } = useProfileDetails(path)
-  const { intersect, setRef } = useObserver()
-  const { loading, articles } = useArticles(intersect)
+  const { loading, data, Fetch } = useArticles()
+  const setRef = useObserver(Fetch)
 
   return (
     <Layout
@@ -72,11 +72,11 @@ const Account = ({ item , path }: AccountProps) => {
       <Bar />
 
       {/* 自分の投稿一覧 */}
-      { articles.map((item, index) => (
+      { data.map((item, index) => (
         <Post
           key={ item.id }
           data={ item }
-          setRef={ ((articles.length - 1) === index) && setRef }
+          setRef={ ((data.length - 1) === index) && setRef }
         />
       ))}
 

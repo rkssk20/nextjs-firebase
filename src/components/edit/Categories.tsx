@@ -2,11 +2,11 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import styles from '@/styles/components/edit/categories.module.scss'
 import type { SelectChangeEvent } from "@mui/material";
-import TagIcon from '@mui/icons-material/Tag';
 import Select from '@mui/material/Select';
 import MenuItem from '@Mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import InputBase from '@mui/material/InputBase';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface CategoriesProps {
   tags: number[];
@@ -17,22 +17,21 @@ const Categories = ({ tags, setTags }: CategoriesProps) => {
   // カテゴリを選択
   const handleChange = (e: SelectChangeEvent<number[]>) => {
     setTags(e.target.value as number[])
-    // setTags()
   }
 
   return (
     <Select
       className={ styles.select }
       classes={{ select: styles.select_root }}
-      SelectDisplayProps={{ style: { padding: '6px 16px' } }}
       multiple
       displayEmpty
       value={ tags }
-      renderValue={ (selected) =>
+      color='info'
+      renderValue={selected =>
         (selected.length === 0) ?
-        <span className={ styles.categories }>
-          <TagIcon className={ styles.tag_icon } />
+        <span className={ styles.empty }>
           カテゴリを選択
+          <ArrowDropDownIcon />
         </span>
         :
         selected.map(item => (
@@ -42,7 +41,13 @@ const Categories = ({ tags, setTags }: CategoriesProps) => {
         ))
       }
       input={
-        <InputBase className={ styles.input } classes={{ focused: styles.input_focused }} />
+        <InputBase
+          className={ styles.input }
+          classes={{
+            input: styles.input_input,
+            focused: styles.input_focused
+          }}
+        />
       }
       MenuProps={{ PaperProps: { elevation: 3 } }}
       IconComponent={ () => <></> }

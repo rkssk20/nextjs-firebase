@@ -1,38 +1,28 @@
 import Tags from '@/atoms/Tag'
 
 import styles from '@/styles/components/article/title.module.scss'
-import CardContent from '@mui/material/CardContent'
-import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
 type TitleProps = {
   tags: number[]
   title: string
-  created_at: string
 }
 
-const Title = ({ tags, title, created_at }: TitleProps) => {
-  const created = new Date(created_at)
-
+const Title = ({ tags, title }: TitleProps) => {
   return (
-    <CardContent>
+    <div className={ styles.field }>
       { (tags.length > 0) &&
-        <Stack className={ styles.tags } direction='row' alignItems='center'>
+        <div className={ styles.tags }>
           { tags.map(item => (
             <Tags key={ item } tag={ item } />
           )) }
-        </Stack>
+        </div>
       }
 
       <Typography className={ styles.title } variant='h1'>
         { title }
       </Typography>
-
-      {/* 投稿時間 */}
-      <Typography variant='caption'>
-        { created.getFullYear() + '年' + created.getMonth() + '月' + created.getDate() + '日' }
-      </Typography>
-    </CardContent>
+    </div>
   )
 }
 

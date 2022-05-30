@@ -1,10 +1,12 @@
 import type { GetStaticProps, GetStaticPaths } from 'next'
+import { useRouter } from 'next/router'
 import { ProfilePageType } from '@/types/types'
 import useFollower from '@/hooks/useFollower'
-import useObserver from '@/hooks/useObserver'
+import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import Header from '@/components/account/follow/Header'
+import Bar from '@/atoms/Bar'
 import Account from '@/components/account/follow/Account'
 import FollowerEmpty from '@/components/account/follow/FollowerEmpty'
 
@@ -46,8 +48,17 @@ type FollowerProps = {
 }
 
 const Follower = ({ item, path }: FollowerProps) => {
-  const { intersect, setRef } = useObserver()
-  const { loading, data } = useFollower({ path, intersect })
+  const { loading, data, Fetch } = useFollower(item.display_id)
+  const setRef = useObserver(Fetch)
+  const router = useRouter()
+
+  const tab_list = [{
+    name: 'フォロー中',
+    url: `/account/${ router.query.display_id }/follow`
+  }, {
+    name: 'フォロワー',
+    url: `/account/${ router.query.display_id }/follower`
+  }]
   
   return (
     <Layout
@@ -61,6 +72,12 @@ const Follower = ({ item, path }: FollowerProps) => {
         path={ path }
         name={ item.name }
         categories='follower'
+      />
+
+      {/* 選択バー */}
+      <Bar
+        tab_list={ tab_list }
+        value={ router.pathname === '/account/[display_id]/follow' ? 0 : 1 }
       />
 
       {/* 各アカウント */}
@@ -77,7 +94,7 @@ const Follower = ({ item, path }: FollowerProps) => {
 
       { !loading && (data.length === 0) && <FollowerEmpty path={ path } /> }
 
-      { loading && <Circular size='large' /> }
+      { loading && <Circular /> }
     </Layout>
   )
 }

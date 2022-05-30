@@ -1,6 +1,7 @@
 // 全体
 .label {
   width: 100%;
+  margin-bottom: var(--md);
 }
 
 // 隠してボタンと紐づける要素
@@ -10,7 +11,10 @@
 
 // 画像選択ボタン
 .image_button {
+  width: 100%;
+  color: #8e8e8e;
   border-radius: 9999px;
+  justify-content: flex-start;
 }
 
 // 選択中の画像全体

@@ -1,16 +1,14 @@
 import { useRouter } from 'next/router'
-import Link from 'next/link';
+import AtomsBar from '@/atoms/Bar'
 
 import styles from '@/styles/components/account/bar.module.scss'
 import AppBar from '@mui/material/AppBar'
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 
 const Bar = () => {
   const router = useRouter()
   const display_id = router.query.display_id
   
-  const tabList = [
+  const tab_list = [
     { name: '投稿', url: `/account/${ display_id }` },
     { name: 'いいね', url: `/account/${ display_id }/likes` }
   ]
@@ -23,18 +21,10 @@ const Bar = () => {
       color='inherit'
       elevation={ 0 }
     >
-      <Tabs
+      <AtomsBar
+        tab_list={ tab_list }
         value={ (router.pathname === '/account/[display_id]/likes') ? 1 : 0 }
-        aria-label="タブ"
-        variant='fullWidth'
-        textColor='inherit'
-      >
-        { tabList.map((item) => (
-          <Link key={ item.name } href={item.url} passHref>
-            <Tab className={ styles.tab } label={ item.name } />
-          </Link>
-        ))}
-      </Tabs>
+      />
     </AppBar>
   )
 }

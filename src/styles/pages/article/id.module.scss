@@ -1,0 +1,14 @@
+// 周りにスペース
+.content {
+  padding: var(--md);
+}
+
+// マークダウンをHTMLに変換した部分
+.markdown {
+  font-size: 15px;
+  > pre > code {
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}

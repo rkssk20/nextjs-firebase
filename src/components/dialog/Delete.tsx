@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil'
 import { dialogState } from '@/lib/recoil'
-import DialogPaper from '@/components/dialog/DialogPaper'
+import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/dialog/delete.module.scss'
 import Typography from '@mui/material/Typography'
@@ -9,13 +9,14 @@ import Button from '@mui/material/Button'
 
 const Delete = () => {
   const [dialog, setDialog] = useRecoilState(dialogState)
+  
   // 記事を削除
   const handleDelete = () => {
     console.log(dialog.id)
   }
 
   return (
-    <DialogPaper>
+    <Dialog>
       <Typography variant='h3'>
         この記事を削除しますか？
       </Typography>
@@ -50,7 +51,7 @@ const Delete = () => {
           キャンセル
         </Button>
       </Stack>
-    </DialogPaper>
+    </Dialog>
   )
 }
 

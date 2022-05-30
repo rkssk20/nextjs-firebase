@@ -1,15 +1,16 @@
 import type { GetStaticProps, GetStaticPaths } from "next";
 import { ArticleType } from '@/types/types';
+import RemarkDown from '@/lib/remarkDown'
 import ArticleImage from "@/atoms/ArticleImage";
-import NoImage from "@/atoms/NoImage";
+import NoArtcileImage from "@/atoms/NoArticleImage";
 import Layout from '@/components/provider/Layout'
 import Title from '@/components/article/Title'
 import Header from '@/components/article/Header'
 import Share from '@/components/article/Share'
-import Sub from '@/components/article/Sub'
-import Comments from "@/components/article/Comments";
+import Actions from '@/components/article/Actions'
+import Comments from "@/components/article/comment/Comments";
 
-import CardContent from '@mui/material/CardContent'
+import styles from '@/styles/pages/article/id.module.scss'
 import Typography from '@mui/material/Typography'
 
 // ISR
@@ -27,9 +28,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   if(!result.data) return { notFound: true }
 
+  const remark = await RemarkDown(result.data.details)
+
   return {
     props: {
-      item: result.data,
+      item: {
+        ...result.data,
+        details: remark
+      },
       path: id
     },
     // 5分キャッシュ
@@ -61,11 +67,11 @@ const Article = ({ item, path }: ArticleProps) => {
       { (item.image.length > 0) ?
         <ArticleImage image={ item.image } />
         :
-        <NoImage title={ item.title } />
+        <NoArtcileImage title={ item.title } />
       }
 
       {/* タグ、タイトル、投稿日時 */}
-      <Title tags={ item.tags } title={ item.title } created_at={ item.created_at } />
+      <Title tags={ item.tags } title={ item.title } />
 
       {/* 投稿者、投稿日時 */}
       <Header
@@ -75,21 +81,22 @@ const Article = ({ item, path }: ArticleProps) => {
       />
 
       {/* 記事の詳細 */}
-      <CardContent>
-        <Typography variant='body1'>{ item.details }</Typography>
-      </CardContent>
+      <div className={ styles.content }>
+        {/* <Typography variant='body1'>{ item.details }</Typography> */}
+        <div className={ styles.markdown } dangerouslySetInnerHTML={{ __html: item.details }} />
+      </div>
 
       {/* 共有 */}
-      <CardContent>
+      <div className={ styles.content }>
         <Typography component='p' variant='h5'>
           この記事を共有する
         </Typography>
 
         <Share path={ path } />
-      </CardContent>
+      </div>
 
       {/* いいね、詳細ボタン */}
-      <Sub
+      <Actions
         like={ item.like }
         likes={ item.likes }
         mine={ item.mine }

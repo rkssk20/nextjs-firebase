@@ -23,7 +23,7 @@ const Profile = ({ path, data, name, details }: ProfileProps) => {
   return (
     <DialogContent>
       <Stack direction='row' alignItems='center'>
-        <UserIcon name={ name.slice(0, 1) } variant='large' />
+        <UserIcon name={ name } variant='large' />
 
         <Stack justifyContent='center' className={ styles.profile_right }>
           <Typography component='p' variant='h3'>

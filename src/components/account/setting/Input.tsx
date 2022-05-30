@@ -16,10 +16,12 @@ type InputProps = {
 }
 
 const Input = ({ data }: InputProps) => {
-  const [cropImage, setCropImage] = useState(data.image)
-  const [name, setName] = useState(data.name)
-  const [displayId, setDisplayId] = useState(data.display_id)
-  const [details, setDetails] = useState(data.details)
+  const [newImage, setNewImage] = useState(data.image)
+  const [newName, setNewName] = useState(data.name)
+  const [newDisplayId, setNewDisplayId] = useState(data.display_id)
+  const [newDetails, setNewDetails] = useState(data.details)
+
+  // ユーザーアイコンの変更
 
   const handleUpdate = () => {
 
@@ -33,9 +35,9 @@ const Input = ({ data }: InputProps) => {
 
       {/* アイコンの変更 */}
       <Icon
-        name={ name }
-        cropImage={ cropImage }
-        setCropImage={ setCropImage }
+        name={ newName }
+        newImage={ newImage }
+        setNewImage={ setNewImage }
       />
 
       <Typography className={ styles.sub_title } variant='h6'>アカウント名</Typography>
@@ -49,10 +51,10 @@ const Input = ({ data }: InputProps) => {
           }}
           placeholder='名前'
           value={ name }
-          onChange={ (e) => setName(e.target.value) }
+          onChange={ (e) => setNewName(e.target.value) }
         />
 
-        <Typography>{ name.length + ' / 15' }</Typography>
+        <Typography>{ newName.length + ' / 15' }</Typography>
       </div>
 
       <Typography className={ styles.sub_title } variant='h6'>アカウントID</Typography>
@@ -65,11 +67,11 @@ const Input = ({ data }: InputProps) => {
             maxLength: 15,
           }}
           placeholder='ID'
-          value={ displayId }
-          onChange={ (e) => setDisplayId(e.target.value) }
+          value={ newDisplayId }
+          onChange={ (e) => setNewDisplayId(e.target.value) }
         />
 
-        <Typography>{ displayId.length + ' / 15' }</Typography>
+        <Typography>{ newDisplayId.length + ' / 15' }</Typography>
       </div>
 
       <Typography className={ styles.sub_title } variant='h6'>自己紹介</Typography>
@@ -83,15 +85,15 @@ const Input = ({ data }: InputProps) => {
           }}
           placeholder='自己紹介'
           multiline
-          value={ details }
-          onChange={ (e) => setDetails(e.target.value) }
+          value={ newDetails }
+          onChange={ (e) => setNewDetails(e.target.value) }
         />
 
-        <Typography>{ details.length + ' / 140' }</Typography>
+        <Typography>{ newDetails.length + ' / 140' }</Typography>
       </div>
 
       <div className={ styles.save }>
-        { ((name.length > 0) && (displayId.length > 0) && ((data.name !== name) || (data.display_id !== displayId) || (data.details !== details) || (data.image !== cropImage))) ?
+        { ((newName.length > 0) && (newDisplayId.length > 0) && ((data.name !== newName) || (data.display_id !== newDisplayId) || (data.details !== newDetails) || (data.image !== newImage))) ?
           <ContainedButton text='保存する' handle={ handleUpdate } /> :
           <DisabledButton text='保存する' />
         }

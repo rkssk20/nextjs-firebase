@@ -22,8 +22,8 @@ const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
   const setDialog = useSetRecoilState(dialogState)
 
   // いいね処理
-  const handleLike = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const handleLike = (e: MouseEvent) => {
+    e.stopPropagation()
 
     if(account.display_id) {
       console.log('favorite')
@@ -37,8 +37,8 @@ const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
   }
 
   // 共有ダイアログを開く
-  const handleShare = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const handleShare = (e: MouseEvent) => {
+    e.stopPropagation()
     setDialog({ content: 'share', id: display_id })
   }
 
@@ -48,10 +48,10 @@ const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
       <IconButton
         aria-label='いいね'
         color='primary'
-        component='div'
+        component='button'
         onClick={ handleLike }
-        onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
-        onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
+        onMouseDown={ (e: MouseEvent) => e.stopPropagation() }
+        onTouchStart={ (e: TouchEvent) => e.stopPropagation() }
       >
         { like ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
       </IconButton>
@@ -76,10 +76,9 @@ const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
         className={ styles.icon_button }
         classes={{ root: styles.icon_button_root }}
         aria-label='共有'
-        component='div'
         onClick={ handleShare }
-        onMouseDown={ (e: MouseEvent<HTMLDivElement>) => e.stopPropagation() }
-        onTouchStart={ (e: TouchEvent<HTMLDivElement>) => e.stopPropagation() }
+        onMouseDown={ (e: MouseEvent) => e.stopPropagation() }
+        onTouchStart={ (e: TouchEvent) => e.stopPropagation() }
       >
         <ShareIcon />
       </IconButton>

@@ -1,13 +1,13 @@
 import Circular from '@/atoms/Circular'
-import useObserver from '@/hooks/useObserver'
-import useArticles from '@/hooks/useArticles'
+import useObserver from '@/hooks/atoms/useObserver'
+import useArticles from '@/hooks/article/useArticles'
 import Header from '@/components/categories/Header'
 import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
 const Front = () => {
-  const { intersect, setRef } = useObserver()
-  const { loading, articles } = useArticles(intersect)
+  const { loading, data, Fetch } = useArticles()
+  const setRef = useObserver(Fetch)
 
   return (
     <Layout
@@ -18,11 +18,11 @@ const Front = () => {
     >
       <Header text='フロント' url='front' />
 
-      { articles.map((item, index) => (
+      { data.map((item, index) => (
         <Post
           key={ item.id }
           data={ item }
-          setRef={ ((articles.length - 1) === index) && setRef }
+          setRef={ ((data.length - 1) === index) && setRef }
         />
       ))}
       

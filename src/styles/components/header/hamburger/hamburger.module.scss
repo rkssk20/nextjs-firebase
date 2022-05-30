@@ -1,0 +1,29 @@
+// 全体
+.drawer {
+  .drawer_paper_pc {
+    width: 250px;
+    height: calc((100% - 104px));
+    padding-right: 15px;
+    padding-left: 15px;
+    top: 80px;
+    left: calc((100% - 1164px) / 2);
+    border-radius: 5px;
+    border: none;
+    background-color: transparent;
+  }
+  .drawer_paper_mobile {
+    width: 220px;
+  }
+}
+
+// 各ボタン
+.list_item_button {
+  border-radius: 9999px;
+}
+
+// 線
+.divider {
+  &.divider_root {
+    margin: var(--xs) var(--md);
+  }
+}

@@ -1,6 +1,8 @@
-import { useRouter } from 'next/router'
 import Image from 'next/image'
-import DialogPaper from '@/components/dialog/DialogPaper'
+import { useRouter } from 'next/router'
+import { useSetRecoilState } from 'recoil'
+import { notificateState } from '@/lib/recoil'
+import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/dialog/share.module.scss'
 import DialogActions from '@mui/material/DialogActions'
@@ -10,35 +12,46 @@ import IconButton from '@mui/material/IconButton'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const Share = () => {
+  const setNotificate = useSetRecoilState(notificateState)
   const router = useRouter()
+
   const share: {
     url: string;
     social: 'twitter' | 'facebook' | 'line' | 'note' | 'hatena';
     label: 'Twitter' | 'Facebook' | 'LINE' | 'note' | 'はてブ'
   }[] = [{
-    url: '/',
+    url: `https://twitter.com/share?url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
     social: 'twitter',
     label: 'Twitter'
   }, {
-    url: '/',
+    url: `https://www.facebook.com/sharer/sharer.php?u=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
     social: 'facebook',
     label: 'Facebook'
   }, {
-    url: '/',
+    url: `https://line.me/R/share?text=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
     social: 'line',
     label: 'LINE'
   }, {
-    url: '/',
+    url: `https://note.com/intent/post?url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
     social: 'note',
     label: 'note'
   }, {
-    url: '/',
+    url: `https://b.hatena.ne.jp/add?mode=confirm&url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
     social: 'hatena',
     label: 'はてブ'
   }]
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(process.env.NEXT_PUBLIC_WEB_URL + router.asPath)
+
+    setNotificate({
+      open: true,
+      message: 'URLをコピーしました'
+    })
+  }
+
   return (
-    <DialogPaper>        
+    <Dialog>
       <Typography variant='h3'>
         この投稿をシェアする
       </Typography>
@@ -51,7 +64,7 @@ const Share = () => {
           className={ styles.label }
           classes={{ root: styles.label_root }}
           control={
-            <IconButton className={ styles.copy_button }>
+            <IconButton className={ styles.copy_button } onClick={ handleCopy }>
               <ContentCopyIcon className={ styles.copy } />
             </IconButton> 
           }
@@ -61,30 +74,35 @@ const Share = () => {
 
         { share.map(item => (
           <FormControlLabel
-            key={ item.social }
             className={ styles.label }
             classes={{ root: styles.label_root }}
             control={
-              <IconButton
-                className={ styles.button }
-                classes={{ root: styles.button_root }}
-                onClick={ () => router.push(item.url) }
+              <a
+                key={ item.social }
+                href={ item.url }
+                target='_blank'
+                rel="nofollow noopener noreferrer"
               >
-                <Image
-                  src={ `/image/${ item.social }.png` }
-                  alt='共有アイコン'
-                  width={ 70 }
-                  height={ 70 }
-                  quality={ 70 }
-                />
-              </IconButton>
+                <IconButton
+                  className={ styles.button }
+                  classes={{ root: styles.button_root }}
+                >
+                  <Image
+                    src={ `/image/${ item.social }.png` }
+                    alt='共有アイコン'
+                    width={ 70 }
+                    height={ 70 }
+                    quality={ 70 }
+                  />
+                </IconButton>
+              </a>
             }
             label={ item.label }
             labelPlacement='bottom'
           />
         ))}
       </DialogActions>
-    </DialogPaper>
+    </Dialog>
   )
 }
 

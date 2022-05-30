@@ -1,3 +1,9 @@
+// 全体
+.field {
+  display: flex;
+  justify-content: center;
+}
+
 // 各共有ボタン
 .share_button {
   &.share_button_root {

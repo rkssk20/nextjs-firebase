@@ -79,8 +79,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     like: true,
     content: 'Next.jsはVercelにデプロイすると楽ですが、帯域幅の問題があります。帯域幅が一ヶ月に1TB',
     name: 'フロントエンジニア',
-    mine: false
+    mine: true
   }]
 
-  res.status(200).json({ data: (page === 0) ? test_data.slice(0, 3) : (page === 1) ? test_data.slice(3, 6) : [test_data[6]] })
+  res.status(200).json({ data: (page === 0) ? test_data.slice(0, 3) : (page === 1) ? test_data.slice(3, 6) : (page === 2) ? [test_data[6]] : undefined })
 }

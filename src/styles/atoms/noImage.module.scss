@@ -13,6 +13,7 @@
 // 画像がない時の文字
 .noimage_text {
   font-size: 25px;
+  user-select: none;
   &.noimage_text_root {
     padding: var(--md);
     font-weight: 600;
