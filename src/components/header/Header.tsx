@@ -1,4 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react';
+import Image from 'next/image'
+import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
@@ -7,15 +9,15 @@ import styles from '@/styles/components/header/header.module.scss'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import MuiLink from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 
 const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>> }) => {
   const account = useRecoilValue(accountState)
-  const pc = useMediaQuery('(min-width: 1164px')
+  const pc = useMediaQuery('(min-width: 1182px')
   const router = useRouter()
 
   // 検索画面に遷移
@@ -36,10 +38,9 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
 
   return (
     <AppBar
-      className={ styles.appbar }
-      classes={{ root: styles.appbar_root }}
       color='inherit'
-      position="fixed"
+      position="sticky"
+      elevation={ 0 }
     >
       <Toolbar
         className={ styles.toolbar }
@@ -59,20 +60,24 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
         }
 
         {/* タイトル */}
-        <Typography
-          className={ styles.title }
-          variant="h5"
-          component="div"
-          color='primary'
-        >
-          Next.js × Supabase
-        </Typography>
+        <NextLink href='/' passHref >
+          <MuiLink className={ styles.title_link } underline='none'>
+            <Image
+              className={ styles.title }
+              quality={ 80 }
+              width={ 40 }
+              height={ 40 }
+              alt='Next.js × Suapabase'
+              src='/favicon.png'
+            />
+          </MuiLink>
+        </NextLink>
 
         {/* 検索ボタン */}
         <IconButton
           aria-label='検索'
           // ログイン判定中は投稿ボタン分のmarginを取る
-          className={ account.loading ? styles.loading_margin : '' }
+          className={ account.loading ? styles.search_icon_loading : styles.search_icon }
           onClick={ handleSearch }
         >
           <SearchIcon />

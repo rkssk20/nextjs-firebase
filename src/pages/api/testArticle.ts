@@ -50,7 +50,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   #### その他
   - Google Analytics
     - アクセス解析サービス
-    - このデータを利用してサービス内の人気記事ランキングを実装`,
+    - このデータを利用して当サービス内の人気記事ランキングを実装`,
     name: 'フロントエンジニア',
     tags: [0],
     mine: true,

@@ -1,23 +1,95 @@
 @use '@/styles/utils';
 
-.list{
-  height: calc(100% - 104px);
-  background-color: white;
-  border-radius: 5px;
+// サイド全体
+.field{
+  // height: 600px;
   max-width: 600px;
-  margin: auto;
+  margin-right: auto;
+  margin-left: auto;
   @include utils.mq(md) {
-    width: 250px;
-    // margin: 24px 0 24px 16px;
+    width: 300px;
     position: fixed;
     top: 80px;
-    right: calc((100% - 874px) / 2);
+    right: calc((100% - 916px) / 2);
+    overflow: hidden;
   }
   @include utils.mq(lg) {
-    right: calc((100% - 1164px) / 2);
+    right: calc((100% - 1182px) / 2);
   }
 }
 
-.list_edit {
-  display: none;
+// リスト全体
+.list {
+  height: calc(100% - 31px);
+  background-color: white;
+  border-radius: 5px;
+  &.list_root {
+    padding-bottom: 0;
+  }
+}
+
+// トレンドのタイトル
+.header {
+  padding-top: var(--sm);
+  padding-bottom: var(--sm);
+  padding-left: var(--sm);
+  display: flex;
+}
+
+// listの各item
+.list_item {
+  width: 100%;
+  padding: var(--md);
+  @include utils.mq(md) {
+    padding: var(--sm);
+  }
+}
+
+// 画像全体
+.image_field {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+// 画像がない場合
+.noimage {
+  width: 80px;
+  height: 80px;
+  background-color: #2b825b;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 各itemのテキスト全体
+.list_text {
+  width: calc(100% - 112px);
+  margin-left: var(--md);
+}
+
+// 各アイテムのタイトル
+.list_text_primary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+// さらに表示ボタン
+.more_button {
+  &.more_button_root {
+    width: 100%;
+    padding-top: var(--sm);
+    padding-bottom: var(--sm);
+    font-weight: 400;
+  }
+}
+
+// サイドの下部
+.list_under {
+  padding: var(--md);
 }

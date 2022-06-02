@@ -75,3 +75,11 @@ export type RepliesType = {
   name: string
   mine: boolean
 }
+
+// トレンド
+export type TrendType = {
+  id: string
+  title: string
+  image: string
+  name: string
+}

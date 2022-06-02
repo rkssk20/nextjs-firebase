@@ -1,4 +1,4 @@
-import styles from '@/styles/atoms/noImage.module.scss'
+import styles from '@/styles/atoms/noArticleImage.module.scss'
 import Typography from '@mui/material/Typography'
 
 const NoArticleImage = ({ title }: { title: string }) => {

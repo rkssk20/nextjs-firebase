@@ -15,7 +15,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider'
-import HomeIcon from '@mui/icons-material/Home';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TagIcon from '@mui/icons-material/Tag';
 
 type HamburgerProps = {
@@ -24,14 +24,14 @@ type HamburgerProps = {
 }
 
 const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
-  const pc = useMediaQuery('(min-width: 1164px')
+  const pc = useMediaQuery('(min-width: 1182px')
   const router = useRouter()
   const account = useRecoilValue(accountState)
 
   const main_list = [{
     url: '/',
     text: 'トレンド',
-    icon: <HomeIcon />
+    icon: <TrendingUpIcon />
   }, {
     url: '/categories',
     text: 'カテゴリ',
@@ -61,7 +61,7 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
   return (
     <Drawer
       className={ styles.drawer }
-      classes={{ paper: pc ? styles.drawer_paper_pc : styles.drawer_paper_mobile }}
+      classes={{ paper: styles.drawer_paper }}
       variant={ pc ? 'permanent' : 'temporary' }
       open={ menuOpen }
       onClose={ handleClose }

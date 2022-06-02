@@ -16,7 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Login = ({ handleClose }: { handleClose: () => void }) => {
   const account = useRecoilValue(accountState)
-  const pc = useMediaQuery('(min-width: 1164px')
+  const pc = useMediaQuery('(min-width: 1182px')
 
   const account_list = [{
     url: `/account/${ account.display_id }`,

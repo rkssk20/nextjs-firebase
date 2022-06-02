@@ -1,13 +1,12 @@
 import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { notificateState, dialogState } from '@/lib/recoil'
 import useAuth from '@/hooks/useAuth'
 import Header from '@/components/header/Header'
 import Hamburger from '@/components/header/hamburger/Hamburger'
-import Side from '@/components/side/side'
+import Side from '@/components/side/Side'
 
 const Login = dynamic(() => import('@/components/dialog/Login'))
 const Share = dynamic(() => import('@/components/dialog/Share'))
@@ -17,8 +16,6 @@ const Delete = dynamic(() => import('@/components/dialog/Delete'))
 import styles from '@/styles/components/provider/mui.module.scss'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Snackbar from '@mui/material/Snackbar'
-import Container from '@mui/material/Container'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
 interface MuiProps {
   children: ReactNode
@@ -28,8 +25,6 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
   const dialog = useRecoilValue(dialogState)
-  const tablet = useMediaQuery('(min-width: 882px')
-  const router = useRouter()
   const content = dialog.content
 
   // ついでにログイン処理も行う
@@ -129,9 +124,9 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       values: {
         xs: 0,
         sm: 600,
-        md: 882,
-        lg: 1164,
-        xl: 1200,
+        md: 916,
+        lg: 1182,
+        xl: 1232,
       },
     },
   })
@@ -145,17 +140,13 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       <Hamburger menuOpen={ menuOpen } setMenuOpen={ setMenuOpen } />
 
       {/* メインコンテンツ */}
-      <Container
-        className={ styles.container }
-        classes={{ root: styles.container_root }}
-        disableGutters
-        maxWidth='sm'
-      >
+      <div className={ styles.container }>
         { children }
-      </Container>
+
+      </div>
 
       {/* おすすめなど */}
-      { ((router.pathname !== '/edit') || tablet ) && <Side /> }
+      <Side />
 
       {/* 通知 */}
       <Snackbar

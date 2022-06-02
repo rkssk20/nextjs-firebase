@@ -1,22 +1,19 @@
 @use '@/styles/utils';
 
-// 全体
-.appbar_root {
-  &.appbar_root {
-    box-shadow: none;
-  }
-}
-
 // ヘッダーの中身全体
 .toolbar {
   &.toolbar_root {
     min-height: 56px;
     width: 100%;
-    margin: auto;
-    max-width: 882px;
-    // 中身の横幅は600pxまで
-    @include utils.mq(xl) {
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+    @include utils.mq(md) {
+      max-width: 916px;
+    }
+    @include utils.mq(lg) {
       max-width: 600px;
+      margin-left: calc(((100% - 1182px) / 2) + 266px);;
     }
   }
 }
@@ -26,13 +23,23 @@
   margin-right: var(--sm);
 }
 
-// タイトル
-.title {
-  flex-grow: 1;
-  user-select: none;
+// タイトルのリンク全体
+.title_link {
+  display: flex;
 }
 
-// ロード中に投稿ボタン分のmarginを取る
-.loading_margin {
+// タイトル
+.title {
+  -webkit-user-drag: none;
+}
+
+// 検索アイコン
+.search_icon {
+  margin-left: auto;
+}
+
+// ログイン判定中の検索アイコン
+.search_icon_loading {
+  @extend .search_icon;
   margin-right: 40px;
 }

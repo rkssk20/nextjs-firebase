@@ -18,9 +18,8 @@
 .more_button {
   &.more_button_root {
     width: 100%;
-    padding-top: var(--sm);
-    padding-bottom: var(--sm);
+    padding-top: var(--md);
+    padding-bottom: var(--md);
     font-weight: 400;
-    border-bottom: var(--border);
   }
 }
