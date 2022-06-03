@@ -6,7 +6,7 @@ import { notificateState, dialogState } from '@/lib/recoil'
 import useAuth from '@/hooks/useAuth'
 import Header from '@/components/header/Header'
 import Hamburger from '@/components/header/hamburger/Hamburger'
-// import Side from '@/components/sidea/Sidea'
+import Side from '@/components/side/Side'
 
 const Login = dynamic(() => import('@/components/dialog/Login'))
 const Share = dynamic(() => import('@/components/dialog/Share'))
@@ -146,7 +146,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       </div>
 
       {/* おすすめなど */}
-      {/* <Side /> */}
+      <Side />
 
       {/* 通知 */}
       <Snackbar
