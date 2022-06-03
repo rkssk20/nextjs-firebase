@@ -4,7 +4,7 @@ import Circular from '@/atoms/Circular'
 import CommentForm from '@/components/article/comment/CommentForm'
 import Header from '@/components/article/comment/Header'
 import Actions from '@/components/article/comment/Actions'
-import Replies from '@/components/article/comment/reply/Replies'
+import Replies from '@/components/article/comment/replya/Replies'
 
 import styles from '@/styles/components/article/comment/comments.module.scss'
 import Typography from '@mui/material/Typography'

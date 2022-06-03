@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { accountState, dialogState } from '@/lib/recoil'
-import ReplyForm from '@/components/article/comment/reply/ReplyForm'
+import ReplyForm from '@/components/article/comment/replya/ReplyForm'
 
 import styles from '@/styles/components/article/comment/actions.module.scss'
 import Button from '@mui/material/Button'
