@@ -1,7 +1,7 @@
 import useFirstObserve from '@/hooks/article/useFirstObserve'
 import useComments from '@/hooks/article/useComments'
 import Circular from '@/atoms/Circular'
-import CommentForm from '@/components/article/comment/CommentForm'
+// import CommentForm from '@/components/article/comment/CommentForm'
 import Header from '@/components/article/comment/Header'
 import Actions from '@/components/article/comment/Actions'
 // import Replies from '@/components/article/comment/replya/Replies'
@@ -36,7 +36,7 @@ const Comments = ({ path, comments }: CommentsProps) => {
       </Typography>
 
       {/* コメントフォーム */}
-      <CommentForm />
+      {/* <CommentForm /> */}
 
       {/* コメント欄 */}
       { (data.length > 0) &&
