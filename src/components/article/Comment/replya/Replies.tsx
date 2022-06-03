@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import useReplies from '@/hooks/article/useReplies'
 import Header from '@/components/article/comment/Header'
-import Actions from '@/components/article/comment/reply/Actions'
-import ReplyForm from '@/components/article/comment/reply/ReplyForm'
+import Actions from '@/components/article/comment/replya/Actions'
+import ReplyForm from '@/components/article/comment/replya/ReplyForm'
 
 import styles from '@/styles/components/article/comment/reply/replies.module.scss'
 import Button from '@mui/material/Button'
