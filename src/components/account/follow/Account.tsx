@@ -1,6 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
+import { useRouter } from 'next/router'
 import UserIcon from '@/atoms/UserIcon'
 
+import styles from '@/styles/components/account/follow/account.module.scss'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
@@ -12,8 +14,15 @@ type AccountProps = {
 }
 
 const Account = ({ name, display_id, setRef }: AccountProps) => {
+  const router = useRouter()
+  
   return (
-    <ListItemButton ref={ setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined }>
+    <ListItemButton
+      className={ styles.list_item_button }
+      classes={{ root: styles.list_item_button_root }}
+      ref={ setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined }
+      onClick={ () => router.push(`/account/${ display_id }`)}
+    >
       <ListItemIcon>
         <UserIcon name={ name } variant='medium' />
       </ListItemIcon>

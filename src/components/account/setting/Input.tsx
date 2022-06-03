@@ -50,7 +50,7 @@ const Input = ({ data }: InputProps) => {
             maxLength: 15,
           }}
           placeholder='名前'
-          value={ name }
+          value={ newName }
           onChange={ (e) => setNewName(e.target.value) }
         />
 

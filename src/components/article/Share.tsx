@@ -52,7 +52,7 @@ const Share = ({ path }: { path: string }) => {
         classes={{ root: styles.share_button_root }}
         onClick={ handleCopy }
       >
-        <ContentCopyIcon className={ styles.icon } />
+        <ContentCopyIcon className={ styles.icon } classes={{ root: styles.icon_root }} />
       </IconButton> 
 
       {/* Twitter, Facebookの共有 */}
@@ -86,7 +86,7 @@ const Share = ({ path }: { path: string }) => {
         classes={{ root: styles.share_button_root }}
         onClick={ () => setDialog({ content: 'share', id: path }) }
       >
-        <ShareIcon className={ styles.icon } />
+        <ShareIcon className={ styles.icon } classes={{ root: styles.icon_root }} />
       </IconButton> 
     </div>
   )

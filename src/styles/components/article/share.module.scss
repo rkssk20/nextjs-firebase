@@ -15,8 +15,10 @@
 
 // コピーと共有アイコン
 .icon {
-  width: 40px;
-  height: 40px;
+  &.icon_root {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 // twitter, facebookのボタン

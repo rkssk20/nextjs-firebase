@@ -69,6 +69,7 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
         {/* 返信ボタン */}
         <Button
           className={ styles.reply_button }
+          classes={{ root: styles.reply_button_root }}
           variant='outlined'
           color='info'
           startIcon={

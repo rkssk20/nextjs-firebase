@@ -20,7 +20,7 @@ export const OutlinedButton = ({ text, handle }: { text: string, handle: () => v
   return (
     <Button
       className={ styles.button }
-      classes={{ root: styles.button_root }}
+      classes={{ root: styles.button_outlined_root }}
       variant='outlined'
       disableElevation
       onClick={ handle }

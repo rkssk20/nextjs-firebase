@@ -12,9 +12,9 @@
 
 // 画像がない時の文字
 .noimage_text {
-  font-size: 25px;
   user-select: none;
   &.noimage_text_root {
+    font-size: 25px;
     padding: var(--md);
     font-weight: 600;
     text-align: center;

@@ -75,11 +75,21 @@ const Icon = ({ name, newImage, setNewImage }: IconProps) => {
         onChange={ handleImage }
       />
 
-      <Button aria-label="upload picture" component='span'>
+      <Button
+        className={ styles.text_button }
+        classes={{ root: styles.text_button_root }}
+        aria-label="upload picture"
+        component='span'
+      >
         変更する
       </Button>
 
-      <Button onClick={ handleCancel } color='info'>
+      <Button
+        className={ styles.button }
+        classes={{ root: styles.button_root }}
+        onClick={ handleCancel }
+        color='info'
+      >
         削除する
       </Button>
 

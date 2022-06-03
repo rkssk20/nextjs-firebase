@@ -11,6 +11,13 @@
   display: none;
 }
 
+// テキストボタン
+.text_button {
+  &.text_button_root {
+    border-radius: 9999px;
+  }
+}
+
 // アイコンのボタン
 .icon_button {
   &.icon_button_root {
