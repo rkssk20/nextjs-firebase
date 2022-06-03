@@ -22,6 +22,6 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/components/provider/Mui.xts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
