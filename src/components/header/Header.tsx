@@ -78,6 +78,7 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
           aria-label='検索'
           // ログイン判定中は投稿ボタン分のmarginを取る
           className={ account.loading ? styles.search_icon_loading : styles.search_icon }
+          classes={{ root: styles.search_icon_root }}
           onClick={ handleSearch }
         >
           <SearchIcon />

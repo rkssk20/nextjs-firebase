@@ -85,8 +85,8 @@ const Icon = ({ name, newImage, setNewImage }: IconProps) => {
       </Button>
 
       <Button
-        className={ styles.button }
-        classes={{ root: styles.button_root }}
+        className={ styles.text_button }
+        classes={{ root: styles.text_button_root }}
         onClick={ handleCancel }
         color='info'
       >

@@ -26,7 +26,6 @@
 // タイトルのリンク全体
 .title_link {
   display: flex;
-  margin-right: auto;
 }
 
 // タイトル
@@ -36,11 +35,15 @@
 
 // 検索アイコン
 .search_icon {
-  margin-left: auto;
+  &.search_icon_root {
+    margin-left: auto;
+  }
 }
 
 // ログイン判定中の検索アイコン
 .search_icon_loading {
   @extend .search_icon;
-  margin-right: 40px;
+  &.search_icon_root {
+    margin-right: 40px;
+  }
 }
