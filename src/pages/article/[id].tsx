@@ -8,7 +8,7 @@ import Title from '@/components/article/Title'
 import Header from '@/components/article/Header'
 import Share from '@/components/article/Share'
 import Actions from '@/components/article/Actions'
-import Comments from "@/components/article/comment/Comments";
+// import Comments from "@/components/article/comment/Comments";
 
 import styles from '@/styles/pages/article/id.module.scss'
 import Typography from '@mui/material/Typography'
@@ -104,10 +104,10 @@ const Article = ({ item, path }: ArticleProps) => {
       />
 
       {/* コメント欄 */}
-      <Comments
+      {/* <Comments
         path={ path }
         comments={ item.comments }
-      />
+      /> */}
     </Layout>
   )
 }
