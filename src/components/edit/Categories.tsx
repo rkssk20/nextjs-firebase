@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import styles from '@/styles/components/edit/categories.module.scss'
 import type { SelectChangeEvent } from "@mui/material";
 import Select from '@mui/material/Select';
-import MenuItem from '@Mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import InputBase from '@mui/material/InputBase';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
