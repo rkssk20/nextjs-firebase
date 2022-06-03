@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { accountState, dialogState } from '@/lib/recoil'
-// import ReplyForm from '@/components/article/comment/reply/ReplyForm'
+import ReplyForm from '@/components/article/comment/reply/ReplyForm'
 
 import styles from '@/styles/components/article/comment/actions.module.scss'
 import Button from '@mui/material/Button'
@@ -124,7 +124,7 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
       </div>
 
       {/* 返信フォーム */}
-      {/* { formOpen && <ReplyForm setFormOpen={ setFormOpen } /> } */}
+      { formOpen && <ReplyForm setFormOpen={ setFormOpen } /> }
     </div>
   )
 }
