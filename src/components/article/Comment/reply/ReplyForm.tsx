@@ -16,7 +16,7 @@ const ReplyForm = ({ setFormOpen }: ReplyFormProps) => {
   const account = useRecoilValue(accountState)
 
   const handlePost = () => {
-
+    console.log('post')
   }
 
   return (
