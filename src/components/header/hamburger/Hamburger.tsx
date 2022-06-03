@@ -84,6 +84,7 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
           <Link key={ item.url } href={ item.url } passHref>
             <ListItemButton
               className={ styles.list_item_button }
+              classes={{ root: styles.list_item_button_root }}
               component='a'
               onClick={ handleClose }
             >

@@ -1,3 +1,5 @@
 .list_item_button {
-  border-radius: 9999px;
+  &.list_item_button_root {
+    border-radius: 9999px;
+  }
 }

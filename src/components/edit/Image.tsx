@@ -41,6 +41,7 @@ const Image = ({ image , setImage }: ImageProps) => {
           // 未選択時、画像選択ボタン
           <Button
             className={ styles.image_button }
+            classes={{ root: styles.image_button_root }}
             aria-label="upload picture"
             component='span'
             disableElevation

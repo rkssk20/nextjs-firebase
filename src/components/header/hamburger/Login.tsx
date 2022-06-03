@@ -34,6 +34,7 @@ const Login = ({ handleClose }: { handleClose: () => void }) => {
       <NextLink href={ `/account/${ account.display_id }` } passHref>
         <ListItemButton
           className={ styles.list_item_button }
+          classes={{ root: styles.list_item_button_root }}
           component='a'
           onClick={ handleClose }
         >

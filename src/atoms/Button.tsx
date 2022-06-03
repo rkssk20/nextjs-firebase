@@ -10,7 +10,7 @@ export const ContainedButton = ({ text, handle }: { text: string, handle: () => 
       variant='contained'
       disableElevation
       onClick={ handle }
-    >
+      >
       { text }
     </Button>
   )
@@ -20,10 +20,11 @@ export const OutlinedButton = ({ text, handle }: { text: string, handle: () => v
   return (
     <Button
       className={ styles.button }
+      classes={{ root: styles.button_root }}
       variant='outlined'
       disableElevation
       onClick={ handle }
-    >
+      >
       { text }
     </Button>
   )
@@ -33,6 +34,7 @@ export const DisabledButton = ({ text }: { text: string }) => {
   return (
     <Button
       className={ styles.button }
+      classes={{ root: styles.button_root }}
       variant='contained'
       disabled
     >
