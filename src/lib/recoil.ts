@@ -4,10 +4,12 @@ import { recoilPersist } from 'recoil-persist'
 const { persistAtom } = recoilPersist()
 
 type AccountProps = {
-  name: string
-  display_id: string
-  image: string
   loading: boolean
+  data:{
+    id: string
+    username: string
+    avatar: string | undefined
+  } | null
 }
 
 type NotificateProps = {
@@ -30,10 +32,8 @@ type DraftProps = {
 export const accountState = atom<AccountProps>({
   key: 'account',
   default: {
-    name: '',
-    display_id: '',
-    image: '',
-    loading: true
+    loading: true,
+    data: null
   }
 })
 

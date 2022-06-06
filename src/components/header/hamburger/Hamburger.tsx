@@ -70,10 +70,15 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
       { account.loading ?
         <Loading />
         :
-        account.display_id ?
-        <Login handleClose={ handleClose } />
+        account.data ?
+        <Login
+          id={ account.data.id }
+          username={ account.data.username }
+          avatar={ account.data.avatar }
+          handleClose={ handleClose }
+        />
         :
-        <Logout />
+        <Logout handleClose={ handleClose } />
       }
 
       <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
@@ -108,7 +113,7 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
           <Link key={ item.url } href={ item.url } passHref>
             <ListItemButton
               className={ styles.list_item_button }
-              classes={{ root: styles.list_item_button_button }}
+              classes={{ root: styles.list_item_button_root }}
               component='a'
               onClick={ handleClose }
             >

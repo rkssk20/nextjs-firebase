@@ -39,11 +39,3 @@
     margin-left: auto;
   }
 }
-
-// ログイン判定中の検索アイコン
-.search_icon_loading {
-  @extend .search_icon;
-  &.search_icon_root {
-    margin-right: 40px;
-  }
-}

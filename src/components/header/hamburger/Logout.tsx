@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ListItemText from '@mui/material/ListItemText';
 
-const Logout = () => {
+const Logout = ({ handleClose }: { handleClose: () => void }) => {
   return (
     <List>
       <NextLink href='/login' passHref>
@@ -15,6 +15,7 @@ const Logout = () => {
           className={ styles.list_item_button }
           classes={{ root: styles.list_item_button_root }}
           component='a'
+          onClick={ handleClose }
         >
           <ListItemIcon>
             <AccountCircleIcon />

@@ -1,0 +1,24 @@
+// 全体
+.field {
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// 文字全体
+.text_field {
+  display: flex;
+  align-items: center;
+}
+
+// エラー詳細
+.text {
+  padding-left: var(--md);
+  margin-left: var(--md);
+  border-left: var(--border);
+}

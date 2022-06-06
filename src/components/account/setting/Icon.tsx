@@ -8,14 +8,14 @@ import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 
 type IconProps = {
-  name: string
-  newImage: string
-  setNewImage: Dispatch<SetStateAction<string>>
+  newUserName: string
+  newAvatar: string | null
+  setNewAvatar: Dispatch<SetStateAction<string | null>>
 }
 
-const Icon = ({ name, newImage, setNewImage }: IconProps) => {
+const Icon = ({ newUserName, newAvatar, setNewAvatar }: IconProps) => {
   const [selectImage, setSelectImage] = useState('')
-  const color = Color(name)
+  const color = Color(newUserName)
 
   // 画像選択
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {    
@@ -26,7 +26,7 @@ const Icon = ({ name, newImage, setNewImage }: IconProps) => {
   // 切り抜いた画像を削除
   const handleCancel = () => {
     (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-    setNewImage('')
+    setNewAvatar(null)
   }
 
   return (
@@ -46,12 +46,12 @@ const Icon = ({ name, newImage, setNewImage }: IconProps) => {
         aria-label="upload picture"
         component='span'
       >
-        { Boolean(newImage) ?
+        { (newAvatar !== null) ?
           // 切り抜いた画像のアバター
           <Avatar
             className={ styles.avatar }
             classes={{ root: styles.avatar_root }}
-            src={ newImage }
+            src={ newAvatar }
           />
           :
           // 画像なしのアバター
@@ -61,7 +61,7 @@ const Icon = ({ name, newImage, setNewImage }: IconProps) => {
             sx={{ bgcolor: color }}
             // src='/image/back.png'
           >
-              { name.slice(0, 1) }
+              { newUserName.slice(0, 1) }
           </Avatar>
         }
       </IconButton>
@@ -97,7 +97,7 @@ const Icon = ({ name, newImage, setNewImage }: IconProps) => {
       <Crop
         selectImage={ selectImage }
         setSelectImage={ setSelectImage }
-        setNewImage={ setNewImage }
+        setNewAvatar={ setNewAvatar }
       />
     </label>
   )

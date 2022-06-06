@@ -10,10 +10,10 @@ import ImageIcon from '@mui/icons-material/Image';
 type CropProps = {
   selectImage: string
   setSelectImage: Dispatch<SetStateAction<string>>
-  setNewImage: Dispatch<SetStateAction<string>>
+  setNewAvatar: Dispatch<SetStateAction<string | null>>
 }
 
-const Crop = ({ selectImage, setSelectImage, setNewImage }: CropProps) => {
+const Crop = ({ selectImage, setSelectImage, setNewAvatar }: CropProps) => {
   const [scale, setScale] = useState(10)
   const ref = useRef<AvatarEditor>(null)
 
@@ -27,7 +27,7 @@ const Crop = ({ selectImage, setSelectImage, setNewImage }: CropProps) => {
   const handleConfirm = () => {
     if(ref) {
       const url = ref.current?.getImageScaledToCanvas().toDataURL()
-      url && setNewImage(url)
+      url && setNewAvatar(url)
       setSelectImage('')
     }
   }

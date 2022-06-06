@@ -28,10 +28,12 @@ export type ArticleType = {
 
 // プロフィールのISR用api
 export type ProfilePageType = {
-  display_id: string
-  name: string
-  image: string
+  id: string | number
+  username: string
+  avatar: string | undefined
   details: string
+  follow_count: number
+  follower_count: number
 }
 
 // プロフィールの詳細api

@@ -1,18 +1,36 @@
-import { Children, ReactElement } from "react"
+import { NextPage } from "next";
+import React, { ReactNode } from "react"
 import { useRecoilValue } from "recoil";
 import { accountState } from "@/lib/recoil";
+import { useRouter } from "next/router";
+import Circular from '@/atoms/Circular'
 
-import CircularProgress from "@mui/material/CircularProgress";
+type Props = {
+  children :ReactNode
+}
 
-const LoginOnly = ({ children }: { children: ReactElement }) => {
+const LoginOnly: NextPage<Props> = ({ children }) => {
   const account = useRecoilValue(accountState)
+  const router = useRouter()
 
-  return (
-    account.loading ?
-    <CircularProgress size={ 40 } />
-    :
-    account.display_id ? Children.only(children) : <></>
-  )
+  // ユーザー読み込み中
+  if(account.loading) {
+    return <Circular />
+    
+  // ログアウト時
+  } else if(!account.data) {
+    router.replace('/')
+
+    return null
+    
+  // ログイン時
+  } else {
+    return (
+      <React.Fragment>
+        { children }
+      </React.Fragment>
+    )
+  }
 }
 
 export default LoginOnly

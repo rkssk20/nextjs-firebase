@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import dynamic from 'next/dynamic'
+import { nanoid } from 'nanoid'
 import { useRecoilState } from "recoil";
 import { draftState } from "@/lib/recoil";
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Layout from '@/components/provider/Layout'
+import LoginOnly from '@/components/provider/LoginOnly'
 import Categories from '@/components/edit/Categories'
 import Image from '@/components/edit/Image'
 
@@ -48,7 +50,7 @@ const Edit = () => {
 
   // 投稿する
   const handlePost = () => {
-
+    console.log(nanoid());
   }
 
   return (
@@ -58,42 +60,44 @@ const Edit = () => {
       description=''
       image=''
     >
-      <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
-       <IconButton aria-label='戻る' onClick={ () => router.back() }>
-          <CloseIcon />
-        </IconButton>
+      <LoginOnly>
+        <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
+        <IconButton aria-label='戻る' onClick={ () => router.back() }>
+            <CloseIcon />
+          </IconButton>
 
-        { ((title.length > 0) && (details.length > 0) ?
-          <ContainedButton text='投稿' handle={ handlePost } />
-          :
-          <DisabledButton text='投稿' />
-        )}
-      </CardContent>
+          { ((title.length > 0) && (details.length > 0) ?
+            <ContainedButton text='投稿' handle={ handlePost } />
+            :
+            <DisabledButton text='投稿' />
+          )}
+        </CardContent>
 
-      <CardContent className={ styles.content }>
-        {/* 画像を選択 */}
-        <Image image={ image } setImage={ setImage } />
+        <CardContent className={ styles.content }>
+          {/* 画像を選択 */}
+          <Image image={ image } setImage={ setImage } />
 
-        {/* カテゴリを選択 */}
-        <Categories tags={ tags } setTags={ setTags } />
+          {/* カテゴリを選択 */}
+          <Categories tags={ tags } setTags={ setTags } />
 
-        {/* タイトル */}
-        <InputBase
-          className={ styles.title }
-          classes={{ root: styles.title_root }}
-          autoFocus
-          multiline
-          inputProps={{
-            maxLength: 30,
-          }}
-          placeholder='記事タイトル (必須)'
-          value={ title }
-          onChange={ (e) => setTitle(e.target.value) }
-        />
+          {/* タイトル */}
+          <InputBase
+            className={ styles.title }
+            classes={{ root: styles.title_root }}
+            autoFocus
+            multiline
+            inputProps={{
+              maxLength: 30,
+            }}
+            placeholder='記事タイトル (必須)'
+            value={ title }
+            onChange={ (e) => setTitle(e.target.value) }
+          />
 
-        {/* 本文 */}
-        <Markdown details={ details } setDetails={ setDetails } />
-      </CardContent>
+          {/* 本文 */}
+          <Markdown details={ details } setDetails={ setDetails } />
+        </CardContent>
+      </LoginOnly>
     </Layout>
   )
 }

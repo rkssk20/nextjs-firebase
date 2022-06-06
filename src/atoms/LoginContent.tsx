@@ -1,10 +1,15 @@
 import Image from 'next/image'
+import { useSetRecoilState } from 'recoil'
+import { supabase } from '@/lib/supabaseClient'
+import { notificateState } from '@/lib/recoil'
 
 import styles from '@/styles/atoms/loginContent.module.scss'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
 const LoginContent = () => {
+  const setNotificate = useSetRecoilState(notificateState)
+
   const social = [{
     text: 'Twitter',
     src: 'twitter.png'
@@ -15,6 +20,19 @@ const LoginContent = () => {
     text: 'Google',
     src: 'google.svg'
   }]
+
+  const handleAuth = async (provider: string) => {
+    const { error } = await supabase.auth.signIn({
+      provider: (provider === 'Twitter') ? 'twitter' : (provider === 'Facebook') ? 'facebook' : 'google'
+    })
+
+    if(error) {
+      setNotificate({
+        open: true,
+        message: '認証でエラーが発生しました。'
+      })
+    }
+  }
 
   return (
     <div className={ styles.content }>
@@ -37,7 +55,6 @@ const LoginContent = () => {
           className={ styles.eazy_caption }
           classes={{ root: styles.eazy_caption_root }}
           variant='caption'
-          color='error'
         >
           (ポートフォリオ用) 登録なしでログイン状態になります。
         </Typography>
@@ -48,7 +65,6 @@ const LoginContent = () => {
             className={ styles.social }
             classes={{ root: styles.social_root }}
             variant='contained'
-            color='info'
             startIcon={
               <Image
                 src={ `/image/${ item.src }` }
@@ -57,6 +73,7 @@ const LoginContent = () => {
                 quality={ 70 }
               />
             }
+            onClick={ () => handleAuth(item.text) }
           >
             <Typography className={ styles.social_text } variant='h5'>
               { item.text }

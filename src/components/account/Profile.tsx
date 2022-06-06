@@ -1,40 +1,60 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link'
-import { ProfileDetailsType } from '@/types/types'
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { ProfilePageType } from '@/types/types'
+import { supabase } from '@/lib/supabaseClient'
+import { accountState, notificateState } from '@/lib/recoil';
+import useLazyProfilesDetails from '@/hooks/useLazyProfilesDetails';
 import { ContainedButton, OutlinedButton } from '@/atoms/Button';
 import UserIcon from '@/atoms/UserIcon'
+import Following from '@/components/account/Following'
 
 import styles from '@/styles/components/account/profiles.module.scss'
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack'
 import MuiLink from '@mui/material/Link'
+import CircularProgress from '@mui/material/CircularProgress'
 
 type ProfileProps = {
   path: string
-  data: ProfileDetailsType
-  name: string
-  details: string
+  item: ProfilePageType
 }
 
-const Profile = ({ path, data, name, details }: ProfileProps) => {
+const Profile = ({ path, item }: ProfileProps) => {
+  const account = useRecoilValue(accountState)
+  const setNotificate = useSetRecoilState(notificateState)
   const router = useRouter()
+
+  // ログアウト処理
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut()
+
+    if(error) {
+      setNotificate({
+        open: true,
+        message: 'ログアウトに失敗しました。'
+      })
+
+      return
+    }
+
+    router.push('/')
+  }
 
   return (
     <DialogContent>
       <Stack direction='row' alignItems='center'>
-        <UserIcon name={ name } variant='large' />
+        <UserIcon name={ item.username } variant='large' />
 
         <Stack justifyContent='center' className={ styles.profile_right }>
           <Typography component='p' variant='h3'>
-            { name }
+            { item.username }
           </Typography>
 
-          <Typography className={ styles.display_id } variant='body1'>
-            { '@' + path }
-          </Typography>
-          
-          { data.mine ?
+          { (path === supabase.auth.user()?.id) ?
+            // 本人なら設定、ログアウト
             <Stack
               className={ styles.buttons }
               direction='row'
@@ -46,26 +66,21 @@ const Profile = ({ path, data, name, details }: ProfileProps) => {
                 handle={ () => router.push(`/account/setting`) }
               />
 
-              <OutlinedButton text='ログアウト' handle={ () => console.log('ログアウト')} />
+              <OutlinedButton text='ログアウト' handle={ handleLogout } />
             </Stack>
             :
-            <div className={ styles.follow_button }>
-              { data.following ?
-                <ContainedButton text='フォロー中' handle={ () => console.log('フォローを外した')} />
-                :
-                <OutlinedButton text='フォロー' handle={ () => console.log('フォロー') } />
-              }
-            </div>
+            // 他人ならフォロー、フォロワー
+            <Following path={ path } />
           }
         </Stack>
       </Stack>
 
-      <Typography className={ styles.details }>{ details }</Typography>
+      <Typography className={ styles.details }>{ item.details }</Typography>
 
       <Stack direction='row'>
         <NextLink href={ `/account/${ router.query.display_id }/follow` } passHref>
           <MuiLink color='inherit' underline='hover' variant='body1'>
-            <span className={ styles.span_count }>{ data.follow.toLocaleString() }</span>
+            <span className={ styles.span_count }>{ item.follow_count.toLocaleString() }</span>
             フォロー
           </MuiLink>
         </NextLink>
@@ -78,7 +93,7 @@ const Profile = ({ path, data, name, details }: ProfileProps) => {
             underline='hover'
             variant='body1'
           >
-            <span className={ styles.span_count }>{ data.follower.toLocaleString() }</span>
+            <span className={ styles.span_count }>{ item.follower_count.toLocaleString() }</span>
             フォロワー
           </MuiLink>
         </NextLink>

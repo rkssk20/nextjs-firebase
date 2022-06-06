@@ -1,5 +1,7 @@
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import { ProfilePageType } from '@/types/types'
+import { definitions } from '@/types/supabase'
+import { supabase } from '@/lib/supabaseClient'
 import useProfileDetails from '@/hooks/useProfileDetails'
 import useObserver from '@/hooks/atoms/useObserver'
 import useArticles from '@/hooks/article/useArticles'
@@ -11,27 +13,31 @@ import Post from '@/components/post/Post'
 
 // ISR
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const display_id = params?.display_id
+  const id = params?.id
 
-  if(!display_id) return { notFound: true }
+  if(!id || typeof(id) !== 'string') return { notFound: true }
 
-  const article = await fetch(`${ process.env.NEXT_PUBLIC_WEB_URL }/api/testProfilePage`, {
-    method: 'POST',
-    body: JSON.stringify({ display_id })
-  })
+  try {
+    const { data, error } = await supabase
+    .from<definitions['profiles']>('profiles')
+    .select('username, avatar, details, follow_count, follower_count')
+    .eq('id', id)
+    .single()
 
-  const result = await article.json()
+    if(error) throw error
 
-  if(!result.data) return { notFound: true }
+    return {
+      props: {
+        item: data,
+        path: id
+      },
+      // 5分キャッシュ
+      revalidate: 300
+    }
 
-  return {
-    props: {
-      item: result.data,
-      path: display_id
-    },
-    // 5分キャッシュ
-    revalidate: 300
-  };
+  } catch {
+    return { notFound: true }
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -54,19 +60,12 @@ const Account = ({ item , path }: AccountProps) => {
   return (
     <Layout
       type='profile'
-      title={ item.name }
+      title={ item.username }
       description={ item.details }
       image=''
     >
       {/* アカウント情報 */}
-      { profile_data &&
-        <Profile
-          path={ path }
-          data={ profile_data }
-          name={ item.name }
-          details={ item.details }
-        />
-      }
+      <Profile path={ path } item={ item } />
 
       {/* ページ選択バー */}
       <Bar />

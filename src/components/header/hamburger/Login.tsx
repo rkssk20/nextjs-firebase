@@ -1,6 +1,4 @@
 import NextLink from 'next/link'
-import { useRecoilValue } from 'recoil'
-import { accountState } from '@/lib/recoil'
 import UserIcon from '@/atoms/UserIcon'
 
 import styles from '@/styles/components/header/hamburger/login.module.scss'
@@ -14,16 +12,22 @@ import MuiLink from '@mui/material/Link'
 import ArticleIcon from '@mui/icons-material/Article';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-const Login = ({ handleClose }: { handleClose: () => void }) => {
-  const account = useRecoilValue(accountState)
+type LoginProps = {
+  id: string
+  username: string
+  avatar: string | undefined
+  handleClose: () => void
+}
+
+const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
   const pc = useMediaQuery('(min-width: 1182px')
 
   const account_list = [{
-    url: `/account/${ account.display_id }`,
+    url: `/account/${ id }`,
     text: '自分の投稿',
     icon: <ArticleIcon />
   }, {
-    url: `/account/${ account.display_id }/likes`,
+    url: `/account/${ id }/likes`,
     text: 'いいねした投稿',
     icon: <FavoriteIcon />
   }]
@@ -31,7 +35,7 @@ const Login = ({ handleClose }: { handleClose: () => void }) => {
   // アカウントのリンク
   const Account = () => {
     return (
-      <NextLink href={ `/account/${ account.display_id }` } passHref>
+      <NextLink href={ `/account/${ id }` } passHref>
         <ListItemButton
           className={ styles.list_item_button }
           classes={{ root: styles.list_item_button_root }}
@@ -39,7 +43,7 @@ const Login = ({ handleClose }: { handleClose: () => void }) => {
           onClick={ handleClose }
         >
           <ListItemIcon>
-            <UserIcon name={ account.name } variant='medium' />
+            <UserIcon name={ username } variant='medium' />
           </ListItemIcon>
 
           <ListItemText
@@ -47,7 +51,7 @@ const Login = ({ handleClose }: { handleClose: () => void }) => {
               variant: 'h5',
               noWrap: true
             }}
-            primary={ account.name }
+            primary={ username }
           />
         </ListItemButton>
       </NextLink>
@@ -57,10 +61,10 @@ const Login = ({ handleClose }: { handleClose: () => void }) => {
   // フォロー、フォロワーのリンク
   const Follow = () => {
     const follow_list = [{
-      url: `/account/${ account.display_id }/follow`,
+      url: `/account/${ id }/follow`,
       text: 'フォロー'
     }, {
-      url: `/account/${ account.display_id }/follower`,
+      url: `/account/${ id }/follower`,
       text: 'フォロワー'
     }]
 

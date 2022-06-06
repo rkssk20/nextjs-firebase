@@ -1,31 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import useProfilesDetails from '@/hooks/useProfilesDetails'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
+import Circular from '@/atoms/Circular'
 import Icon from '@/components/account/setting/Icon'
 
 import styles from '@/styles/components/account/setting/input.module.scss'
 import Typography from '@mui/material/Typography'
 import InputBase from '@mui/material/InputBase'
 
-type InputProps = {
-  data: {
-    name: string
-    display_id: string
-    image: string
-    details: string
-  }
-}
+const Input = () => {
+  const [newUserName, setNewUserName] = useState('')
+  const [newAvatar, setNewAvatar] = useState<string | null>('')
+  const [newDetails, setNewDetails] = useState<string | null>('')
+  const { data, isFetching } = useProfilesDetails()
 
-const Input = ({ data }: InputProps) => {
-  const [newImage, setNewImage] = useState(data.image)
-  const [newName, setNewName] = useState(data.name)
-  const [newDisplayId, setNewDisplayId] = useState(data.display_id)
-  const [newDetails, setNewDetails] = useState(data.details)
+  useEffect(() => {
+    if(!data) return
+
+    setNewAvatar(data.avatar ?? null)
+    setNewUserName(data.username)
+    setNewDetails(data.details ?? null)
+  }, [data])
 
   // ユーザーアイコンの変更
 
   const handleUpdate = () => {
 
   }
+
+  if(isFetching) <Circular />
+
+  if(data === undefined) return null
 
   return (
     <div>
@@ -35,9 +40,9 @@ const Input = ({ data }: InputProps) => {
 
       {/* アイコンの変更 */}
       <Icon
-        name={ newName }
-        newImage={ newImage }
-        setNewImage={ setNewImage }
+        newUserName={ newUserName }
+        newAvatar={ newAvatar }
+        setNewAvatar={ setNewAvatar }
       />
 
       <Typography className={ styles.sub_title } variant='h6'>アカウント名</Typography>
@@ -50,28 +55,11 @@ const Input = ({ data }: InputProps) => {
             maxLength: 15,
           }}
           placeholder='名前'
-          value={ newName }
-          onChange={ (e) => setNewName(e.target.value) }
+          value={ newUserName }
+          onChange={ (e) => setNewUserName(e.target.value) }
         />
 
-        <Typography>{ newName.length + ' / 15' }</Typography>
-      </div>
-
-      <Typography className={ styles.sub_title } variant='h6'>アカウントID</Typography>
-
-      <div className={ styles.input_field }>
-        <InputBase
-          className={ styles.input }
-          classes={{ root: styles.input_root }}
-          inputProps={{
-            maxLength: 15,
-          }}
-          placeholder='ID'
-          value={ newDisplayId }
-          onChange={ (e) => setNewDisplayId(e.target.value) }
-        />
-
-        <Typography>{ newDisplayId.length + ' / 15' }</Typography>
+        <Typography>{ newUserName.length + ' / 15' }</Typography>
       </div>
 
       <Typography className={ styles.sub_title } variant='h6'>自己紹介</Typography>
@@ -85,15 +73,15 @@ const Input = ({ data }: InputProps) => {
           }}
           placeholder='自己紹介'
           multiline
-          value={ newDetails }
+          value={ newDetails ?? '' }
           onChange={ (e) => setNewDetails(e.target.value) }
         />
 
-        <Typography>{ newDetails.length + ' / 140' }</Typography>
+        <Typography>{ (newDetails ? newDetails.length : 0) + ' / 140' }</Typography>
       </div>
 
       <div className={ styles.save }>
-        { ((newName.length > 0) && (newDisplayId.length > 0) && ((data.name !== newName) || (data.display_id !== newDisplayId) || (data.details !== newDetails) || (data.image !== newImage))) ?
+        { (((newUserName.length > 0) && (data.username !== newUserName)) || (data.details !== newDetails) || (data.avatar !== newAvatar)) ?
           <ContainedButton text='保存する' handle={ handleUpdate } /> :
           <DisabledButton text='保存する' />
         }

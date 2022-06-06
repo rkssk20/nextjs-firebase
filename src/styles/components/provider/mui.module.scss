@@ -3,7 +3,7 @@
 .container {
   max-width: 600px;
   height: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 56px);
   margin-bottom: var(--lg);
   margin-right: auto;
   margin-left: auto;
