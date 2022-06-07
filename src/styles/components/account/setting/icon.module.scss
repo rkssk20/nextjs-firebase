@@ -1,6 +1,6 @@
 // 全体
 .field {
-  margin-top: var(--md);
+  margin-bottom: var(--md);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,6 +14,9 @@
 // テキストボタン
 .text_button {
   &.text_button_root {
+    padding-right: var(--md);
+    padding-left: var(--md);
+    margin-top: var(--sm);
     border-radius: 9999px;
   }
 }
@@ -21,7 +24,6 @@
 // アイコンのボタン
 .icon_button {
   &.icon_button_root {
-    margin-bottom: var(--sm);
     padding: 0;
   }
 }

@@ -1,5 +1,6 @@
 import { useState, useRef, Dispatch, SetStateAction } from "react"
 import AvatarEditor from 'react-avatar-editor'
+import useAvatarUpload from '@/hooks/update/useAvatarUpload'
 import { ContainedButton, OutlinedButton } from '@/atoms/Button'
 
 import styles from '@/styles/components/account/setting/crop.module.scss'
@@ -10,25 +11,35 @@ import ImageIcon from '@mui/icons-material/Image';
 type CropProps = {
   selectImage: string
   setSelectImage: Dispatch<SetStateAction<string>>
-  setNewAvatar: Dispatch<SetStateAction<string | null>>
 }
 
-const Crop = ({ selectImage, setSelectImage, setNewAvatar }: CropProps) => {
+const Crop = ({ selectImage, setSelectImage }: CropProps) => {
   const [scale, setScale] = useState(10)
   const ref = useRef<AvatarEditor>(null)
-
+  const { mutate } = useAvatarUpload()
+  
   // キャンセル
   const handleClose = () => {
-    (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
+    (document.getElementById('icon-button-file') as HTMLInputElement).value = '';
     setSelectImage('')
   }
-
+  
   // 確定
   const handleConfirm = () => {
     if(ref) {
-      const url = ref.current?.getImageScaledToCanvas().toDataURL()
-      url && setNewAvatar(url)
-      setSelectImage('')
+      // chromeならwebpに変換し、画質を0.5にする
+      // chrome以外ではpngに変換される
+      ref.current.getImage().toBlob((blob: Blob) => {
+        const type = blob.type
+        const index = type.indexOf('/')
+        const url = URL.createObjectURL(blob);
+        
+        mutate({ blob, type: type.substring(index + 1) });
+        
+        (document.getElementById('icon-button-file') as HTMLInputElement).value = '';
+        setSelectImage('')
+
+      }, 'image/webp', 0.5)
     }
   }
 

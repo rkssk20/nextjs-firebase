@@ -28,7 +28,7 @@ const useAuth = () => {
         data: {
           id: user.id,
           username: data.username,
-          avatar: data.avatar
+          avatar: data.avatar ? process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + data.avatar : undefined
         }
       })
     } catch (error) {

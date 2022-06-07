@@ -7,22 +7,21 @@ import { supabase } from '@/lib/supabaseClient'
 import styles from '@/styles/components/account/following.module.scss'
 import CircularProgress from '@mui/material/CircularProgress'
 
+// ログイン時、フォローまたはフォローを外すボタン
 const LoginFollowing = ({ path }: { path: string }) => {
-  const {  }
-  
+  const { data, isFetching } = useFollowing(path)
+
   return (
-    <div className={ styles.follow_button }>
-      { loading ? <CircularProgress size={ 38.25 } />
-        :
-        data ?
-        <ContainedButton text='フォロー中' handle={ () => console.log('フォローを外した')} />
-        :
-        <OutlinedButton text='フォロー' handle={ () => null } />
-      }
-    </div>
+    isFetching ? <CircularProgress size={ 38.25 } />
+    :
+    data ?
+    <ContainedButton text='フォロー中' handle={ () => console.log('フォローを外した')} />
+    :
+    <OutlinedButton text='フォロー' handle={ () => null } />
   )
 }
 
+// ログアウト時、ログインボタン
 const LogoutFollowing = () => {
   const setDialogState = useSetRecoilState(dialogState)
 
@@ -30,13 +29,16 @@ const LogoutFollowing = () => {
 }
 
 const Following = ({ path }: { path: string }) => {
-  if(supabase.auth.user()) {
-    return (
-      <LoginFollowing path={ path } />
-    )
-  } else {
-    <LogoutFollowing />
-  }
+  return (
+    <div className={ styles.follow_button }>
+      {/* ログイン状態で切り替え */}
+      { supabase.auth.user() ?
+        <LoginFollowing path={ path } />
+        :
+        <LogoutFollowing />
+      }
+    </div>
+  )
 }
 
 export default Following

@@ -43,7 +43,9 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
           onClick={ handleClose }
         >
           <ListItemIcon>
-            <UserIcon name={ username } variant='medium' />
+            {
+              <UserIcon name={ username } variant='medium' />
+            }
           </ListItemIcon>
 
           <ListItemText

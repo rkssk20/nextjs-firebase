@@ -5,7 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ProfilePageType } from '@/types/types'
 import { supabase } from '@/lib/supabaseClient'
 import { accountState, notificateState } from '@/lib/recoil';
-import useLazyProfilesDetails from '@/hooks/useLazyProfilesDetails';
+import useLazyProfilesDetails from '@/hooks/select/useLazyProfilesDetails';
 import { ContainedButton, OutlinedButton } from '@/atoms/Button';
 import UserIcon from '@/atoms/UserIcon'
 import Following from '@/components/account/Following'

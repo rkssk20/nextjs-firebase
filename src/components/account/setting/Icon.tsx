@@ -1,5 +1,8 @@
-import { useState, ChangeEvent, Dispatch, SetStateAction } from 'react'
+import { useState, ChangeEvent } from 'react'
+import { useRecoilValue } from 'recoil'
+import { accountState } from '@/lib/recoil'
 import Color from '@/lib/color'
+import useAvatarDelete from '@/hooks/delete/useAvatarDelete'
 import Crop from '@/components/account/setting/Crop'
 
 import styles from '@/styles/components/account/setting/icon.module.scss'
@@ -9,12 +12,12 @@ import Button from '@mui/material/Button'
 
 type IconProps = {
   newUserName: string
-  newAvatar: string | null
-  setNewAvatar: Dispatch<SetStateAction<string | null>>
 }
 
-const Icon = ({ newUserName, newAvatar, setNewAvatar }: IconProps) => {
+const Icon = ({ newUserName }: IconProps) => {
   const [selectImage, setSelectImage] = useState('')
+  const account = useRecoilValue(accountState)
+  const { mutate } = useAvatarDelete()
   const color = Color(newUserName)
 
   // 画像選択
@@ -25,9 +28,13 @@ const Icon = ({ newUserName, newAvatar, setNewAvatar }: IconProps) => {
 
   // 切り抜いた画像を削除
   const handleCancel = () => {
-    (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-    setNewAvatar(null)
+    (document.getElementById('icon-button-file') as HTMLInputElement).value = '';
+
+    mutate()
   }
+
+  console.log(account);
+  
 
   return (
     <label className={ styles.field } htmlFor="icon-button-file">
@@ -46,12 +53,12 @@ const Icon = ({ newUserName, newAvatar, setNewAvatar }: IconProps) => {
         aria-label="upload picture"
         component='span'
       >
-        { (newAvatar !== null) ?
+        { Boolean(account.data?.avatar) ?
           // 切り抜いた画像のアバター
           <Avatar
             className={ styles.avatar }
             classes={{ root: styles.avatar_root }}
-            src={ newAvatar }
+            src={ account.data?.avatar }
           />
           :
           // 画像なしのアバター
@@ -59,7 +66,6 @@ const Icon = ({ newUserName, newAvatar, setNewAvatar }: IconProps) => {
             className={ styles.avatar }
             classes={{ root: styles.avatar_root }}
             sx={{ bgcolor: color }}
-            // src='/image/back.png'
           >
               { newUserName.slice(0, 1) }
           </Avatar>
@@ -97,7 +103,6 @@ const Icon = ({ newUserName, newAvatar, setNewAvatar }: IconProps) => {
       <Crop
         selectImage={ selectImage }
         setSelectImage={ setSelectImage }
-        setNewAvatar={ setNewAvatar }
       />
     </label>
   )

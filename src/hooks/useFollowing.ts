@@ -1,44 +1,41 @@
-import { useState, useEffect } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useQuery } from 'react-query'
+import { useSetRecoilState } from 'recoil'
 import { definitions } from '@/types/supabase'
+import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
-import { accountState, notificateState } from '@/lib/recoil'
 
-const useFollowing = (follower_id: string) => {
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<number | null>(null)
-  const account = useRecoilValue(accountState)
+export const fetchFollowing = async (id: string | undefined, path: string) => {
+  if(id === undefined) throw 'error'
+
+  const { data, error } = await supabase
+    .from<definitions['follow']>('follow')
+    .select('id')
+    .match({ 'user_id': id, 'follower_id': path })
+    .single()
+
+  if(error) throw error
+
+  return data
+}
+
+const useFollowing = (path: string) => {
   const setNotificate = useSetRecoilState(notificateState)
 
-  
-  useEffect(() => {
-    if(!account.loading || !account.data) return
-
-    (async() => {
-      try {
-        console.log(account)
-        const { data, error }  = await supabase
-        .from<definitions['follow']>('follow')
-        .select('id')
-        .match({ 'user_id': account?.data?.id, 'follower_id': follower_id })
-        .single()
-  
-        if(error) throw error
-  
-        setData(data.id)
-  
-      } catch {
+  const { data, isFetching } = useQuery(['following'], () => fetchFollowing(supabase.auth.user()?.id, path), {
+      // キャッシュの有効期間は5分
+      staleTime: 30000,
+      onError: error => {
         setNotificate({
           open: true,
-          message: '一部でエラーが発生しました。'
+          message: 'エラーが発生しました。'
         })
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [account])
 
-  return { loading, data }
+        console.log(error);
+      }
+    },
+  )  
+
+  return { data, isFetching }
 }
 
 export default useFollowing

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import useProfilesDetails from '@/hooks/useProfilesDetails'
+import useProfilesDetails from '@/hooks/select/useProfilesDetails'
+import useSetting from '@/hooks/update/useSetting'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Circular from '@/atoms/Circular'
 import Icon from '@/components/account/setting/Icon'
@@ -10,23 +11,16 @@ import InputBase from '@mui/material/InputBase'
 
 const Input = () => {
   const [newUserName, setNewUserName] = useState('')
-  const [newAvatar, setNewAvatar] = useState<string | null>('')
   const [newDetails, setNewDetails] = useState<string | null>('')
   const { data, isFetching } = useProfilesDetails()
+  const { isLoading, mutate } = useSetting({ newUserName, newDetails })
 
   useEffect(() => {
     if(!data) return
 
-    setNewAvatar(data.avatar ?? null)
     setNewUserName(data.username)
     setNewDetails(data.details ?? null)
   }, [data])
-
-  // ユーザーアイコンの変更
-
-  const handleUpdate = () => {
-
-  }
 
   if(isFetching) <Circular />
 
@@ -34,16 +28,12 @@ const Input = () => {
 
   return (
     <div>
-      <Typography className={ styles.title } variant='h5'>プロフィール設定</Typography>
-
-      <Typography className={ styles.sub_title } variant='h6'>アイコン</Typography>
+      <Typography className={ styles.title } variant='h5'>アイコン設定</Typography>
 
       {/* アイコンの変更 */}
-      <Icon
-        newUserName={ newUserName }
-        newAvatar={ newAvatar }
-        setNewAvatar={ setNewAvatar }
-      />
+      <Icon newUserName={ newUserName } />
+
+      <Typography className={ styles.title } variant='h5'>プロフィール設定</Typography>
 
       <Typography className={ styles.sub_title } variant='h6'>アカウント名</Typography>
 
@@ -81,8 +71,8 @@ const Input = () => {
       </div>
 
       <div className={ styles.save }>
-        { (((newUserName.length > 0) && (data.username !== newUserName)) || (data.details !== newDetails) || (data.avatar !== newAvatar)) ?
-          <ContainedButton text='保存する' handle={ handleUpdate } /> :
+        { (((newUserName.length > 0) && (data.username !== newUserName)) || (data.details !== newDetails)) ?
+          <ContainedButton text='保存する' handle={ () => mutate() } /> :
           <DisabledButton text='保存する' />
         }
       </div>
