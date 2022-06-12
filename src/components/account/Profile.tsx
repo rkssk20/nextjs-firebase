@@ -1,13 +1,12 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ProfilePageType } from '@/types/types'
 import { supabase } from '@/lib/supabaseClient'
 import { accountState, notificateState } from '@/lib/recoil';
-import useLazyProfilesDetails from '@/hooks/select/useLazyProfilesDetails';
+import AvatarIcon from '@/atoms/AvatarIcon';
 import { ContainedButton, OutlinedButton } from '@/atoms/Button';
-import UserIcon from '@/atoms/UserIcon'
+import InitialIcon from '@/atoms/InitialIcon'
 import Following from '@/components/account/Following'
 
 import styles from '@/styles/components/account/profiles.module.scss'
@@ -46,14 +45,20 @@ const Profile = ({ path, item }: ProfileProps) => {
   return (
     <DialogContent>
       <Stack direction='row' alignItems='center'>
-        <UserIcon name={ item.username } variant='large' />
+        { account.data?.avatar ?
+          <AvatarIcon src={ account.data.avatar } variant='large' />
+          :
+          <InitialIcon name={ item.username } variant='large' />
+        }
 
         <Stack justifyContent='center' className={ styles.profile_right }>
           <Typography component='p' variant='h3'>
             { item.username }
           </Typography>
 
-          { (path === supabase.auth.user()?.id) ?
+          { account.loading ?
+            <CircularProgress className={ styles.circular } classes={{ root: styles.circular_root }} size={ 38.25 } /> :
+            (account.data?.id && (path == account.data.id)) ?
             // 本人なら設定、ログアウト
             <Stack
               className={ styles.buttons }

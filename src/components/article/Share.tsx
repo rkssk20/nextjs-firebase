@@ -84,7 +84,13 @@ const Share = ({ path }: { path: string }) => {
         aria-label='その他'
         className={ styles.share_button }
         classes={{ root: styles.share_button_root }}
-        onClick={ () => setDialog({ content: 'share', id: path }) }
+        onClick={ () =>
+          setDialog({
+            open: true,
+            content: 'share',
+            id: path
+          })
+        }
       >
         <ShareIcon className={ styles.icon } classes={{ root: styles.icon_root }} />
       </IconButton> 

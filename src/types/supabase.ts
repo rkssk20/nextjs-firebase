@@ -12,6 +12,207 @@ export interface paths {
       };
     };
   };
+  "/articles": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.articles.id"];
+          user_id?: parameters["rowFilter.articles.user_id"];
+          title?: parameters["rowFilter.articles.title"];
+          details?: parameters["rowFilter.articles.details"];
+          image?: parameters["rowFilter.articles.image"];
+          likes?: parameters["rowFilter.articles.likes"];
+          comment_count?: parameters["rowFilter.articles.comment_count"];
+          created_at?: parameters["rowFilter.articles.created_at"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["articles"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** articles */
+          articles?: definitions["articles"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.articles.id"];
+          user_id?: parameters["rowFilter.articles.user_id"];
+          title?: parameters["rowFilter.articles.title"];
+          details?: parameters["rowFilter.articles.details"];
+          image?: parameters["rowFilter.articles.image"];
+          likes?: parameters["rowFilter.articles.likes"];
+          comment_count?: parameters["rowFilter.articles.comment_count"];
+          created_at?: parameters["rowFilter.articles.created_at"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.articles.id"];
+          user_id?: parameters["rowFilter.articles.user_id"];
+          title?: parameters["rowFilter.articles.title"];
+          details?: parameters["rowFilter.articles.details"];
+          image?: parameters["rowFilter.articles.image"];
+          likes?: parameters["rowFilter.articles.likes"];
+          comment_count?: parameters["rowFilter.articles.comment_count"];
+          created_at?: parameters["rowFilter.articles.created_at"];
+        };
+        body: {
+          /** articles */
+          articles?: definitions["articles"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/categories": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.categories.id"];
+          articles_id?: parameters["rowFilter.categories.articles_id"];
+          categories?: parameters["rowFilter.categories.categories"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["categories"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** categories */
+          categories?: definitions["categories"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.categories.id"];
+          articles_id?: parameters["rowFilter.categories.articles_id"];
+          categories?: parameters["rowFilter.categories.categories"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.categories.id"];
+          articles_id?: parameters["rowFilter.categories.articles_id"];
+          categories?: parameters["rowFilter.categories.categories"];
+        };
+        body: {
+          /** categories */
+          categories?: definitions["categories"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/follow": {
     get: {
       parameters: {
@@ -210,6 +411,58 @@ export interface paths {
 }
 
 export interface definitions {
+  articles: {
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * @default auth.uid()
+     */
+    user_id?: string;
+    /** Format: character varying */
+    title: string;
+    /** Format: character varying */
+    details: string;
+    /** Format: text */
+    image?: string;
+    /**
+     * Format: integer
+     * @default 0
+     */
+    likes: number;
+    /**
+     * Format: integer
+     * @default 0
+     */
+    comment_count: number;
+    /**
+     * Format: timestamp without time zone
+     * @default now()
+     */
+    created_at: string;
+  };
+  categories: {
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Foreign Key to `articles.id`.<fk table='articles' column='id'/>
+     */
+    articles_id: string;
+    /** Format: smallint */
+    categories: number;
+  };
   follow: {
     /**
      * Format: integer
@@ -289,6 +542,32 @@ export interface parameters {
   offset: string;
   /** @description Limiting and Pagination */
   limit: string;
+  /** @description articles */
+  "body.articles": definitions["articles"];
+  /** Format: character varying */
+  "rowFilter.articles.id": string;
+  /** Format: uuid */
+  "rowFilter.articles.user_id": string;
+  /** Format: character varying */
+  "rowFilter.articles.title": string;
+  /** Format: character varying */
+  "rowFilter.articles.details": string;
+  /** Format: text */
+  "rowFilter.articles.image": string;
+  /** Format: integer */
+  "rowFilter.articles.likes": string;
+  /** Format: integer */
+  "rowFilter.articles.comment_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.articles.created_at": string;
+  /** @description categories */
+  "body.categories": definitions["categories"];
+  /** Format: integer */
+  "rowFilter.categories.id": string;
+  /** Format: character varying */
+  "rowFilter.categories.articles_id": string;
+  /** Format: smallint */
+  "rowFilter.categories.categories": string;
   /** @description follow */
   "body.follow": definitions["follow"];
   /** Format: integer */

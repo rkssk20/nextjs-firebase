@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import UserIcon from '@/atoms/UserIcon'
+import InitialIcon from '@/atoms/InitialIcon'
 
 import styles from '@/styles/components/article/header.module.scss'
 import MuiLink from '@mui/material/Link'
@@ -19,7 +19,7 @@ const Header = ({ display_id, name, created_at }: HeaderProps) => {
       {/* アバター */}
       <NextLink href={ `/account/${ display_id }` } passHref>
         <MuiLink underline='none'>
-          <UserIcon name={ name } variant='link' />
+          <InitialIcon name={ name } variant='link' />
         </MuiLink>
       </NextLink>
 

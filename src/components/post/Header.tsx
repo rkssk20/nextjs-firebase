@@ -1,7 +1,7 @@
 import type { MouseEvent, TouchEvent } from 'react'
 import NextLink from 'next/link'
 import CreatedAt from '@/lib/createdAt'
-import UserIcon from '@/atoms/UserIcon'
+import InitialIcon from '@/atoms/InitialIcon'
 
 import styles from '@/styles/components/post/header.module.scss'
 import MuiLink from '@mui/material/Link'
@@ -26,7 +26,7 @@ const Header = ({ display_id, name, created_at }: HeaderProps) => {
           onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
           onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
         >
-          <UserIcon name={ name } variant='link' />
+          <InitialIcon name={ name } variant='link' />
         </MuiLink>
       </NextLink>
 

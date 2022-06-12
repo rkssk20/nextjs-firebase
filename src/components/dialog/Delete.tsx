@@ -1,8 +1,8 @@
 import { useRecoilState } from 'recoil'
 import { dialogState } from '@/lib/recoil'
-import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/dialog/delete.module.scss'
+import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
@@ -16,7 +16,7 @@ const Delete = () => {
   }
 
   return (
-    <Dialog>
+    <DialogContent>
       <Typography variant='h3'>
         この記事を削除しますか？
       </Typography>
@@ -46,12 +46,18 @@ const Delete = () => {
           color="inherit"
           variant="contained"
           disableElevation
-          onClick={ () => setDialog({ content: '', id: null }) }
+          onClick={ () =>
+            setDialog({
+              open: false,
+              content: '',
+              id: null
+            })
+          }
         >
           キャンセル
         </Button>
       </Stack>
-    </Dialog>
+    </DialogContent>
   )
 }
 

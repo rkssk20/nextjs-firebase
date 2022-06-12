@@ -4,6 +4,15 @@
   padding-left: var(--lg);
 }
 
+// ローディング
+.circular {
+  &.circular_root {
+    margin-top: var(--md);
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 // 各ボタン
 .buttons {
   width: 100%;

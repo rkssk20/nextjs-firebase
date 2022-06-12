@@ -1,17 +1,12 @@
 import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
-import dynamic from 'next/dynamic'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { notificateState, dialogState } from '@/lib/recoil'
 import useAuth from '@/hooks/useAuth'
 import Header from '@/components/header/Header'
 import Hamburger from '@/components/header/hamburger/Hamburger'
 import Side from '@/components/side/Side'
-
-const Login = dynamic(() => import('@/components/dialog/Login'))
-const Share = dynamic(() => import('@/components/dialog/Share'))
-const Report = dynamic(() => import('@/components/dialog/Report'))
-const Delete = dynamic(() => import('@/components/dialog/Delete'))
+import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/provider/mui.module.scss'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -25,7 +20,6 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
   const dialog = useRecoilValue(dialogState)
-  const content = dialog.content
 
   // ついでにログイン処理も行う
   useAuth()
@@ -160,12 +154,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       />
 
       {/* ダイアログ */}
-      { (content !== '') &&
-        (content === 'login') ? <Login /> :
-        (content === 'share') ? <Share /> :
-        ((content === 'article_report') || (content === 'comment_report')) ? <Report /> :
-        ((content === 'article_delete') || (content === 'comment_delete')) && <Delete />
-      }
+      { dialog.open && <Dialog /> }
     </ThemeProvider>
   )
 }

@@ -13,17 +13,23 @@ export type CategoriesProps = {
 // 記事api
 export type ArticleType = {
   id: string;
-  display_id: string;
+  user_id: string
   title: string;
-  created_at: string;
+  details: string;
   image: string;
   likes: number;
+  comment_count: number;
+  created_at: string;
   like: boolean;
-  details: string;
-  name: string;
-  tags: number[];
+  categories: {
+    id: number
+    category: number;
+  }[] | null
+  profiles: {
+    username: string;
+    avatar: string | null
+  }
   mine: boolean;
-  comments: number;
 }
 
 // プロフィールのISR用api

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import dynamic from 'next/dynamic'
-import { nanoid } from 'nanoid'
 import { useRecoilState } from "recoil";
 import { draftState } from "@/lib/recoil";
+import useInsertArticles from "@/hooks/insert/useInsertArticles";
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Layout from '@/components/provider/Layout'
 import LoginOnly from '@/components/provider/LoginOnly'
@@ -22,22 +22,23 @@ const Edit = () => {
   const [draft, setDraft] = useRecoilState(draftState)
   const [title, setTitle] = useState('')
   const [details, setDetails] = useState('')
-  const [tags, setTags] = useState<number[]>([])
-  const [image, setImage] = useState('')
+  const [categories, setCategories] = useState<number[]>([])
+  const [image, setImage] = useState<Blob | null>(null)
   const router = useRouter()
+  const { mutate } = useInsertArticles()
 
   // localstorageをuseStateの初期値に渡すとサーバーでエラーになるため
   useEffect(() => {
     setTitle(draft.title)
     setDetails(draft.details)
-    setTags(draft.tags)
+    setCategories(draft.categories)
   }, [])
 
   useEffect(() => {
     router.beforePopState(() => {
       // 書き込みがあった場合(画像以外)下書き保存する
-      if((title.length > 0) || (details.length > 0) || (tags.length > 0)) {
-        setDraft({ title, details, tags })
+      if((title.length > 0) || (details.length > 0) || (categories.length > 0)) {
+        setDraft({ title, details, categories })
 
         alert('下書きに保存しました。')
       }
@@ -46,11 +47,13 @@ const Edit = () => {
     })
 
     return () => router.beforePopState(() => true)
-  }, [title, details, tags]);
+  }, [title, details, categories]);
 
   // 投稿する
   const handlePost = () => {
-    console.log(nanoid());
+    mutate({
+      title, details, image, categories
+    })
   }
 
   return (
@@ -62,7 +65,7 @@ const Edit = () => {
     >
       <LoginOnly>
         <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
-        <IconButton aria-label='戻る' onClick={ () => router.back() }>
+          <IconButton aria-label='戻る' onClick={ () => router.back() }>
             <CloseIcon />
           </IconButton>
 
@@ -78,7 +81,7 @@ const Edit = () => {
           <Image image={ image } setImage={ setImage } />
 
           {/* カテゴリを選択 */}
-          <Categories tags={ tags } setTags={ setTags } />
+          <Categories categories={ categories } setCategories={ setCategories } />
 
           {/* タイトル */}
           <InputBase

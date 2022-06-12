@@ -1,5 +1,8 @@
 import NextLink from 'next/link'
-import UserIcon from '@/atoms/UserIcon'
+import { useRecoilValue } from 'recoil'
+import { accountState } from '@/lib/recoil'
+import InitialIcon from '@/atoms/InitialIcon'
+import AvatarIcon from '@/atoms/AvatarIcon'
 
 import styles from '@/styles/components/header/hamburger/login.module.scss'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -34,6 +37,8 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
 
   // アカウントのリンク
   const Account = () => {
+    const account = useRecoilValue(accountState)
+
     return (
       <NextLink href={ `/account/${ id }` } passHref>
         <ListItemButton
@@ -43,8 +48,9 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
           onClick={ handleClose }
         >
           <ListItemIcon>
-            {
-              <UserIcon name={ username } variant='medium' />
+            { account.data?.avatar ?
+              <AvatarIcon src={ account.data.avatar } variant='medium' /> :
+              <InitialIcon name={ username } variant='medium' />
             }
           </ListItemIcon>
 

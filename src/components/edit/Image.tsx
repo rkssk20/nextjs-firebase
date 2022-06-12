@@ -1,4 +1,5 @@
-import type { Dispatch, SetStateAction, ChangeEvent } from 'react';
+import { useState, Dispatch, SetStateAction, ChangeEvent } from 'react';
+import Crop from '@/components/edit/Crop'
 
 import styles from '@/styles/components/edit/image.module.scss'
 import Button from '@mui/material/Button'
@@ -8,21 +9,22 @@ import IconButton from '@mui/material/IconButton'
 import ClearIcon from '@mui/icons-material/Clear'
 
 interface ImageProps {
-  image: string;
-  setImage: Dispatch<SetStateAction<string>>
+  image: Blob | null ;
+  setImage: Dispatch<SetStateAction<Blob | null>>
 }
 
-const Image = ({ image , setImage }: ImageProps) => {
+const Image = ({ image, setImage }: ImageProps) => {
+  const [selectImage, setSelectImage] = useState('')
   // 画像選択
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {    
     if(!e.target.files || !e.target.files[0]) return
-    setImage(window.URL.createObjectURL(e.target.files[0]))
+    setSelectImage(window.URL.createObjectURL(e.target.files[0]))
   }
 
   // 洗濯中の画像をキャンセル
   const handleCancel = () => {
     (document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-    setImage('')
+    setImage(null)
   }
 
   return (
@@ -37,7 +39,7 @@ const Image = ({ image , setImage }: ImageProps) => {
           onChange={ handleImage }
         />
 
-        { (image.length === 0) &&
+        { !image &&
           // 未選択時、画像選択ボタン
           <Button
             className={ styles.image_button }
@@ -52,21 +54,28 @@ const Image = ({ image , setImage }: ImageProps) => {
         }
       </label>
 
-      { (image.length > 0) &&
+      { image &&
         // 選択時、画像とキャンセルボタン
         <div className={ styles.image_field }>
-        <Badge
-          badgeContent={
-            <IconButton className={ styles.cancel } onClick={ handleCancel }>
-              <ClearIcon className={ styles.clear } fontSize='large' />
-            </IconButton>
-          }
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        >
-          <img className={ styles.image } alt='選択中の画像' src={ image } />
-        </Badge>
-      </div>
+          <Badge
+            badgeContent={
+              <IconButton className={ styles.cancel } onClick={ handleCancel }>
+                <ClearIcon className={ styles.clear } fontSize='large' />
+              </IconButton>
+            }
+            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+          >
+            <img className={ styles.image } alt='選択中の画像' src={ URL.createObjectURL(image) } />
+          </Badge>
+        </div>
       }
+
+      {/* 切り抜きのダイアログ */}
+      <Crop
+        selectImage={ selectImage }
+        setSelectImage={ setSelectImage }
+        setImage={ setImage }
+      />
     </div>
   )
 }

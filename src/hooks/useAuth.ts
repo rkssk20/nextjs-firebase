@@ -1,15 +1,20 @@
-import { useEffect } from "react"
-import { useSetRecoilState } from "recoil"
+import { useState, useEffect } from "react"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import { definitions } from "@/types/supabase"
 import { accountState, notificateState } from "@/lib/recoil"
 import { supabase } from "@/lib/supabaseClient"
 
 const useAuth = () => {
-  const setAccount = useSetRecoilState(accountState)
+  const [loading, setLoading] = useState(false)
+  const [account, setAccount] = useRecoilState(accountState)
   const setNotificate = useSetRecoilState(notificateState)
 
   // ユーザー情報の取得
   const getProfiles = async () => {
+    if(loading || account.data) return
+
+    setLoading(true)
+
     try {
       const user = supabase.auth.user()
 
@@ -40,6 +45,8 @@ const useAuth = () => {
       })
 
       supabase.auth.signOut()
+    } finally {
+      setLoading(false)
     }
   }
 

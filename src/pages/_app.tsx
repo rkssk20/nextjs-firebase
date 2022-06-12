@@ -4,7 +4,7 @@ import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import client from '@/lib/queryClient'
 import Mui from '@/components/provider/Mui'
-import AuthProvider from '@/components/provider/AuthProvider';
+import Auth from '@/components/provider/Auth';
 
 import '@/styles/globals.scss'
 
@@ -16,12 +16,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <Mui>
         {/* react-query */}
         <QueryClientProvider client={ client }>
-          {/* 認証 */}
-          <AuthProvider>
-            <Component {...pageProps} />
+          <Component {...pageProps} />
 
-            <ReactQueryDevtools initialIsOpen={ false } />
-          </AuthProvider>
+          <Auth />
+
+          <ReactQueryDevtools initialIsOpen={ false } />
         </QueryClientProvider>
       </Mui>
     </RecoilRoot>

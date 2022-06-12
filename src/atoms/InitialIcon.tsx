@@ -1,14 +1,14 @@
 import Color from '@/lib/color'
 
-import styles from '@/styles/atoms/userIcon.module.scss'
+import styles from '@/styles/atoms/initialIcon.module.scss'
 import Avatar from '@mui/material/Avatar'
 
-interface UserIconProps {
+interface AvatarIconProps {
   name: string;
   variant: 'medium' | 'large' | 'link';
 }
 
-const UserIcon = ({ name, variant }: UserIconProps) => {
+const AvatarIcon = ({ name, variant }: AvatarIconProps) => {
   const color = Color(name)
   
   return (
@@ -24,4 +24,4 @@ const UserIcon = ({ name, variant }: UserIconProps) => {
   )
 }
 
-export default UserIcon
+export default AvatarIcon

@@ -53,9 +53,16 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
     () => mutateSetting({ id: account.data?.id, newUserName, newDetails }), {
       onSuccess: () => {
         const existing: ExistingType = queryClient.getQueryData(['profilesDetails'])
+        
+        // 完了通知
+        setNotificate({
+          open: true,
+          message: 'プロフィールを変更しました'
+        })
 
         if(existing?.username === newUserName) return
 
+        // キャッシュがあるなら変更
         if(existing) {
           queryClient.setQueryData('profilesDetails', {
             ...existing,
@@ -64,6 +71,7 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
           })
         }
 
+        // ユーザーの状態を変更
         setAccount({
           loading: false,
           data: {
@@ -72,13 +80,8 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
             avatar: account.data?.avatar
           }
         })
-
-        setNotificate({
-          open: true,
-          message: 'プロフィールを変更しました'
-        })
       },
-      onError: (error) => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'エラーが発生しました。'

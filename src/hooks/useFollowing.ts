@@ -15,6 +15,8 @@ export const fetchFollowing = async (id: string | undefined, path: string) => {
 
   if(error) throw error
 
+  console.log(data)
+
   return data
 }
 

@@ -25,7 +25,16 @@ const LoginFollowing = ({ path }: { path: string }) => {
 const LogoutFollowing = () => {
   const setDialogState = useSetRecoilState(dialogState)
 
-  return <OutlinedButton text='フォロー' handle={ () => setDialogState({ content: 'login', id: null }) } />
+  return <OutlinedButton
+    text='フォロー'
+    handle={ () =>
+      setDialogState({
+        open :true,
+        content: 'login',
+        id: null
+      })
+    }
+  />
 }
 
 const Following = ({ path }: { path: string }) => {

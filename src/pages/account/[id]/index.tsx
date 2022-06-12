@@ -3,6 +3,7 @@ import { ProfilePageType } from '@/types/types'
 import { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import useProfileDetails from '@/hooks/useProfileDetails'
+import useMyArticles from '@/hooks/select/useMyArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import useArticles from '@/hooks/article/useArticles'
 import Circular from '@/atoms/Circular'
@@ -55,7 +56,10 @@ type AccountProps = {
 const Account = ({ item , path }: AccountProps) => {
   const { loading: profile_loading, data: profile_data } = useProfileDetails(path)
   const { loading, data, Fetch } = useArticles()
+  const { data: data_articles, isFetching } = useMyArticles()
   const setRef = useObserver(Fetch)
+
+  console.log(data_articles)
 
   return (
     <Layout
@@ -71,7 +75,7 @@ const Account = ({ item , path }: AccountProps) => {
       <Bar />
 
       {/* 自分の投稿一覧 */}
-      { data.map((item, index) => (
+      { data_articles && data_articles.map((item, index) => (
         <Post
           key={ item.id }
           data={ item }

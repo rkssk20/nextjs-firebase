@@ -1,5 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import UserIcon from '@/atoms/UserIcon'
+import InitialIcon from '@/atoms/InitialIcon'
 
 import styles from '@/styles/components/article/comment/form.module.scss'
 import InputBase from '@mui/material/InputBase'
@@ -24,7 +24,7 @@ const Form = ({ children, text, setText, name, placeholder }: FormProps) => {
         placeholder={ placeholder }
         multiline
         maxRows={ 5 }
-        startAdornment={ <UserIcon name={ name } variant='medium' /> }
+        startAdornment={ <InitialIcon name={ name } variant='medium' /> }
         value={ text }
         onChange={ (e) => setText(e.target.value) }
       />

@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
-import UserIcon from '@/atoms/UserIcon'
+import InitialIcon from '@/atoms/InitialIcon'
 
 import styles from '@/styles/components/account/follow/account.module.scss'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -24,7 +24,7 @@ const Account = ({ name, display_id, setRef }: AccountProps) => {
       onClick={ () => router.push(`/account/${ display_id }`)}
     >
       <ListItemIcon>
-        <UserIcon name={ name } variant='medium' />
+        <InitialIcon name={ name } variant='medium' />
       </ListItemIcon>
 
       <ListItemText

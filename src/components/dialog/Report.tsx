@@ -3,10 +3,10 @@ import { useRecoilValue } from 'recoil'
 import { dialogState } from '@/lib/recoil'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Details from '@/components/report/Details'
-import Dialog from '@/components/dialog/Dialog'
 import Select from '@/components/report/Select'
 
 import styles from '@/styles/components/dialog/report.module.scss'
+import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 
 const Report = () => {
@@ -30,7 +30,7 @@ const Report = () => {
   }
 
   return (
-    <Dialog>
+    <DialogContent>
       <Typography className={ styles.title } variant='h3'>問題を報告する</Typography>
 
       {/* 項目を選択 */}
@@ -60,7 +60,7 @@ const Report = () => {
           <DisabledButton text='送信' />
         }
       </div>
-    </Dialog>
+    </DialogContent>
   )
 }
 

@@ -18,6 +18,7 @@ type NotificateProps = {
 }
 
 type DialogProps = {
+  open: boolean
   content: '' | 'share' | 'login' | 'article_report' | 'comment_report' | 'article_delete' | 'comment_delete'
   id: string | null
 }
@@ -25,7 +26,7 @@ type DialogProps = {
 type DraftProps = {
   title: string
   details: string
-  tags: number[]
+  categories: number[]
 }
 
 // アカウント
@@ -50,6 +51,7 @@ export const notificateState = atom<NotificateProps>({
 export const dialogState = atom<DialogProps>({
   key: 'dialog',
   default: {
+    open: false,
     content: '',
     id: null
   }
@@ -61,7 +63,7 @@ export const draftState = atom<DraftProps>({
   default: {
     title: '',
     details: '',
-    tags: []
+    categories: []
   },
   effects_UNSTABLE: [persistAtom],
 })

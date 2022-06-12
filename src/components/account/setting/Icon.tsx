@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react'
-import { useRecoilValue } from 'recoil'
-import { accountState } from '@/lib/recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { accountState, notificateState } from '@/lib/recoil'
 import Color from '@/lib/color'
 import useAvatarDelete from '@/hooks/delete/useAvatarDelete'
 import Crop from '@/components/account/setting/Crop'
@@ -17,6 +17,7 @@ type IconProps = {
 const Icon = ({ newUserName }: IconProps) => {
   const [selectImage, setSelectImage] = useState('')
   const account = useRecoilValue(accountState)
+  const setNotificate = useSetRecoilState(notificateState)
   const { mutate } = useAvatarDelete()
   const color = Color(newUserName)
 
@@ -26,15 +27,20 @@ const Icon = ({ newUserName }: IconProps) => {
     setSelectImage(window.URL.createObjectURL(e.target.files[0]))
   }
 
-  // 切り抜いた画像を削除
+  // 現在のアバターを削除
   const handleCancel = () => {
-    (document.getElementById('icon-button-file') as HTMLInputElement).value = '';
+    // アバター画像がない場合
+    if(!account.data?.avatar) {
+      setNotificate({
+        open: true,
+        message: '画像がありません。'
+      })
+
+      return
+    }
 
     mutate()
   }
-
-  console.log(account);
-  
 
   return (
     <label className={ styles.field } htmlFor="icon-button-file">

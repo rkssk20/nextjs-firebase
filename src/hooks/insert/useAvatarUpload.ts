@@ -21,24 +21,24 @@ const mutateAvatar = async ({ blob, type }: MutateType) => {
   .from('avatars')
   .upload(`public/${ nanoid() }.${ type }`, blob, {
     // 1年キャッシュ
-    cacheControl: '31536000',
-    upsert: false
+    cacheControl: '31536000'
   })
+
+  console.log(data)
   
   if(error) throw error
 
   return data
 }
 
-const useAvatarUpload = () => {
+const useAvatarUpload = (handleClose: () => void) => {
   const setNotificate = useSetRecoilState(notificateState)
   const [account, setAccount] = useRecoilState(accountState)
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation(({ blob, type }: MutateType) => mutateAvatar({ blob, type }), {
+  const { mutate, isLoading } = useMutation(({ blob, type }: MutateType) => mutateAvatar({ blob, type }), {
     onSuccess: data => {
-      console.log(data)
-
+      // アカウントデータのアバターを更新
       setAccount({
         loading: false,
         data: {
@@ -50,8 +50,7 @@ const useAvatarUpload = () => {
 
       const existing: ExistingType = queryClient.getQueryData('profilesDetails')
 
-      console.log(existing)
-
+      // キャッシュがあるなら追加
       if(existing) {
         queryClient.setQueryData('profilesDetails', {
           ...existing,
@@ -59,6 +58,10 @@ const useAvatarUpload = () => {
         })
       }
 
+      // 切り抜きダイアログを閉じる
+      handleClose()
+
+      // 通知
       setNotificate({
         open: true,
         message: 'アイコンをアップロードしました'
@@ -74,7 +77,7 @@ const useAvatarUpload = () => {
     }
   })
   
-  return { mutate }
+  return { mutate, isLoading }
 }
 
 export default useAvatarUpload

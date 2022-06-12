@@ -1,7 +1,4 @@
-.dialog {
-  width: 100%;
-}
-
+// スライダー全体
 .slider_field {
   padding-top: var(--md);
   padding-right: var(--md);
@@ -12,18 +9,8 @@
   justify-content: space-between;
 }
 
+// スライダー
 .slider {
   margin-right: var(--md);
   margin-left: var(--md);
-}
-
-.button_field {
-  padding: var(--md);
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: flex-end;
-  & > button:last-child {
-    margin-left: var(--sm);
-  }
 }

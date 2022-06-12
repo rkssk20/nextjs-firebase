@@ -2,9 +2,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
-import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/dialog/share.module.scss'
+import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -51,7 +51,7 @@ const Share = () => {
   }
 
   return (
-    <Dialog>
+    <DialogContent>
       <Typography variant='h3'>
         この投稿をシェアする
       </Typography>
@@ -102,7 +102,7 @@ const Share = () => {
           />
         ))}
       </DialogActions>
-    </Dialog>
+    </DialogContent>
   )
 }
 

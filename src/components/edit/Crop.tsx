@@ -1,8 +1,7 @@
 import { useState, useRef, Dispatch, SetStateAction } from 'react';
 import AvatarEditor from 'react-avatar-editor'
-import useAvatarUpload from '@/hooks/insert/useAvatarUpload'
 import CropSlider from '@/atoms/CropSlider';
-import CropButtons from '@/atoms/CropButtons';
+import CropButtons from '@/atoms/CropButtons'
 import Circular from '@/atoms/Circular'
 
 import MuiDialog from '@mui/material/Dialog'
@@ -10,34 +9,36 @@ import MuiDialog from '@mui/material/Dialog'
 type Props = {
   selectImage: string
   setSelectImage: Dispatch<SetStateAction<string>>
+  setImage: Dispatch<SetStateAction<Blob | null>>
 }
 
-const Crop = ({ selectImage, setSelectImage }: Props) => {
+const Crop = ({ selectImage, setSelectImage, setImage }: Props) => {
+  const [loading, setLoading] = useState(false)
   const [scale, setScale] = useState(10)
   const ref = useRef<AvatarEditor>(null)
+  const bodyWidth = document.body.clientWidth
 
   // キャンセル
   const handleClose = () => {
-    if(isLoading) return
+    if(loading) return
     (document.getElementById('icon-button-file') as HTMLInputElement).value = '';
     setSelectImage('')
   }
 
-  const { mutate, isLoading } = useAvatarUpload(handleClose)
-
   // 送信
   const handleConfirm = () => {
-    if(isLoading) return
-
     if(ref) {
+      if(loading) return
+      setLoading(true)
       // chromeならwebpに変換し、画質を0.5にする
       // chrome以外ではpngに変換される
       ref.current.getImage().toBlob((blob: Blob) => {
-        const type = blob.type
-        const index = type.indexOf('/');
+        setImage(blob);
         
-        mutate({ blob, type: type.substring(index + 1) });
-      }, 'image/webp', 0.5)
+        (document.getElementById('icon-button-file') as HTMLInputElement).value = '';
+        setSelectImage('');
+        setLoading(false)
+      }, 'image/webp', 1)
     }
   }
 
@@ -50,11 +51,10 @@ const Crop = ({ selectImage, setSelectImage }: Props) => {
       <AvatarEditor
         ref={ ref }
         image={ selectImage }
-        width={ 300 }
-        height={ 300 }
+        width={ (bodyWidth > 600) ? 600 : (bodyWidth - 64) }
+        height={ (bodyWidth > 600) ? 385 : ((bodyWidth - 64) * 0.525) }
         border={ 0 }
         color={ [ 0, 0, 0, 0.6] }
-        borderRadius={ 9999 }
         scale={ scale / 10 }
       />
 
@@ -62,7 +62,7 @@ const Crop = ({ selectImage, setSelectImage }: Props) => {
       <CropSlider scale={ scale } setScale={ setScale } />
 
       {/* ボタン全体 */}
-      { isLoading ?
+      { loading ?
         <Circular />
         :
         <CropButtons handleClose={ handleClose } handleConfirm={ handleConfirm } />

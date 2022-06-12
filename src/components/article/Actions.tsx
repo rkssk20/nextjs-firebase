@@ -26,11 +26,12 @@ const Actions = ({ like, likes, mine, path }: ActionsProps) => {
 
   // いいね処理
   const handleLikes = () => {
-    if(account.display_id) {
+    if(account.data) {
      console.log('favorite')
 
     } else {
       setDialog({
+        open: true,
         content: 'login',
         id: null
       })
@@ -44,13 +45,21 @@ const Actions = ({ like, likes, mine, path }: ActionsProps) => {
 
   // 削除ダイアログ
   const handleDelete = () => {
-    setDialog({ content: 'article_delete', id: path })
+    setDialog({
+      open: true,
+      content: 'article_delete',
+      id: path
+    })
     handleClose()
   }
   
   // 報告ダイアログ
   const handleReport = () => {
-    setDialog({ content: 'article_report', id: path })
+    setDialog({
+      open: true,
+      content: 'article_report',
+      id: path
+    })
     handleClose()
   }
 

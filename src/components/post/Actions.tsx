@@ -25,21 +25,26 @@ const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
   const handleLike = (e: MouseEvent) => {
     e.stopPropagation()
 
-    if(account.display_id) {
+    if(account.data) {
       console.log('favorite')
   
-     } else {
-       setDialog({
-         content: 'login',
-         id: null
-       })
-     }
+    } else {
+      setDialog({
+        open: true,
+        content: 'login',
+        id: null
+      })
+    }
   }
 
   // 共有ダイアログを開く
   const handleShare = (e: MouseEvent) => {
     e.stopPropagation()
-    setDialog({ content: 'share', id: display_id })
+    setDialog({
+      open: true,
+      content: 'share',
+      id: display_id
+    })
   }
 
   return (

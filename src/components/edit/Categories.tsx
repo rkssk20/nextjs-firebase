@@ -9,14 +9,14 @@ import InputBase from '@mui/material/InputBase';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface CategoriesProps {
-  tags: number[];
-  setTags: Dispatch<SetStateAction<number[]>>;
+  categories: number[];
+  setCategories: Dispatch<SetStateAction<number[]>>;
 }
 
-const Categories = ({ tags, setTags }: CategoriesProps) => {
+const Categories = ({ categories, setCategories }: CategoriesProps) => {
   // カテゴリを選択
   const handleChange = (e: SelectChangeEvent<number[]>) => {
-    setTags(e.target.value as number[])
+    setCategories(e.target.value as number[])
   }
 
   return (
@@ -25,7 +25,7 @@ const Categories = ({ tags, setTags }: CategoriesProps) => {
       classes={{ select: styles.select_root }}
       multiple
       displayEmpty
-      value={ tags }
+      value={ categories }
       color='info'
       renderValue={selected =>
         (selected.length === 0) ?
@@ -60,7 +60,7 @@ const Categories = ({ tags, setTags }: CategoriesProps) => {
           key={item }
           value={ index }
         >
-          <Checkbox checked={ tags.indexOf(index) > -1 } />
+          <Checkbox checked={ categories.indexOf(index) > -1 } />
           { item }
         </MenuItem>
       )) }

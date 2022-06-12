@@ -3,11 +3,6 @@ import SimpleMde from "react-simplemde-editor";
 import 'easymde/dist/easymde.min.css'
 
 import styles from '@/styles/components/edit/markdown.module.scss'
-import { css } from '@emotion/react'
-
-const markDownCss = css`
-  background-color: red
-`
 
 type MarkdownProps = {
   details: string
