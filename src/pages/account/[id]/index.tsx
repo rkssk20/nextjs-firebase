@@ -2,10 +2,8 @@ import type { GetStaticProps, GetStaticPaths } from 'next'
 import { ProfilePageType } from '@/types/types'
 import { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
-import useProfileDetails from '@/hooks/useProfileDetails'
 import useMyArticles from '@/hooks/select/useMyArticles'
 import useObserver from '@/hooks/atoms/useObserver'
-import useArticles from '@/hooks/article/useArticles'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import Profile from '@/components/account/Profile'
@@ -54,10 +52,8 @@ type AccountProps = {
 }
 
 const Account = ({ item , path }: AccountProps) => {
-  const { loading: profile_loading, data: profile_data } = useProfileDetails(path)
-  const { loading, data, Fetch } = useArticles()
-  const { data: data_articles, isFetching } = useMyArticles()
-  const setRef = useObserver(Fetch)
+  const { data: data_articles, isFetching, hasNextPage, fetchNextPage } = useMyArticles()
+  const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   console.log(data_articles)
 
@@ -75,15 +71,17 @@ const Account = ({ item , path }: AccountProps) => {
       <Bar />
 
       {/* 自分の投稿一覧 */}
-      { data_articles && data_articles.map((item, index) => (
-        <Post
-          key={ item.id }
-          data={ item }
-          setRef={ ((data.length - 1) === index) && setRef }
-        />
+      { data_articles && data_articles.pages.map((page, page_index) => (
+        page.map((item, index) => (
+          <Post
+            key={ item.id }
+            data={ item }
+            setRef={ ((data_articles.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef }
+          />
+        ))
       ))}
 
-      { loading && <Circular /> }
+      { isFetching && <Circular /> }
     </Layout>
   )
 }

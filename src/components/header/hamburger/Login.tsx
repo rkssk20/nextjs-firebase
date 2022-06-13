@@ -50,7 +50,7 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
           <ListItemIcon>
             { account.data?.avatar ?
               <AvatarIcon src={ account.data.avatar } variant='medium' /> :
-              <InitialIcon name={ username } variant='medium' />
+              <InitialIcon username={ username } variant='medium' />
             }
           </ListItemIcon>
 

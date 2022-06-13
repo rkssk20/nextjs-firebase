@@ -1,6 +1,8 @@
 import type { MouseEvent, TouchEvent } from 'react'
 import NextLink from 'next/link'
+import { definitions } from '@/types/supabase'
 import CreatedAt from '@/lib/createdAt'
+import AvatarIcon from '@/atoms/AvatarIcon'
 import InitialIcon from '@/atoms/InitialIcon'
 
 import styles from '@/styles/components/post/header.module.scss'
@@ -8,30 +10,35 @@ import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 interface HeaderProps {
-  display_id: string;
-  name: string;
+  id: definitions['profiles']['id']
+  username: definitions['profiles']['username']
+  avatar: definitions['profiles']['avatar']
   created_at: string
 }
 
-const Header = ({ display_id, name, created_at }: HeaderProps) => {
+const Header = ({ id, username, avatar, created_at }: HeaderProps) => {
   const created = CreatedAt(created_at)
 
   return (
     <div className={ styles.field }>
       {/* アバター */}
-      <NextLink href={ `/account/${ display_id }` } passHref>
+      <NextLink href={ `/account/${ id }` } passHref>
         <MuiLink
           underline='none'
           onClick={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
           onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
           onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
         >
-          <InitialIcon name={ name } variant='link' />
+          { avatar ?
+            <AvatarIcon src={ process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar } variant='link' />
+            :
+            <InitialIcon username={ username } variant='link' />
+          }
         </MuiLink>
       </NextLink>
 
       {/* タイトル */}
-      <NextLink href={ `/account/${ display_id }` } passHref>
+      <NextLink href={ `/account/${ id }` } passHref>
         <MuiLink
           className={ styles.title }
           underline='hover'
@@ -42,7 +49,7 @@ const Header = ({ display_id, name, created_at }: HeaderProps) => {
           onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
           onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
         >
-          { name + '・@' + display_id }
+          { username + '・@' + id }
         </MuiLink>
       </NextLink>
 

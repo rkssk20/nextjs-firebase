@@ -13,11 +13,11 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 type ActionsProps = {
   display_id: string
   likes: number;
-  like: boolean;
+  likes_id: number | undefined;
   comments: number
 }
 
-const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
+const Actions = ({ display_id, likes, likes_id, comments }: ActionsProps) => {
   const account = useRecoilValue(accountState)
   const setDialog = useSetRecoilState(dialogState)
 
@@ -58,7 +58,7 @@ const Actions = ({ display_id, likes, like, comments }: ActionsProps) => {
         onMouseDown={ (e: MouseEvent) => e.stopPropagation() }
         onTouchStart={ (e: TouchEvent) => e.stopPropagation() }
       >
-        { like ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
+        { likes_id ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
       </IconButton>
 
       {/* いいね数 */}

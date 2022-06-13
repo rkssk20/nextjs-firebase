@@ -1,15 +1,16 @@
 import Color from '@/lib/color'
+import { definitions } from '@/types/supabase';
 
 import styles from '@/styles/atoms/initialIcon.module.scss'
 import Avatar from '@mui/material/Avatar'
 
 interface AvatarIconProps {
-  name: string;
+  username: definitions['profiles']['username']
   variant: 'medium' | 'large' | 'link';
 }
 
-const AvatarIcon = ({ name, variant }: AvatarIconProps) => {
-  const color = Color(name)
+const AvatarIcon = ({ username, variant }: AvatarIconProps) => {
+  const color = Color(username)
   
   return (
     <Avatar
@@ -19,7 +20,7 @@ const AvatarIcon = ({ name, variant }: AvatarIconProps) => {
       }}
       sx={{ bgcolor: color }}
     >
-      { name.slice(0, 1) }
+      { username.slice(0, 1) }
     </Avatar>
   )
 }

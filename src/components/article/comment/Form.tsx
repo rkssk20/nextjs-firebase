@@ -24,7 +24,7 @@ const Form = ({ children, text, setText, name, placeholder }: FormProps) => {
         placeholder={ placeholder }
         multiline
         maxRows={ 5 }
-        startAdornment={ <InitialIcon name={ name } variant='medium' /> }
+        startAdornment={ <InitialIcon username={ name } variant='medium' /> }
         value={ text }
         onChange={ (e) => setText(e.target.value) }
       />

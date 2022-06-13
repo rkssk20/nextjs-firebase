@@ -21,7 +21,7 @@ export interface paths {
           title?: parameters["rowFilter.articles.title"];
           details?: parameters["rowFilter.articles.details"];
           image?: parameters["rowFilter.articles.image"];
-          likes?: parameters["rowFilter.articles.likes"];
+          like_count?: parameters["rowFilter.articles.like_count"];
           comment_count?: parameters["rowFilter.articles.comment_count"];
           created_at?: parameters["rowFilter.articles.created_at"];
           /** Filtering Columns */
@@ -79,7 +79,7 @@ export interface paths {
           title?: parameters["rowFilter.articles.title"];
           details?: parameters["rowFilter.articles.details"];
           image?: parameters["rowFilter.articles.image"];
-          likes?: parameters["rowFilter.articles.likes"];
+          like_count?: parameters["rowFilter.articles.like_count"];
           comment_count?: parameters["rowFilter.articles.comment_count"];
           created_at?: parameters["rowFilter.articles.created_at"];
         };
@@ -101,7 +101,7 @@ export interface paths {
           title?: parameters["rowFilter.articles.title"];
           details?: parameters["rowFilter.articles.details"];
           image?: parameters["rowFilter.articles.image"];
-          likes?: parameters["rowFilter.articles.likes"];
+          like_count?: parameters["rowFilter.articles.like_count"];
           comment_count?: parameters["rowFilter.articles.comment_count"];
           created_at?: parameters["rowFilter.articles.created_at"];
         };
@@ -126,7 +126,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.categories.id"];
           articles_id?: parameters["rowFilter.categories.articles_id"];
-          categories?: parameters["rowFilter.categories.categories"];
+          category?: parameters["rowFilter.categories.category"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -179,7 +179,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.categories.id"];
           articles_id?: parameters["rowFilter.categories.articles_id"];
-          categories?: parameters["rowFilter.categories.categories"];
+          category?: parameters["rowFilter.categories.category"];
         };
         header: {
           /** Preference */
@@ -196,7 +196,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.categories.id"];
           articles_id?: parameters["rowFilter.categories.articles_id"];
-          categories?: parameters["rowFilter.categories.categories"];
+          category?: parameters["rowFilter.categories.category"];
         };
         body: {
           /** categories */
@@ -213,13 +213,13 @@ export interface paths {
       };
     };
   };
-  "/follow": {
+  "/follows": {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.follow.id"];
-          user_id?: parameters["rowFilter.follow.user_id"];
-          follower_id?: parameters["rowFilter.follow.follower_id"];
+          id?: parameters["rowFilter.follows.id"];
+          user_id?: parameters["rowFilter.follows.user_id"];
+          follower_id?: parameters["rowFilter.follows.follower_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -241,7 +241,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["follow"][];
+          schema: definitions["follows"][];
         };
         /** Partial Content */
         206: unknown;
@@ -250,8 +250,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** follow */
-          follow?: definitions["follow"];
+          /** follows */
+          follows?: definitions["follows"];
         };
         query: {
           /** Filtering Columns */
@@ -270,9 +270,9 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.follow.id"];
-          user_id?: parameters["rowFilter.follow.user_id"];
-          follower_id?: parameters["rowFilter.follow.follower_id"];
+          id?: parameters["rowFilter.follows.id"];
+          user_id?: parameters["rowFilter.follows.user_id"];
+          follower_id?: parameters["rowFilter.follows.follower_id"];
         };
         header: {
           /** Preference */
@@ -287,13 +287,13 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.follow.id"];
-          user_id?: parameters["rowFilter.follow.user_id"];
-          follower_id?: parameters["rowFilter.follow.follower_id"];
+          id?: parameters["rowFilter.follows.id"];
+          user_id?: parameters["rowFilter.follows.user_id"];
+          follower_id?: parameters["rowFilter.follows.follower_id"];
         };
         body: {
-          /** follow */
-          follow?: definitions["follow"];
+          /** follows */
+          follows?: definitions["follows"];
         };
         header: {
           /** Preference */
@@ -303,6 +303,146 @@ export interface paths {
       responses: {
         /** No Content */
         204: never;
+      };
+    };
+  };
+  "/likes": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.likes.id"];
+          user_id?: parameters["rowFilter.likes.user_id"];
+          articles_id?: parameters["rowFilter.likes.articles_id"];
+          created_at?: parameters["rowFilter.likes.created_at"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["likes"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** likes */
+          likes?: definitions["likes"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.likes.id"];
+          user_id?: parameters["rowFilter.likes.user_id"];
+          articles_id?: parameters["rowFilter.likes.articles_id"];
+          created_at?: parameters["rowFilter.likes.created_at"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.likes.id"];
+          user_id?: parameters["rowFilter.likes.user_id"];
+          articles_id?: parameters["rowFilter.likes.articles_id"];
+          created_at?: parameters["rowFilter.likes.created_at"];
+        };
+        body: {
+          /** likes */
+          likes?: definitions["likes"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/my_articles": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.my_articles.id"];
+          user_id?: parameters["rowFilter.my_articles.user_id"];
+          image?: parameters["rowFilter.my_articles.image"];
+          title?: parameters["rowFilter.my_articles.title"];
+          details?: parameters["rowFilter.my_articles.details"];
+          like_count?: parameters["rowFilter.my_articles.like_count"];
+          comment_count?: parameters["rowFilter.my_articles.comment_count"];
+          created_at?: parameters["rowFilter.my_articles.created_at"];
+          categories?: parameters["rowFilter.my_articles.categories"];
+          username?: parameters["rowFilter.my_articles.username"];
+          avatar?: parameters["rowFilter.my_articles.avatar"];
+          likes_id?: parameters["rowFilter.my_articles.likes_id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["my_articles"][];
+        };
+        /** Partial Content */
+        206: unknown;
       };
     };
   };
@@ -408,6 +548,34 @@ export interface paths {
       };
     };
   };
+  "/rpc/on_insert_articles": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: character varying */
+            qid: string;
+            /** Format: character varying */
+            details: string;
+            /** Format: character varying */
+            title: string;
+            /** Format: text */
+            image: string;
+            /** Format: smallint[] */
+            categories: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
 }
 
 export interface definitions {
@@ -424,7 +592,7 @@ export interface definitions {
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id?: string;
+    user_id: string;
     /** Format: character varying */
     title: string;
     /** Format: character varying */
@@ -435,7 +603,7 @@ export interface definitions {
      * Format: integer
      * @default 0
      */
-    likes: number;
+    like_count: number;
     /**
      * Format: integer
      * @default 0
@@ -461,9 +629,9 @@ export interface definitions {
      */
     articles_id: string;
     /** Format: smallint */
-    categories: number;
+    category: number;
   };
-  follow: {
+  follows: {
     /**
      * Format: integer
      * @description Note:
@@ -479,6 +647,70 @@ export interface definitions {
     user_id?: string;
     /** Format: uuid */
     follower_id: string;
+  };
+  likes: {
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * @default auth.uid()
+     */
+    user_id?: string;
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Foreign Key to `articles.id`.<fk table='articles' column='id'/>
+     */
+    articles_id?: string;
+    /**
+     * Format: timestamp without time zone
+     * @default now()
+     */
+    created_at: string;
+  };
+  my_articles: {
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    user_id?: string;
+    /** Format: text */
+    image?: string;
+    /** Format: character varying */
+    title?: string;
+    /** Format: text */
+    details?: string;
+    /** Format: integer */
+    like_count?: number;
+    /** Format: integer */
+    comment_count?: number;
+    /** Format: timestamp without time zone */
+    created_at?: string;
+    /** Format: ARRAY */
+    categories?: unknown[];
+    /** Format: character varying */
+    username?: string;
+    /** Format: text */
+    avatar?: string;
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    likes_id?: number;
   };
   profiles: {
     /**
@@ -555,7 +787,7 @@ export interface parameters {
   /** Format: text */
   "rowFilter.articles.image": string;
   /** Format: integer */
-  "rowFilter.articles.likes": string;
+  "rowFilter.articles.like_count": string;
   /** Format: integer */
   "rowFilter.articles.comment_count": string;
   /** Format: timestamp without time zone */
@@ -567,15 +799,51 @@ export interface parameters {
   /** Format: character varying */
   "rowFilter.categories.articles_id": string;
   /** Format: smallint */
-  "rowFilter.categories.categories": string;
-  /** @description follow */
-  "body.follow": definitions["follow"];
+  "rowFilter.categories.category": string;
+  /** @description follows */
+  "body.follows": definitions["follows"];
   /** Format: integer */
-  "rowFilter.follow.id": string;
+  "rowFilter.follows.id": string;
   /** Format: uuid */
-  "rowFilter.follow.user_id": string;
+  "rowFilter.follows.user_id": string;
   /** Format: uuid */
-  "rowFilter.follow.follower_id": string;
+  "rowFilter.follows.follower_id": string;
+  /** @description likes */
+  "body.likes": definitions["likes"];
+  /** Format: integer */
+  "rowFilter.likes.id": string;
+  /** Format: uuid */
+  "rowFilter.likes.user_id": string;
+  /** Format: character varying */
+  "rowFilter.likes.articles_id": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.likes.created_at": string;
+  /** @description my_articles */
+  "body.my_articles": definitions["my_articles"];
+  /** Format: character varying */
+  "rowFilter.my_articles.id": string;
+  /** Format: uuid */
+  "rowFilter.my_articles.user_id": string;
+  /** Format: text */
+  "rowFilter.my_articles.image": string;
+  /** Format: character varying */
+  "rowFilter.my_articles.title": string;
+  /** Format: text */
+  "rowFilter.my_articles.details": string;
+  /** Format: integer */
+  "rowFilter.my_articles.like_count": string;
+  /** Format: integer */
+  "rowFilter.my_articles.comment_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.my_articles.created_at": string;
+  /** Format: ARRAY */
+  "rowFilter.my_articles.categories": string;
+  /** Format: character varying */
+  "rowFilter.my_articles.username": string;
+  /** Format: text */
+  "rowFilter.my_articles.avatar": string;
+  /** Format: integer */
+  "rowFilter.my_articles.likes_id": string;
   /** @description profiles */
   "body.profiles": definitions["profiles"];
   /** Format: uuid */

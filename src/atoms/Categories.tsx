@@ -3,10 +3,10 @@ import NextLink from 'next/link'
 
 import MuiLink from '@mui/material/Link'
 
-const Tag = ({ tag }: { tag: number }) => {
+const Categories = ({ category }: { category: number }) => {
   return (
     <NextLink
-      href={ (tag === 0) ? '/categories/front' : '/categories/serverless' }
+      href={ (category === 0) ? '/categories/front' : '/categories/serverless' }
       passHref
     >
       <MuiLink
@@ -14,10 +14,10 @@ const Tag = ({ tag }: { tag: number }) => {
         onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
         onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
       >
-        { (tag === 0) ? '#フロント' : '#サーバーレス' }
+        { (category === 0) ? '#フロント' : '#サーバーレス' }
       </MuiLink>
     </NextLink>
   )
 }
 
-export default Tag
+export default Categories

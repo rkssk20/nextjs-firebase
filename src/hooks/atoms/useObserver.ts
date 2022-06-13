@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react'
 
+type Props = {
+  hasNextPage: boolean | undefined
+  fetchNextPage: () => void
+}
+
 // 無限スクロール用。最後の要素が表示されたかを返す
-const useObserver = (Fetch: () => void) => {
+const useObserver = ({ hasNextPage, fetchNextPage }: Props) => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -9,7 +14,7 @@ const useObserver = (Fetch: () => void) => {
 
     const observer = new IntersectionObserver(([entry]) => {
       if(entry.isIntersecting) {
-        Fetch()
+        hasNextPage && fetchNextPage()
       }
     })
 

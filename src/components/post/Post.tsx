@@ -1,6 +1,6 @@
 import { useRef, MutableRefObject, Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
-import { ArticleType } from '@/types/types'
+import { CustomArticlesType } from '@/types/types'
 import ArticleImage from '@/atoms/ArticleImage'
 import NoArticleImage from '@/atoms/NoArticleImage'
 import Header from '@/components/post/Header'
@@ -11,7 +11,7 @@ import styles from '@/styles/components/post/post.module.scss'
 import CardActionArea from '@mui/material/CardActionArea'
 
 type PostProps = {
-  data: ArticleType
+  data: CustomArticlesType
   setRef: Dispatch<SetStateAction<HTMLDivElement | null>> | false
 }
 
@@ -28,13 +28,14 @@ const Post = ({ data, setRef }: PostProps) => {
     >
       {/* ヘッダー */}
       <Header
-        display_id={ data.display_id }
-        name={ data.name }
-        created_at={ data.created_at }
+        id={ data.user_id }
+        username={ data.username }
+        avatar={ data.avatar }
+        created_at={  data.created_at }
       />
 
       {/* 画像 */}
-      { (data.image.length > 0) ?
+      { (data.image && (data.image.length > 0)) ?
         <ArticleImage image={ data.image } />
         :
         <NoArticleImage title={ data.title } />
@@ -44,15 +45,15 @@ const Post = ({ data, setRef }: PostProps) => {
       <Content
         title={ data.title }
         details={ data.details }
-        tags={ data.tags }
+        categories={ data.categories }
       />
 
       {/* 投稿時間、いいね、コメント数、詳細ボタン */}
       <Actions
-        display_id={ data.display_id }
-        likes={ data.likes }
-        like={ data.like }
-        comments={ data.comments }
+        display_id={ data.user_id }
+        likes={ data.like_count }
+        likes_id={ data.likes_id }
+        comments={ data.comment_count }
       />
     </CardActionArea>
   )

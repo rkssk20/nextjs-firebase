@@ -19,7 +19,7 @@ const Header = ({ display_id, name, created_at }: HeaderProps) => {
       {/* アバター */}
       <NextLink href={ `/account/${ display_id }` } passHref>
         <MuiLink underline='none'>
-          <InitialIcon name={ name } variant='link' />
+          <InitialIcon username={ name } variant='link' />
         </MuiLink>
       </NextLink>
 

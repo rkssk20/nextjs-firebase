@@ -1,4 +1,4 @@
-import Tags from '@/atoms/Tag'
+import Tags from '@/atoms/Categories'
 
 import styles from '@/styles/components/article/title.module.scss'
 import Typography from '@mui/material/Typography'

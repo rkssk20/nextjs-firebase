@@ -24,7 +24,7 @@ const Account = ({ name, display_id, setRef }: AccountProps) => {
       onClick={ () => router.push(`/account/${ display_id }`)}
     >
       <ListItemIcon>
-        <InitialIcon name={ name } variant='medium' />
+        <InitialIcon username={ name } variant='medium' />
       </ListItemIcon>
 
       <ListItemText

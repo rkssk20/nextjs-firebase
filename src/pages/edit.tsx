@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import dynamic from 'next/dynamic'
 import { useRecoilState } from "recoil";
+import dynamic from 'next/dynamic'
 import { draftState } from "@/lib/recoil";
 import useInsertArticles from "@/hooks/insert/useInsertArticles";
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
@@ -10,7 +10,7 @@ import LoginOnly from '@/components/provider/LoginOnly'
 import Categories from '@/components/edit/Categories'
 import Image from '@/components/edit/Image'
 
-const Markdown = dynamic(import('@/components/edit/Markdown'), { ssr: false })
+const Markdown = dynamic(import("@/components/edit/Markdown"), { ssr: false });
 
 import styles from '@/styles/pages/edit.module.scss'
 import CardContent from '@mui/material/CardContent'
@@ -26,6 +26,8 @@ const Edit = () => {
   const [image, setImage] = useState<Blob | null>(null)
   const router = useRouter()
   const { mutate } = useInsertArticles()
+
+  const ImageMemo = useMemo(() => <Image image={ image } setImage={ setImage } />, [image])
 
   // localstorageをuseStateの初期値に渡すとサーバーでエラーになるため
   useEffect(() => {
@@ -78,7 +80,7 @@ const Edit = () => {
 
         <CardContent className={ styles.content }>
           {/* 画像を選択 */}
-          <Image image={ image } setImage={ setImage } />
+          { ImageMemo }
 
           {/* カテゴリを選択 */}
           <Categories categories={ categories } setCategories={ setCategories } />

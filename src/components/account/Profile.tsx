@@ -48,7 +48,7 @@ const Profile = ({ path, item }: ProfileProps) => {
         { account.data?.avatar ?
           <AvatarIcon src={ account.data.avatar } variant='large' />
           :
-          <InitialIcon name={ item.username } variant='large' />
+          <InitialIcon username={ item.username } variant='large' />
         }
 
         <Stack justifyContent='center' className={ styles.profile_right }>
