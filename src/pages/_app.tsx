@@ -1,28 +1,37 @@
+import type { ReactElement, ReactNode } from 'react'
+import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot } from 'recoil'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import client from '@/lib/queryClient'
 import Mui from '@/components/provider/Mui'
-import Auth from '@/components/provider/Auth';
 
 import '@/styles/globals.scss'
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout ?? ((page) => page)
+
   return (
     // recoil
     <RecoilRoot>
-      {/* Mui */}
-      <Mui>
-        {/* react-query */}
-        <QueryClientProvider client={ client }>
-          <Component {...pageProps} />
-
-          <Auth />
+      {/* react-query */}
+      <QueryClientProvider client={ client }>
+        {/* Mui */}
+        <Mui>
+          { getLayout(<Component {...pageProps} />) }
 
           <ReactQueryDevtools initialIsOpen={ false } />
-        </QueryClientProvider>
-      </Mui>
+        </Mui>
+      </QueryClientProvider>
     </RecoilRoot>
   )
 }

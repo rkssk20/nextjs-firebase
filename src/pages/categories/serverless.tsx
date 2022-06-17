@@ -1,13 +1,13 @@
+import useCategoriesArticles from '@/hooks/select/useCategoriesArticles'
 import useObserver from '@/hooks/atoms/useObserver'
-import useArticles from '@/hooks/article/useArticles'
 import Circular from '@/atoms/Circular'
-import Layout from '@/components/provider/Layout'
 import Header from '@/components/categories/Header'
+import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
 const Serverless = () => {
-  const { loading, data, Fetch } = useArticles()
-  const setRef = useObserver(Fetch)
+  const { data, isFetching, hasNextPage, fetchNextPage } = useCategoriesArticles(1)
+  const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   return (
     <Layout
@@ -18,15 +18,21 @@ const Serverless = () => {
     >
       <Header text='サーバーレス' url='serverless' />
 
-      { data.map((item, index) => (
-        <Post
-          key={ item.id }
-          data={ item }
-          setRef={ ((data.length - 1) === index) && setRef }
-        />
+      {/* 投稿一覧 */}
+      { data && data.pages.map((page, page_index) => (
+        page.map((item, index) => (
+          <Post
+            key={ item.id }
+            data={ item }
+            setRef={
+              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
+            }
+          />
+        ))
       ))}
 
-      { loading && <Circular /> }
+      {/* 読み込み中 */}
+      { isFetching && <Circular /> }
     </Layout>
   )
 }

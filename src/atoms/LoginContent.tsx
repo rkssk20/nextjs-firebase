@@ -22,11 +22,14 @@ const LoginContent = () => {
   }]
 
   const handleAuth = async (provider: string) => {
-    const { error } = await supabase.auth.signIn({
-      provider: (provider === 'Twitter') ? 'twitter' : (provider === 'Facebook') ? 'facebook' : 'google'
-    })
+    try {
+      const { error } = await supabase.auth.signIn({
+        provider: (provider === 'Twitter') ? 'twitter' : (provider === 'Facebook') ? 'facebook' : 'google'
+      })
 
-    if(error) {
+      if(error) throw error
+
+    } catch (error) {
       setNotificate({
         open: true,
         message: '認証でエラーが発生しました。'

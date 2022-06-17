@@ -21,7 +21,7 @@ const CommentForm = () => {
     <Form
       text={ text }
       setText={ setText }
-      name={ account.name }
+      name={ account.data?.username ?? '' }
       placeholder='コメントする'
     >
       <div className={ styles.under }>

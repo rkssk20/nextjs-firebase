@@ -1,8 +1,10 @@
+import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
+import Side from '@/components/side/Side'
 import { ProfilePageType } from '@/types/types'
 import { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
-import useMyArticles from '@/hooks/select/useMyArticles'
+import usePersonArticles from '@/hooks/select/usePersonArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
@@ -52,10 +54,10 @@ type AccountProps = {
 }
 
 const Account = ({ item , path }: AccountProps) => {
-  const { data: data_articles, isFetching, hasNextPage, fetchNextPage } = useMyArticles()
+  const { data, isFetching, hasNextPage, fetchNextPage } = usePersonArticles(path)
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
-  console.log(data_articles)
+  console.log(data)
 
   return (
     <Layout
@@ -71,12 +73,14 @@ const Account = ({ item , path }: AccountProps) => {
       <Bar />
 
       {/* 自分の投稿一覧 */}
-      { data_articles && data_articles.pages.map((page, page_index) => (
+      { data && data.pages.map((page, page_index) => (
         page.map((item, index) => (
           <Post
             key={ item.id }
             data={ item }
-            setRef={ ((data_articles.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef }
+            setRef={
+              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
+            }
           />
         ))
       ))}
@@ -87,3 +91,13 @@ const Account = ({ item , path }: AccountProps) => {
 }
 
 export default Account
+
+Account.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <div>
+      { page }
+
+      <Side />
+    </div>
+  )
+}

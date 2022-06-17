@@ -2,10 +2,8 @@ import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { notificateState, dialogState } from '@/lib/recoil'
-import useAuth from '@/hooks/useAuth'
 import Header from '@/components/header/Header'
 import Hamburger from '@/components/header/hamburger/Hamburger'
-import Side from '@/components/side/Side'
 import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/provider/mui.module.scss'
@@ -20,9 +18,6 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
   const dialog = useRecoilValue(dialogState)
-
-  // ついでにログイン処理も行う
-  useAuth()
 
   const theme = createTheme({
     palette: {
@@ -126,7 +121,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   })
 
   return (
-    <ThemeProvider theme={ theme }> 
+    <ThemeProvider theme={ theme }>
       {/* ヘッダー */}
       <Header setMenuOpen={ setMenuOpen } />
 
@@ -136,11 +131,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       {/* メインコンテンツ */}
       <div className={ styles.container }>
         { children }
-
       </div>
-
-      {/* おすすめなど */}
-      <Side />
 
       {/* 通知 */}
       <Snackbar

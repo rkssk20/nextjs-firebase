@@ -42,7 +42,6 @@ const useAvatarUpload = (handleClose: () => void) => {
       setAccount({
         loading: false,
         data: {
-          id: account.data?.id ?? '',
           username: account.data?.username ?? '',
           avatar: process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/' + data?.Key
         }

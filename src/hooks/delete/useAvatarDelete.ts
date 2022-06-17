@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { nanoid } from 'nanoid'
 import { supabase } from "@/lib/supabaseClient";
 import { accountState, notificateState } from "@/lib/recoil";
 
@@ -38,7 +37,6 @@ const useAvatarDelete = () => {
       setAccount({
         loading: false,
         data: {
-          id: account.data?.id ?? '',
           username: account.data?.username ?? '',
           avatar: undefined
         }

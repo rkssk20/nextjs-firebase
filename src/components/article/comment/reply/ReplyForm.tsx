@@ -23,7 +23,7 @@ const ReplyForm = ({ setFormOpen }: ReplyFormProps) => {
     <Form
       text={ text }
       setText={ setText }
-      name={ account.name }
+      name={ account.data?.username ?? '' }
       placeholder='返信する'
     >
       {/* キャンセルボタン */}

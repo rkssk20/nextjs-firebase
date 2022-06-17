@@ -1,6 +1,6 @@
 import type { MouseEvent, TouchEvent } from 'react'
 import NextLink from 'next/link'
-import { definitions } from '@/types/supabase'
+import { ArticleType } from '@/types/types'
 import CreatedAt from '@/lib/createdAt'
 import AvatarIcon from '@/atoms/AvatarIcon'
 import InitialIcon from '@/atoms/InitialIcon'
@@ -10,10 +10,10 @@ import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 interface HeaderProps {
-  id: definitions['profiles']['id']
-  username: definitions['profiles']['username']
-  avatar: definitions['profiles']['avatar']
-  created_at: string
+  id:ArticleType['id']
+  username:ArticleType['username']
+  avatar:ArticleType['avatar']
+  created_at: ArticleType['created_at']
 }
 
 const Header = ({ id, username, avatar, created_at }: HeaderProps) => {

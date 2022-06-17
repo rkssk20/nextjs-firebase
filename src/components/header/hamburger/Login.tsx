@@ -1,6 +1,4 @@
 import NextLink from 'next/link'
-import { useRecoilValue } from 'recoil'
-import { accountState } from '@/lib/recoil'
 import InitialIcon from '@/atoms/InitialIcon'
 import AvatarIcon from '@/atoms/AvatarIcon'
 
@@ -37,8 +35,6 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
 
   // アカウントのリンク
   const Account = () => {
-    const account = useRecoilValue(accountState)
-
     return (
       <NextLink href={ `/account/${ id }` } passHref>
         <ListItemButton
@@ -48,8 +44,9 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
           onClick={ handleClose }
         >
           <ListItemIcon>
-            { account.data?.avatar ?
-              <AvatarIcon src={ account.data.avatar } variant='medium' /> :
+            { avatar ?
+              <AvatarIcon src={ avatar } variant='medium' />
+              :
               <InitialIcon username={ username } variant='medium' />
             }
           </ListItemIcon>

@@ -1,6 +1,6 @@
-import { useRef, MutableRefObject, Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
-import { CustomArticlesType } from '@/types/types'
+import { ArticleType } from '@/types/types'
 import ArticleImage from '@/atoms/ArticleImage'
 import NoArticleImage from '@/atoms/NoArticleImage'
 import Header from '@/components/post/Header'
@@ -11,7 +11,7 @@ import styles from '@/styles/components/post/post.module.scss'
 import CardActionArea from '@mui/material/CardActionArea'
 
 type PostProps = {
-  data: CustomArticlesType
+  data: ArticleType
   setRef: Dispatch<SetStateAction<HTMLDivElement | null>> | false
 }
 
@@ -50,10 +50,10 @@ const Post = ({ data, setRef }: PostProps) => {
 
       {/* 投稿時間、いいね、コメント数、詳細ボタン */}
       <Actions
-        display_id={ data.user_id }
-        likes={ data.like_count }
-        likes_id={ data.likes_id }
-        comments={ data.comment_count }
+        user_id={ data.user_id }
+        like_count={ data.like_count }
+        likes={ data.likes }
+        comment_count={ data.comment_count }
       />
     </CardActionArea>
   )

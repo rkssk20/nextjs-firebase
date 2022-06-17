@@ -1,5 +1,6 @@
 import type { MouseEvent, TouchEvent } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { ArticleType } from '@/types/types'
 import { accountState, dialogState } from '@/lib/recoil'
 
 import styles from '@/styles/components/post/actions.module.scss'
@@ -11,13 +12,13 @@ import Typography from '@mui/material/Typography'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 type ActionsProps = {
-  display_id: string
-  likes: number;
-  likes_id: number | undefined;
-  comments: number
+  user_id: ArticleType['user_id']
+  like_count: ArticleType['like_count'];
+  likes: ArticleType['likes']
+  comment_count: ArticleType['comment_count']
 }
 
-const Actions = ({ display_id, likes, likes_id, comments }: ActionsProps) => {
+const Actions = ({ user_id, like_count, likes, comment_count }: ActionsProps) => {
   const account = useRecoilValue(accountState)
   const setDialog = useSetRecoilState(dialogState)
 
@@ -43,7 +44,7 @@ const Actions = ({ display_id, likes, likes_id, comments }: ActionsProps) => {
     setDialog({
       open: true,
       content: 'share',
-      id: display_id
+      id: user_id
     })
   }
 
@@ -58,21 +59,21 @@ const Actions = ({ display_id, likes, likes_id, comments }: ActionsProps) => {
         onMouseDown={ (e: MouseEvent) => e.stopPropagation() }
         onTouchStart={ (e: TouchEvent) => e.stopPropagation() }
       >
-        { likes_id ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
+        { likes && (likes.length > 0) && likes[0].id ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
       </IconButton>
 
       {/* いいね数 */}
       <Typography variant='caption'>
-        { likes.toLocaleString() }
+        { like_count.toLocaleString() }
       </Typography>
 
       {/* コメントアイコン */}
-      { (comments > 0) && <ChatBubbleOutlineIcon className={ styles.comments_icon } /> }
+      { (comment_count > 0) && <ChatBubbleOutlineIcon className={ styles.comments_icon } /> }
 
       {/* コメント数 */}
-      { (comments > 0) &&
+      { (comment_count > 0) &&
         <Typography className={ styles.comments_count } variant='caption'>
-          { comments.toLocaleString() }
+          { comment_count.toLocaleString() }
         </Typography>
       }
 

@@ -6,7 +6,6 @@ const { persistAtom } = recoilPersist()
 type AccountProps = {
   loading: boolean
   data:{
-    id: string
     username: string
     avatar: string | undefined
   } | null

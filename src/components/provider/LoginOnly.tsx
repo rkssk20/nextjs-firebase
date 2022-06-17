@@ -1,35 +1,37 @@
 import { NextPage } from "next";
 import React, { ReactNode } from "react"
-import { useRecoilValue } from "recoil";
-import { accountState } from "@/lib/recoil";
+import { useSetRecoilState } from "recoil";
+import { notificateState } from "@/lib/recoil";
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/router";
-import Circular from '@/atoms/Circular'
 
 type Props = {
   children :ReactNode
 }
 
 const LoginOnly: NextPage<Props> = ({ children }) => {
-  const account = useRecoilValue(accountState)
+  const setNotificate = useSetRecoilState(notificateState)
   const router = useRouter()
 
-  // ユーザー読み込み中
-  if(account.loading) {
-    return <Circular />
-    
-  // ログアウト時
-  } else if(!account.data) {
-    router.replace('/')
-
-    return null
-    
   // ログイン時
-  } else {
+  if(supabase.auth.user()) {
     return (
       <React.Fragment>
         { children }
       </React.Fragment>
     )
+    
+  // ログアウト時 (ログインが必要なページなのでログインページに遷移)
+  } else {
+    router.replace('/login')
+    .then(() => {
+      setNotificate({
+        open: true,
+        message: 'ログインが必要なページです'
+      })
+    })
+    
+    return null
   }
 }
 

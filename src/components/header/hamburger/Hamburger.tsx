@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
+import { supabase } from '@/lib/supabaseClient'
+import useProfile from '@/hooks/select/useProfile'
 import Loading from '@/components/header/hamburger/Loading'
 import Login from '@/components/header/hamburger/Login'
 import Logout from '@/components/header/hamburger/Logout'
@@ -24,9 +26,11 @@ type HamburgerProps = {
 }
 
 const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
+  const { data, isFetching } = useProfile()
   const pc = useMediaQuery('(min-width: 1182px')
   const router = useRouter()
   const account = useRecoilValue(accountState)
+  const id = supabase.auth.user()?.id
 
   const main_list = [{
     url: '/',
@@ -67,12 +71,12 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
       onClose={ handleClose }
     >
       {/* アカウント関連のリンク  */}
-      { account.loading ?
+      { isFetching ?
         <Loading />
         :
-        account.data ?
+        id && account.data ?
         <Login
-          id={ account.data.id }
+          id={ id }
           username={ account.data.username }
           avatar={ account.data.avatar }
           handleClose={ handleClose }

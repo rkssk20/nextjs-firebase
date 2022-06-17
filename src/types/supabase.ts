@@ -306,6 +306,49 @@ export interface paths {
       };
     };
   };
+  "/front_articles": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.front_articles.id"];
+          user_id?: parameters["rowFilter.front_articles.user_id"];
+          title?: parameters["rowFilter.front_articles.title"];
+          details?: parameters["rowFilter.front_articles.details"];
+          image?: parameters["rowFilter.front_articles.image"];
+          like_count?: parameters["rowFilter.front_articles.like_count"];
+          comment_count?: parameters["rowFilter.front_articles.comment_count"];
+          created_at?: parameters["rowFilter.front_articles.created_at"];
+          avatar?: parameters["rowFilter.front_articles.avatar"];
+          username?: parameters["rowFilter.front_articles.username"];
+          categories?: parameters["rowFilter.front_articles.categories"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["front_articles"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+  };
   "/likes": {
     get: {
       parameters: {
@@ -402,22 +445,21 @@ export interface paths {
       };
     };
   };
-  "/my_articles": {
+  "/person_articles": {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.my_articles.id"];
-          user_id?: parameters["rowFilter.my_articles.user_id"];
-          image?: parameters["rowFilter.my_articles.image"];
-          title?: parameters["rowFilter.my_articles.title"];
-          details?: parameters["rowFilter.my_articles.details"];
-          like_count?: parameters["rowFilter.my_articles.like_count"];
-          comment_count?: parameters["rowFilter.my_articles.comment_count"];
-          created_at?: parameters["rowFilter.my_articles.created_at"];
-          categories?: parameters["rowFilter.my_articles.categories"];
-          username?: parameters["rowFilter.my_articles.username"];
-          avatar?: parameters["rowFilter.my_articles.avatar"];
-          likes_id?: parameters["rowFilter.my_articles.likes_id"];
+          id?: parameters["rowFilter.person_articles.id"];
+          user_id?: parameters["rowFilter.person_articles.user_id"];
+          title?: parameters["rowFilter.person_articles.title"];
+          details?: parameters["rowFilter.person_articles.details"];
+          image?: parameters["rowFilter.person_articles.image"];
+          like_count?: parameters["rowFilter.person_articles.like_count"];
+          comment_count?: parameters["rowFilter.person_articles.comment_count"];
+          created_at?: parameters["rowFilter.person_articles.created_at"];
+          avatar?: parameters["rowFilter.person_articles.avatar"];
+          username?: parameters["rowFilter.person_articles.username"];
+          categories?: parameters["rowFilter.person_articles.categories"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -439,7 +481,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["my_articles"][];
+          schema: definitions["person_articles"][];
         };
         /** Partial Content */
         206: unknown;
@@ -548,6 +590,49 @@ export interface paths {
       };
     };
   };
+  "/serverless_articles": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.serverless_articles.id"];
+          user_id?: parameters["rowFilter.serverless_articles.user_id"];
+          title?: parameters["rowFilter.serverless_articles.title"];
+          details?: parameters["rowFilter.serverless_articles.details"];
+          image?: parameters["rowFilter.serverless_articles.image"];
+          like_count?: parameters["rowFilter.serverless_articles.like_count"];
+          comment_count?: parameters["rowFilter.serverless_articles.comment_count"];
+          created_at?: parameters["rowFilter.serverless_articles.created_at"];
+          avatar?: parameters["rowFilter.serverless_articles.avatar"];
+          username?: parameters["rowFilter.serverless_articles.username"];
+          categories?: parameters["rowFilter.serverless_articles.categories"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["serverless_articles"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+  };
   "/rpc/on_insert_articles": {
     post: {
       parameters: {
@@ -648,6 +733,38 @@ export interface definitions {
     /** Format: uuid */
     follower_id: string;
   };
+  front_articles: {
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    user_id?: string;
+    /** Format: character varying */
+    title?: string;
+    /** Format: text */
+    details?: string;
+    /** Format: text */
+    image?: string;
+    /** Format: integer */
+    like_count?: number;
+    /** Format: integer */
+    comment_count?: number;
+    /** Format: timestamp without time zone */
+    created_at?: string;
+    /** Format: text */
+    avatar?: string;
+    /** Format: character varying */
+    username?: string;
+    /** Format: ARRAY */
+    categories?: unknown[];
+  };
   likes: {
     /**
      * Format: integer
@@ -674,7 +791,7 @@ export interface definitions {
      */
     created_at: string;
   };
-  my_articles: {
+  person_articles: {
     /**
      * Format: character varying
      * @description Note:
@@ -687,30 +804,24 @@ export interface definitions {
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
     user_id?: string;
-    /** Format: text */
-    image?: string;
     /** Format: character varying */
     title?: string;
     /** Format: text */
     details?: string;
+    /** Format: text */
+    image?: string;
     /** Format: integer */
     like_count?: number;
     /** Format: integer */
     comment_count?: number;
     /** Format: timestamp without time zone */
     created_at?: string;
-    /** Format: ARRAY */
-    categories?: unknown[];
-    /** Format: character varying */
-    username?: string;
     /** Format: text */
     avatar?: string;
-    /**
-     * Format: integer
-     * @description Note:
-     * This is a Primary Key.<pk/>
-     */
-    likes_id?: number;
+    /** Format: character varying */
+    username?: string;
+    /** Format: ARRAY */
+    categories?: unknown[];
   };
   profiles: {
     /**
@@ -738,6 +849,38 @@ export interface definitions {
      * @default 0
      */
     follower_count: number;
+  };
+  serverless_articles: {
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    user_id?: string;
+    /** Format: character varying */
+    title?: string;
+    /** Format: text */
+    details?: string;
+    /** Format: text */
+    image?: string;
+    /** Format: integer */
+    like_count?: number;
+    /** Format: integer */
+    comment_count?: number;
+    /** Format: timestamp without time zone */
+    created_at?: string;
+    /** Format: text */
+    avatar?: string;
+    /** Format: character varying */
+    username?: string;
+    /** Format: ARRAY */
+    categories?: unknown[];
   };
 }
 
@@ -808,6 +951,30 @@ export interface parameters {
   "rowFilter.follows.user_id": string;
   /** Format: uuid */
   "rowFilter.follows.follower_id": string;
+  /** @description front_articles */
+  "body.front_articles": definitions["front_articles"];
+  /** Format: character varying */
+  "rowFilter.front_articles.id": string;
+  /** Format: uuid */
+  "rowFilter.front_articles.user_id": string;
+  /** Format: character varying */
+  "rowFilter.front_articles.title": string;
+  /** Format: text */
+  "rowFilter.front_articles.details": string;
+  /** Format: text */
+  "rowFilter.front_articles.image": string;
+  /** Format: integer */
+  "rowFilter.front_articles.like_count": string;
+  /** Format: integer */
+  "rowFilter.front_articles.comment_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.front_articles.created_at": string;
+  /** Format: text */
+  "rowFilter.front_articles.avatar": string;
+  /** Format: character varying */
+  "rowFilter.front_articles.username": string;
+  /** Format: ARRAY */
+  "rowFilter.front_articles.categories": string;
   /** @description likes */
   "body.likes": definitions["likes"];
   /** Format: integer */
@@ -818,32 +985,30 @@ export interface parameters {
   "rowFilter.likes.articles_id": string;
   /** Format: timestamp without time zone */
   "rowFilter.likes.created_at": string;
-  /** @description my_articles */
-  "body.my_articles": definitions["my_articles"];
+  /** @description person_articles */
+  "body.person_articles": definitions["person_articles"];
   /** Format: character varying */
-  "rowFilter.my_articles.id": string;
+  "rowFilter.person_articles.id": string;
   /** Format: uuid */
-  "rowFilter.my_articles.user_id": string;
-  /** Format: text */
-  "rowFilter.my_articles.image": string;
+  "rowFilter.person_articles.user_id": string;
   /** Format: character varying */
-  "rowFilter.my_articles.title": string;
+  "rowFilter.person_articles.title": string;
   /** Format: text */
-  "rowFilter.my_articles.details": string;
+  "rowFilter.person_articles.details": string;
+  /** Format: text */
+  "rowFilter.person_articles.image": string;
   /** Format: integer */
-  "rowFilter.my_articles.like_count": string;
+  "rowFilter.person_articles.like_count": string;
   /** Format: integer */
-  "rowFilter.my_articles.comment_count": string;
+  "rowFilter.person_articles.comment_count": string;
   /** Format: timestamp without time zone */
-  "rowFilter.my_articles.created_at": string;
-  /** Format: ARRAY */
-  "rowFilter.my_articles.categories": string;
-  /** Format: character varying */
-  "rowFilter.my_articles.username": string;
+  "rowFilter.person_articles.created_at": string;
   /** Format: text */
-  "rowFilter.my_articles.avatar": string;
-  /** Format: integer */
-  "rowFilter.my_articles.likes_id": string;
+  "rowFilter.person_articles.avatar": string;
+  /** Format: character varying */
+  "rowFilter.person_articles.username": string;
+  /** Format: ARRAY */
+  "rowFilter.person_articles.categories": string;
   /** @description profiles */
   "body.profiles": definitions["profiles"];
   /** Format: uuid */
@@ -858,6 +1023,30 @@ export interface parameters {
   "rowFilter.profiles.follow_count": string;
   /** Format: integer */
   "rowFilter.profiles.follower_count": string;
+  /** @description serverless_articles */
+  "body.serverless_articles": definitions["serverless_articles"];
+  /** Format: character varying */
+  "rowFilter.serverless_articles.id": string;
+  /** Format: uuid */
+  "rowFilter.serverless_articles.user_id": string;
+  /** Format: character varying */
+  "rowFilter.serverless_articles.title": string;
+  /** Format: text */
+  "rowFilter.serverless_articles.details": string;
+  /** Format: text */
+  "rowFilter.serverless_articles.image": string;
+  /** Format: integer */
+  "rowFilter.serverless_articles.like_count": string;
+  /** Format: integer */
+  "rowFilter.serverless_articles.comment_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.serverless_articles.created_at": string;
+  /** Format: text */
+  "rowFilter.serverless_articles.avatar": string;
+  /** Format: character varying */
+  "rowFilter.serverless_articles.username": string;
+  /** Format: ARRAY */
+  "rowFilter.serverless_articles.categories": string;
 }
 
 export interface operations {}

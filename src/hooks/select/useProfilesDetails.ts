@@ -4,7 +4,7 @@ import { definitions } from '@/types/supabase'
 import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
 
-export const fetchProfilesDetails = async (id: string | undefined) => {
+export const FetchData = async (id: string | undefined) => {
   if(id === undefined) throw 'error'
 
   const { data, error } = await supabase
@@ -21,7 +21,7 @@ export const fetchProfilesDetails = async (id: string | undefined) => {
 const useProfilesDetails = () => {
   const setNotificate = useSetRecoilState(notificateState)
 
-  const { data, isFetching } = useQuery(['profilesDetails'], () => fetchProfilesDetails(supabase.auth.user()?.id), {
+  const { data, isFetching } = useQuery(['profiles_details'], () => FetchData(supabase.auth.user()?.id), {
       // キャッシュの有効期間は5分
       staleTime: 30000,
       onError: error => {

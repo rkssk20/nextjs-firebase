@@ -13,7 +13,7 @@ export type CategoriesProps = {
 }
 
 // 記事一つ
-export type CustomArticlesType = {
+export type ArticleType = {
   id: definitions['articles']['id']
   user_id: definitions['articles']['user_id']
   image: definitions['articles']['image']
@@ -22,35 +22,35 @@ export type CustomArticlesType = {
   like_count: definitions['articles']['like_count']
   comment_count: definitions['articles']['comment_count']
   created_at: definitions['articles']['created_at']
-  categories: {
-    category: definitions['categories']['category']
-  }[] | undefined
-  username: definitions['profiles']['username']
   avatar: definitions['profiles']['avatar']
-  likes_id: definitions['likes']['id'] | undefined
+  username: definitions['profiles']['username']
+  categories: ['0' | '1']
+  likes: {
+    id: definitions['likes']['id']
+  }[] | undefined
 }
 
 // 記事一つ
-export type ArticleType = {
-  id: string;
-  title: string;
-  details: string;
-  image?: string | undefined;
-  like_count: number;
-  comment_count: number;
-  created_at: string;
-  categories: {
-    category: number
-  }[]
-  profiles: {
-    id: string
-    usernmae: string
-    avatar: string | null
-  }
-  likes: {
-    id: number | undefined
-  }[]
-}
+// export type ArticleType = {
+//   id: string;
+//   title: string;
+//   details: string;
+//   image?: string | undefined;
+//   like_count: number;
+//   comment_count: number;
+//   created_at: string;
+//   categories: {
+//     category: number
+//   }[]
+//   profiles: {
+//     id: string
+//     usernmae: string
+//     avatar: string | null
+//   }
+//   likes: {
+//     id: number | undefined
+//   }[]
+// }
 
 // プロフィールのISR用api
 export type ProfilePageType = {

@@ -24,6 +24,7 @@ type ProfileProps = {
 const Profile = ({ path, item }: ProfileProps) => {
   const account = useRecoilValue(accountState)
   const setNotificate = useSetRecoilState(notificateState)
+  const user = supabase.auth.user()
   const router = useRouter()
 
   // ログアウト処理
@@ -58,7 +59,7 @@ const Profile = ({ path, item }: ProfileProps) => {
 
           { account.loading ?
             <CircularProgress className={ styles.circular } classes={{ root: styles.circular_root }} size={ 38.25 } /> :
-            (account.data?.id && (path == account.data.id)) ?
+            (path == user?.id) ?
             // 本人なら設定、ログアウト
             <Stack
               className={ styles.buttons }

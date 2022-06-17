@@ -2,14 +2,14 @@ import { useQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 import { supabase } from '@/lib/supabaseClient'
 import { notificateState } from '@/lib/recoil'
-import { fetchProfilesDetails } from './useProfilesDetails'
+import { FetchData } from './useProfilesDetails'
 
 const useLazyProfilesDetails = () => {
   const setNotificate = useSetRecoilState(notificateState)
   const id = supabase.auth.user()?.id
 
   const { data, isFetching, refetch } = useQuery(['profilesDetails'],
-  () => id ? fetchProfilesDetails(id) : null, {
+  () => id ? FetchData(id) : null, {
       // キャッシュの有効期間は5分
       staleTime: 30000,
       // 初回の取得を禁止
