@@ -1,18 +1,25 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
+import useInsertComments from '@/hooks/mutate/insert/useInsertComments'
 import { DisabledButton, ContainedButton } from '@/atoms/Button'
-import Form from '@/components/article/comment/Form'
+import Form from '@/atoms/Form'
 
 import styles from '@/styles/components/article/comment/commentForm.module.scss'
 import Skeleton from '@mui/material/Skeleton'
 
-const CommentForm = () => {
+const CommentForm = ({ path }: { path: string }) => {
   const [text, setText] = useState('')
   const account = useRecoilValue(accountState)
+  const { mutate, isLoading } = useInsertComments(path)
 
+  // コメントの投稿
   const handlePost = () => {
-    console.log('post')
+    if(isLoading) return
+
+    mutate(text)
+
+    setText('')
   }
 
   if(account.loading) return <Skeleton className={ styles.skeleton } variant='rectangular' />

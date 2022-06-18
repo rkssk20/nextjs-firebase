@@ -213,6 +213,204 @@ export interface paths {
       };
     };
   };
+  "/comments": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.comments.id"];
+          user_id?: parameters["rowFilter.comments.user_id"];
+          articles_id?: parameters["rowFilter.comments.articles_id"];
+          comment?: parameters["rowFilter.comments.comment"];
+          reply_count?: parameters["rowFilter.comments.reply_count"];
+          created_at?: parameters["rowFilter.comments.created_at"];
+          like_count?: parameters["rowFilter.comments.like_count"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["comments"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** comments */
+          comments?: definitions["comments"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.comments.id"];
+          user_id?: parameters["rowFilter.comments.user_id"];
+          articles_id?: parameters["rowFilter.comments.articles_id"];
+          comment?: parameters["rowFilter.comments.comment"];
+          reply_count?: parameters["rowFilter.comments.reply_count"];
+          created_at?: parameters["rowFilter.comments.created_at"];
+          like_count?: parameters["rowFilter.comments.like_count"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.comments.id"];
+          user_id?: parameters["rowFilter.comments.user_id"];
+          articles_id?: parameters["rowFilter.comments.articles_id"];
+          comment?: parameters["rowFilter.comments.comment"];
+          reply_count?: parameters["rowFilter.comments.reply_count"];
+          created_at?: parameters["rowFilter.comments.created_at"];
+          like_count?: parameters["rowFilter.comments.like_count"];
+        };
+        body: {
+          /** comments */
+          comments?: definitions["comments"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/comments_likes": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.comments_likes.id"];
+          user_id?: parameters["rowFilter.comments_likes.user_id"];
+          comment_id?: parameters["rowFilter.comments_likes.comment_id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["comments_likes"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** comments_likes */
+          comments_likes?: definitions["comments_likes"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.comments_likes.id"];
+          user_id?: parameters["rowFilter.comments_likes.user_id"];
+          comment_id?: parameters["rowFilter.comments_likes.comment_id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.comments_likes.id"];
+          user_id?: parameters["rowFilter.comments_likes.user_id"];
+          comment_id?: parameters["rowFilter.comments_likes.comment_id"];
+        };
+        body: {
+          /** comments_likes */
+          comments_likes?: definitions["comments_likes"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/follows": {
     get: {
       parameters: {
@@ -445,6 +643,52 @@ export interface paths {
       };
     };
   };
+  "/likes_articles": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.likes_articles.id"];
+          user_id?: parameters["rowFilter.likes_articles.user_id"];
+          title?: parameters["rowFilter.likes_articles.title"];
+          details?: parameters["rowFilter.likes_articles.details"];
+          image?: parameters["rowFilter.likes_articles.image"];
+          like_count?: parameters["rowFilter.likes_articles.like_count"];
+          comment_count?: parameters["rowFilter.likes_articles.comment_count"];
+          created_at?: parameters["rowFilter.likes_articles.created_at"];
+          avatar?: parameters["rowFilter.likes_articles.avatar"];
+          username?: parameters["rowFilter.likes_articles.username"];
+          categories?: parameters["rowFilter.likes_articles.categories"];
+          likes_id?: parameters["rowFilter.likes_articles.likes_id"];
+          likes_created?: parameters["rowFilter.likes_articles.likes_created"];
+          likes_user?: parameters["rowFilter.likes_articles.likes_user"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["likes_articles"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+  };
   "/person_articles": {
     get: {
       parameters: {
@@ -590,6 +834,201 @@ export interface paths {
       };
     };
   };
+  "/replies": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.replies.id"];
+          user_id?: parameters["rowFilter.replies.user_id"];
+          comment_id?: parameters["rowFilter.replies.comment_id"];
+          comment?: parameters["rowFilter.replies.comment"];
+          like_count?: parameters["rowFilter.replies.like_count"];
+          created_at?: parameters["rowFilter.replies.created_at"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["replies"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** replies */
+          replies?: definitions["replies"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.replies.id"];
+          user_id?: parameters["rowFilter.replies.user_id"];
+          comment_id?: parameters["rowFilter.replies.comment_id"];
+          comment?: parameters["rowFilter.replies.comment"];
+          like_count?: parameters["rowFilter.replies.like_count"];
+          created_at?: parameters["rowFilter.replies.created_at"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.replies.id"];
+          user_id?: parameters["rowFilter.replies.user_id"];
+          comment_id?: parameters["rowFilter.replies.comment_id"];
+          comment?: parameters["rowFilter.replies.comment"];
+          like_count?: parameters["rowFilter.replies.like_count"];
+          created_at?: parameters["rowFilter.replies.created_at"];
+        };
+        body: {
+          /** replies */
+          replies?: definitions["replies"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/replies_likes": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.replies_likes.id"];
+          user_id?: parameters["rowFilter.replies_likes.user_id"];
+          replies_id?: parameters["rowFilter.replies_likes.replies_id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["replies_likes"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** replies_likes */
+          replies_likes?: definitions["replies_likes"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.replies_likes.id"];
+          user_id?: parameters["rowFilter.replies_likes.user_id"];
+          replies_id?: parameters["rowFilter.replies_likes.replies_id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.replies_likes.id"];
+          user_id?: parameters["rowFilter.replies_likes.user_id"];
+          replies_id?: parameters["rowFilter.replies_likes.replies_id"];
+        };
+        body: {
+          /** replies_likes */
+          replies_likes?: definitions["replies_likes"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/serverless_articles": {
     get: {
       parameters: {
@@ -633,7 +1072,7 @@ export interface paths {
       };
     };
   };
-  "/rpc/on_insert_articles": {
+  "/rpc/handle_insert_articles": {
     post: {
       parameters: {
         body: {
@@ -716,6 +1155,65 @@ export interface definitions {
     /** Format: smallint */
     category: number;
   };
+  comments: {
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * @default auth.uid()
+     */
+    user_id: string;
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Foreign Key to `articles.id`.<fk table='articles' column='id'/>
+     */
+    articles_id: string;
+    /** Format: character varying */
+    comment: string;
+    /**
+     * Format: integer
+     * @default 0
+     */
+    reply_count: number;
+    /**
+     * Format: timestamp without time zone
+     * @default now()
+     */
+    created_at: string;
+    /**
+     * Format: integer
+     * @default 0
+     */
+    like_count: number;
+  };
+  comments_likes: {
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * @default auth.uid()
+     */
+    user_id?: string;
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Foreign Key to `comments.id`.<fk table='comments' column='id'/>
+     */
+    comment_id?: number;
+  };
   follows: {
     /**
      * Format: integer
@@ -791,6 +1289,52 @@ export interface definitions {
      */
     created_at: string;
   };
+  likes_articles: {
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    user_id?: string;
+    /** Format: character varying */
+    title?: string;
+    /** Format: text */
+    details?: string;
+    /** Format: text */
+    image?: string;
+    /** Format: integer */
+    like_count?: number;
+    /** Format: integer */
+    comment_count?: number;
+    /** Format: timestamp without time zone */
+    created_at?: string;
+    /** Format: text */
+    avatar?: string;
+    /** Format: character varying */
+    username?: string;
+    /** Format: ARRAY */
+    categories?: unknown[];
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    likes_id?: number;
+    /** Format: timestamp without time zone */
+    likes_created?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    likes_user?: string;
+  };
   person_articles: {
     /**
      * Format: character varying
@@ -849,6 +1393,60 @@ export interface definitions {
      * @default 0
      */
     follower_count: number;
+  };
+  replies: {
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * @default auth.uid()
+     */
+    user_id: string;
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Foreign Key to `comments.id`.<fk table='comments' column='id'/>
+     */
+    comment_id?: number;
+    /** Format: character varying */
+    comment: string;
+    /**
+     * Format: integer
+     * @default 0
+     */
+    like_count: number;
+    /**
+     * Format: timestamp without time zone
+     * @default now()
+     */
+    created_at: string;
+  };
+  replies_likes: {
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * @default auth.uid()
+     */
+    user_id?: string;
+    /**
+     * Format: integer
+     * @description Note:
+     * This is a Foreign Key to `replies.id`.<fk table='replies' column='id'/>
+     */
+    replies_id?: number;
   };
   serverless_articles: {
     /**
@@ -943,6 +1541,30 @@ export interface parameters {
   "rowFilter.categories.articles_id": string;
   /** Format: smallint */
   "rowFilter.categories.category": string;
+  /** @description comments */
+  "body.comments": definitions["comments"];
+  /** Format: integer */
+  "rowFilter.comments.id": string;
+  /** Format: uuid */
+  "rowFilter.comments.user_id": string;
+  /** Format: character varying */
+  "rowFilter.comments.articles_id": string;
+  /** Format: character varying */
+  "rowFilter.comments.comment": string;
+  /** Format: integer */
+  "rowFilter.comments.reply_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.comments.created_at": string;
+  /** Format: integer */
+  "rowFilter.comments.like_count": string;
+  /** @description comments_likes */
+  "body.comments_likes": definitions["comments_likes"];
+  /** Format: integer */
+  "rowFilter.comments_likes.id": string;
+  /** Format: uuid */
+  "rowFilter.comments_likes.user_id": string;
+  /** Format: integer */
+  "rowFilter.comments_likes.comment_id": string;
   /** @description follows */
   "body.follows": definitions["follows"];
   /** Format: integer */
@@ -985,6 +1607,36 @@ export interface parameters {
   "rowFilter.likes.articles_id": string;
   /** Format: timestamp without time zone */
   "rowFilter.likes.created_at": string;
+  /** @description likes_articles */
+  "body.likes_articles": definitions["likes_articles"];
+  /** Format: character varying */
+  "rowFilter.likes_articles.id": string;
+  /** Format: uuid */
+  "rowFilter.likes_articles.user_id": string;
+  /** Format: character varying */
+  "rowFilter.likes_articles.title": string;
+  /** Format: text */
+  "rowFilter.likes_articles.details": string;
+  /** Format: text */
+  "rowFilter.likes_articles.image": string;
+  /** Format: integer */
+  "rowFilter.likes_articles.like_count": string;
+  /** Format: integer */
+  "rowFilter.likes_articles.comment_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.likes_articles.created_at": string;
+  /** Format: text */
+  "rowFilter.likes_articles.avatar": string;
+  /** Format: character varying */
+  "rowFilter.likes_articles.username": string;
+  /** Format: ARRAY */
+  "rowFilter.likes_articles.categories": string;
+  /** Format: integer */
+  "rowFilter.likes_articles.likes_id": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.likes_articles.likes_created": string;
+  /** Format: uuid */
+  "rowFilter.likes_articles.likes_user": string;
   /** @description person_articles */
   "body.person_articles": definitions["person_articles"];
   /** Format: character varying */
@@ -1023,6 +1675,28 @@ export interface parameters {
   "rowFilter.profiles.follow_count": string;
   /** Format: integer */
   "rowFilter.profiles.follower_count": string;
+  /** @description replies */
+  "body.replies": definitions["replies"];
+  /** Format: integer */
+  "rowFilter.replies.id": string;
+  /** Format: uuid */
+  "rowFilter.replies.user_id": string;
+  /** Format: integer */
+  "rowFilter.replies.comment_id": string;
+  /** Format: character varying */
+  "rowFilter.replies.comment": string;
+  /** Format: integer */
+  "rowFilter.replies.like_count": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.replies.created_at": string;
+  /** @description replies_likes */
+  "body.replies_likes": definitions["replies_likes"];
+  /** Format: integer */
+  "rowFilter.replies_likes.id": string;
+  /** Format: uuid */
+  "rowFilter.replies_likes.user_id": string;
+  /** Format: integer */
+  "rowFilter.replies_likes.replies_id": string;
   /** @description serverless_articles */
   "body.serverless_articles": definitions["serverless_articles"];
   /** Format: character varying */

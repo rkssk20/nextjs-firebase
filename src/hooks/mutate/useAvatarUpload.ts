@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { nanoid } from 'nanoid'
+import type { definitions } from "@/types/supabase";
 import { supabase } from "@/lib/supabaseClient";
 import { accountState, notificateState } from "@/lib/recoil";
 
@@ -8,12 +9,6 @@ type MutateType = {
   blob: Blob
   type: string
 }
-
-type ExistingType = {
-  username: string
-  details: string | null
-  avatar: string | null
-} | undefined
 
 const mutateAvatar = async ({ blob, type }: MutateType) => {
   const { error, data } = await supabase
@@ -47,11 +42,11 @@ const useAvatarUpload = (handleClose: () => void) => {
         }
       })
 
-      const existing: ExistingType = queryClient.getQueryData('profilesDetails')
+      const existing: definitions['profiles'] | undefined = queryClient.getQueryData('profiles_details')
 
       // キャッシュがあるなら追加
       if(existing) {
-        queryClient.setQueryData('profilesDetails', {
+        queryClient.setQueryData('profiles_etails', {
           ...existing,
           avatar: data?.Key
         })

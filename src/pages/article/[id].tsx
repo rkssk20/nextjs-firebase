@@ -1,6 +1,7 @@
 import type { GetStaticProps, GetStaticPaths } from "next";
-import { ArticleType } from '@/types/types';
+import type { definitions } from "@/types/supabase";
 import RemarkDown from '@/lib/remarkDown'
+import { supabase } from '@/lib/supabaseClient'
 import ArticleImage from "@/atoms/ArticleImage";
 import NoArtcileImage from "@/atoms/NoArticleImage";
 import Layout from '@/components/provider/Layout'
@@ -9,39 +10,55 @@ import Header from '@/components/article/Header'
 import Share from '@/components/article/Share'
 import Actions from '@/components/article/Actions'
 import Comments from "@/components/article/comment/Comments";
+import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/article/id.module.scss'
 import Typography from '@mui/material/Typography'
+import { ReactElement } from "react";
 
 // ISR
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id
 
-  if(!id) return { notFound: true }
+  if(!id || typeof(id) !== 'string') return { notFound: true }
 
-  const article = await fetch(`${ process.env.NEXT_PUBLIC_WEB_URL }/api/testArticle`, {
-    method: 'POST',
-    body: JSON.stringify({ id })
-  })
+  try {
+    const { data, error } = await supabase
+    .from<definitions['articles']>('articles')
+    .select(
+      `user_id,
+      title,
+      details,
+      image,
+      like_count,
+      comment_count,
+      created_at,
+      profiles!reference_articles_profiles(username, avatar),
+      categories(id, category)'`
+    )
+    .eq('id', id)
+    .single()
 
-  const result = await article.json()
+    if(error || !data) throw error
 
-  if(!result.data) return { notFound: true }
+    const remark = await RemarkDown(data.details)
 
-  const remark = await RemarkDown(result.data.details)
-
-  return {
-    props: {
-      item: {
-        ...result.data,
-        details: remark
+    return {
+      props: {
+        item: {
+          ...data,
+          details: remark
+        },
+        path: id
       },
-      path: id
-    },
-    // 5分キャッシュ
-    revalidate: 300
-  };
-};
+      // 5分キャッシュ
+      revalidate: 300
+    }
+
+  } catch {
+    return { notFound: true }
+  }
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -51,7 +68,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 interface ArticleProps {
-  item: ArticleType
+  item: {
+      user_id: definitions['articles']['user_id']
+      title: definitions['articles']['title']
+      details: definitions['articles']['details']
+      image: definitions['articles']['image']
+      like_count: definitions['articles']['like_count']
+      comment_count: definitions['articles']['comment_count']
+      created_at: definitions['articles']['created_at']
+    }
+    & { profiles: definitions['profiles'] }
+    & { categories: definitions['categories'][] }
   path: string
 }
 
@@ -64,19 +91,19 @@ const Article = ({ item, path }: ArticleProps) => {
       image={ item.image ? item.image : 'nextjssupabase' }
     >
       {/* 画像 */}
-      { (item.image.length > 0) ?
+      { item.image ?
         <ArticleImage image={ item.image } />
         :
         <NoArtcileImage title={ item.title } />
       }
 
       {/* タグ、タイトル、投稿日時 */}
-      <Title tags={ item.tags } title={ item.title } />
+      <Title categories={ item.categories } title={ item.title } />
 
       {/* 投稿者、投稿日時 */}
       <Header
-        display_id={ item.display_id }
-        name={ item.name }
+        user_id={ item.user_id }
+        name={ item.profiles.username }
         created_at={ item.created_at }
       />
 
@@ -97,19 +124,28 @@ const Article = ({ item, path }: ArticleProps) => {
 
       {/* いいね、詳細ボタン */}
       <Actions
-        like={ item.like }
-        likes={ item.likes }
-        mine={ item.mine }
         path={ path }
+        user_id={ item.user_id }
+        like_count={ item.like_count }
       />
 
       {/* コメント欄 */}
       <Comments
         path={ path }
-        comments={ item.comments }
+        comments={ item.comment_count }
       />
     </Layout>
   )
 }
 
 export default Article
+
+Article.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <div>
+      { page }
+
+      <Side />
+    </div>
+  )
+}

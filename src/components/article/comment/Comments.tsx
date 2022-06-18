@@ -1,7 +1,8 @@
 import useFirstObserve from '@/hooks/article/useFirstObserve'
 import useComments from '@/hooks/article/useComments'
+import useSelectComments from '@/hooks/select/useSelectComments'
 import Circular from '@/atoms/Circular'
-import CommentForm from '@/components/article/comment/CommentForm'
+import CommentForm from '@/components/article/comment/CommenForm'
 import Header from '@/components/article/comment/Header'
 import Actions from '@/components/article/comment/Actions'
 import Replies from '@/components/article/comment/reply/Replies'
@@ -18,9 +19,13 @@ type CommentsProps = {
 
 const Comments = ({ path, comments }: CommentsProps) => {
   // コメントの取得
-  const { loading, data, hasNextPage, Fetch } = useComments(path)
+  // const { loading, data, hasNextPage, Fetch } = useComments(path)
+  const { data, refetch, isFetching, hasNextPage, fetchNextPage } = useSelectComments(path)
   // タイトルを監視して初回の取得
-  const ref = useFirstObserve(Fetch)
+  const ref = useFirstObserve(refetch)
+
+  console.log(data?.pages[0].length);
+  
 
   return (
     <div>
@@ -36,11 +41,11 @@ const Comments = ({ path, comments }: CommentsProps) => {
       </Typography>
 
       {/* コメントフォーム */}
-      <CommentForm />
+      <CommentForm path={ path } />
 
       {/* コメント欄 */}
-      { (data.length > 0) &&
-        data.map(item => (
+      { data && (data?.pages[0].length > 0) ? data.pages.map(pages => (
+        pages.map(item => (
           <Card
             key={ item.id }
             className={ styles.card }
@@ -48,8 +53,9 @@ const Comments = ({ path, comments }: CommentsProps) => {
           >
             {/* アカウント、投稿時間 */}
             <Header
-              name={ item.name }
-              display_id={ item.display_id }
+              username={ item.profiles.username }
+              user_id={ item.user_id }
+              avatar={ item.profiles.avatar }
               created_at={ item.created_at }
             />
 
@@ -57,37 +63,41 @@ const Comments = ({ path, comments }: CommentsProps) => {
             <Actions
               path={ path }
               id={ item.id }
-              content={ item.content }
-              likes={ item.likes }
-              like={ item.like }
-              mine={ item.mine }
+              user_id={ item.user_id }
+              comment={ item.comment }
+              like_count={ item.like_count }
+              comments_likes={ item.comments_likes }
             />
 
             {/* リプライ欄 */}
-            { (item.replies > 0) &&
+            { (item.reply_count > 0) &&
               <Replies
                 path={ path }
                 id={ item.id }
-                replies={ item.replies }
+                replies={ item.reply_count }
               />
             }
           </Card>
         ))
+      ))
+      :
+      !isFetching &&
+        <Typography className={ styles.no_text }>まだコメントがありません。</Typography>
       }
 
       {/* さらに表示ボタン */}
-      { ((data.length > 0 ) && !loading && hasNextPage) &&
+      { (data && (data?.pages.length > 0 ) && !isFetching && hasNextPage) &&
         <Button
           className={ styles.more_button }
           classes={{ root: styles.more_button_root }}
-          onClick={ () => Fetch() }
+          onClick={ () => fetchNextPage() }
         >
           さらに表示
         </Button>
       }
 
       {/* ローディング */}
-      { loading && <Circular /> }
+      { isFetching && <Circular /> }
     </div>
   )
 }

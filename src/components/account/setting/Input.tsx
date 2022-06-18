@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import useProfilesDetails from '@/hooks/select/useProfilesDetails'
-import useSetting from '@/hooks/update/useSetting'
+import useSetting from '@/hooks/mutate/update/useSetting'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Circular from '@/atoms/Circular'
 import Icon from '@/components/account/setting/Icon'

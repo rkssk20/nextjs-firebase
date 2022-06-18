@@ -1,20 +1,21 @@
-import Tags from '@/atoms/Categories'
+import { definitions } from '@/types/supabase'
+import Category from '@/atoms/Category'
 
 import styles from '@/styles/components/article/title.module.scss'
 import Typography from '@mui/material/Typography'
 
 type TitleProps = {
-  tags: number[]
-  title: string
+  categories: definitions['categories'][]
+  title: definitions['articles']['title']
 }
 
-const Title = ({ tags, title }: TitleProps) => {
+const Title = ({ categories, title }: TitleProps) => {
   return (
     <div className={ styles.field }>
-      { (tags.length > 0) &&
+      { (categories.length > 0) &&
         <div className={ styles.tags }>
-          { tags.map(item => (
-            <Tags key={ item } tag={ item } />
+          { categories.map(item => (
+            <Category key={ item.category } category={ item.category } />
           )) }
         </div>
       }

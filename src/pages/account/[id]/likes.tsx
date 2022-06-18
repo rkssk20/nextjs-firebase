@@ -1,8 +1,11 @@
+import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
+import Side from '@/components/side/Side'
 import { ProfilePageType } from '@/types/types'
-import useProfileDetails from '@/hooks/useProfileDetails'
+import { definitions } from '@/types/supabase'
+import { supabase } from '@/lib/supabaseClient'
+import useLikesArticles from '@/hooks/select/useLikesArticles'
 import useObserver from '@/hooks/atoms/useObserver'
-import useArticles from '@/hooks/article/useArticles'
 import Circular from '@/atoms/Circular'
 import Layout from '@/components/provider/Layout'
 import Profile from '@/components/account/Profile'
@@ -11,27 +14,31 @@ import Post from '@/components/post/Post'
 
 // ISR
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const display_id = params?.display_id
+  const id = params?.id
 
-  if(!display_id) return { notFound: true }
+  if(!id || typeof(id) !== 'string') return { notFound: true }
 
-  const article = await fetch(`${ process.env.NEXT_PUBLIC_WEB_URL }/api/testProfilePage`, {
-    method: 'POST',
-    body: JSON.stringify({ display_id })
-  })
+  try {
+    const { data, error } = await supabase
+    .from<definitions['profiles']>('profiles')
+    .select('username, avatar, details, follow_count, follower_count')
+    .eq('id', id)
+    .single()
 
-  const result = await article.json()
+    if(error) throw error
 
-  if(!result.data) return { notFound: true }
+    return {
+      props: {
+        item: data,
+        path: id
+      },
+      // 5分キャッシュ
+      revalidate: 300
+    }
 
-  return {
-    props: {
-      item: result.data,
-      path: display_id
-    },
-    // 5分キャッシュ
-    revalidate: 300
-  };
+  } catch {
+    return { notFound: true }
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -47,42 +54,48 @@ type AccountProps = {
 }
 
 const Likes = ({ item, path }: AccountProps) => {
-  const { loading: profile_loading, data: profile_data } = useProfileDetails(path)
-  const { loading, data, Fetch } = useArticles()
-  const setRef = useObserver(Fetch)
+  const { data, isFetching, hasNextPage, fetchNextPage } = useLikesArticles(path)
+  const setRef = useObserver({ hasNextPage, fetchNextPage })
   
   return (
     <Layout
       type='profile'
-      title={ item.name + 'がいいねした投稿一覧' }
+      title={ item.username + 'がいいねした投稿一覧' }
       description={ item.details }
       image=''
     >
       {/* アカウント情報 */}
-      { profile_data &&
-        <Profile
-          path={ path }
-          data={ profile_data }
-          name={ item.name }
-          details={ item.details }
-        />
-      }
+      <Profile path={ path } item={ item } />
       
       {/* ページ選択バー */}
-      <Bar />
+      <Bar path={ path } />
 
-      {/* いいねした投稿一覧 */}
-      { data.map((item, index) => (
-        <Post
-          key={ item.id }
-          data={ item }
-          setRef={ ((data.length - 1) === index) && setRef }
-        />
+      {/* 自分の投稿一覧 */}
+      { data && data.pages.map((page, page_index) => (
+        page.map((item, index) => (
+          <Post
+            key={ item.id }
+            data={ item }
+            setRef={
+              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
+            }
+          />
+        ))
       ))}
 
-      { loading && <Circular /> }
+      { isFetching && <Circular /> }
     </Layout>
   )
 }
 
 export default Likes
+
+Likes.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <div>
+      { page }
+
+      <Side />
+    </div>
+  )
+}

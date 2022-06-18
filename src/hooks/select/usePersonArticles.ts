@@ -1,60 +1,32 @@
 import { useInfiniteQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
-import { ArticleType } from '@/types/types'
+import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
 
 const FetchData = async (pageParam: string | undefined, path: string) => {
-  const id = supabase.auth.user()?.id
+  const { data, error } = pageParam ?
+  // 初回読み込み
+  await supabase
+    .from<ArticleType>('person_articles')
+    .select('*')
+    .eq('user_id', path)
+    .order('created_at', {
+      ascending: false
+    })
 
-  const { data, error } =
-    id ?
-      // ログイン時 (likesも含める)
-      pageParam ?
-      // 追加読み込み
-        await supabase
-          .from<ArticleType>('person_articles')
-          .select('*, likes(id)')
-          .eq('user_id', path)
-          .order('created_at', {
-            ascending: false
-          })
-          .lt('created_at', pageParam)
-          .limit(10)
-        :
-        // 初回読み込み
-        await supabase
-          .from<ArticleType>('person_articles')
-          .select('*, likes(id)')
-          .eq('user_id', path)
-          .order('created_at', {
-            ascending: false
-          })
-          .limit(10)
-    // ログアウト時 (likesを含めない)
-    :
-      pageParam ?
-        // 初回読み込み
-        await supabase
-          .from<ArticleType>('person_articles')
-          .select('*')
-          .eq('user_id', path)
-          .order('created_at', {
-            ascending: false
-          })
-
-          .lt('created_at', pageParam)
-          .limit(10)
-        :
-        // 追加読み込み
-        await supabase
-          .from<ArticleType>('person_articles')
-          .select('*')
-          .eq('user_id', path)
-          .order('created_at', {
-            ascending: false
-          })
-          .limit(10)
+    .lt('created_at', pageParam)
+    .limit(10)
+  :
+  // 追加読み込み
+  await supabase
+    .from<ArticleType>('person_articles')
+    .select('*')
+    .eq('user_id', path)
+    .order('created_at', {
+      ascending: false
+    })
+    .limit(10)
 
   if(error) throw error
 
@@ -68,8 +40,6 @@ const usePersonArticles = (path: string) => {
 
   const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(['person_articles', path],
     ({ pageParam }) => FetchData(pageParam, path), {
-      // キャッシュの有効期間は5分
-      staleTime: 30000,
       onError: error => {
         setNotificate({
           open: true,

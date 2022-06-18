@@ -57,7 +57,8 @@ const Account = ({ item , path }: AccountProps) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = usePersonArticles(path)
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
-  console.log(data)
+  console.log(data);
+  
 
   return (
     <Layout
@@ -70,7 +71,7 @@ const Account = ({ item , path }: AccountProps) => {
       <Profile path={ path } item={ item } />
 
       {/* ページ選択バー */}
-      <Bar />
+      <Bar path={ path } />
 
       {/* 自分の投稿一覧 */}
       { data && data.pages.map((page, page_index) => (

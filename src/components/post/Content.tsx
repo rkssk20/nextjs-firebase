@@ -1,5 +1,5 @@
 import { ArticleType } from '@/types/types'
-import Categories from '@/atoms/Categories'
+import Category from '@/atoms/Category'
 
 import styles from '@/styles/components/post/content.module.scss'
 import Typography from '@mui/material/Typography'
@@ -20,7 +20,7 @@ const Content = ({ title, details, categories }: ContentProps) => {
       { categories &&
         <Stack className={ styles.tags } direction='row' alignItems='center'>
           { categories.map(item => 
-            <Categories key={ item } category={ item } />
+            <Category key={ item } category={ item } />
           )}
         </Stack>
       }

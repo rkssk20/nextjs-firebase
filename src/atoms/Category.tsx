@@ -3,8 +3,7 @@ import NextLink from 'next/link'
 
 import MuiLink from '@mui/material/Link'
 
-const Categories = ({ category }: { category: 0 | 1 | '0' | '1' }) => {
-  console.log(category)
+const Category = ({ category }: { category: string | number }) => {
   return (
     <NextLink
       href={ (category == 0) ? '/categories/front' : '/categories/serverless' }
@@ -21,4 +20,4 @@ const Categories = ({ category }: { category: 0 | 1 | '0' | '1' }) => {
   )
 }
 
-export default Categories
+export default Category

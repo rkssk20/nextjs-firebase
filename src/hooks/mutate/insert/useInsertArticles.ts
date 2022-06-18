@@ -52,7 +52,7 @@ const useInsertArticles = () => {
   const setNotificate= useSetRecoilState(notificateState)
   const setDraft = useSetRecoilState(draftState)
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ title, details, image, categories }: MutateType) => mutateArticles({
       title, details, image, categories
     }), {
@@ -81,7 +81,7 @@ const useInsertArticles = () => {
       }
   })
 
-  return { mutate }
+  return { mutate, isLoading }
 }
 
 export default useInsertArticles

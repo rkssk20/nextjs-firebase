@@ -1,5 +1,6 @@
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { dialogState } from '@/lib/recoil'
+import { notificateState } from '@/lib/recoil'
 
 import styles from '@/styles/components/dialog/delete.module.scss'
 import DialogContent from '@mui/material/DialogContent'
@@ -9,10 +10,14 @@ import Button from '@mui/material/Button'
 
 const Delete = () => {
   const [dialog, setDialog] = useRecoilState(dialogState)
+  const setNotificate = useSetRecoilState(notificateState)
   
   // 記事を削除
   const handleDelete = () => {
-    console.log(dialog.id)
+    setNotificate({
+      open: true,
+      message: 'ポートフォリオのため、この記事は保護されています。 新規投稿の記事は削除できます。'
+    })
   }
 
   return (

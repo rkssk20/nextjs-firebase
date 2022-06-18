@@ -13,7 +13,7 @@ const Login = () => {
 
   // ログイン時
   if (supabase.auth.user()) { 
-    router.push('/')
+    router.replace('/')
     .then(() => {
       setNotificate({
         open: true,

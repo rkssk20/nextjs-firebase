@@ -4,13 +4,14 @@ import AtomsBar from '@/atoms/Bar'
 import styles from '@/styles/components/account/bar.module.scss'
 import AppBar from '@mui/material/AppBar'
 
-const Bar = () => {
+const Bar = ({ path }: { path: string }) => {
   const router = useRouter()
-  const display_id = router.query.display_id
+
+  console.log(router.pathname)
   
   const tab_list = [
-    { name: '投稿', url: `/account/${ display_id }` },
-    { name: 'いいね', url: `/account/${ display_id }/likes` }
+    { name: '投稿', url: `/account/${ path }` },
+    { name: 'いいね', url: `/account/${ path }/likes` }
   ]
 
   return (
@@ -23,7 +24,7 @@ const Bar = () => {
     >
       <AtomsBar
         tab_list={ tab_list }
-        value={ (router.pathname === '/account/[display_id]/likes') ? 1 : 0 }
+        value={ (router.pathname === '/account/[id]/likes') ? 1 : 0 }
       />
     </AppBar>
   )

@@ -52,7 +52,6 @@ const Post = ({ data, setRef }: PostProps) => {
       <Actions
         user_id={ data.user_id }
         like_count={ data.like_count }
-        likes={ data.likes }
         comment_count={ data.comment_count }
       />
     </CardActionArea>

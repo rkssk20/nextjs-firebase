@@ -24,10 +24,7 @@ export type ArticleType = {
   created_at: definitions['articles']['created_at']
   avatar: definitions['profiles']['avatar']
   username: definitions['profiles']['username']
-  categories: ['0' | '1']
-  likes: {
-    id: definitions['likes']['id']
-  }[] | undefined
+  categories: string | number
 }
 
 // 記事一つ

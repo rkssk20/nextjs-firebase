@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import dynamic from 'next/dynamic'
 import { draftState } from "@/lib/recoil";
-import useInsertArticles from "@/hooks/insert/useInsertArticles";
+import useInsertArticles from "@/hooks/mutate/insert/useInsertArticles";
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Layout from '@/components/provider/Layout'
 import LoginOnly from '@/components/provider/LoginOnly'
@@ -25,7 +25,7 @@ const Edit = () => {
   const [categories, setCategories] = useState<number[]>([])
   const [image, setImage] = useState<Blob | null>(null)
   const router = useRouter()
-  const { mutate } = useInsertArticles()
+  const { mutate, isLoading } = useInsertArticles()
 
   const ImageMemo = useMemo(() => <Image image={ image } setImage={ setImage } />, [image])
 
@@ -53,6 +53,8 @@ const Edit = () => {
 
   // 投稿する
   const handlePost = () => {
+    if(isLoading) return
+    
     mutate({
       title, details, image, categories
     })

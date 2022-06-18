@@ -1,31 +1,38 @@
 import NextLink from 'next/link'
+import type { definitions } from '@/types/supabase'
 import CreatedAt from '@/lib/createdAt'
 import InitialIcon from '@/atoms/InitialIcon'
+import AvatarIcon from '@/atoms/AvatarIcon'
 
 import styles from '@/styles/components/article/comment/header.module.scss'
 import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 type HeaderProps = {
-  name: string
-  display_id: string
+  username: definitions['profiles']['username']
+  user_id: definitions['profiles']['id']
+  avatar: definitions['profiles']['avatar']
   created_at: string
 }
 
-const Header = ({ name, display_id, created_at }: HeaderProps) => {
+const Header = ({ username, user_id, avatar, created_at }: HeaderProps) => {
   const created = CreatedAt(created_at)
 
   return (
     <div className={ styles.field }>
       {/* アバター */}
-      <NextLink href={ `/account/${ display_id }` } passHref>
+      <NextLink href={ `/account/${ user_id }` } passHref>
         <MuiLink underline='none'>
-          <InitialIcon username={ name } variant='link' />
+          { avatar ?
+            <AvatarIcon src={ process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar } variant='link' />
+            :
+            <InitialIcon username={ username } variant='link' />
+          }
         </MuiLink>
       </NextLink>
 
       {/* タイトル */}
-      <NextLink href={ `/account/${ display_id }` } passHref>
+      <NextLink href={ `/account/${ user_id }` } passHref>
         <MuiLink
           className={ styles.title }
           underline='hover'
@@ -33,7 +40,7 @@ const Header = ({ name, display_id, created_at }: HeaderProps) => {
           color='inherit'
           noWrap
         >
-          { name }
+          { username }
         </MuiLink>
       </NextLink>
 

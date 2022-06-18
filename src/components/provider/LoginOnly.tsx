@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { ReactNode } from "react"
+import React, { ReactNode, useState, useEffect } from "react"
 import { useSetRecoilState } from "recoil";
 import { notificateState } from "@/lib/recoil";
 import { supabase } from "@/lib/supabaseClient";
@@ -10,29 +10,24 @@ type Props = {
 }
 
 const LoginOnly: NextPage<Props> = ({ children }) => {
+  const [auth, setAuth] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
   const router = useRouter()
 
-  // ログイン時
-  if(supabase.auth.user()) {
-    return (
-      <React.Fragment>
-        { children }
-      </React.Fragment>
-    )
-    
-  // ログアウト時 (ログインが必要なページなのでログインページに遷移)
-  } else {
-    router.replace('/login')
-    .then(() => {
-      setNotificate({
-        open: true,
-        message: 'ログインが必要なページです'
-      })
-    })
-    
-    return null
-  }
+  // 直接ログインでUIを切り替えるとhydration failedのエラーが発生するため、useStateで切り替える
+  useEffect(() => {
+    if(supabase.auth.user()?.id) {
+      setAuth(true)
+    } else {
+      router.push('/login').then(() => setNotificate({ open: true, message: 'ログインが必要です。' }))
+    }
+  }, [])
+
+  return (
+    <React.Fragment>
+      { auth ? children : null }
+    </React.Fragment>
+  )
 }
 
 export default LoginOnly

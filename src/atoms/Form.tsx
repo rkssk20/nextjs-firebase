@@ -1,5 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
+import { useRecoilValue } from 'recoil'
+import { accountState } from '@/lib/recoil'
 import InitialIcon from '@/atoms/InitialIcon'
+import AvatarIcon from '@/atoms/AvatarIcon'
 
 import styles from '@/styles/components/article/comment/form.module.scss'
 import InputBase from '@mui/material/InputBase'
@@ -13,6 +16,8 @@ type FormProps = {
 }
 
 const Form = ({ children, text, setText, name, placeholder }: FormProps) => {
+  const account = useRecoilValue(accountState)
+
   return (
     <div className={ styles.field }>
       <InputBase
@@ -24,7 +29,12 @@ const Form = ({ children, text, setText, name, placeholder }: FormProps) => {
         placeholder={ placeholder }
         multiline
         maxRows={ 5 }
-        startAdornment={ <InitialIcon username={ name } variant='medium' /> }
+        startAdornment={
+          account.data?.avatar ?
+          <AvatarIcon src={ account.data.avatar } variant='medium' />
+          :
+          <InitialIcon username={ name } variant='medium' />
+        }
         value={ text }
         onChange={ (e) => setText(e.target.value) }
       />

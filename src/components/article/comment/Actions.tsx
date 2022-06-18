@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import type { definitions } from '@/types/supabase'
+import { supabase } from '@/lib/supabaseClient'
 import { accountState, dialogState } from '@/lib/recoil'
 import ReplyForm from '@/components/article/comment/reply/ReplyForm'
 
@@ -16,14 +18,15 @@ import MenuItem from '@mui/material/MenuItem'
 
 type ActionsProps = {
   path: string
-  id: number
-  content: string
-  likes: number
-  like: boolean
-  mine: boolean
+  id: definitions['comments']['id']
+  user_id: definitions['comments']['user_id']
+  comment: definitions['comments']['comment']
+  like_count: definitions['comments']['like_count']
+  comments_likes: definitions['comments_likes'][] | undefined
 }
 
-const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
+const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: ActionsProps) => {
+  const [likeCountState, setLikeCountState] = useState(like_count)
   const [formOpen, setFormOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -53,7 +56,7 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
   const handleDelete = () => {
     setDialog({
       open: true,
-      content: 'article_delete',
+      content: 'comment_delete',
       id: path
     })
     handleClose()
@@ -63,7 +66,7 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
   const handleReport = () => {
     setDialog({
       open: true,
-      content: 'article_report',
+      content: 'comment_report',
       id: path
     })
     handleClose()
@@ -72,7 +75,7 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
   return (
     <div>
       {/* 本文 */}
-      <div className={ styles.content }>{ content }</div>
+      <div className={ styles.content }>{ comment }</div>
 
       <div className={ styles.actions_field }>
         {/* 返信ボタン */}
@@ -96,12 +99,12 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
           component='div'
           onClick={ handleLikes }
         >
-          { like ? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
+          { (comments_likes && comments_likes[0]?.id)? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
         </IconButton>
 
         {/* いいね数 */}
         <Typography className={ styles.favorite_count } variant='caption'>
-          { likes.toLocaleString() }
+          { likeCountState.toLocaleString() }
         </Typography>
 
         {/* 詳細ボタン */}
@@ -125,7 +128,7 @@ const Actions = ({ path, id, content, likes, like, mine }: ActionsProps) => {
           open={ open }
           onClose={ handleClose }
         >
-          { mine ?
+          { (user_id === supabase.auth.user()?.id) ?
             <MenuItem onClick={ handleDelete }>コメントを削除</MenuItem>
             :
             <MenuItem onClick={ handleReport }>コメントの問題を報告</MenuItem>

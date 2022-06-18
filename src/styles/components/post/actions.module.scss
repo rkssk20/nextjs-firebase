@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+// いいねアイコン
+.favorite {
+  margin-right: var(--sm);
+}
+
 // コメント数全体
 .comments_field {
   display: flex;

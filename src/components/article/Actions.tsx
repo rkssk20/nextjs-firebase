@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import type { definitions } from '@/types/supabase';
 import { accountState, dialogState } from '@/lib/recoil';
+import { supabase } from '@/lib/supabaseClient';
+import useSelectLikes from '@/hooks/select/useSelectLikes';
+import useMutateLikes from '@/hooks/mutate/useMutateLikes';
 
 import styles from '@/styles/components/article/actions.module.scss'
 import IconButton from '@mui/material/IconButton'
@@ -12,22 +16,26 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
 type ActionsProps = {
-  like: boolean
-  likes: number
-  mine: boolean
+  like_count: definitions['articles']['like_count']
+  user_id: definitions['articles']['user_id']
   path: string
 }
 
-const Actions = ({ like, likes, mine, path }: ActionsProps) => {
+const Actions = ({ like_count, user_id, path }: ActionsProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [likeCountState, setLikeCountState] = useState(like_count)
   const open = Boolean(anchorEl);
   const account = useRecoilValue(accountState)
   const setDialog = useSetRecoilState(dialogState)
+  const { data, isFetching } = useSelectLikes(path)
+  const { mutate, isLoading } = useMutateLikes(path, setLikeCountState)
 
   // いいね処理
   const handleLikes = () => {
+    if(isFetching || isLoading) return
+
     if(account.data) {
-     console.log('favorite')
+     mutate(data?.id)
 
     } else {
       setDialog({
@@ -50,6 +58,7 @@ const Actions = ({ like, likes, mine, path }: ActionsProps) => {
       content: 'article_delete',
       id: path
     })
+
     handleClose()
   }
   
@@ -60,6 +69,7 @@ const Actions = ({ like, likes, mine, path }: ActionsProps) => {
       content: 'article_report',
       id: path
     })
+
     handleClose()
   }
 
@@ -72,12 +82,12 @@ const Actions = ({ like, likes, mine, path }: ActionsProps) => {
         component='div'
         onClick={ handleLikes }
       >
-        { like ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
+        { data?.id ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
       </IconButton>
 
       {/* いいね数 */}
       <Typography className={ styles.favorite_count } variant='caption'>
-        { likes .toLocaleString() }
+        { likeCountState.toLocaleString() }
       </Typography>
 
       {/* 詳細ボタン */}
@@ -101,7 +111,7 @@ const Actions = ({ like, likes, mine, path }: ActionsProps) => {
         open={ open }
         onClose={ handleClose }
       >
-        { mine ?
+        { (user_id === supabase.auth.user()?.id) ?
           <MenuItem onClick={ handleDelete }>記事を削除</MenuItem>
           :
           <MenuItem onClick={ handleReport }>記事の問題を報告</MenuItem>

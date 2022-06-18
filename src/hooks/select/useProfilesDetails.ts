@@ -22,8 +22,6 @@ const useProfilesDetails = () => {
   const setNotificate = useSetRecoilState(notificateState)
 
   const { data, isFetching } = useQuery(['profiles_details'], () => FetchData(supabase.auth.user()?.id), {
-      // キャッシュの有効期間は5分
-      staleTime: 30000,
       onError: error => {
         setNotificate({
           open: true,

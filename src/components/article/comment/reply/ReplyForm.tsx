@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
 import { DisabledButton, ContainedButton } from '@/atoms/Button'
-import Form from '@/components/article/comment/Form'
+import Form from '@/atoms/Form'
 
 import styles from '@/styles/components/article/comment/reply/replyForm.module.scss'
 import Button from '@mui/material/Button'

@@ -9,10 +9,6 @@ type Props = {
   newDetails: string | null
 }
 
-type MutateSettingProps = Props & {
-  id: string | undefined
-}
-
 type ExistingType = {
   id: string;
   username: string;
@@ -22,7 +18,10 @@ type ExistingType = {
   follower_count: number;
 } | undefined
 
-const mutateSetting = async ({ id, newUserName, newDetails }: MutateSettingProps) => {
+const mutateSetting = async ({ newUserName, newDetails }: Props) => {
+  const id = supabase.auth.user()?.id
+  if(!id) throw 'error'
+
   const update: {
     [prop: string]: string | null
   } = {};
@@ -30,14 +29,12 @@ const mutateSetting = async ({ id, newUserName, newDetails }: MutateSettingProps
   if(newUserName) update.username = newUserName;
   if(newUserName) update.details = newDetails;
 
-  console.log(update)
-
   const { data, error } = await supabase
   .from<definitions['profiles']>('profiles')
   .update(update, {
     returning: 'minimal'
   })
-  .eq('id',id)
+  .eq('id', id)
 
   if(error) throw error
 
@@ -50,9 +47,9 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation(
-    () => mutateSetting({ id: account.data?.id, newUserName, newDetails }), {
+    () => mutateSetting({ newUserName, newDetails }), {
       onSuccess: () => {
-        const existing: ExistingType = queryClient.getQueryData(['profilesDetails'])
+        const existing: ExistingType = queryClient.getQueryData(['profiles_etails'])
         
         // 完了通知
         setNotificate({
@@ -75,7 +72,6 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
         setAccount({
           loading: false,
           data: {
-            id: account.data?.id ?? '',
             username: newUserName,
             avatar: account.data?.avatar
           }

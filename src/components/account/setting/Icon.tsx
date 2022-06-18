@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { accountState, notificateState } from '@/lib/recoil'
 import Color from '@/lib/color'
-import useAvatarDelete from '@/hooks/delete/useAvatarDelete'
+import useAvatarDelete from '@/hooks/mutate/delete/useAvatarDelete'
 import Crop from '@/components/account/setting/Crop'
 
 import styles from '@/styles/components/account/setting/icon.module.scss'

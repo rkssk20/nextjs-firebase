@@ -7,6 +7,7 @@ import styles from '@/styles/pages/account/setting.module.scss'
 import DialogContent from '@mui/material/DialogContent'
 import Divider from '@mui/material/Divider'
 import MuiLink from '@mui/material/Link'
+import { ReactElement } from 'react'
 
 const Setting = () => {
   return (
@@ -16,27 +17,33 @@ const Setting = () => {
       description=''
       image=''
     >
-      <LoginOnly>
-        <DialogContent>
-          <Input />
+      <DialogContent>
+        <Input />
 
-          <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
+        <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
 
-          <NextLink href='/account/withdrawal' passHref>
-            <MuiLink
-              variant='caption'
-              color='gray'
-              underline='hover'
-            >
-              退会する
-            </MuiLink>
-          </NextLink>
+        <NextLink href='/account/withdrawal' passHref>
+          <MuiLink
+            variant='caption'
+            color='gray'
+            underline='hover'
+          >
+            退会する
+          </MuiLink>
+        </NextLink>
 
-          <Divider className={ styles.under_divider } />
-        </DialogContent>
-      </LoginOnly>
+        <Divider className={ styles.under_divider } />
+      </DialogContent>
     </Layout>
   )
 }
 
 export default Setting
+
+Setting.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <LoginOnly>
+      { page }
+    </LoginOnly>
+  )
+}
