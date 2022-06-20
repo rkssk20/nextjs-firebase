@@ -1,4 +1,6 @@
 const Color = (name: string) => {
+  if(name.length === 0) return ''
+  
   let hash = 0;
   let i;
 

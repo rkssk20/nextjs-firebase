@@ -49,7 +49,7 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
   const { mutate, isLoading } = useMutation(
     () => mutateSetting({ newUserName, newDetails }), {
       onSuccess: () => {
-        const existing: ExistingType = queryClient.getQueryData(['profiles_etails'])
+        const existing: ExistingType = queryClient.getQueryData(['profiles_details'])
         
         // 完了通知
         setNotificate({
@@ -61,7 +61,7 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
 
         // キャッシュがあるなら変更
         if(existing) {
-          queryClient.setQueryData('profilesDetails', {
+          queryClient.setQueryData('profiles_details', {
             ...existing,
             username: newUserName,
             details: newDetails

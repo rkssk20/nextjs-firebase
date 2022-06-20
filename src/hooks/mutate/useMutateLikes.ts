@@ -1,9 +1,9 @@
+import { Dispatch, SetStateAction } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 import { definitions } from '@/types/supabase'
 import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
-import { Dispatch, SetStateAction } from 'react'
 
 type Props = {
   path: string

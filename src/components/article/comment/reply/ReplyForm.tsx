@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
+import useInsertReplies from '@/hooks/mutate/insert/useInsertReplies'
 import { DisabledButton, ContainedButton } from '@/atoms/Button'
 import Form from '@/atoms/Form'
 
@@ -8,15 +9,21 @@ import styles from '@/styles/components/article/comment/reply/replyForm.module.s
 import Button from '@mui/material/Button'
 
 type ReplyFormProps = {
+  path: string
+  id: number
   setFormOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const ReplyForm = ({ setFormOpen }: ReplyFormProps) => {
+const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
   const [text, setText] = useState('')
   const account = useRecoilValue(accountState)
+  const { mutate, isLoading } = useInsertReplies(path, id)
 
+  // 返信を送信
   const handlePost = () => {
-    console.log('post')
+    if(isLoading) return
+    mutate(text)
+    setFormOpen(false)
   }
 
   return (
@@ -30,6 +37,7 @@ const ReplyForm = ({ setFormOpen }: ReplyFormProps) => {
       <Button
         className={ styles.cancel_button }
         classes={{ root: styles.cancel_button_root }}
+        color='info'
         onClick={ () => setFormOpen(false) }
       >
         キャンセル

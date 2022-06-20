@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import useReplies from '@/hooks/article/useReplies'
+import useSelectReplies from '@/hooks/select/useSelectReplies'
 import Header from '@/components/article/comment/Header'
 import Actions from '@/components/article/comment/reply/Actions'
 import ReplyForm from '@/components/article/comment/reply/ReplyForm'
@@ -9,26 +9,26 @@ import Button from '@mui/material/Button'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import CircularProgress from '@mui/material/CircularProgress'
 
-type RepliesProps = {
+type ShowReplyProps = {
   path: string
   id: number
-  replies: number
 }
 
-const Replies = ({ path, id, replies }: RepliesProps) => {
+const ShowReplies = ({ path, id }: ShowReplyProps) => {
   const [formOpen, setFormOpen] = useState(false)
-  const { loading, data, hasNextPage, MoreFetch } = useReplies(path, id)
+  const { data, isFetching, hasNextPage, fetchNextPage } = useSelectReplies(id)
 
   return (
     <div>
       {/* リプライ欄 */}
-      { data &&
-        data.map(item => (
+      { data && data.pages.map(pages => (
+        pages.map(item => (
           <div key={ item.id }>
             {/* アカウント、投稿日時 */}
             <Header
-              name={ item.name }
-              display_id={ item.display_id }
+              username={ item.profiles.username }
+              user_id={ item.user_id }
+              avatar={ item.profiles.avatar }
               created_at={ item.created_at }
             />
 
@@ -36,20 +36,21 @@ const Replies = ({ path, id, replies }: RepliesProps) => {
             <Actions
               path={ path }
               id={ item.id }
+              user_id={ item.user_id }
               comment_id={ item.comment_id }
-              content={ item.content }
-              likes={ item.likes }
-              like={ item.like }
-              mine={ item.mine }
+              comment={ item.comment }
+              replies_like={ item.replies_likes }
+              like_count={ item.like_count }
             />
           </div>
         ))
+        ))
       }
 
-      { !loading &&
+      { !isFetching &&
         <div className={ styles.more_field }>
           {/* 返信ボタン */}
-          { (data.length > 0) &&
+          { data && (data.pages[0].length > 0) &&
             <Button
               className={ styles.reply_button }
               style={{marginLeft: 16, borderRadius: 9999, flexShrink: 0 }}
@@ -64,37 +65,56 @@ const Replies = ({ path, id, replies }: RepliesProps) => {
             </Button>
           }
 
-          {/* 返信が空の場合表示ボタン。存在する場合はさらに表示ボタン */}
+          {/* さらに表示ボタン */}
           { hasNextPage &&
             <Button
               className={ styles.more_button }
               classes={{ root: styles.more_button_root }}
-              onClick={ () => MoreFetch() }
+              onClick={ () => fetchNextPage() }
             >
-              { (data.length === 0) ?
-                <>
-                  <span className={ styles.more_text }>{ replies.toLocaleString() }</span>
-                  件の返信を表示
-                </>
-                :
-                '返信をさらに表示'
-              }
+              返信をさらに表示
             </Button>
           }
         </div>
       }
 
       {/* 返信フォーム */}
-      { formOpen && <ReplyForm setFormOpen={ setFormOpen } /> }
+      { formOpen &&
+        <ReplyForm
+          path={ path }
+          id={ id }
+          setFormOpen={ setFormOpen }
+        />
+      }
 
       {/* ローディング */}
-      { loading &&
+      { isFetching &&
         <div className={ styles.circular_field }>
           <CircularProgress size={ 32 } />
         </div>
       }
     </div>
   )
+}
+
+type RepliesProps = ShowReplyProps & {
+  reply_count: number
+}
+
+const Replies = ({ path, id, reply_count }: RepliesProps) => {
+  const [open, setOpen] = useState(false)
+
+  return open ?
+    <ShowReplies path={ path } id={ id } />
+    :
+    <Button
+      className={ styles.more_button }
+      classes={{ root: styles.more_button_root }}
+      onClick={ () => setOpen(true) }
+    >
+      <span className={ styles.more_text }>{ reply_count.toLocaleString() }</span>
+      件の返信を表示
+    </Button> 
 }
 
 export default Replies

@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { definitions } from '@/types/supabase'
+import { supabase } from '@/lib/supabaseClient'
 import { accountState, dialogState } from '@/lib/recoil'
+import useMutateRepliesLikes from '@/hooks/mutate/useMutateRepliesLikes'
 
 import styles from '@/styles/components/article/comment/reply/actions.module.scss'
 import IconButton from '@mui/material/IconButton'
@@ -11,26 +14,29 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
-type ActionsProps = {
+type Props = {
   path: string
-  id: number
-  comment_id: number
-  content: string
-  likes: number
-  like: boolean
-  mine: boolean
+  id: definitions['replies']['id']
+  user_id: definitions['replies']['user_id']
+  comment_id: definitions['replies']['comment_id']
+  comment: definitions['replies']['comment']
+  like_count: definitions['replies']['like_count']
+  replies_like: definitions['replies_likes'][] | undefined
 }
 
-const Actions = ({ path, id, comment_id, content, likes, like, mine }: ActionsProps) => {
+const Actions = ({ path, id, user_id, comment_id, comment, like_count, replies_like }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const account = useRecoilValue(accountState)
   const setDialog = useSetRecoilState(dialogState)
+  const { mutate, isLoading } = useMutateRepliesLikes(comment_id, id)
 
   // いいね
   const handleLikes = () => {
+    if(isLoading) return
+
     if(account.data) {
-      console.log('favorite')
+      mutate((replies_like && (replies_like.length > 0)) ? replies_like[0].id : undefined) 
 
     } else {
       setDialog({
@@ -69,7 +75,7 @@ const Actions = ({ path, id, comment_id, content, likes, like, mine }: ActionsPr
   return (
     <div className={ styles.reply_field }>
       {/* 本文 */}
-      <div className={ styles.content }>{ content }</div>
+      <div className={ styles.content }>{ comment }</div>
 
       <div className={ styles.actions_field }>
         {/* いいねボタン */}
@@ -79,12 +85,12 @@ const Actions = ({ path, id, comment_id, content, likes, like, mine }: ActionsPr
           component='div'
           onClick={ handleLikes }
         >
-          { like ? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
+          { replies_like && replies_like[0]?.id ? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
         </IconButton>
 
         {/* いいね数 */}
         <Typography className={ styles.favorite_count } variant='caption'>
-          { likes.toLocaleString() }
+          { like_count.toLocaleString() }
         </Typography>
 
         {/* 詳細ボタン */}
@@ -108,7 +114,7 @@ const Actions = ({ path, id, comment_id, content, likes, like, mine }: ActionsPr
           open={ open }
           onClose={ handleClose }
         >
-          { mine ?
+          { (user_id === supabase.auth.user()?.id) ?
             <MenuItem onClick={ handleDelete }>コメントを削除</MenuItem>
             :
             <MenuItem onClick={ handleReport }>コメントの問題を報告</MenuItem>

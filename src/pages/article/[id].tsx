@@ -83,6 +83,14 @@ interface ArticleProps {
 }
 
 const Article = ({ item, path }: ArticleProps) => {
+  const pages = [[{ id: 10 }, { id: 12 }], [{ id: 13 }]]
+
+  const index = pages.map(page => page.findIndex((element) => element.id === 13))
+  const page = index.findIndex(element => element !== -1)
+
+  console.log(pages[page][index[page]])
+
+
   return (
     <Layout
       type='article'

@@ -9,7 +9,7 @@ type Props = {
   comment: string
 }
 
-type ExistingType = InfiniteData<definitions['comments'] & { profiles: definitions['profiles'] } & { comments_likes: definitions['comments_likes'][] | undefined }> | undefined
+type ExistingType = InfiniteData<[definitions['comments'] & { profiles: definitions['profiles'] } & { comments_likes: definitions['comments_likes'][] | undefined }]> | undefined
 
 const Mutate = async ({ path, comment }: Props) => {
   const { data, error } = await supabase
@@ -27,14 +27,9 @@ const useInsertComments = (path: string) => {
   const account = useRecoilValue(accountState)
   const queryClient = useQueryClient()
 
-  console.log(account.data?.avatar?.replace(process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/', ''))
-
   const { mutate, isLoading } = useMutation((comment: string) => Mutate({ path, comment }), {
     onSuccess: data => {
-      console.log(data)
       const existing: ExistingType =  queryClient.getQueryData(['comments', path])
-      console.log(existing)
-
       
       if(existing) {
         console.log({

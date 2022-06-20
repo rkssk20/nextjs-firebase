@@ -1,5 +1,4 @@
 import useFirstObserve from '@/hooks/article/useFirstObserve'
-import useComments from '@/hooks/article/useComments'
 import useSelectComments from '@/hooks/select/useSelectComments'
 import Circular from '@/atoms/Circular'
 import CommentForm from '@/components/article/comment/CommenForm'
@@ -19,13 +18,9 @@ type CommentsProps = {
 
 const Comments = ({ path, comments }: CommentsProps) => {
   // コメントの取得
-  // const { loading, data, hasNextPage, Fetch } = useComments(path)
   const { data, refetch, isFetching, hasNextPage, fetchNextPage } = useSelectComments(path)
   // タイトルを監視して初回の取得
   const ref = useFirstObserve(refetch)
-
-  console.log(data?.pages[0].length);
-  
 
   return (
     <div>
@@ -74,7 +69,7 @@ const Comments = ({ path, comments }: CommentsProps) => {
               <Replies
                 path={ path }
                 id={ item.id }
-                replies={ item.reply_count }
+                reply_count={ item.reply_count }
               />
             }
           </Card>

@@ -22,13 +22,11 @@ const useProfilesDetails = () => {
   const setNotificate = useSetRecoilState(notificateState)
 
   const { data, isFetching } = useQuery(['profiles_details'], () => FetchData(supabase.auth.user()?.id), {
-      onError: error => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'エラーが発生しました。'
         })
-
-        console.log(error);
       }
     },
   )  

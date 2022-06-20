@@ -1413,7 +1413,7 @@ export interface definitions {
      * @description Note:
      * This is a Foreign Key to `comments.id`.<fk table='comments' column='id'/>
      */
-    comment_id?: number;
+    comment_id: number;
     /** Format: character varying */
     comment: string;
     /**

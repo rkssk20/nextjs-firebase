@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import { accountState, dialogState } from '@/lib/recoil'
+import useMutateCommentsLikes from '@/hooks/mutate/useMutateCommentsLikes'
 import ReplyForm from '@/components/article/comment/reply/ReplyForm'
 
 import styles from '@/styles/components/article/comment/actions.module.scss'
@@ -26,17 +27,19 @@ type ActionsProps = {
 }
 
 const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: ActionsProps) => {
-  const [likeCountState, setLikeCountState] = useState(like_count)
   const [formOpen, setFormOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const account = useRecoilValue(accountState)
   const setDialog = useSetRecoilState(dialogState)
+  const { mutate, isLoading } = useMutateCommentsLikes(path, id)
 
   // いいね
   const handleLikes = () => {
+    if(isLoading) return
+
     if(account.data) {
-      console.log('favorite')
+      mutate((comments_likes && (comments_likes.length > 0)) ? comments_likes[0].id : undefined)
 
     } else {
       setDialog({
@@ -104,7 +107,7 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
 
         {/* いいね数 */}
         <Typography className={ styles.favorite_count } variant='caption'>
-          { likeCountState.toLocaleString() }
+          { like_count.toLocaleString() }
         </Typography>
 
         {/* 詳細ボタン */}
@@ -137,7 +140,13 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
       </div>
 
       {/* 返信フォーム */}
-      { formOpen && <ReplyForm setFormOpen={ setFormOpen } /> }
+      { formOpen &&
+        <ReplyForm
+          path={ path }
+          id={ id }
+          setFormOpen={ setFormOpen }
+        />
+      }
     </div>
   )
 }
