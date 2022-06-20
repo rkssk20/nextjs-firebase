@@ -1,4 +1,4 @@
-import useSearch from '@/hooks/search/useSearch'
+import useSearch from '@/hooks/atoms/useSearch'
 
 import styles from '@/styles/components/search/input.module.scss'
 import Autocomplete from '@mui/material/Autocomplete'

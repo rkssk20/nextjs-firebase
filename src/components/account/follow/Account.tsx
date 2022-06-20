@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
+import type { ProfilesSummaryType } from '@/types/types'
 import InitialIcon from '@/atoms/InitialIcon'
 
 import styles from '@/styles/components/account/follow/account.module.scss'
@@ -8,12 +9,11 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
 type AccountProps = {
-  name: string
-  display_id: string
+  data: ProfilesSummaryType
   setRef: Dispatch<SetStateAction<HTMLDivElement | null>> | false
 }
 
-const Account = ({ name, display_id, setRef }: AccountProps) => {
+const Account = ({ data, setRef }: AccountProps) => {
   const router = useRouter()
   
   return (
@@ -21,15 +21,18 @@ const Account = ({ name, display_id, setRef }: AccountProps) => {
       className={ styles.list_item_button }
       classes={{ root: styles.list_item_button_root }}
       ref={ setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined }
-      onClick={ () => router.push(`/account/${ display_id }`)}
+      onClick={ () => router.push(`/account/${ data.id }`)}
     >
       <ListItemIcon>
-        <InitialIcon username={ name } variant='medium' />
+        <InitialIcon username={ data.username } variant='medium' />
       </ListItemIcon>
 
       <ListItemText
-        primary={ name }
-        secondary={ display_id }
+        secondaryTypographyProps={{
+          noWrap: true
+        }}
+        primary={ data.username }
+        secondary={ data.details }
       />
     </ListItemButton>
   )

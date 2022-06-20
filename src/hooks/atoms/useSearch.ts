@@ -35,7 +35,26 @@ const useSearch = () => {
 
   // 検索履歴から実行
   const handleHistory = (_: SyntheticEvent<Element, Event>, value: string | null) => {
-    if(!value) return
+    if(!value) {
+      if(sorce) {
+        router.push({
+          pathname: '/search',
+          query: {
+            sorce
+          }
+        }, undefined, {
+          shallow: true
+        })
+      } else {
+        router.push({
+          pathname: '/search'
+        }, undefined, {
+          shallow: true
+        })
+      }
+
+      return
+    }
 
     setSearchHistory([value, ...searchHistory])
 

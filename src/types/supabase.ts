@@ -834,6 +834,105 @@ export interface paths {
       };
     };
   };
+  "/profiles_summary": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.profiles_summary.id"];
+          username?: parameters["rowFilter.profiles_summary.username"];
+          avatar?: parameters["rowFilter.profiles_summary.avatar"];
+          details?: parameters["rowFilter.profiles_summary.details"];
+          follower_count?: parameters["rowFilter.profiles_summary.follower_count"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["profiles_summary"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** profiles_summary */
+          profiles_summary?: definitions["profiles_summary"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.profiles_summary.id"];
+          username?: parameters["rowFilter.profiles_summary.username"];
+          avatar?: parameters["rowFilter.profiles_summary.avatar"];
+          details?: parameters["rowFilter.profiles_summary.details"];
+          follower_count?: parameters["rowFilter.profiles_summary.follower_count"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.profiles_summary.id"];
+          username?: parameters["rowFilter.profiles_summary.username"];
+          avatar?: parameters["rowFilter.profiles_summary.avatar"];
+          details?: parameters["rowFilter.profiles_summary.details"];
+          follower_count?: parameters["rowFilter.profiles_summary.follower_count"];
+        };
+        body: {
+          /** profiles_summary */
+          profiles_summary?: definitions["profiles_summary"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/replies": {
     get: {
       parameters: {
@@ -1072,6 +1171,50 @@ export interface paths {
       };
     };
   };
+  "/rpc/handle_user_search_more": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: uuid */
+            uid: string;
+            /** Format: text */
+            word: string;
+            /** Format: integer */
+            fcount: number;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/rpc/handle_articles_search": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: text */
+            word: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
   "/rpc/handle_insert_articles": {
     post: {
       parameters: {
@@ -1087,6 +1230,50 @@ export interface paths {
             image: string;
             /** Format: smallint[] */
             categories: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/rpc/handle_articles_search_more": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: timestamp without time zone */
+            created: string;
+            /** Format: integer */
+            lcount: number;
+            /** Format: text */
+            word: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/rpc/handle_user_search": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: text */
+            word: string;
           };
         };
         header: {
@@ -1394,6 +1581,22 @@ export interface definitions {
      */
     follower_count: number;
   };
+  profiles_summary: {
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id?: string;
+    /** Format: character varying */
+    username?: string;
+    /** Format: text */
+    avatar?: string;
+    /** Format: text */
+    details?: string;
+    /** Format: integer */
+    follower_count?: number;
+  };
   replies: {
     /**
      * Format: integer
@@ -1675,6 +1878,18 @@ export interface parameters {
   "rowFilter.profiles.follow_count": string;
   /** Format: integer */
   "rowFilter.profiles.follower_count": string;
+  /** @description profiles_summary */
+  "body.profiles_summary": definitions["profiles_summary"];
+  /** Format: uuid */
+  "rowFilter.profiles_summary.id": string;
+  /** Format: character varying */
+  "rowFilter.profiles_summary.username": string;
+  /** Format: text */
+  "rowFilter.profiles_summary.avatar": string;
+  /** Format: text */
+  "rowFilter.profiles_summary.details": string;
+  /** Format: integer */
+  "rowFilter.profiles_summary.follower_count": string;
   /** @description replies */
   "body.replies": definitions["replies"];
   /** Format: integer */

@@ -27,6 +27,15 @@ export type ArticleType = {
   categories: string | number
 }
 
+// アカウントトップ10
+export type ProfilesSummaryType = {
+  id: definitions['profiles']['id'];
+  username: definitions['profiles']['username'];
+  avatar: definitions['profiles']['avatar'];
+  details: definitions['profiles']['details'];
+  follower_count: definitions['profiles']['follower_count']
+}
+
 // 記事一つ
 // export type ArticleType = {
 //   id: string;
