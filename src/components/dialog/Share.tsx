@@ -1,48 +1,54 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSetRecoilState } from 'recoil'
+import type { DialogProps } from '@/types/types'
+import Dialog from '@/components/dialog/Dialog'
 import { notificateState } from '@/lib/recoil'
 
 import styles from '@/styles/components/dialog/share.module.scss'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-const Share = () => {
+type Props = DialogProps & {
+  path: string
+}
+
+const Share = ({ path, dialog, setDialog, handleClose }: Props) => {
   const setNotificate = useSetRecoilState(notificateState)
-  const router = useRouter()
+  const url = process.env.NEXT_PUBLIC_WEB_URL + '/article/' + path
 
   const share: {
     url: string;
     social: 'twitter' | 'facebook' | 'line' | 'note' | 'hatena';
     label: 'Twitter' | 'Facebook' | 'LINE' | 'note' | 'はてブ'
   }[] = [{
-    url: `https://twitter.com/share?url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://twitter.com/share?url=${ url }`,
     social: 'twitter',
     label: 'Twitter'
   }, {
-    url: `https://www.facebook.com/sharer/sharer.php?u=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://www.facebook.com/sharer/sharer.php?u=${ url }`,
     social: 'facebook',
     label: 'Facebook'
   }, {
-    url: `https://line.me/R/share?text=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://line.me/R/share?text=${ url }`,
     social: 'line',
     label: 'LINE'
   }, {
-    url: `https://note.com/intent/post?url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://note.com/intent/post?url=${ url }`,
     social: 'note',
     label: 'note'
   }, {
-    url: `https://b.hatena.ne.jp/add?mode=confirm&url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://b.hatena.ne.jp/add?mode=confirm&url=${ url }`,
     social: 'hatena',
     label: 'はてブ'
   }]
 
+  // URLをコピー
   const handleCopy = () => {
-    navigator.clipboard.writeText(process.env.NEXT_PUBLIC_WEB_URL + router.asPath)
+    navigator.clipboard.writeText(url)
 
     setNotificate({
       open: true,
@@ -51,7 +57,11 @@ const Share = () => {
   }
 
   return (
-    <DialogContent>
+    <Dialog
+      dialog={ dialog }
+      setDialog={ setDialog }
+      handleClose={ handleClose }
+    >
       <Typography variant='h3'>
         この投稿をシェアする
       </Typography>
@@ -74,6 +84,7 @@ const Share = () => {
 
         { share.map(item => (
           <FormControlLabel
+            key={ item.social }
             className={ styles.label }
             classes={{ root: styles.label_root }}
             control={
@@ -102,7 +113,7 @@ const Share = () => {
           />
         ))}
       </DialogActions>
-    </DialogContent>
+    </Dialog>
   )
 }
 

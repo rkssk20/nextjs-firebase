@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
-import InitialIcon from '@/atoms/InitialIcon'
-import AvatarIcon from '@/atoms/AvatarIcon'
+import InitialIcon from '@/atoms/Icon/InitialIcon'
+import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/header/hamburger/login.module.scss'
 import useMediaQuery from '@mui/material/useMediaQuery'

@@ -1,0 +1,24 @@
+// タイトル
+.title {
+  padding-bottom: var(--sm);
+  border-bottom: var(--border);
+  &.title_root {
+    margin-top: var(--xl);
+    margin-right: var(--md);
+    margin-bottom: var(--md);
+    margin-left: var(--md);
+  }
+}
+
+// リンク
+.link {
+  padding-right: var(--md);
+  padding-left: var(--md);
+}
+
+// アカウント作成ボタン
+.button {
+  margin-top: var(--xl);
+  margin-bottom: var(--xl);
+  text-align: center;
+}

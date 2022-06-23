@@ -1,12 +1,11 @@
 import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
-import Side from '@/components/side/Side'
-import { ProfilePageType } from '@/types/types'
-import { definitions } from '@/types/supabase'
+import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import useLikesArticles from '@/hooks/select/useLikesArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
+import Side from '@/components/side/Side'
 import Layout from '@/components/provider/Layout'
 import Profile from '@/components/account/Profile'
 import Bar from '@/components/account/Bar'
@@ -16,7 +15,7 @@ import Post from '@/components/post/Post'
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id
 
-  if(!id || typeof(id) !== 'string') return { notFound: true }
+  if(typeof id !== 'string') return { notFound: true }
 
   try {
     const { data, error } = await supabase
@@ -49,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 type AccountProps = {
-  item: ProfilePageType
+  item: definitions['profiles']
   path: string
 }
 
@@ -61,12 +60,12 @@ const Likes = ({ item, path }: AccountProps) => {
     <Layout
       type='profile'
       title={ item.username + 'がいいねした投稿一覧' }
-      description={ item.details }
+      description={ item.details || '' }
       image=''
     >
       {/* アカウント情報 */}
       <Profile path={ path } item={ item } />
-      
+
       {/* ページ選択バー */}
       <Bar path={ path } />
 

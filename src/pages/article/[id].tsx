@@ -2,8 +2,8 @@ import type { GetStaticProps, GetStaticPaths } from "next";
 import type { definitions } from "@/types/supabase";
 import RemarkDown from '@/lib/remarkDown'
 import { supabase } from '@/lib/supabaseClient'
-import ArticleImage from "@/atoms/ArticleImage";
-import NoArtcileImage from "@/atoms/NoArticleImage";
+import ArticleImage from "@/atoms/Image/ArticleImage";
+import NoArtcileImage from "@/atoms/Image/NoArticleImage";
 import Layout from '@/components/provider/Layout'
 import Title from '@/components/article/Title'
 import Header from '@/components/article/Header'

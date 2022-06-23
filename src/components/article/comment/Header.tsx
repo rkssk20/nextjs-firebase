@@ -1,8 +1,8 @@
 import NextLink from 'next/link'
 import type { definitions } from '@/types/supabase'
 import CreatedAt from '@/lib/createdAt'
-import InitialIcon from '@/atoms/InitialIcon'
-import AvatarIcon from '@/atoms/AvatarIcon'
+import InitialIcon from '@/atoms/Icon/InitialIcon'
+import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/article/comment/header.module.scss'
 import MuiLink from '@mui/material/Link'

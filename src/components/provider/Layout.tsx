@@ -2,6 +2,8 @@ import { ReactNode } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
+import styles from '@/styles/components/provider/layout.module.scss'
+
 type Props = {
   type: 'website' | 'article' | 'profile'
   title: string
@@ -47,7 +49,9 @@ const Layout: NextPage<Props> = ({ type, title, description, image, children }) 
         <meta name='twitter:image' content={ ogpImageUrl } />
       </Head>
 
-      {children}
+      <div className={ styles.container }>
+        {children}
+      </div>
     </>
   )
 }

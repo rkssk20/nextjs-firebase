@@ -2,10 +2,8 @@ import React from 'react'
 import useObserver from '@/hooks/atoms/useObserver'
 import useUserSearch from '@/hooks/select/search/useUserSearch'
 import Circular from '@/atoms/Circular'
+import Empty from '@/atoms/Empty'
 import Account from '@/components/account/follow/Account'
-
-import styles from '@/styles/components/search/_search.module.scss'
-import Typography from '@mui/material/Typography'
 
 const UserSearch = ({ word }: { word: string | string[] }) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useUserSearch(word)
@@ -13,11 +11,14 @@ const UserSearch = ({ word }: { word: string | string[] }) => {
 
   return (
     <React.Fragment>
-      { data && (data.pages[0].length > 0) ? data.pages.map((page, page_index) => (
+      { data && (data?.pages[0].length > 0) ? data.pages.map((page, page_index) => (
           page.map((item, index) => (
             <Account
               key={ item.id }
-              data={ item }
+              id={ item.id }
+              username={ item.username }
+              avatar={ item.avatar }
+              details={ item.details }
               setRef={
                 ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
               }
@@ -25,10 +26,7 @@ const UserSearch = ({ word }: { word: string | string[] }) => {
           ))
         ))
         :
-        !isFetching &&
-        <Typography className={ styles.no_result } variant='h6'>
-          結果がありません
-        </Typography>
+        !isFetching && <Empty text='検索結果はありません' />
       }
 
       { isFetching && <Circular /> }

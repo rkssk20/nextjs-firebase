@@ -6,6 +6,7 @@ import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import client from '@/lib/queryClient'
 import Mui from '@/components/provider/Mui'
+import Auth from '@/components/provider/Auth'
 
 import '@/styles/globals.scss'
 
@@ -25,12 +26,14 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     <RecoilRoot>
       {/* react-query */}
       <QueryClientProvider client={ client }>
-        {/* Mui */}
-        <Mui>
-          { getLayout(<Component {...pageProps} />) }
+        <Auth>
+          {/* Mui */}
+          <Mui>
+            { getLayout(<Component {...pageProps} />) }
 
-          <ReactQueryDevtools initialIsOpen={ false } />
-        </Mui>
+            <ReactQueryDevtools initialIsOpen={ false } />
+          </Mui>
+        </Auth>
       </QueryClientProvider>
     </RecoilRoot>
   )

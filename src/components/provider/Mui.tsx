@@ -1,23 +1,49 @@
 import { useState, ReactNode } from 'react'
 import type { NextPage } from 'next'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { notificateState, dialogState } from '@/lib/recoil'
+import Router from 'next/router'
+import { useRecoilState } from 'recoil'
+import { notificateState } from '@/lib/recoil'
 import Header from '@/components/header/Header'
 import Hamburger from '@/components/header/hamburger/Hamburger'
-import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/provider/mui.module.scss'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Snackbar from '@mui/material/Snackbar'
+import Fade from '@mui/material/Fade'
+import LinearProgress from '@mui/material/LinearProgress';
 
 interface MuiProps {
   children: ReactNode
 }
 
 const Mui: NextPage<MuiProps> = ({ children }) => {
+  const [progress, setProgress] = useState(0)
+  const [progressOpen, setProgressOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
-  const dialog = useRecoilValue(dialogState)
+
+  // インジケーターを開始する
+  const handleProgressOpen = () => {
+    setProgress(30)
+    setProgressOpen(true)
+  }
+
+  // インジケーターを終了する
+  const handleProgressClose = () => {
+    setProgress(100)
+
+    setTimeout(() => {
+      setProgressOpen(false)
+
+      setTimeout(() => {
+        setProgress(0)
+      }, 195)
+    }, 350)
+  }
+
+  Router.events.on('routeChangeStart', handleProgressOpen)
+  Router.events.on('routeChangeComplete', handleProgressClose)
+  Router.events.on('routeChangeError', handleProgressClose)
 
   const theme = createTheme({
     palette: {
@@ -122,6 +148,18 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
 
   return (
     <ThemeProvider theme={ theme }>
+      {/* 画面遷移の読み込みインジケーター */}
+      { 
+        <Fade in={ progressOpen }>
+          <LinearProgress
+            className={ styles.liner }
+            classes={{ root: styles.liner_root }}
+            variant="determinate"
+            value={ progress }
+          />
+        </Fade>
+      }
+
       {/* ヘッダー */}
       <Header setMenuOpen={ setMenuOpen } />
 
@@ -143,9 +181,6 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
           horizontal: 'center',
         }}
       />
-
-      {/* ダイアログ */}
-      { dialog.open && <Dialog /> }
     </ThemeProvider>
   )
 }

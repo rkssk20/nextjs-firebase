@@ -5,6 +5,8 @@ import { accountState, notificateState } from "@/lib/recoil"
 import { supabase } from "@/lib/supabaseClient"
 
 const FetchData = async () => {
+  if(typeof window === 'undefined') return
+
   const user = supabase.auth.user()
 
   if(!user?.id) throw 'error'
@@ -25,15 +27,30 @@ const useProfile = () => {
   const setNotificate = useSetRecoilState(notificateState)
   const setAccount = useSetRecoilState(accountState)
 
-  const { data, isFetching } = useQuery(['profiles'], FetchData, {
+  useQuery(['profiles'], FetchData, {
     onSuccess: data => {
-      setAccount({
-        loading: false,
-        data: {
-          username: data.username,
-          avatar: data.avatar ? process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + data.avatar : undefined
-        }
-      })
+      if(data) {
+        setAccount({
+          loading: false,
+          data: {
+            username: data.username,
+            avatar: data.avatar ? process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + data.avatar : undefined
+          }
+        })
+      } else {
+        setAccount({
+          loading: false,
+          data: {
+            username: '',
+            avatar: undefined
+          }
+        })
+
+        setNotificate({
+          open: true,
+          message: 'ユーザー情報が見つかりませんでした'
+        })
+      }
     },
     onError: () => {
       setNotificate({
@@ -42,8 +59,6 @@ const useProfile = () => {
       })
     }
   })
-
-  return { data, isFetching }
 }
 
 export default useProfile

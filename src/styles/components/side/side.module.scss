@@ -92,4 +92,11 @@
 // サイドの下部
 .list_under {
   padding: var(--md);
+  display: flex;
+  flex-direction: column;
+}
+
+// 下部のリンク
+.link {
+  margin-right: auto;
 }

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
-import useProfile from '@/hooks/select/useProfile'
 import Loading from '@/components/header/hamburger/Loading'
 import Login from '@/components/header/hamburger/Login'
 import Logout from '@/components/header/hamburger/Logout'
@@ -26,7 +25,6 @@ type HamburgerProps = {
 }
 
 const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
-  const { data, isFetching } = useProfile()
   const pc = useMediaQuery('(min-width: 1182px')
   const router = useRouter()
   const account = useRecoilValue(accountState)
@@ -71,7 +69,7 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
       onClose={ handleClose }
     >
       {/* アカウント関連のリンク  */}
-      { isFetching ?
+      { account.loading ?
         <Loading />
         :
         id && account.data ?
@@ -113,20 +111,18 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
 
       {/* その他のページへのリンク */}
       <List>
-        { sub_list.map(item => (
-          <Link key={ item.url } href={ item.url } passHref>
-            <ListItemButton
-              className={ styles.list_item_button }
-              classes={{ root: styles.list_item_button_root }}
-              component='a'
-              onClick={ handleClose }
-            >
-              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
-                { item.text }
-              </ListItemText>
-            </ListItemButton>
-          </Link>
-        )) }
+        <Link href='/about' passHref>
+          <ListItemButton
+            className={ styles.list_item_button }
+            classes={{ root: styles.list_item_button_root }}
+            component='a'
+            onClick={ handleClose }
+          >
+            <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
+              このサイトについて
+            </ListItemText>
+          </ListItemButton>
+        </Link>
       </List>
     </Drawer>
   )

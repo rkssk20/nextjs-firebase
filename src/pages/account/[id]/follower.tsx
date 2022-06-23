@@ -1,34 +1,32 @@
 import type { GetStaticProps, GetStaticPaths } from 'next'
-import { useRouter } from 'next/router'
-import { ProfilePageType } from '@/types/types'
-import useFollower from '@/hooks/useFollower'
+import type { definitions } from '@/types/supabase'
+import { supabase } from '@/lib/supabaseClient'
+import usePersonFollowers from '@/hooks/select/usePersonFollowers'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
+import Empty from '@/atoms/Empty'
 import Layout from '@/components/provider/Layout'
 import Header from '@/components/account/follow/Header'
-import Bar from '@/atoms/Bar'
 import Account from '@/components/account/follow/Account'
-import FollowerEmpty from '@/components/account/follow/FollowerEmpty'
 
 // ISR
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const display_id = params?.display_id
+  const id = params?.id
 
-  if(!display_id) return { notFound: true }
+  if(typeof id !== 'string') return { notFound: true }
 
-  const article = await fetch(`${ process.env.NEXT_PUBLIC_WEB_URL }/api/testProfilePage`, {
-    method: 'POST',
-    body: JSON.stringify({ display_id })
-  })
+  const { data, error } = await supabase
+  .from<definitions['profiles']>('profiles')
+  .select('username, avatar, details')
+  .eq('id', id)
+  .single()
 
-  const result = await article.json()
-
-  if(!result.data) return { notFound: true }
+  if(error || !data) return { notFound: true }
 
   return {
     props: {
-      item: result.data,
-      path: display_id
+      item: data,
+      path: id
     },
     // 5分キャッシュ
     revalidate: 300
@@ -43,58 +41,44 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 type FollowerProps = {
-  item: ProfilePageType
+  item: definitions['profiles']
   path: string
 }
 
 const Follower = ({ item, path }: FollowerProps) => {
-  const { loading, data, Fetch } = useFollower(item.display_id)
-  const setRef = useObserver(Fetch)
-  const router = useRouter()
-
-  const tab_list = [{
-    name: 'フォロー中',
-    url: `/account/${ router.query.display_id }/follow`
-  }, {
-    name: 'フォロワー',
-    url: `/account/${ router.query.display_id }/follower`
-  }]
-  
+  const { data, isFetching, hasNextPage, fetchNextPage } = usePersonFollowers(path)
+  const setRef = useObserver({ hasNextPage, fetchNextPage })
+    
   return (
     <Layout
       type='profile'
-      title={ item.name + 'のフォロワー一覧' }
-      description={ item.details }
+      title={ item.username + 'のフォロワー一覧' }
+      description={ item.details || '' }
       image=''
     >
-      {/* タイトルと戻るボタン */}
-      <Header
-        path={ path }
-        name={ item.name }
-        categories='follower'
-      />
-
-      {/* 選択バー */}
-      <Bar
-        tab_list={ tab_list }
-        value={ router.pathname === '/account/[display_id]/follow' ? 0 : 1 }
-      />
+      {/* ヘッダー */}
+      <Header path={ path } name={ item.username } />
 
       {/* 各アカウント */}
-      { data &&
-        data.map((item, index) => (
-          <Account
-            key={ item.display_id }
-            display_id={ item.display_id }
-            name={ item.name }
-            setRef={ ((data.length - 1) === index) && setRef }
-          />
+      { data && (data.pages[0].length > 0) ? data.pages.map((page, page_index) => (
+          page.map((item, index) => (
+            <Account
+              key={ item.follower_id }
+              id={ item.user_id }
+              username={ item.username }
+              avatar={ item.avatar }
+              details={ item.details }
+              setRef={
+                ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
+              }
+            />
+          ))
         ))
+        :
+         !isFetching && <Empty text='まだフォローされていません。' />
       }
 
-      { !loading && (data.length === 0) && <FollowerEmpty path={ path } /> }
-
-      { loading && <Circular /> }
+      { isFetching && <Circular /> }
     </Layout>
   )
 }

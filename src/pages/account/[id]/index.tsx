@@ -1,8 +1,7 @@
 import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import Side from '@/components/side/Side'
-import { ProfilePageType } from '@/types/types'
-import { definitions } from '@/types/supabase'
+import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import usePersonArticles from '@/hooks/select/usePersonArticles'
 import useObserver from '@/hooks/atoms/useObserver'
@@ -49,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 type AccountProps = {
-  item: ProfilePageType
+  item: definitions['profiles']
   path: string
 }
 
@@ -57,14 +56,11 @@ const Account = ({ item , path }: AccountProps) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = usePersonArticles(path)
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
-  console.log(data);
-  
-
   return (
     <Layout
       type='profile'
       title={ item.username }
-      description={ item.details }
+      description={ item.details || '' }
       image=''
     >
       {/* アカウント情報 */}

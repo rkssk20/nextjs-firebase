@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import MuiLink from '@mui/material/Link'
 
 const Side = () => {
   const { loading, data } = useTrend()
@@ -77,6 +78,17 @@ const Side = () => {
 
       {/* 最下部 */}
       <div className={ styles.list_under }>
+        <NextLink href='/about' passHref>
+          <MuiLink
+            className={ styles.link }
+            underline='hover'
+            color=''
+            variant='caption'
+          >
+            このサイトについて
+          </MuiLink>
+        </NextLink>
+
         <Typography variant='caption'>
           @2022 Next.js × Supabase
         </Typography>

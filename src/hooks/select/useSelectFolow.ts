@@ -17,7 +17,7 @@ export const fetchFollowing = async (id: string | undefined, path: string) => {
   return data[0]
 }
 
-const useFollowing = (path: string) => {
+const useSelectFollow = (path: string) => {
   const setNotificate = useSetRecoilState(notificateState)
 
   const { data, isFetching } = useQuery(['following', path], () => fetchFollowing(supabase.auth.user()?.id, path), {
@@ -37,4 +37,4 @@ const useFollowing = (path: string) => {
   return { data, isFetching }
 }
 
-export default useFollowing
+export default useSelectFollow

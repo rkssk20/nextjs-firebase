@@ -1,7 +1,11 @@
 // 注意書き
 .error {
-  padding-top: var(--sm);
-  padding-bottom: var(--lg);
+  padding-top: var(--md);
+}
+
+// ボタン全体
+.button_field {
+  padding-top: var(--md);
 }
 
 // 各ボタン

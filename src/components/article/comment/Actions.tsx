@@ -1,20 +1,22 @@
 import { useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import dynamic from 'next/dynamic'
+import { useRecoilValue } from 'recoil'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
-import { accountState, dialogState } from '@/lib/recoil'
-import useMutateCommentsLikes from '@/hooks/mutate/useMutateCommentsLikes'
+import { accountState } from '@/lib/recoil'
+import { LoginLike, LogoutLike } from '@/components/article/comment/Like'
+import Popup from '@/atoms/Popup'
 import ReplyForm from '@/components/article/comment/reply/ReplyForm'
+
+const CommentDelete = dynamic((import('@/components/dialog/CommentDelete')))
+const Report = dynamic((import('@/components/dialog/Report')))
 
 import styles from '@/styles/components/article/comment/actions.module.scss'
 import Button from '@mui/material/Button'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import IconButton from '@mui/material/IconButton'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import Typography from '@mui/material/Typography'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
 type ActionsProps = {
@@ -27,52 +29,16 @@ type ActionsProps = {
 }
 
 const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: ActionsProps) => {
-  const [formOpen, setFormOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [formOpen, setFormOpen] = useState(false)
+  const [dialog, setDialog] = useState(false)
   const open = Boolean(anchorEl);
   const account = useRecoilValue(accountState)
-  const setDialog = useSetRecoilState(dialogState)
-  const { mutate, isLoading } = useMutateCommentsLikes(path, id)
 
-  // いいね
-  const handleLikes = () => {
-    if(isLoading) return
-
-    if(account.data) {
-      mutate((comments_likes && (comments_likes.length > 0)) ? comments_likes[0].id : undefined)
-
-    } else {
-      setDialog({
-        open: true,
-        content: 'login',
-        id: null
-      })
-    }
-  }
-
-  // 詳細メニューを閉じる
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  // 削除ダイアログ
-  const handleDelete = () => {
-    setDialog({
-      open: true,
-      content: 'comment_delete',
-      id: path
-    })
-    handleClose()
-  }
-  
-  // 報告ダイアログ
-  const handleReport = () => {
-    setDialog({
-      open: true,
-      content: 'comment_report',
-      id: path
-    })
-    handleClose()
+  // ダイアログを表示
+  const handleDialog = () => {
+    setDialog(true)
+    setAnchorEl(null)
   }
   
   return (
@@ -96,14 +62,15 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
         </Button>
 
         {/* いいねボタン */}
-        <IconButton
-          aria-label='いいね'
-          color='primary'
-          component='div'
-          onClick={ handleLikes }
-        >
-          { (comments_likes && comments_likes[0]?.id)? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
-        </IconButton>
+        { account.data ?
+          <LoginLike
+            path={ path }
+            id={ id }
+            comments_likes={ comments_likes }
+          />
+          :
+          <LogoutLike />
+        }
 
         {/* いいね数 */}
         <Typography className={ styles.favorite_count } variant='caption'>
@@ -124,19 +91,11 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
           <MoreVertIcon />
         </IconButton>
 
-        {/* 詳細メニュー */}
-        <Menu
-          id="positioned-menu"
-          anchorEl={ anchorEl }
-          open={ open }
-          onClose={ handleClose }
-        >
-          { (user_id === supabase.auth.user()?.id) ?
-            <MenuItem onClick={ handleDelete }>コメントを削除</MenuItem>
-            :
-            <MenuItem onClick={ handleReport }>コメントの問題を報告</MenuItem>
-          }
-        </Menu>
+        <Popup anchorEl={ anchorEl } setAnchorEl={ setAnchorEl }>
+          <MenuItem onClick={ handleDialog }>
+            { (user_id === supabase.auth.user()?.id) ? 'コメントを削除' : 'コメントの問題を報告' }
+          </MenuItem>
+        </Popup>
       </div>
 
       {/* 返信フォーム */}
@@ -145,6 +104,22 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
           path={ path }
           id={ id }
           setFormOpen={ setFormOpen }
+        />
+      }
+ 
+      { dialog && (user_id === supabase.auth.user()?.id) ?
+        <CommentDelete
+          dialog={ dialog }
+          setDialog={ setDialog }
+          handleClose={ () => setDialog(false) }
+          path={ path }
+          id={ id }
+        />
+        :
+        <Report
+          dialog={ dialog }
+          setDialog={ setDialog }
+          handleClose={ () => setDialog(false) }
         />
       }
     </div>

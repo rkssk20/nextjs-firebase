@@ -34,7 +34,6 @@ const ShowReplies = ({ path, id }: ShowReplyProps) => {
 
             {/* いいね、詳細ボタン */}
             <Actions
-              path={ path }
               id={ item.id }
               user_id={ item.user_id }
               comment_id={ item.comment_id }

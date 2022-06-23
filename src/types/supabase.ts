@@ -418,6 +418,7 @@ export interface paths {
           id?: parameters["rowFilter.follows.id"];
           user_id?: parameters["rowFilter.follows.user_id"];
           follower_id?: parameters["rowFilter.follows.follower_id"];
+          created_at?: parameters["rowFilter.follows.created_at"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -471,6 +472,7 @@ export interface paths {
           id?: parameters["rowFilter.follows.id"];
           user_id?: parameters["rowFilter.follows.user_id"];
           follower_id?: parameters["rowFilter.follows.follower_id"];
+          created_at?: parameters["rowFilter.follows.created_at"];
         };
         header: {
           /** Preference */
@@ -488,6 +490,7 @@ export interface paths {
           id?: parameters["rowFilter.follows.id"];
           user_id?: parameters["rowFilter.follows.user_id"];
           follower_id?: parameters["rowFilter.follows.follower_id"];
+          created_at?: parameters["rowFilter.follows.created_at"];
         };
         body: {
           /** follows */
@@ -726,6 +729,82 @@ export interface paths {
         /** OK */
         200: {
           schema: definitions["person_articles"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+  };
+  "/person_followers": {
+    get: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.person_followers.user_id"];
+          follower_id?: parameters["rowFilter.person_followers.follower_id"];
+          created_at?: parameters["rowFilter.person_followers.created_at"];
+          username?: parameters["rowFilter.person_followers.username"];
+          avatar?: parameters["rowFilter.person_followers.avatar"];
+          details?: parameters["rowFilter.person_followers.details"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["person_followers"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+  };
+  "/person_follows": {
+    get: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.person_follows.user_id"];
+          follower_id?: parameters["rowFilter.person_follows.follower_id"];
+          created_at?: parameters["rowFilter.person_follows.created_at"];
+          username?: parameters["rowFilter.person_follows.username"];
+          avatar?: parameters["rowFilter.person_follows.avatar"];
+          details?: parameters["rowFilter.person_follows.details"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["person_follows"][];
         };
         /** Partial Content */
         206: unknown;
@@ -1414,9 +1493,14 @@ export interface definitions {
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id?: string;
+    user_id: string;
     /** Format: uuid */
     follower_id: string;
+    /**
+     * Format: timestamp without time zone
+     * @default now()
+     */
+    created_at: string;
   };
   front_articles: {
     /**
@@ -1553,6 +1637,42 @@ export interface definitions {
     username?: string;
     /** Format: ARRAY */
     categories?: unknown[];
+  };
+  person_followers: {
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    user_id?: string;
+    /** Format: uuid */
+    follower_id?: string;
+    /** Format: timestamp without time zone */
+    created_at?: string;
+    /** Format: character varying */
+    username?: string;
+    /** Format: text */
+    avatar?: string;
+    /** Format: text */
+    details?: string;
+  };
+  person_follows: {
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    user_id?: string;
+    /** Format: uuid */
+    follower_id?: string;
+    /** Format: timestamp without time zone */
+    created_at?: string;
+    /** Format: character varying */
+    username?: string;
+    /** Format: text */
+    avatar?: string;
+    /** Format: text */
+    details?: string;
   };
   profiles: {
     /**
@@ -1776,6 +1896,8 @@ export interface parameters {
   "rowFilter.follows.user_id": string;
   /** Format: uuid */
   "rowFilter.follows.follower_id": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.follows.created_at": string;
   /** @description front_articles */
   "body.front_articles": definitions["front_articles"];
   /** Format: character varying */
@@ -1864,6 +1986,34 @@ export interface parameters {
   "rowFilter.person_articles.username": string;
   /** Format: ARRAY */
   "rowFilter.person_articles.categories": string;
+  /** @description person_followers */
+  "body.person_followers": definitions["person_followers"];
+  /** Format: uuid */
+  "rowFilter.person_followers.user_id": string;
+  /** Format: uuid */
+  "rowFilter.person_followers.follower_id": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.person_followers.created_at": string;
+  /** Format: character varying */
+  "rowFilter.person_followers.username": string;
+  /** Format: text */
+  "rowFilter.person_followers.avatar": string;
+  /** Format: text */
+  "rowFilter.person_followers.details": string;
+  /** @description person_follows */
+  "body.person_follows": definitions["person_follows"];
+  /** Format: uuid */
+  "rowFilter.person_follows.user_id": string;
+  /** Format: uuid */
+  "rowFilter.person_follows.follower_id": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.person_follows.created_at": string;
+  /** Format: character varying */
+  "rowFilter.person_follows.username": string;
+  /** Format: text */
+  "rowFilter.person_follows.avatar": string;
+  /** Format: text */
+  "rowFilter.person_follows.details": string;
   /** @description profiles */
   "body.profiles": definitions["profiles"];
   /** Format: uuid */

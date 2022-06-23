@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import InitialIcon from '@/atoms/InitialIcon'
+import InitialIcon from '@/atoms/Icon/InitialIcon'
 
 import styles from '@/styles/components/article/header.module.scss'
 import MuiLink from '@mui/material/Link'
@@ -40,7 +40,6 @@ const Header = ({ user_id, name, created_at }: HeaderProps) => {
           { created.getFullYear() + '年' + created.getMonth() + '月' + created.getDay() + '日' }
         </Typography>
       </div>
-
     </div>
   )
 }

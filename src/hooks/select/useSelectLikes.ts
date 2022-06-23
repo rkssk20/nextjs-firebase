@@ -23,9 +23,7 @@ const useSelectLikes = (path: string) => {
   const setNotificate = useSetRecoilState(notificateState)
 
   const { data, isFetching } = useQuery(['likes', path], () => FetchData(path), {
-    onError: error => {
-      console.log(error)
-
+    onError: () => {
       setNotificate({
         open: true,
         message: 'エラーが発生しました。'

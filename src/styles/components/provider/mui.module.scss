@@ -1,16 +1,13 @@
 @use '@/styles/utils';
 
+// メイン要素全体のコンテナ
 .container {
   max-width: 600px;
-  height: 100%;
-  min-height: calc(100vh - 56px);
-  margin-bottom: var(--lg);
   margin-right: auto;
   margin-left: auto;
-  background-color: white;
-  border-radius: 5px;
   @include utils.mq(sm) {
     margin-top: var(--lg);
+    margin-bottom: var(--lg);
   }
   // 右側リストだけのとき
   @include utils.mq(md) {
@@ -19,5 +16,14 @@
   // 左側メニューもあるとき
   @include utils.mq(lg) {
     margin-left: calc(((100% - 1182px) / 2) + 266px);
+  }
+}
+
+.liner {
+  width: 100%;
+  &.liner_root {
+    position: fixed;
+    z-index: 1200;
+    background-color: inherit;
   }
 }

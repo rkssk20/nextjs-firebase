@@ -1,18 +1,20 @@
 import { useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import dynamic from 'next/dynamic'
+import { useRecoilValue } from 'recoil';
 import type { definitions } from '@/types/supabase';
-import { accountState, dialogState } from '@/lib/recoil';
+import { accountState } from '@/lib/recoil';
 import { supabase } from '@/lib/supabaseClient';
 import useSelectLikes from '@/hooks/select/useSelectLikes';
-import useMutateLikes from '@/hooks/mutate/useMutateLikes';
+import Popup from '@/atoms/Popup';
+import { LoginLike, LogoutLike } from '@/components/article/Like'
+
+const ArticleDelete = dynamic((import('@/components/dialog/ArticleDelete')))
+const Report = dynamic((import('@/components/dialog/Report')))
 
 import styles from '@/styles/components/article/actions.module.scss'
 import IconButton from '@mui/material/IconButton'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import Typography from '@mui/material/Typography'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
 type ActionsProps = {
@@ -24,66 +26,34 @@ type ActionsProps = {
 const Actions = ({ like_count, user_id, path }: ActionsProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [likeCountState, setLikeCountState] = useState(like_count)
+  const [dialog, setDialog] = useState(false)
   const open = Boolean(anchorEl);
   const account = useRecoilValue(accountState)
-  const setDialog = useSetRecoilState(dialogState)
   const { data, isFetching } = useSelectLikes(path)
-  const { mutate, isLoading } = useMutateLikes(path, setLikeCountState)
-
-  // いいね処理
-  const handleLikes = () => {
-    if(isFetching || isLoading) return
-
-    if(account.data) {
-     mutate(data?.id)
-
-    } else {
-      setDialog({
-        open: true,
-        content: 'login',
-        id: null
-      })
-    }
-  }
 
   // 詳細メニューを閉じる
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  // 削除ダイアログ
-  const handleDelete = () => {
-    setDialog({
-      open: true,
-      content: 'article_delete',
-      id: path
-    })
-
-    handleClose()
   }
-  
-  // 報告ダイアログ
-  const handleReport = () => {
-    setDialog({
-      open: true,
-      content: 'article_report',
-      id: path
-    })
 
+  // ダイアログ
+  const handleDialog = () => {
+    setDialog(true)
     handleClose()
   }
 
   return (
     <div className={ styles.card_actions }>
-      {/* いいねボタン */}
-      <IconButton
-        aria-label='いいね'
-        color='primary'
-        component='div'
-        onClick={ handleLikes }
-      >
-        { data?.id ? <FavoriteIcon /> : <FavoriteBorderIcon /> }
-      </IconButton>
+      { account.data ?
+        <LoginLike
+          path={ path }
+          id={ data?.id }
+          isFetching={ isFetching }
+          setLikeCountState={ setLikeCountState }
+        />
+        :
+        <LogoutLike />
+      }
 
       {/* いいね数 */}
       <Typography className={ styles.favorite_count } variant='caption'>
@@ -105,18 +75,28 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
       </IconButton>
 
       {/* 詳細メニュー */}
-      <Menu
-        id="positioned-menu"
-        anchorEl={ anchorEl }
-        open={ open }
-        onClose={ handleClose }
-      >
-        { (user_id === supabase.auth.user()?.id) ?
-          <MenuItem onClick={ handleDelete }>記事を削除</MenuItem>
-          :
-          <MenuItem onClick={ handleReport }>記事の問題を報告</MenuItem>
-        }
-      </Menu>
+      <Popup anchorEl={ anchorEl } setAnchorEl={ setAnchorEl }>
+        <MenuItem onClick={ handleDialog }>
+          { (user_id === supabase.auth.user()?.id) ? '記事を削除' : '記事の問題を報告' }
+        </MenuItem>
+      </Popup>
+
+      { dialog && (user_id === supabase.auth.user()?.id) ?
+        // 削除ダイアログ
+        <ArticleDelete
+          dialog={ dialog }
+          setDialog={ setDialog }
+          handleClose={ () => setDialog(false) }
+          path={ path }
+        />
+        :
+        // 報告ダイアログ
+        <Report
+          dialog={ dialog }
+          setDialog={ setDialog }
+          handleClose={ () => setDialog(false) }
+        />
+      }
     </div>
   )
 }

@@ -2,10 +2,8 @@ import React from 'react'
 import useObserver from '@/hooks/atoms/useObserver'
 import useArticlesSearch from '@/hooks/select/search/useArticlesSearch'
 import Circular from '@/atoms/Circular'
+import Empty from '@/atoms/Empty'
 import Post from '@/components/post/Post'
-
-import styles from '@/styles/components/search/_search.module.scss'
-import Typography from '@mui/material/Typography'
 
 const ArticlesSearch = ({ word }: { word: string | string[] }) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useArticlesSearch(word)
@@ -27,10 +25,7 @@ const ArticlesSearch = ({ word }: { word: string | string[] }) => {
           ))
         ))
         :
-        !isFetching &&
-        <Typography className={ styles.no_result } variant='h6'>
-          結果がありません
-        </Typography>
+        !isFetching && <Empty text='検索結果はありません' />
       }
 
       { isFetching && <Circular /> }

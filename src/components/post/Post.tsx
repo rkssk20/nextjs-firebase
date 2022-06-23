@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
 import { ArticleType } from '@/types/types'
-import ArticleImage from '@/atoms/ArticleImage'
-import NoArticleImage from '@/atoms/NoArticleImage'
+import ArticleImage from '@/atoms/Image/ArticleImage'
+import NoArticleImage from '@/atoms/Image/NoArticleImage'
 import Header from '@/components/post/Header'
 import Content from '@/components/post/Content'
 import Actions from '@/components/post/Actions'
@@ -50,7 +50,7 @@ const Post = ({ data, setRef }: PostProps) => {
 
       {/* 投稿時間、いいね、コメント数、詳細ボタン */}
       <Actions
-        user_id={ data.user_id }
+        id={ data.id }
         like_count={ data.like_count }
         comment_count={ data.comment_count }
       />

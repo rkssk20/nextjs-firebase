@@ -1,7 +1,10 @@
+import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { useRouter } from 'next/router';
 import { useSetRecoilState } from 'recoil';
-import { dialogState, notificateState } from '@/lib/recoil';
+import { notificateState } from '@/lib/recoil';
+
+const ShareDialog = dynamic((import('@/components/dialog/Share')))
 
 import styles from '@/styles/components/article/share.module.scss'
 import IconButton from '@mui/material/IconButton'
@@ -9,26 +12,26 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ShareIcon from '@mui/icons-material/Share'
 
 const Share = ({ path }: { path: string }) => {
-  const setDialog = useSetRecoilState(dialogState)
+  const [dialog, setDialog] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
-  const router = useRouter()
+  const url = process.env.NEXT_PUBLIC_WEB_URL + '/article/' + path
 
   const share: {
     url: string;
     social: 'twitter' | 'facebook';
     label: 'Twitter' | 'Facebook';
   }[] = [{
-    url: `https://twitter.com/share?url=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://twitter.com/share?url=${ url }`,
     social: 'twitter',
     label: 'Twitter'
   }, {
-    url: `https://www.facebook.com/sharer/sharer.php?u=${ process.env.NEXT_PUBLIC_WEB_URL + router.asPath }`,
+    url: `https://www.facebook.com/sharer/sharer.php?u=${ url }`,
     social: 'facebook',
     label: 'Facebook'
   }]
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(process.env.NEXT_PUBLIC_WEB_URL + router.asPath)
+    navigator.clipboard.writeText(url)
     .then(() => {
       setNotificate({
         open: true,
@@ -84,16 +87,19 @@ const Share = ({ path }: { path: string }) => {
         aria-label='その他'
         className={ styles.share_button }
         classes={{ root: styles.share_button_root }}
-        onClick={ () =>
-          setDialog({
-            open: true,
-            content: 'share',
-            id: path
-          })
-        }
+        onClick={ () => setDialog(true) }
       >
         <ShareIcon className={ styles.icon } classes={{ root: styles.icon_root }} />
-      </IconButton> 
+      </IconButton>
+
+      { dialog &&
+        <ShareDialog
+          dialog={ dialog }
+          setDialog={ setDialog }
+          handleClose={ () => setDialog(false) }
+          path={ path }
+        />
+      }
     </div>
   )
 }

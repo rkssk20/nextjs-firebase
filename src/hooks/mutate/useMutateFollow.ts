@@ -1,15 +1,21 @@
-import { InfiniteData, useMutation, useQuery, useQueryClient } from "react-query"; 
+import { useMutation, useQueryClient } from "react-query"; 
 import { useSetRecoilState } from "recoil";
 import { definitions } from "@/types/supabase";
 import { notificateState } from "@/lib/recoil";
 import { supabase } from "@/lib/supabaseClient";
 
-const Mutate = async (follower_id: string, id: number | undefined) => {
+type Props = {
+  path: string
+  id: number | undefined
+}
+
+const Mutate = async ({ path, id }: Props) => {
   // フォローを外す
   if(id) {
     const { data, error } = await supabase
     .from<definitions['follows']>('follows')
     .delete({ returning: 'minimal' })
+    .eq('id', id)
 
     if(error) throw error
 
@@ -19,7 +25,7 @@ const Mutate = async (follower_id: string, id: number | undefined) => {
   } else {
     const { data, error } = await supabase
     .from<definitions['follows']>('follows')
-    .insert({ follower_id })
+    .insert({ follower_id: path })
     .single()
     
     if(error) throw error
@@ -28,11 +34,11 @@ const Mutate = async (follower_id: string, id: number | undefined) => {
   }
 }
 
-const useMutateFollow = (path: string, follower_id: string, id: number | undefined) => {
+const useMutateFollow = (path: string) => {
   const setNotificate = useSetRecoilState(notificateState)
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(() => Mutate(follower_id, id), {
+  const { mutate, isLoading } = useMutation((id: number | undefined) => Mutate({ path, id }), {
     onSuccess: data => {
       console.log(data)
 
@@ -49,7 +55,7 @@ const useMutateFollow = (path: string, follower_id: string, id: number | undefin
         
         // フォローを外した場合、キャッシュから削除
       } else {
-        queryClient.removeQueries(['followding', path], { exact: true })
+        queryClient.removeQueries(['following', path], { exact: true })
 
         setNotificate({
           open: true,

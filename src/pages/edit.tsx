@@ -17,6 +17,7 @@ import CardContent from '@mui/material/CardContent'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import InputBase from '@mui/material/InputBase'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const Edit = () => {
   const [draft, setDraft] = useRecoilState(draftState)
@@ -68,17 +69,27 @@ const Edit = () => {
       image=''
     >
       <LoginOnly>
-        <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
-          <IconButton aria-label='戻る' onClick={ () => router.back() }>
-            <CloseIcon />
-          </IconButton>
+        { isLoading ?
+          <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
+            <CircularProgress size={ 40 } />
+          </CardContent>
+          :
+          <CardContent className={ styles.header } classes={{ root: styles.header_root }}>
+            <IconButton
+              className={ styles.cancel }
+              aria-label='戻る'
+              onClick={ () => router.back() }
+            >
+              <CloseIcon />
+            </IconButton>
 
-          { ((title.length > 0) && (details.length > 0) ?
-            <ContainedButton text='投稿' handle={ handlePost } />
-            :
-            <DisabledButton text='投稿' />
-          )}
-        </CardContent>
+            { ((title.length > 0) && (details.length > 0) ?
+              <ContainedButton text='投稿' handle={ handlePost } />
+              :
+              <DisabledButton text='投稿' />
+            )}
+          </CardContent>
+        }
 
         <CardContent className={ styles.content }>
           {/* 画像を選択 */}
@@ -92,7 +103,6 @@ const Edit = () => {
             className={ styles.title }
             classes={{ root: styles.title_root }}
             autoFocus
-            multiline
             inputProps={{
               maxLength: 30,
             }}

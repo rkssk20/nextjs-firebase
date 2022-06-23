@@ -16,12 +16,6 @@ type NotificateProps = {
   message: string;
 }
 
-type DialogProps = {
-  open: boolean
-  content: '' | 'share' | 'login' | 'article_report' | 'comment_report' | 'article_delete' | 'comment_delete'
-  id: string | null
-}
-
 type DraftProps = {
   title: string
   details: string
@@ -43,16 +37,6 @@ export const notificateState = atom<NotificateProps>({
   default: {
     open: false,
     message: ''
-  }
-})
-
-// ダイアログ
-export const dialogState = atom<DialogProps>({
-  key: 'dialog',
-  default: {
-    open: false,
-    content: '',
-    id: null
   }
 })
 

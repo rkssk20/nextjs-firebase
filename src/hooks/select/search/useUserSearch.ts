@@ -1,7 +1,16 @@
 import { useInfiniteQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
+import type { definitions } from '@/types/supabase'
 import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
+
+type ResultType = {
+  id: definitions['profiles']['id']
+  username: definitions['profiles']['username']
+  avatar: definitions['profiles']['avatar']
+  details: definitions['profiles']['details']
+  follower_count: definitions['profiles']['follower_count']
+}
 
 const FetchData = async (pageParam: { follower_count: number, id: string }, word: string | string[]) => {
   const { data, error } = pageParam ?
@@ -23,7 +32,7 @@ const FetchData = async (pageParam: { follower_count: number, id: string }, word
 
   console.log(data)
 
-  return data
+  return data as unknown as ResultType[]
 }
 
 const useUserSearch = (word: string | string[]) => {

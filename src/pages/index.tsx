@@ -3,6 +3,7 @@ import Side from '@/components/side/Side'
 import useArticles from '@/hooks/article/useArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
+import Introduction from '@/atoms/Introduction'
 import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
 
@@ -53,6 +54,16 @@ Home.getLayout = function getLayout (page: ReactElement) {
       { page }
 
       <Side />
+    </div>
+  )
+}
+
+Home.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <div>
+      <Introduction />
+
+      { page }
     </div>
   )
 }

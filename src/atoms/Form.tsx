@@ -1,8 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
-import InitialIcon from '@/atoms/InitialIcon'
-import AvatarIcon from '@/atoms/AvatarIcon'
+import InitialIcon from '@/atoms/Icon/InitialIcon'
+import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/article/comment/form.module.scss'
 import InputBase from '@mui/material/InputBase'

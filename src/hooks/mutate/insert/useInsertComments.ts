@@ -32,19 +32,6 @@ const useInsertComments = (path: string) => {
       const existing: ExistingType =  queryClient.getQueryData(['comments', path])
       
       if(existing) {
-        console.log({
-          pageParams: existing.pageParams,
-          pages: [
-            [{ ...data,
-              profiles: {
-                username: account.data?.username,
-                avatar: account.data?.avatar
-              }
-            }],
-            ...existing.pages
-          ]
-        })
-
         queryClient.setQueryData(['comments', path], {
           pageParams: existing.pageParams,
           pages: [

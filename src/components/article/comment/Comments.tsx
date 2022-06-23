@@ -1,4 +1,4 @@
-import useFirstObserve from '@/hooks/article/useFirstObserve'
+import useFirstObserve from '@/hooks/atoms/useFirstObserve'
 import useSelectComments from '@/hooks/select/useSelectComments'
 import Circular from '@/atoms/Circular'
 import CommentForm from '@/components/article/comment/CommenForm'

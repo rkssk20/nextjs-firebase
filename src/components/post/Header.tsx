@@ -2,8 +2,8 @@ import type { MouseEvent, TouchEvent } from 'react'
 import NextLink from 'next/link'
 import { ArticleType } from '@/types/types'
 import CreatedAt from '@/lib/createdAt'
-import AvatarIcon from '@/atoms/AvatarIcon'
-import InitialIcon from '@/atoms/InitialIcon'
+import AvatarIcon from '@/atoms/Icon/AvatarIcon'
+import InitialIcon from '@/atoms/Icon/InitialIcon'
 
 import styles from '@/styles/components/post/header.module.scss'
 import MuiLink from '@mui/material/Link'
@@ -49,7 +49,7 @@ const Header = ({ id, username, avatar, created_at }: HeaderProps) => {
           onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
           onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
         >
-          { username + '・@' + id }
+          { username }
         </MuiLink>
       </NextLink>
 

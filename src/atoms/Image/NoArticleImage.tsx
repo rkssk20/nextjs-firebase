@@ -8,6 +8,7 @@ const NoArticleImage = ({ title }: { title: string }) => {
         className={ styles.noimage_text }
         classes={{ root: styles.noimage_text_root }}
         color='white'
+        variant='h1'
       >
         { title }
       </Typography>

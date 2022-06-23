@@ -14,7 +14,10 @@ const UserNoWord = () => {
         page.map((item, index) => (
           <Account
             key={ item.id }
-            data={ item }
+            id={ item.id }
+            username={ item.username }
+            avatar={ item.avatar }
+            details={ item.details }
             setRef={
               ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
             }

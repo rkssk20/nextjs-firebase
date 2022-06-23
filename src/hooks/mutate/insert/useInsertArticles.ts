@@ -1,8 +1,9 @@
-import { useSetRecoilState } from "recoil"
+import { InfiniteData, useMutation, useQueryClient } from "react-query"
+import { useSetRecoilState, useRecoilValue } from "recoil"
 import { nanoid } from "nanoid"
+import type { ArticleType } from "@/types/types"
 import { supabase } from "@/lib/supabaseClient"
-import { notificateState, draftState } from "@/lib/recoil"
-import { useMutation } from "react-query"
+import { accountState, notificateState, draftState } from "@/lib/recoil"
 
 type MutateType = {
   title: string
@@ -33,31 +34,54 @@ const mutateArticles = async ({ title, details, image, categories }: MutateType)
     image_result = data?.Key
   }
 
-  // 記事の投稿
-  const { data: articlesData, error } = await supabase
-  .rpc('on_insert_articles', {
+  const payload = {
     qid: nanoid(),
     title,
     details,
     image: image_result ?? null,
     categories
-  })
+  }
+
+  // 記事の投稿
+  const { data: articlesData, error } = await supabase
+  .rpc('handle_insert_articles', payload)
 
   if(error) throw error
 
-  return articlesData
+  return payload
 }
 
 const useInsertArticles = () => {
   const setNotificate= useSetRecoilState(notificateState)
   const setDraft = useSetRecoilState(draftState)
+  const queryClient = useQueryClient()
+  const account = useRecoilValue(accountState)
 
   const { mutate, isLoading } = useMutation(
     ({ title, details, image, categories }: MutateType) => mutateArticles({
       title, details, image, categories
     }), {
       onSuccess: (data) => {
+        const key = ['person_articles', supabase.auth.user()?.id]
+
+        const existing: InfiniteData<ArticleType[]> | undefined = queryClient.getQueryData(key)
+
         // 自分の投稿一覧に追加
+        if(existing) {
+          queryClient.setQueryData(key, {
+            pageParams: existing.pageParams,
+            pages: [
+              [{ ...data,
+                like_count: 0,
+                comment_count: 0,
+                
+                username: account.data?.username,
+                avatar: account.data?.avatar?.replace(process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/', '')
+              }],
+              ...existing.pages
+            ]
+          })
+        }
 
         // 下書きを削除
         setDraft({
@@ -71,7 +95,6 @@ const useInsertArticles = () => {
           open: true,
           message: '記事を投稿しました。'
         })
-
       },
       onError: () => {
         setNotificate({

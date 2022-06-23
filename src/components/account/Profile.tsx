@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 import NextLink from 'next/link'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { ProfilePageType } from '@/types/types'
+import type { definitions } from '@/types/supabase';
 import { supabase } from '@/lib/supabaseClient'
 import { accountState, notificateState } from '@/lib/recoil';
-import AvatarIcon from '@/atoms/AvatarIcon';
+import AvatarIcon from '@/atoms/Icon/AvatarIcon';
 import { ContainedButton, OutlinedButton } from '@/atoms/Button';
-import InitialIcon from '@/atoms/InitialIcon'
+import InitialIcon from '@/atoms/Icon/InitialIcon'
 import Following from '@/components/account/Following'
 
 import styles from '@/styles/components/account/profiles.module.scss'
@@ -18,7 +18,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 type ProfileProps = {
   path: string
-  item: ProfilePageType
+  item: definitions['profiles']
 }
 
 const Profile = ({ path, item }: ProfileProps) => {
@@ -46,19 +46,22 @@ const Profile = ({ path, item }: ProfileProps) => {
   return (
     <DialogContent>
       <Stack direction='row' alignItems='center'>
-        { account.data?.avatar ?
-          <AvatarIcon src={ account.data.avatar } variant='large' />
+        {/* ユーザーアイコン */}
+        { item.avatar ?
+          <AvatarIcon src={ process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar } variant='large' />
           :
           <InitialIcon username={ item.username } variant='large' />
         }
 
         <Stack justifyContent='center' className={ styles.profile_right }>
+          {/* ユーザー名 */}
           <Typography component='p' variant='h3'>
             { item.username }
           </Typography>
 
           { account.loading ?
-            <CircularProgress className={ styles.circular } classes={{ root: styles.circular_root }} size={ 38.25 } /> :
+            <CircularProgress className={ styles.circular } classes={{ root: styles.circular_root }} size={ 38.25 } />
+            :
             (path == user?.id) ?
             // 本人なら設定、ログアウト
             <Stack
@@ -81,17 +84,19 @@ const Profile = ({ path, item }: ProfileProps) => {
         </Stack>
       </Stack>
 
+      {/* 自己紹介 */}
       <Typography className={ styles.details }>{ item.details }</Typography>
 
+      {/* フォローとフォロワー */}
       <Stack direction='row'>
-        <NextLink href={ `/account/${ router.query.display_id }/follow` } passHref>
+        <NextLink href={ `/account/${ router.query.id }/follow` } passHref>
           <MuiLink color='inherit' underline='hover' variant='body1'>
             <span className={ styles.span_count }>{ item.follow_count.toLocaleString() }</span>
             フォロー
           </MuiLink>
         </NextLink>
 
-        <NextLink href={ `/account/${ router.query.display_id }/follower` } passHref>
+        <NextLink href={ `/account/${ router.query.id }/follower` } passHref>
           <MuiLink
             className={ styles.follower }
             classes={{ root: styles.follower_root }}

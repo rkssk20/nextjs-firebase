@@ -1,8 +1,8 @@
 import { useState, useRef, Dispatch, SetStateAction } from 'react';
 import AvatarEditor from 'react-avatar-editor'
 import useAvatarUpload from '@/hooks/mutate/useAvatarUpload'
-import CropSlider from '@/atoms/CropSlider';
-import CropButtons from '@/atoms/CropButtons';
+import CropSlider from '@/atoms/Crop/CropSlider';
+import CropButtons from '@/atoms/Crop/CropButtons';
 import Circular from '@/atoms/Circular'
 
 import MuiDialog from '@mui/material/Dialog'

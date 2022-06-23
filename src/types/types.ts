@@ -1,10 +1,5 @@
-import { definitions } from "@/types/supabase"
-
-// ダイアルコンポーネントに渡すprops
-export type DialogProps = {
-  open: boolean
-  handleClose: () => void
-}
+import type { Dispatch, SetStateAction, MouseEvent } from "react"
+import type { definitions } from "@/types/supabase"
 
 // カテゴリ
 export type CategoriesProps = {
@@ -24,7 +19,7 @@ export type ArticleType = {
   created_at: definitions['articles']['created_at']
   avatar: definitions['profiles']['avatar']
   username: definitions['profiles']['username']
-  categories: string | number
+  categories: string[] | number[]
 }
 
 // アカウントトップ10
@@ -34,6 +29,13 @@ export type ProfilesSummaryType = {
   avatar: definitions['profiles']['avatar'];
   details: definitions['profiles']['details'];
   follower_count: definitions['profiles']['follower_count']
+}
+
+// ダイアログ
+export type DialogProps = {
+  dialog: boolean
+  setDialog: Dispatch<SetStateAction<boolean>>
+  handleClose: (e?: MouseEvent) => void
 }
 
 // 記事一つ
@@ -58,15 +60,6 @@ export type ProfilesSummaryType = {
 //   }[]
 // }
 
-// プロフィールのISR用api
-export type ProfilePageType = {
-  id: string | number
-  username: string
-  avatar: string | undefined
-  details: string
-  follow_count: number
-  follower_count: number
-}
 
 // プロフィールの詳細api
 export type ProfileDetailsType = {
