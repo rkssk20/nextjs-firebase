@@ -32,7 +32,9 @@ const Crop = ({ selectImage, setSelectImage, setImage }: Props) => {
     // chromeならwebpに変換し、画質を0.5にする
     // chrome以外ではpngに変換される
     ref.current?.getImage().toBlob(
-      (blob: Blob) => {
+      (blob: Blob | null) => {
+        if(blob === null) return
+        
         setImage(blob)
 
         ;(document.getElementById('icon-button-file') as HTMLInputElement).value = ''
