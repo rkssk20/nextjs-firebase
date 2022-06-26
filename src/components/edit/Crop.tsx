@@ -27,23 +27,21 @@ const Crop = ({ selectImage, setSelectImage, setImage }: Props) => {
 
   // 送信
   const handleConfirm = () => {
-    if (ref) {
-      if (loading) return
-      setLoading(true)
-      // chromeならwebpに変換し、画質を0.5にする
-      // chrome以外ではpngに変換される
-      ref?.current.getImage().toBlob(
-        (blob: Blob) => {
-          setImage(blob)
+    if (loading || (ref === null)) return
+    setLoading(true)
+    // chromeならwebpに変換し、画質を0.5にする
+    // chrome以外ではpngに変換される
+    ref.current.getImage().toBlob(
+      (blob: Blob) => {
+        setImage(blob)
 
-          ;(document.getElementById('icon-button-file') as HTMLInputElement).value = ''
-          setSelectImage('')
-          setLoading(false)
-        },
-        'image/webp',
-        1,
-      )
-    }
+        ;(document.getElementById('icon-button-file') as HTMLInputElement).value = ''
+        setSelectImage('')
+        setLoading(false)
+      },
+      'image/webp',
+      1,
+    )
   }
 
   return (
