@@ -4,5 +4,5 @@
     // react hooksのルールを無効にする
     "react-hooks/exhaustive-deps": "off"
   },
-  "parser": "babel-eslint"
+  "parser": "@babel/eslint-parser"
 }
