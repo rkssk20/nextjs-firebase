@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import styles from '@/styles/atoms/CropSlider.module.scss'
+import styles from '@/styles/atoms/crop/cropSlider.module.scss'
 import Slider from '@mui/material/Slider'
 import ImageIcon from '@mui/icons-material/Image'
 

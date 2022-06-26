@@ -1,6 +1,6 @@
 import { ContainedButton, OutlinedButton } from '@/atoms/Button'
 
-import styles from '@/styles/atoms/cropButtons.module.scss'
+import styles from '@/styles/atoms/crop/cropButtons.module.scss'
 
 type Props = {
   handleClose: () => void
