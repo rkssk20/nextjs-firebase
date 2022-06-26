@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useSetRecoilState } from "recoil"
 import { useQuery } from "react-query"
 import { definitions } from "@/types/supabase"
@@ -9,7 +10,7 @@ const FetchData = async () => {
 
   const user = supabase.auth.user()
 
-  if(!user?.id) throw 'error'
+  if(!user?.id) return
 
   const { data, error } = await supabase
   .from<definitions["profiles"]>('profiles')
@@ -22,13 +23,16 @@ const FetchData = async () => {
   return data
 }
 
-
 const useProfile = () => {
   const setNotificate = useSetRecoilState(notificateState)
   const setAccount = useSetRecoilState(accountState)
 
-  useQuery(['profiles'], FetchData, {
+  const id = supabase.auth.user()?.id
+
+  const { refetch } = useQuery(['profiles'], FetchData, {
+    enabled: false,
     onSuccess: data => {
+      // ログイン時
       if(data) {
         setAccount({
           loading: false,
@@ -37,19 +41,23 @@ const useProfile = () => {
             avatar: data.avatar ? process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + data.avatar : undefined
           }
         })
+
+      // ログアウト時
       } else {
         setAccount({
           loading: false,
-          data: {
-            username: '',
-            avatar: undefined
-          }
+          data: null
         })
 
-        setNotificate({
-          open: true,
-          message: 'ユーザー情報が見つかりませんでした'
-        })
+        // ログインしているのにユーザー情報が存在しなかった場合
+        if(supabase.auth.user()?.id) { 
+          supabase.auth.signOut().then(() => {
+            setNotificate({
+              open: true,
+              message: 'ユーザーが見つかりませんでした。'
+            })
+          })
+        }
       }
     },
     onError: () => {
@@ -59,6 +67,28 @@ const useProfile = () => {
       })
     }
   })
+
+  useEffect(() => {
+    if(id) {
+      refetch()
+    } else {
+      setAccount({
+        loading: false,
+        data: null
+      })
+    }
+
+    supabase.auth.onAuthStateChange((_, session) => {
+      if(session) {
+        refetch()
+      } else {
+        setAccount({
+          loading: false,
+          data: null
+        })
+      }
+    })
+  }, [id])
 }
 
 export default useProfile

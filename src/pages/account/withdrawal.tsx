@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
 import Layout from '@/components/provider/Layout'
+import Side from '@/components/side/Side';
 
 import styles from '@/styles/pages/account/withdrawal.module.scss'
 import Typography from '@mui/material/Typography'
@@ -60,3 +61,12 @@ const Withdrawal = () => {
 }
 
 export default Withdrawal
+
+Withdrawal.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <>
+      { page }
+      <Side />
+    </>
+  )
+}

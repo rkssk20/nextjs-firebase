@@ -1,22 +1,21 @@
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { useSetRecoilState } from 'recoil'
 import type { DialogProps } from '@/types/types'
-import Dialog from '@/components/dialog/Dialog'
 import { notificateState } from '@/lib/recoil'
+import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/dialog/share.module.scss'
+import IconButton from '@mui/material/IconButton'
 import DialogActions from '@mui/material/DialogActions'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import IconButton from '@mui/material/IconButton'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 type Props = DialogProps & {
   path: string
 }
 
-const Share = ({ path, dialog, setDialog, handleClose }: Props) => {
+const Share = ({ path, dialog, handleClose }: Props) => {
   const setNotificate = useSetRecoilState(notificateState)
   const url = process.env.NEXT_PUBLIC_WEB_URL + '/article/' + path
 
@@ -57,11 +56,7 @@ const Share = ({ path, dialog, setDialog, handleClose }: Props) => {
   }
 
   return (
-    <Dialog
-      dialog={ dialog }
-      setDialog={ setDialog }
-      handleClose={ handleClose }
-    >
+    <Dialog dialog={ dialog } handleClose={ handleClose }>
       <Typography variant='h3'>
         この投稿をシェアする
       </Typography>
@@ -78,7 +73,7 @@ const Share = ({ path, dialog, setDialog, handleClose }: Props) => {
               <ContentCopyIcon className={ styles.copy } />
             </IconButton> 
           }
-          label='URLをコピー'
+          label='コピー'
           labelPlacement='bottom'
         />
 

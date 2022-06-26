@@ -3,17 +3,13 @@
 // ヘッダーの中身全体
 .toolbar {
   &.toolbar_root {
-    min-height: 56px;
+    min-height: 48px;
     width: 100%;
-    max-width: 600px;
+    max-width: 1074px;
     margin-right: auto;
     margin-left: auto;
     @include utils.mq(md) {
-      max-width: 916px;
-    }
-    @include utils.mq(lg) {
-      max-width: 600px;
-      margin-left: calc(((100% - 1182px) / 2) + 266px);;
+      min-height: 56px;
     }
   }
 }
@@ -37,5 +33,6 @@
 .search_icon {
   &.search_icon_root {
     margin-left: auto;
+    margin-right: var(--sm);
   }
 }

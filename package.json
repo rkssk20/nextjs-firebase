@@ -20,6 +20,7 @@
     "easymde": "^2.16.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "highlight.js": "^11.5.1",
     "nanoid": "^3.3.4",
     "next": "12.1.6",
     "prettier": "^2.6.2",
@@ -30,8 +31,13 @@
     "react-simplemde-editor": "^5.0.2",
     "recoil": "^0.7.2",
     "recoil-persist": "^4.1.0",
-    "remark": "^14.0.2",
-    "remark-html": "^15.0.1"
+    "rehype-highlight": "^5.0.2",
+    "rehype-stringify": "^9.0.3",
+    "rehype-toc": "^3.0.2",
+    "remark-highlight.js": "^7.0.1",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.35",

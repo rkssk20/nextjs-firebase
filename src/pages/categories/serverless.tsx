@@ -1,9 +1,11 @@
+import type { ReactElement } from 'react'
 import useCategoriesArticles from '@/hooks/select/useCategoriesArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Header from '@/components/categories/Header'
 import Layout from '@/components/provider/Layout'
 import Post from '@/components/post/Post'
+import Side from '@/components/side/Side'
 
 const Serverless = () => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useCategoriesArticles(1)
@@ -38,3 +40,12 @@ const Serverless = () => {
 }
 
 export default Serverless
+
+Serverless.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <>
+      { page }
+      <Side />
+    </>
+  )
+}

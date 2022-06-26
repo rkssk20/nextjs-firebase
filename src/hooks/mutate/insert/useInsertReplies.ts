@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { accountState, notificateState } from "@/lib/recoil";
@@ -27,6 +28,7 @@ const useInsertReplies = (path: string, comment_id: number) => {
   const setNotificate = useSetRecoilState(notificateState)
   const account = useRecoilValue(accountState)
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const { mutate, isLoading } = useMutation((comment: string) => Mutate({ comment_id, comment }), {
     onSuccess: data => {
@@ -53,16 +55,20 @@ const useInsertReplies = (path: string, comment_id: number) => {
         queryClient.setQueryData(['replies', comment_id], {
           pageParams: replies_existing.pageParams,
           pages: [
+            ...replies_existing.pages,
             [{ ...data,
               profiles: {
                 username: account.data?.username,
                 avatar: account.data?.avatar?.replace(process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/', '')
               }
-            }],
-            ...replies_existing.pages
+            }]
           ]
         })
       }
+
+      router.push(`${ path }#reply${ data.id }`, undefined, {
+        shallow: true
+      })
 
       // 通知
       setNotificate({

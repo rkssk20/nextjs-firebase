@@ -13,9 +13,9 @@ type Props = DialogProps & {
   comment_id: definitions['replies']['comment_id']
 }
 
-const ReplyDelete = ({ dialog, setDialog, handleClose, id, comment_id }: Props) => {
-  const { mutate, isLoading } = useReplyDelete({ id, comment_id, setDialog })
-  
+const ReplyDelete = ({ dialog, handleClose, id, comment_id }: Props) => {
+  const { mutate, isLoading } = useReplyDelete({ id, comment_id, handleClose })
+
   // 記事を削除
   const handleDelete = () => {
     if(isLoading) return
@@ -23,11 +23,7 @@ const ReplyDelete = ({ dialog, setDialog, handleClose, id, comment_id }: Props) 
   }
 
   return (
-    <Dialog
-      dialog={ dialog }
-      setDialog={ setDialog }
-      handleClose={ handleClose }
-    >
+    <Dialog dialog={ dialog } handleClose={ handleClose }>
       <Typography variant='h3'>
         このコメントを削除しますか？
       </Typography>

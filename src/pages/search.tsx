@@ -1,11 +1,13 @@
+import type { ReactElement } from 'react'
 import { useRouter } from 'next/router'
+import Bar from '@/atoms/Bar'
 import Layout from '@/components/provider/Layout'
 import Input from '@/components/search/Input'
-import Bar from '@/atoms/Bar'
 import ArticlesNoWord from '@/components/search/ArticlesNoWord'
 import UserNoWord from '@/components/search/UserNoWord'
 import ArticlesSearch from '@/components/search/ArticlesSearch'
 import UserSearch from '@/components/search/UserSearch'
+import Side from '@/components/side/Side'
 
 const Search = () => {
   const router = useRouter()
@@ -39,3 +41,12 @@ const Search = () => {
 }
 
 export default Search
+
+Search.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <>
+      { page }
+      <Side />
+    </>
+  )
+}

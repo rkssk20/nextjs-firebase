@@ -1,6 +1,8 @@
 // タブ全体
 .tabs {
-  border-bottom: var(--border);
+  .tabs_flex_container {
+    border-bottom: var(--border);
+  }
 }
 
 // 各タブ

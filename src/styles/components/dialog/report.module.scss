@@ -1,23 +1,16 @@
-// 全体
-.content {
-  display: flex;
-  flex-direction: column;
-}
-
 // タイトル
 .title {
-  padding-bottom: var(--sm);
+  padding-bottom: var(--md);
 }
 
 // リンク
 .link {
   &.link_root {
-    margin-top: var(--md);
     margin-right: auto;
   }
 }
 
 .sample {
   width: 100%;
-  padding-top: var(--md);
+  padding-top: var(--sm);
 }

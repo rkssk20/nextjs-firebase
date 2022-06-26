@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabaseClient'
 import usePersonArticles from '@/hooks/select/usePersonArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
+import Empty from '@/atoms/Empty'
 import Layout from '@/components/provider/Layout'
 import Profile from '@/components/account/Profile'
 import Bar from '@/components/account/Bar'
@@ -70,17 +71,20 @@ const Account = ({ item , path }: AccountProps) => {
       <Bar path={ path } />
 
       {/* 自分の投稿一覧 */}
-      { data && data.pages.map((page, page_index) => (
-        page.map((item, index) => (
-          <Post
-            key={ item.id }
-            data={ item }
-            setRef={
-              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
-            }
-          />
+      { data && (data.pages[0].length > 0) ? data.pages.map((page, page_index) => (
+          page.map((item, index) => (
+            <Post
+              key={ item.id }
+              data={ item }
+              setRef={
+                ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
+              }
+            />
+          ))
         ))
-      ))}
+        :
+        !isFetching && <Empty text='まだ投稿がありません' />
+      }
 
       { isFetching && <Circular /> }
     </Layout>
@@ -91,10 +95,9 @@ export default Account
 
 Account.getLayout = function getLayout (page: ReactElement) {
   return (
-    <div>
+    <>
       { page }
-
       <Side />
-    </div>
+    </>
   )
 }

@@ -8,10 +8,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 // 文字全体
 .text_field {
+  margin-top: var(--md);
   display: flex;
   align-items: center;
 }

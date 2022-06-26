@@ -1,13 +1,15 @@
+import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import usePersonFollows from '@/hooks/select/usePersonFollows'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
+import Empty from '@/atoms/Empty'
 import Layout from '@/components/provider/Layout'
 import Header from '@/components/account/follow/Header'
 import Account from '@/components/account/follow/Account'
-import Empty from '@/atoms/Empty'
+import Side from '@/components/side/Side'
 
 // ISR
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -84,3 +86,12 @@ const Follow = ({ item, path }: FollowProps) => {
 }
 
 export default Follow
+
+Follow.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <>
+      { page }
+      <Side />
+    </>
+  )
+}

@@ -13,8 +13,8 @@ type Props = DialogProps & {
   id: definitions['comments']['id']
 }
 
-const CommentDelete = ({ dialog, setDialog, handleClose, path, id }: Props) => {
-  const { mutate, isLoading } = useCommentDelete({ path, id, setDialog })
+const CommentDelete = ({ dialog, handleClose, path, id }: Props) => {
+  const { mutate, isLoading } = useCommentDelete({ path, id, handleClose })
   
   // 記事を削除
   const handleDelete = () => {
@@ -23,11 +23,7 @@ const CommentDelete = ({ dialog, setDialog, handleClose, path, id }: Props) => {
   }
 
   return (
-    <Dialog
-      dialog={ dialog }
-      setDialog={ setDialog }
-      handleClose={ handleClose }
-    >
+    <Dialog dialog={ dialog } handleClose={ handleClose }>
       <Typography variant='h3'>
         このコメントを削除しますか？
       </Typography>

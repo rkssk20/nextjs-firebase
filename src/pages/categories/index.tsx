@@ -1,6 +1,8 @@
+import type { ReactElement } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Layout from '@/components/provider/Layout'
+import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/categories/index.module.scss'
 import Typography from '@mui/material/Typography'
@@ -58,3 +60,12 @@ const Categories = () => {
 }
 
 export default Categories
+
+Categories.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <>
+      { page }
+      <Side />
+    </>
+  )
+}

@@ -12,6 +12,7 @@ import Actions from '@/components/article/Actions'
 import Comments from "@/components/article/comment/Comments";
 import Side from '@/components/side/Side'
 
+import 'highlight.js/styles/default.css';
 import styles from '@/styles/pages/article/id.module.scss'
 import Typography from '@mui/material/Typography'
 import { ReactElement } from "react";
@@ -83,14 +84,6 @@ interface ArticleProps {
 }
 
 const Article = ({ item, path }: ArticleProps) => {
-  const pages = [[{ id: 10 }, { id: 12 }], [{ id: 13 }]]
-
-  const index = pages.map(page => page.findIndex((element) => element.id === 13))
-  const page = index.findIndex(element => element !== -1)
-
-  console.log(pages[page][index[page]])
-
-
   return (
     <Layout
       type='article'

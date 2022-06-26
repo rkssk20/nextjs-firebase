@@ -17,9 +17,9 @@ interface MuiProps {
 }
 
 const Mui: NextPage<MuiProps> = ({ children }) => {
+  const [hamburger, setHamburger] = useState(false)
   const [progress, setProgress] = useState(0)
   const [progressOpen, setProgressOpen] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [notificate, setNotificate] = useRecoilState(notificateState)
 
   // インジケーターを開始する
@@ -41,8 +41,11 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
     }, 350)
   }
 
+  // 画面遷移でインジケーター開始
   Router.events.on('routeChangeStart', handleProgressOpen)
+  // 読み込み終了
   Router.events.on('routeChangeComplete', handleProgressClose)
+  // エラー
   Router.events.on('routeChangeError', handleProgressClose)
 
   const theme = createTheme({
@@ -62,12 +65,17 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
     },
     typography: {
       fontFamily: [
-        'Segoe UI',
+        // 'Segoe UI',
+        // 'Meiryo',
+        // 'system-ui',
+        // '-apple-system',
+        // 'BlinkMacSystemFont',
+        // 'sans-serif',
+        'Helvetica Neue',
+        'arial',
+        'Hiragino Kaku Gothic ProN',
         'Meiryo',
-        'system-ui',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        'sans-serif',
+        'sans-serif'
       ].join(','),
       // 重要なタイトル (太字)
       h1: {
@@ -138,10 +146,10 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
     breakpoints: {
       values: {
         xs: 0,
-        sm: 600,
-        md: 916,
-        lg: 1182,
-        xl: 1232,
+        sm: 700,
+        md: 768,
+        lg: 998,
+        xl: 1098,
       },
     },
   })
@@ -149,22 +157,17 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   return (
     <ThemeProvider theme={ theme }>
       {/* 画面遷移の読み込みインジケーター */}
-      { 
-        <Fade in={ progressOpen }>
-          <LinearProgress
-            className={ styles.liner }
-            classes={{ root: styles.liner_root }}
-            variant="determinate"
-            value={ progress }
-          />
-        </Fade>
-      }
+      <Fade in={ progressOpen }>
+        <LinearProgress
+          className={ styles.liner }
+          classes={{ root: styles.liner_root }}
+          variant="determinate"
+          value={ progress }
+        />
+      </Fade>
 
       {/* ヘッダー */}
-      <Header setMenuOpen={ setMenuOpen } />
-
-      {/* ハンバーガーメニュー */}
-      <Hamburger menuOpen={ menuOpen } setMenuOpen={ setMenuOpen } />
+      <Header setHamburger={ setHamburger } />
 
       {/* メインコンテンツ */}
       <div className={ styles.container }>
@@ -181,6 +184,9 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
           horizontal: 'center',
         }}
       />
+
+      {/* ハンバーガーメニュー */}
+      <Hamburger hamburger={ hamburger} setHamburger={ setHamburger } />
     </ThemeProvider>
   )
 }

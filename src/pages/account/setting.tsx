@@ -1,13 +1,15 @@
+import type { ReactElement } from 'react'
 import NextLink from 'next/link'
 import Layout from '@/components/provider/Layout'
 import LoginOnly from '@/components/provider/LoginOnly'
 import Input from '@/components/account/setting/Input'
+import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/account/setting.module.scss'
 import DialogContent from '@mui/material/DialogContent'
 import Divider from '@mui/material/Divider'
 import MuiLink from '@mui/material/Link'
-import { ReactElement } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Setting = () => {
   return (
@@ -41,9 +43,12 @@ const Setting = () => {
 export default Setting
 
 Setting.getLayout = function getLayout (page: ReactElement) {
+  const md = useMediaQuery('(min-width: 768px)')
+
   return (
     <LoginOnly>
       { page }
+      { md && <Side /> }
     </LoginOnly>
   )
 }

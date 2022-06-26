@@ -5,12 +5,6 @@
   }
 }
 
-// モバイル表示時、フォロー、フォロワーの全体
-.follow_field {
-  padding-top: var(--sm);
-  padding-bottom: var(--sm);
-}
-
 // フォロー、フォロワー
 .list_item_follow {
   &.list_item_follow_root {

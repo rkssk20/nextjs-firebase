@@ -43,6 +43,7 @@ const Comments = ({ path, comments }: CommentsProps) => {
         pages.map(item => (
           <Card
             key={ item.id }
+            id={ 'comment' + String(item.id) }
             className={ styles.card }
             elevation={ 0 }
           >
@@ -77,7 +78,11 @@ const Comments = ({ path, comments }: CommentsProps) => {
       ))
       :
       !isFetching &&
-        <Typography className={ styles.no_text }>まだコメントがありません。</Typography>
+        <div className={ styles.empty_field }>
+          <Typography className={ styles.empty_text }>
+            まだコメントがありません。
+          </Typography>
+        </div>
       }
 
       {/* さらに表示ボタン */}

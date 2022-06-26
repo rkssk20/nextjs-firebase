@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
@@ -8,6 +9,7 @@ import Empty from '@/atoms/Empty'
 import Layout from '@/components/provider/Layout'
 import Header from '@/components/account/follow/Header'
 import Account from '@/components/account/follow/Account'
+import Side from '@/components/side/Side'
 
 // ISR
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -84,3 +86,12 @@ const Follower = ({ item, path }: FollowerProps) => {
 }
 
 export default Follower
+
+Follower.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <>
+      { page }
+      <Side />
+    </>
+  )
+}

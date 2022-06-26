@@ -9,7 +9,6 @@ import Login from '@/components/header/hamburger/Login'
 import Logout from '@/components/header/hamburger/Logout'
 
 import styles from '@/styles/components/header/hamburger/hamburger.module.scss'
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -20,12 +19,11 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TagIcon from '@mui/icons-material/Tag';
 
 type HamburgerProps = {
-  menuOpen: boolean
-  setMenuOpen: Dispatch<SetStateAction<boolean>>
+  hamburger: boolean
+  setHamburger: Dispatch<SetStateAction<boolean>>
 }
 
-const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
-  const pc = useMediaQuery('(min-width: 1182px')
+const Hamburger = ({ hamburger, setHamburger }: HamburgerProps) => {
   const router = useRouter()
   const account = useRecoilValue(accountState)
   const id = supabase.auth.user()?.id
@@ -40,16 +38,9 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
     icon: <TagIcon />
   }]
 
-  const sub_list = [{
-    url: '/about',
-    text: 'このサイトについて'
-  }, {
-    url: '/report',
-    text: 'お問い合わせ'
-  }]
-
+  // メニューを閉じる
   const handleClose = () => {
-    setMenuOpen(false)
+    setHamburger(false)
   }
   
   // 戻る、進むボタンで遷移した場合
@@ -64,8 +55,9 @@ const Hamburger = ({ menuOpen, setMenuOpen }: HamburgerProps) => {
     <Drawer
       className={ styles.drawer }
       classes={{ paper: styles.drawer_paper }}
-      variant={ pc ? 'permanent' : 'temporary' }
-      open={ menuOpen }
+      ModalProps={{ BackdropProps: { classes: { root: styles.back_root } } }}
+      variant='temporary'
+      open={ hamburger }
       onClose={ handleClose }
     >
       {/* アカウント関連のリンク  */}

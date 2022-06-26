@@ -95,18 +95,13 @@ const Actions = ({ id, user_id, comment_id, comment, like_count, replies_like }:
         // 削除ダイアログ 
         <ReplyDelete
           dialog={ dialog }
-          setDialog={ setDialog }
           handleClose={ () => setDialog(false) }
           id={ id }
           comment_id={ comment_id }          
         />
         :
         // 報告ダイアログ
-        <Report
-          dialog={ dialog }
-          setDialog={ setDialog }
-          handleClose={ () => setDialog(false) }
-        />
+        <Report dialog={ dialog } handleClose={ () => setDialog(false) } />
       }
     </div>
   )

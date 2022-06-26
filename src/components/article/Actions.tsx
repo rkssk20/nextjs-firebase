@@ -4,7 +4,6 @@ import { useRecoilValue } from 'recoil';
 import type { definitions } from '@/types/supabase';
 import { accountState } from '@/lib/recoil';
 import { supabase } from '@/lib/supabaseClient';
-import useSelectLikes from '@/hooks/select/useSelectLikes';
 import Popup from '@/atoms/Popup';
 import { LoginLike, LogoutLike } from '@/components/article/Like'
 
@@ -29,7 +28,6 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
   const [dialog, setDialog] = useState(false)
   const open = Boolean(anchorEl);
   const account = useRecoilValue(accountState)
-  const { data, isFetching } = useSelectLikes(path)
 
   // 詳細メニューを閉じる
   const handleClose = () => {
@@ -45,12 +43,7 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
   return (
     <div className={ styles.card_actions }>
       { account.data ?
-        <LoginLike
-          path={ path }
-          id={ data?.id }
-          isFetching={ isFetching }
-          setLikeCountState={ setLikeCountState }
-        />
+        <LoginLike path={ path } setLikeCountState={ setLikeCountState } />
         :
         <LogoutLike />
       }
@@ -85,17 +78,12 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
         // 削除ダイアログ
         <ArticleDelete
           dialog={ dialog }
-          setDialog={ setDialog }
           handleClose={ () => setDialog(false) }
           path={ path }
         />
         :
         // 報告ダイアログ
-        <Report
-          dialog={ dialog }
-          setDialog={ setDialog }
-          handleClose={ () => setDialog(false) }
-        />
+        <Report dialog={ dialog } handleClose={ () => setDialog(false) } />
       }
     </div>
   )

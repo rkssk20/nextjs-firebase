@@ -1,4 +1,5 @@
-import type { Dispatch, ReactNode, SetStateAction } from 'react'
+import { useState, Dispatch, ReactNode, SetStateAction } from 'react'
+import dynamic from 'next/dynamic'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
 import InitialIcon from '@/atoms/Icon/InitialIcon'
@@ -6,6 +7,8 @@ import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/article/comment/form.module.scss'
 import InputBase from '@mui/material/InputBase'
+
+const Login = dynamic((import('@/components/dialog/Login')))
 
 type FormProps = {
   children: ReactNode
@@ -15,7 +18,7 @@ type FormProps = {
   placeholder: string
 }
 
-const Form = ({ children, text, setText, name, placeholder }: FormProps) => {
+export const LoginForm = ({ children, text, setText, name, placeholder }: FormProps) => {
   const account = useRecoilValue(accountState)
 
   return (
@@ -46,4 +49,25 @@ const Form = ({ children, text, setText, name, placeholder }: FormProps) => {
   )
 }
 
-export default Form
+export const LogoutForm = ({ placeholder }: { placeholder: string }) => {
+  const [dialog, setDialog] = useState(false)
+
+  return (
+    <div className={ styles.field }>
+      <InputBase
+        className={ styles.input_base }
+        classes={{
+          root: styles.input_base_root,
+          input: styles.input_base_input
+        }}
+        placeholder={ placeholder }
+        multiline
+        startAdornment={ <InitialIcon username='' variant='medium' /> }
+        onClick={ () => setDialog(true) }
+      />
+
+      {/* ログインダイアログ */}
+      { dialog && <Login dialog={ dialog } handleClose={ () => setDialog(false) } /> }
+    </div>
+  )
+}

@@ -12,10 +12,13 @@ interface ContentProps {
 }
 
 const Content = ({ title, details, categories }: ContentProps) => {
+  // 投稿の概要ではマークダウンの特殊文字を外す
+  const escape_text = details.replace(/\_|\*|\\|\`|\#|\+|\-|\!|\{|\}|\[|\]/g, '')
+
   return (
     <div className={ styles.content }>
       <Typography variant='h5'>{ title }</Typography>
-      <Typography variant='body1'>{ details + '...' }</Typography>
+      <Typography variant='body1'>{ escape_text + '...' }</Typography>
 
       { categories &&
         <Stack className={ styles.tags } direction='row' alignItems='center'>

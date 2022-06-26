@@ -16,6 +16,7 @@ const Bar = ({ value, tab_list }: BarProps) => {
   return (
     <Tabs
       className={ styles.tabs }
+      classes={{ flexContainer: styles.tabs_flex_container }}
       value={ value }
       aria-label="basic tabs"
       variant='fullWidth'

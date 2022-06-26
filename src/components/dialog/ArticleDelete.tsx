@@ -11,7 +11,7 @@ type Props = DialogProps & {
   path: string
 }
 
-const ArticleDelete = ({ dialog, setDialog, handleClose, path }: Props) => {
+const ArticleDelete = ({ dialog, handleClose, path }: Props) => {
   const { mutate, isLoading } = useArticleDelete(path)
 
   const list= [
@@ -27,11 +27,7 @@ const ArticleDelete = ({ dialog, setDialog, handleClose, path }: Props) => {
   }
 
   return (
-    <Dialog
-      dialog={ dialog }
-      setDialog={ setDialog }
-      handleClose={ handleClose }
-    >
+    <Dialog dialog={ dialog } handleClose={ handleClose }>
       <Typography variant='h3'>
         この記事を削除しますか？
       </Typography>

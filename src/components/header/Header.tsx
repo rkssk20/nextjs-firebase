@@ -4,7 +4,6 @@ import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 
 import styles from '@/styles/components/header/header.module.scss'
-import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -13,8 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 
-const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>> }) => {
-  const pc = useMediaQuery('(min-width: 1182px')
+const Header = ({ setHamburger }: { setHamburger: Dispatch<SetStateAction<boolean>> }) => {
   const router = useRouter()
 
   // 検索画面に遷移
@@ -40,17 +38,14 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
         classes={{ root: styles.toolbar_root }}
       >
         {/* ハンバーガーメニューアイコン */}
-        { !pc &&
-          <IconButton
-            className={ styles.hamburger_button }
-            aria-label='メニュー'
-            size="large"
-            edge="start"
-            onClick={ () => setMenuOpen(true) }
-          >
-            <MenuIcon />
-          </IconButton>
-        }
+        <IconButton
+          className={ styles.hamburger_button }
+          aria-label='メニュー'
+          edge="start"
+          onClick={ () => setHamburger(true) }
+        >
+          <MenuIcon />
+        </IconButton>
 
         {/* タイトル */}
         <NextLink href='/' passHref >
@@ -58,8 +53,8 @@ const Header = ({ setMenuOpen }: { setMenuOpen: Dispatch<SetStateAction<boolean>
             <Image
               className={ styles.title }
               quality={ 80 }
-              width={ 40 }
-              height={ 40 }
+              width={ 34 }
+              height={ 34 }
               alt='Next.js × Suapabase'
               src='/favicon.png'
             />

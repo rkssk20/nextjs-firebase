@@ -1,8 +1,8 @@
 $breakpoints: (
-  'sm': 'screen and (min-width: 600px)',
-  'md': 'screen and (min-width: 916px)',
-  'lg': 'screen and (min-width: 1182px)',
-  'xl': 'screen and (min-width: 1232px)',
+  'sm': 'screen and (min-width: 700px)',
+  'md': 'screen and (min-width: 768px)',
+  'lg': 'screen and (min-width: 998px)',
+  'xl': 'screen and (min-width: 1098px)',
 ) !default;
 
 // メディアクエリ

@@ -1,5 +1,6 @@
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
 import { accountState, notificateState } from "@/lib/recoil";
 import { definitions } from "@/types/supabase";
 import { supabase } from "@/lib/supabaseClient";
@@ -26,6 +27,7 @@ const useInsertComments = (path: string) => {
   const setNotificate = useSetRecoilState(notificateState)
   const account = useRecoilValue(accountState)
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const { mutate, isLoading } = useMutation((comment: string) => Mutate({ path, comment }), {
     onSuccess: data => {
@@ -35,25 +37,27 @@ const useInsertComments = (path: string) => {
         queryClient.setQueryData(['comments', path], {
           pageParams: existing.pageParams,
           pages: [
+            ...existing.pages,
             [{ ...data,
               profiles: {
                 username: account.data?.username,
                 avatar: account.data?.avatar?.replace(process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/', '')
               }
-            }],
-            ...existing.pages
+            }]
           ]
         })
       }
+
+      router.push(`${ path }#comment${ data.id }`, undefined, {
+        shallow: true
+      })
 
       setNotificate({
         open: true,
         message: 'この記事にコメントしました。'
       })
     },
-    onError: error => {
-      console.log(error)
-
+    onError: () => {
       setNotificate({
         open: true,
         message: 'エラーが発生しました。'

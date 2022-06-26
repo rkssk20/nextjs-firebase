@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction, MouseEvent } from "react"
+import type { MouseEvent } from "react"
 import type { definitions } from "@/types/supabase"
 
 // カテゴリ
@@ -34,7 +34,6 @@ export type ProfilesSummaryType = {
 // ダイアログ
 export type DialogProps = {
   dialog: boolean
-  setDialog: Dispatch<SetStateAction<boolean>>
   handleClose: (e?: MouseEvent) => void
 }
 

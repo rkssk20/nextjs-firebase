@@ -50,11 +50,7 @@ export const LogoutLike = () => {
   const [dialog, setDialog] = useState(false)
 
   if(dialog) return (
-    <Login
-      dialog={ dialog }
-      setDialog={ setDialog }
-      handleClose={ () => setDialog(false) }
-    />
+    <Login dialog={ dialog } handleClose={ () => setDialog(false) } />
   )
 
   return (

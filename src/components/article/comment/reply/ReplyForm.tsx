@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
 import useInsertReplies from '@/hooks/mutate/insert/useInsertReplies'
 import { DisabledButton, ContainedButton } from '@/atoms/Button'
-import Form from '@/atoms/Form'
+import { LoginForm, LogoutForm } from '@/atoms/Form'
 
 import styles from '@/styles/components/article/comment/reply/replyForm.module.scss'
 import Button from '@mui/material/Button'
@@ -14,9 +14,12 @@ type ReplyFormProps = {
   setFormOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
+type LoginProps = ReplyFormProps & {
+  username: string
+}
+
+const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
   const [text, setText] = useState('')
-  const account = useRecoilValue(accountState)
   const { mutate, isLoading } = useInsertReplies(path, id)
 
   // 返信を送信
@@ -27,10 +30,10 @@ const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
   }
 
   return (
-    <Form
+    <LoginForm
       text={ text }
       setText={ setText }
-      name={ account.data?.username ?? '' }
+      name={ username }
       placeholder='返信する'
     >
       {/* キャンセルボタン */}
@@ -49,8 +52,29 @@ const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
         :
         <DisabledButton text='返信' />
       }
-    </Form>
+    </LoginForm>
   )
+}
+
+const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
+  const account = useRecoilValue(accountState)
+  console.log(account)
+  
+  // ログイン時
+  if(account.data) {
+    return (
+      <Login
+        path={ path }
+        id={ id }
+        setFormOpen={ setFormOpen }    
+        username={ account.data.username }
+      />
+    )
+
+  // ログアウト時
+  } else {
+    return <LogoutForm placeholder='返信する' />
+  }
 }
 
 export default ReplyForm

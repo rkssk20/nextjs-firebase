@@ -4,15 +4,12 @@
 .drawer {
   .drawer_paper {
     width: 220px;
-    @include utils.mq(lg) {
-      width: 250px;
-      padding-top: 80px;
-      left: calc((100% - 1182px) / 2);
-      border: none;
-      background-color: transparent;
-    }
+  }
+  .back_root {
+    background-color: rgba(0, 0, 0, 0.4);
   }
 }
+
 
 // 各ボタン
 .list_item_button {

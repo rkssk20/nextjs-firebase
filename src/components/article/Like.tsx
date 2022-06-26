@@ -1,5 +1,6 @@
 import { ReactElement, Dispatch, SetStateAction, useState } from 'react'
 import dynamic from 'next/dynamic'
+import useSelectLikes from '@/hooks/select/useSelectLikes';
 import useMutateLikes from '@/hooks/mutate/useMutateLikes';
 
 import IconButton from '@mui/material/IconButton'
@@ -22,25 +23,24 @@ const Like = ({ handle, children }: { handle: () => void, children: ReactElement
 
 type LoginLikeProps = {
   path: string
-  id: number | undefined
-  isFetching: boolean
   setLikeCountState: Dispatch<SetStateAction<number>>
 }
 
 // ログイン時のいいねボタン
-export const LoginLike = ({ path, id, isFetching, setLikeCountState }: LoginLikeProps) => {
+export const LoginLike = ({ path, setLikeCountState }: LoginLikeProps) => {
+  const { data, isFetching } = useSelectLikes(path)
   const { mutate, isLoading } = useMutateLikes(path, setLikeCountState)
 
   // いいね処理
   const handleLikes = () => {
     if(isFetching || isLoading) return
 
-    mutate(id)
+    mutate(data?.id)
   }
 
   return (
     <Like handle={ handleLikes }>
-      { id && id ? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
+      { data?.id && data.id ? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
     </Like>
   )
 }
@@ -50,11 +50,7 @@ export const LogoutLike = () => {
   const [dialog, setDialog] = useState(false)
 
   if(dialog) return (
-    <Login
-      dialog={ dialog }
-      setDialog={ setDialog }
-      handleClose={ () => setDialog(false) }
-    />
+    <Login dialog={ dialog } handleClose={ () => setDialog(false) } />
   )
 
   return (

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, ReactElement } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import dynamic from 'next/dynamic'
@@ -9,6 +9,7 @@ import Layout from '@/components/provider/Layout'
 import LoginOnly from '@/components/provider/LoginOnly'
 import Categories from '@/components/edit/Categories'
 import Image from '@/components/edit/Image'
+import Side from "@/components/side/Side"
 
 const Markdown = dynamic(import("@/components/edit/Markdown"), { ssr: false });
 
@@ -18,6 +19,7 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import InputBase from '@mui/material/InputBase'
 import CircularProgress from '@mui/material/CircularProgress'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Edit = () => {
   const [draft, setDraft] = useRecoilState(draftState)
@@ -120,3 +122,14 @@ const Edit = () => {
 }
 
 export default Edit
+
+Edit.getLayout = function getLayout (page: ReactElement) {
+  const md = useMediaQuery('(min-width: 768px)')
+
+  return (
+    <>
+      { page }
+      { md && <Side /> }
+    </>
+  )
+}

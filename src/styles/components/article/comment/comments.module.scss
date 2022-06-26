@@ -14,11 +14,15 @@
   border-bottom: var(--border);
 }
 
-// コメントがない場合
-.no_text {
-  padding-top: var(--md);
-  padding-bottom: var(--md);
-  text-align: center;
+// コメントがない場合の全体
+.empty_field {
+  height: 163px;
+  display: flex;
+}
+
+// コメントがない場合のテキスト
+.empty_text {
+  margin: auto;
 }
 
 // さらに表示ボタン

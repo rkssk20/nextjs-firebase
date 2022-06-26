@@ -110,17 +110,12 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
       { dialog && (user_id === supabase.auth.user()?.id) ?
         <CommentDelete
           dialog={ dialog }
-          setDialog={ setDialog }
           handleClose={ () => setDialog(false) }
           path={ path }
           id={ id }
         />
         :
-        <Report
-          dialog={ dialog }
-          setDialog={ setDialog }
-          handleClose={ () => setDialog(false) }
-        />
+        <Report dialog={ dialog } handleClose={ () => setDialog(false) } />
       }
     </div>
   )

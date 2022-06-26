@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { MouseEvent } from "react";
 import { useMutation, useQueryClient, InfiniteData } from "react-query";
 import { useSetRecoilState } from "recoil";
 import type { definitions } from "@/types/supabase";
@@ -19,10 +19,10 @@ const Mutate = async(id: number) => {
 type Props = {
   id: definitions['replies']['id']
   comment_id: definitions['replies']['comment_id']
-  setDialog: Dispatch<SetStateAction<boolean>>
+  handleClose: (e?: MouseEvent) => void
 }
 
-const useReplyDelete = ({id, comment_id, setDialog }: Props) => {
+const useReplyDelete = ({id, comment_id, handleClose }: Props) => {
   const setNotificate = useSetRecoilState(notificateState)
   const queryClient = useQueryClient()
 
@@ -34,9 +34,6 @@ const useReplyDelete = ({id, comment_id, setDialog }: Props) => {
         // キャッシュから対象のリプライを検索
         const index = existing.pages.map(page => page.findIndex(item => item.id === id))
         const page = index.findIndex(item => item !== -1)
-
-        console.log(existing.pages[page])
-        console.log(existing.pages[page][index[page]])
   
         // // キャッシュからリプライを削除
         existing.pages[page].splice(index[page], 1)
@@ -53,16 +50,14 @@ const useReplyDelete = ({id, comment_id, setDialog }: Props) => {
         message: 'コメントを削除しました。'
       })
     },
-    onError: error => {
-      console.log(error)
-
+    onError: () => {
       setNotificate({
         open: true,
         message: 'エラーが発生しました。'
       })
     },
     onSettled: () => {
-      setDialog(false)
+      handleClose()
     }
   })
 

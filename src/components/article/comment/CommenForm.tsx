@@ -3,14 +3,13 @@ import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
 import useInsertComments from '@/hooks/mutate/insert/useInsertComments'
 import { DisabledButton, ContainedButton } from '@/atoms/Button'
-import Form from '@/atoms/Form'
+import { LoginForm, LogoutForm } from '@/atoms/Form'
 
 import styles from '@/styles/components/article/comment/commentForm.module.scss'
 import Skeleton from '@mui/material/Skeleton'
 
-const CommentForm = ({ path }: { path: string }) => {
+const Login = ({ path, username }: { path: string, username: string }) => {
   const [text, setText] = useState('')
-  const account = useRecoilValue(accountState)
   const { mutate, isLoading } = useInsertComments(path)
 
   // コメントの投稿
@@ -21,14 +20,12 @@ const CommentForm = ({ path }: { path: string }) => {
 
     setText('')
   }
-
-  if(account.loading) return <Skeleton className={ styles.skeleton } variant='rectangular' />
-
+  
   return (
-    <Form
+    <LoginForm
       text={ text }
       setText={ setText }
-      name={ account.data?.username ?? '' }
+      name={ username }
       placeholder='コメントする'
     >
       <div className={ styles.under }>
@@ -39,8 +36,26 @@ const CommentForm = ({ path }: { path: string }) => {
           <DisabledButton text='送信' />
         }
       </div>
-    </Form>
+    </LoginForm>
   )
+}
+
+const CommentForm = ({ path }: { path: string }) => {
+  const account = useRecoilValue(accountState)
+  console.log(account)
+
+  // ローディング
+  if(account.loading) {
+    return <Skeleton className={ styles.skeleton } variant='rectangular' />
+
+  // ログイン時
+  } else if(account.data) {
+    return <Login path={ path } username={ account.data.username } />
+
+  // ログアウト時
+  } else {
+    return <LogoutForm placeholder='コメントする' />
+  }
 }
 
 export default CommentForm

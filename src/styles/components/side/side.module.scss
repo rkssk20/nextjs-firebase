@@ -2,38 +2,53 @@
 
 // サイド全体
 .field{
-  // height: 600px;
-  max-width: 600px;
+  max-width: 700px;
+  margin-top: var(--lg);
   margin-right: auto;
   margin-left: auto;
+  // ページ右側に固定
   @include utils.mq(md) {
-    width: 300px;
+    width: 250px;
+    margin-top: 80px;
     position: fixed;
-    top: 80px;
-    right: calc((100% - 916px) / 2);
+    top: 0;
+    right: var(--md);
     overflow: hidden;
   }
+  // サイズを広げていく
   @include utils.mq(lg) {
-    right: calc((100% - 1182px) / 2);
+    width: calc(100% - 748px);
+  }
+  // スペースだけ広げていく
+  @include utils.mq(xl) {
+    width: 350px;
+    right: calc((100% - 1074px) / 2);
   }
 }
 
 // リスト全体
 .list {
-  height: calc(100% - 31px);
   background-color: white;
-  border-radius: 5px;
+  border-radius: 16px;
+  overflow: scroll;
+  @include utils.mq(md) {
+    max-height: calc(100vh - 178px);
+  }
   &.list_root {
+    padding-top: 0;
     padding-bottom: 0;
   }
 }
 
 // トレンドのタイトル
 .header {
-  padding-top: var(--sm);
-  padding-bottom: var(--sm);
-  padding-left: var(--sm);
+  padding: var(--md) var(--md) var(--sm);
   display: flex;
+}
+
+// トレンドのタイトル
+.title {
+  padding-left: var(--md);
 }
 
 // listの各item
@@ -91,7 +106,8 @@
 
 // サイドの下部
 .list_under {
-  padding: var(--md);
+  height: 98px;
+  padding: var(--lg);
   display: flex;
   flex-direction: column;
 }

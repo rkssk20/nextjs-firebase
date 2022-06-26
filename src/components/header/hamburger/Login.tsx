@@ -3,7 +3,6 @@ import InitialIcon from '@/atoms/Icon/InitialIcon'
 import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/header/hamburger/login.module.scss'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton';
@@ -21,8 +20,6 @@ type LoginProps = {
 }
 
 const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
-  const pc = useMediaQuery('(min-width: 1182px')
-
   const account_list = [{
     url: `/account/${ id }`,
     text: '自分の投稿',
@@ -99,17 +96,11 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
 
   return (
     <List>
-      { pc ?
-        // pcサイズ
-        <Account />
-        :
-        // モバイルサイズではフォロー、フォロワーも表示
-        <div className={ styles.follow_field }>
-          <Account />
+       {/* アカウント */}
+      <Account />
 
-          <Follow />
-        </div>
-      }
+      {/* フォロー、フォロワー */}
+      <Follow />
 
       {/* アカウントの各ページ */}
       { account_list.map(item => (

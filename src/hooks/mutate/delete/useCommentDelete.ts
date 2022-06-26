@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { MouseEvent } from "react";
 import { useMutation, useQueryClient, InfiniteData } from "react-query";
 import { useSetRecoilState } from "recoil";
 import type { definitions } from "@/types/supabase";
@@ -19,10 +19,10 @@ const Mutate = async(id: number) => {
 type Props = {
   path: string
   id: definitions['comments']['id']
-  setDialog: Dispatch<SetStateAction<boolean>>
+  handleClose: (e?: MouseEvent) => void
 }
 
-const useCommentDelete = ({ path, id, setDialog }: Props) => {
+const useCommentDelete = ({ path, id, handleClose }: Props) => {
   const setNotificate = useSetRecoilState(notificateState)
   const queryClient = useQueryClient()
 
@@ -62,7 +62,7 @@ const useCommentDelete = ({ path, id, setDialog }: Props) => {
       })
     },
     onSettled: () => {
-      setDialog(false)
+      handleClose()
     }
   })
 

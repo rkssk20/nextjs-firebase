@@ -19,9 +19,9 @@ const FetchData = async (pageParam: string | undefined, path: string) => {
     .select('*, profiles!reference_comments_profiles(username, avatar), comments_likes(id)')
     .eq('articles_id', path)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
-    .lt('created_at', pageParam)
+    .gt('created_at', pageParam)
     .limit(10)
     :
     // 追加読み込み
@@ -30,7 +30,7 @@ const FetchData = async (pageParam: string | undefined, path: string) => {
     .select('*, profiles!reference_comments_profiles(username, avatar), comments_likes(id)')
     .eq('articles_id', path)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
     .limit(10)
   // ログアウト中
@@ -42,9 +42,9 @@ const FetchData = async (pageParam: string | undefined, path: string) => {
     .select('*,  profiles!reference_comments_profiles(username, avatar)')
     .eq('articles_id', path)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
-    .lt('created_at', pageParam)
+    .gt('created_at', pageParam)
     .limit(10)
     :
     // 追加読み込み
@@ -53,13 +53,11 @@ const FetchData = async (pageParam: string | undefined, path: string) => {
     .select('*, profiles!reference_comments_profiles(username, avatar)')
     .eq('articles_id', path)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
     .limit(10)
 
   if(error) throw error
-
-  console.log(data)
 
   return data
 }
@@ -71,13 +69,11 @@ const useSelectComments = (path: string) => {
     ({ pageParam }) => FetchData(pageParam, path), {
       // 初回取得の禁止
       enabled: false,
-      onError: error => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'コメントの取得に失敗しました。'
         })
-
-        console.log(error);
       },
       getNextPageParam: (lastPage) => (lastPage && (lastPage.length === 10)) ? lastPage[lastPage.length - 1].created_at : false
     },

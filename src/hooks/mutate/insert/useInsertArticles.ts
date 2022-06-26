@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { InfiniteData, useMutation, useQueryClient } from "react-query"
 import { useSetRecoilState, useRecoilValue } from "recoil"
 import { nanoid } from "nanoid"
@@ -56,6 +57,7 @@ const useInsertArticles = () => {
   const setDraft = useSetRecoilState(draftState)
   const queryClient = useQueryClient()
   const account = useRecoilValue(accountState)
+  const router = useRouter()
 
   const { mutate, isLoading } = useMutation(
     ({ title, details, image, categories }: MutateType) => mutateArticles({
@@ -72,9 +74,10 @@ const useInsertArticles = () => {
             pageParams: existing.pageParams,
             pages: [
               [{ ...data,
+                details: data.details.slice(0, 50),
                 like_count: 0,
                 comment_count: 0,
-                
+                id: data.qid,
                 username: account.data?.username,
                 avatar: account.data?.avatar?.replace(process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/', '')
               }],
@@ -90,10 +93,13 @@ const useInsertArticles = () => {
           categories: []
         })
 
-        // 通知
-        setNotificate({
-          open: true,
-          message: '記事を投稿しました。'
+        router.push(`/account/${ supabase.auth.user()?.id }`)
+        .then(() => {
+          // 通知
+          setNotificate({
+            open: true,
+            message: '記事を投稿しました。'
+          })
         })
       },
       onError: () => {

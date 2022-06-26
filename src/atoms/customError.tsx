@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import styles from '@/styles/components/customError.module.scss'
+import styles from '@/styles/atoms/customError.module.scss'
 import Typography from '@mui/material/Typography'
 
 const CustomError = ({ status }: { status: '404' | '500' }) => {

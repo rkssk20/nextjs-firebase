@@ -19,9 +19,9 @@ const FetchData = async (pageParam: string | undefined, comment_id: definitions[
     .select('*, profiles!reference_replies_profiles(username, avatar), replies_likes(id)')
     .eq('comment_id', comment_id)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
-    .lt('created_at', pageParam)
+    .gt('created_at', pageParam)
     .limit(10)
     :
     // 追加読み込み
@@ -30,7 +30,7 @@ const FetchData = async (pageParam: string | undefined, comment_id: definitions[
     .select('*, profiles!reference_replies_profiles(username, avatar), replies_likes(id)')
     .eq('comment_id', comment_id)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
     .limit(10)
   // ログアウト中
@@ -42,9 +42,9 @@ const FetchData = async (pageParam: string | undefined, comment_id: definitions[
     .select('*,  profiles!reference_replies_profiles(username, avatar)')
     .eq('comment_id', comment_id)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
-    .lt('created_at', pageParam)
+    .gt('created_at', pageParam)
     .limit(10)
     :
     // 追加読み込み
@@ -53,7 +53,7 @@ const FetchData = async (pageParam: string | undefined, comment_id: definitions[
     .select('*, profiles!reference_replies_profiles(username, avatar)')
     .eq('comment_id', comment_id)
     .order('created_at', {
-      ascending: false
+      ascending: true
     })
     .limit(10)
 

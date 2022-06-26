@@ -23,7 +23,7 @@ const ShowReplies = ({ path, id }: ShowReplyProps) => {
       {/* リプライ欄 */}
       { data && data.pages.map(pages => (
         pages.map(item => (
-          <div key={ item.id }>
+          <div key={ item.id } id={ 'reply' + String(item.id) }>
             {/* アカウント、投稿日時 */}
             <Header
               username={ item.profiles.username }
