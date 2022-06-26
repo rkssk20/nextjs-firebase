@@ -1,5 +1,3 @@
-import useUser from '@/hooks/useUser'
-
 import styles from '@/styles/components/account/follow/empty.module.scss'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
