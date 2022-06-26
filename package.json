@@ -18,6 +18,7 @@
     "@types/react-avatar-editor": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
+    "babel-eslint": "^10.1.0",
     "easymde": "^2.16.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
