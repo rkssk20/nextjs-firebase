@@ -32,7 +32,7 @@ const Crop = ({ selectImage, setSelectImage, setImage }: Props) => {
       setLoading(true)
       // chromeならwebpに変換し、画質を0.5にする
       // chrome以外ではpngに変換される
-      ref.current.getImage().toBlob(
+      ref?.current.getImage().toBlob(
         (blob: Blob) => {
           setImage(blob)
 
