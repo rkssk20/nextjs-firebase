@@ -4,7 +4,7 @@ import LoginContent from '@/atoms/LoginContent'
 
 const Login = ({ dialog, handleClose }: DialogProps) => {
   return (
-    <Dialog dialog={ dialog } handleClose={ handleClose }>
+    <Dialog dialog={dialog} handleClose={handleClose}>
       <LoginContent />
     </Dialog>
   )

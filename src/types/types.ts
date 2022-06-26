@@ -1,5 +1,5 @@
-import type { MouseEvent } from "react"
-import type { definitions } from "@/types/supabase"
+import type { MouseEvent } from 'react'
+import type { definitions } from '@/types/supabase'
 
 // カテゴリ
 export type CategoriesProps = {
@@ -24,10 +24,10 @@ export type ArticleType = {
 
 // アカウントトップ10
 export type ProfilesSummaryType = {
-  id: definitions['profiles']['id'];
-  username: definitions['profiles']['username'];
-  avatar: definitions['profiles']['avatar'];
-  details: definitions['profiles']['details'];
+  id: definitions['profiles']['id']
+  username: definitions['profiles']['username']
+  avatar: definitions['profiles']['avatar']
+  details: definitions['profiles']['details']
   follower_count: definitions['profiles']['follower_count']
 }
 
@@ -59,7 +59,6 @@ export type DialogProps = {
 //   }[]
 // }
 
-
 // プロフィールの詳細api
 export type ProfileDetailsType = {
   follow: number
@@ -80,11 +79,11 @@ export type CommentType = {
   display_id: string
   created_at: string
   image: string
-  likes: number,
-  like: boolean,
+  likes: number
+  like: boolean
   content: string
   name: string
-  mine: boolean,
+  mine: boolean
   replies: number
 }
 
@@ -95,8 +94,8 @@ export type RepliesType = {
   display_id: string
   created_at: string
   image: string
-  likes: number,
-  like: boolean,
+  likes: number
+  like: boolean
   content: string
   name: string
   mine: boolean

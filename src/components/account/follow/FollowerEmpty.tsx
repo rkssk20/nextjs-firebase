@@ -9,22 +9,20 @@ const FollowerEmpty = ({ path }: { path: string }) => {
   const { loading, user } = useUser(path)
 
   return (
-    <Stack className={ styles.field }>
-      <Typography variant='h6'>
-        まだフォローされていません。
-      </Typography>
+    <Stack className={styles.field}>
+      <Typography variant='h6'>まだフォローされていません。</Typography>
 
-      { (user?.display_id !== path) &&
+      {user?.display_id !== path && (
         <Button
-          className={ styles.search_button }
+          className={styles.search_button}
           classes={{ root: styles.search_button_root }}
           disableElevation
           variant='outlined'
-          onClick={ () => console.log('フォロー') }
+          onClick={() => console.log('フォロー')}
         >
           このアカウントをフォローする
         </Button>
-      }
+      )}
     </Stack>
   )
 }

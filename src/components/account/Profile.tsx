@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import NextLink from 'next/link'
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import type { definitions } from '@/types/supabase';
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
-import { accountState, notificateState } from '@/lib/recoil';
-import AvatarIcon from '@/atoms/Icon/AvatarIcon';
-import { ContainedButton, OutlinedButton } from '@/atoms/Button';
+import { accountState, notificateState } from '@/lib/recoil'
+import AvatarIcon from '@/atoms/Icon/AvatarIcon'
+import { ContainedButton, OutlinedButton } from '@/atoms/Button'
 import InitialIcon from '@/atoms/Icon/InitialIcon'
 import Following from '@/components/account/Following'
 
 import styles from '@/styles/components/account/profiles.module.scss'
-import DialogContent from '@mui/material/DialogContent';
-import Typography from '@mui/material/Typography';
+import DialogContent from '@mui/material/DialogContent'
+import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import MuiLink from '@mui/material/Link'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -31,10 +31,10 @@ const Profile = ({ path, item }: ProfileProps) => {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut()
 
-    if(error) {
+    if (error) {
       setNotificate({
         open: true,
-        message: 'ログアウトに失敗しました。'
+        message: 'ログアウトに失敗しました。',
       })
 
       return
@@ -47,64 +47,71 @@ const Profile = ({ path, item }: ProfileProps) => {
     <DialogContent>
       <Stack direction='row' alignItems='center'>
         {/* ユーザーアイコン */}
-        { item.avatar ?
-          <AvatarIcon src={ process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar } variant='large' />
-          :
-          <InitialIcon username={ item.username } variant='large' />
-        }
+        {item.avatar ? (
+          <AvatarIcon
+            src={
+              process.env.NEXT_PUBLIC_SUPABASE_URL +
+              '/storage/v1/object/public/avatars/' +
+              item.avatar
+            }
+            variant='large'
+          />
+        ) : (
+          <InitialIcon username={item.username} variant='large' />
+        )}
 
-        <Stack justifyContent='center' className={ styles.profile_right }>
+        <Stack justifyContent='center' className={styles.profile_right}>
           {/* ユーザー名 */}
           <Typography component='p' variant='h3'>
-            { item.username }
+            {item.username}
           </Typography>
 
-          { account.loading ?
-            <CircularProgress className={ styles.circular } classes={{ root: styles.circular_root }} size={ 38.25 } />
-            :
-            (path == user?.id) ?
+          {account.loading ? (
+            <CircularProgress
+              className={styles.circular}
+              classes={{ root: styles.circular_root }}
+              size={38.25}
+            />
+          ) : path == user?.id ? (
             // 本人なら設定、ログアウト
             <Stack
-              className={ styles.buttons }
+              className={styles.buttons}
               direction='row'
-              alignItems='center' 
+              alignItems='center'
               justifyContent='center'
             >
-              <ContainedButton
-                text='設定'
-                handle={ () => router.push(`/account/setting`) }
-              />
+              <ContainedButton text='設定' handle={() => router.push(`/account/setting`)} />
 
-              <OutlinedButton text='ログアウト' handle={ handleLogout } />
+              <OutlinedButton text='ログアウト' handle={handleLogout} />
             </Stack>
-            :
+          ) : (
             // 他人ならフォロー、フォロワー
-            <Following path={ path } />
-          }
+            <Following path={path} />
+          )}
         </Stack>
       </Stack>
 
       {/* 自己紹介 */}
-      <Typography className={ styles.details }>{ item.details }</Typography>
+      <Typography className={styles.details}>{item.details}</Typography>
 
       {/* フォローとフォロワー */}
       <Stack direction='row'>
-        <NextLink href={ `/account/${ router.query.id }/follow` } passHref>
+        <NextLink href={`/account/${router.query.id}/follow`} passHref>
           <MuiLink color='inherit' underline='hover' variant='body1'>
-            <span className={ styles.span_count }>{ item.follow_count.toLocaleString() }</span>
+            <span className={styles.span_count}>{item.follow_count.toLocaleString()}</span>
             フォロー
           </MuiLink>
         </NextLink>
 
-        <NextLink href={ `/account/${ router.query.id }/follower` } passHref>
+        <NextLink href={`/account/${router.query.id}/follower`} passHref>
           <MuiLink
-            className={ styles.follower }
+            className={styles.follower}
             classes={{ root: styles.follower_root }}
             color='inherit'
             underline='hover'
             variant='body1'
           >
-            <span className={ styles.span_count }>{ item.follower_count.toLocaleString() }</span>
+            <span className={styles.span_count}>{item.follower_count.toLocaleString()}</span>
             フォロワー
           </MuiLink>
         </NextLink>

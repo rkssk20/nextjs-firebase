@@ -13,28 +13,19 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Setting = () => {
   return (
-    <Layout
-      type='article'
-      title='設定'
-      description=''
-      image=''
-    >
+    <Layout type='article' title='設定' description='' image=''>
       <DialogContent>
         <Input />
 
-        <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
+        <Divider className={styles.divider} classes={{ root: styles.divider_root }} />
 
         <NextLink href='/account/withdrawal' passHref>
-          <MuiLink
-            variant='caption'
-            color='gray'
-            underline='hover'
-          >
+          <MuiLink variant='caption' color='gray' underline='hover'>
             退会する
           </MuiLink>
         </NextLink>
 
-        <Divider className={ styles.under_divider } />
+        <Divider className={styles.under_divider} />
       </DialogContent>
     </Layout>
   )
@@ -42,13 +33,13 @@ const Setting = () => {
 
 export default Setting
 
-Setting.getLayout = function getLayout (page: ReactElement) {
+Setting.getLayout = function getLayout(page: ReactElement) {
   const md = useMediaQuery('(min-width: 768px)')
 
   return (
     <LoginOnly>
-      { page }
-      { md && <Side /> }
+      {page}
+      {md && <Side />}
     </LoginOnly>
   )
 }

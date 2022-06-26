@@ -11,17 +11,17 @@ type TitleProps = {
 
 const Title = ({ categories, title }: TitleProps) => {
   return (
-    <div className={ styles.field }>
-      { (categories.length > 0) &&
-        <div className={ styles.tags }>
-          { categories.map(item => (
-            <Category key={ item.category } category={ item.category } />
-          )) }
+    <div className={styles.field}>
+      {categories.length > 0 && (
+        <div className={styles.tags}>
+          {categories.map((item) => (
+            <Category key={item.category} category={item.category} />
+          ))}
         </div>
-      }
+      )}
 
-      <Typography className={ styles.title } variant='h1'>
-        { title }
+      <Typography className={styles.title} variant='h1'>
+        {title}
       </Typography>
     </div>
   )

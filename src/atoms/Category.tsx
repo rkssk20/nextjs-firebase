@@ -5,16 +5,13 @@ import MuiLink from '@mui/material/Link'
 
 const Category = ({ category }: { category: string | number }) => {
   return (
-    <NextLink
-      href={ (category == 0) ? '/categories/front' : '/categories/serverless' }
-      passHref
-    >
+    <NextLink href={category == 0 ? '/categories/front' : '/categories/serverless'} passHref>
       <MuiLink
         underline='hover'
-        onMouseDown={ (e: MouseEvent<HTMLSpanElement>) => e.stopPropagation() }
-        onTouchStart={ (e: TouchEvent<HTMLSpanElement>) => e.stopPropagation() }
+        onMouseDown={(e: MouseEvent<HTMLSpanElement>) => e.stopPropagation()}
+        onTouchStart={(e: TouchEvent<HTMLSpanElement>) => e.stopPropagation()}
       >
-        { (category == 0) ? '#フロント' : '#サーバーレス' }
+        {category == 0 ? '#フロント' : '#サーバーレス'}
       </MuiLink>
     </NextLink>
   )

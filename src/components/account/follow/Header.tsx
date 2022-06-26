@@ -10,47 +10,44 @@ import styles from '@/styles/components/account/follow/header.module.scss'
 import AppBar from '@mui/material/AppBar'
 
 type HeaderProps = {
-  name: string 
+  name: string
   path: string
 }
 
 const Header = ({ name, path }: HeaderProps) => {
   const router = useRouter()
 
-  const tab_list = [{
-    name: 'フォロー中',
-    url: `/account/${ path }/follow`
-  }, {
-    name: 'フォロワー',
-    url: `/account/${ path }/follower`
-  }]
+  const tab_list = [
+    {
+      name: 'フォロー中',
+      url: `/account/${path}/follow`,
+    },
+    {
+      name: 'フォロワー',
+      url: `/account/${path}/follower`,
+    },
+  ]
 
   return (
     <AppBar
-      className={ styles.app_bar }
+      className={styles.app_bar}
       classes={{ root: styles.app_bar_root }}
       position='sticky'
       color='inherit'
-      elevation={ 0 }
+      elevation={0}
     >
       <ListItem>
         <ListItemIcon>
-          <IconButton onClick={ () => router.push(`/account/${ path }`) }>
+          <IconButton onClick={() => router.push(`/account/${path}`)}>
             <ArrowBackIcon />
           </IconButton>
         </ListItemIcon>
 
-        <ListItemText
-          primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-          primary={ name }
-        />
+        <ListItemText primaryTypographyProps={{ variant: 'h5', noWrap: true }} primary={name} />
       </ListItem>
 
       {/* 選択バー */}
-      <Bar
-        tab_list={ tab_list }
-        value={ router.pathname === '/account/[id]/follow' ? 0 : 1 }
-      />
+      <Bar tab_list={tab_list} value={router.pathname === '/account/[id]/follow' ? 0 : 1} />
     </AppBar>
   )
 }

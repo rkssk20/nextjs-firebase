@@ -22,18 +22,18 @@ const Icon = ({ newUserName }: IconProps) => {
   const color = Color(newUserName)
 
   // 画像選択
-  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {    
-    if(!e.target.files || !e.target.files[0]) return
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || !e.target.files[0]) return
     setSelectImage(window.URL.createObjectURL(e.target.files[0]))
   }
 
   // 現在のアバターを削除
   const handleCancel = () => {
     // アバター画像がない場合
-    if(!account.data?.avatar) {
+    if (!account.data?.avatar) {
       setNotificate({
         open: true,
-        message: '画像がありません。'
+        message: '画像がありません。',
       })
 
       return
@@ -43,73 +43,70 @@ const Icon = ({ newUserName }: IconProps) => {
   }
 
   return (
-    <label className={ styles.field } htmlFor="icon-button-file">
+    <label className={styles.field} htmlFor='icon-button-file'>
       {/* 表示せずボタンと連携するinput */}
       <input
-        className={ styles.hidden_button }
-        accept="image/*"
-        id="icon-button-file"
-        type="file"
-        onChange={ handleImage }
+        className={styles.hidden_button}
+        accept='image/*'
+        id='icon-button-file'
+        type='file'
+        onChange={handleImage}
       />
 
       <IconButton
-        className={ styles.icon_button }
+        className={styles.icon_button}
         classes={{ root: styles.icon_button_root }}
-        aria-label="upload picture"
+        aria-label='upload picture'
         component='span'
       >
-        { Boolean(account.data?.avatar) ?
+        {Boolean(account.data?.avatar) ? (
           // 切り抜いた画像のアバター
           <Avatar
-            className={ styles.avatar }
+            className={styles.avatar}
             classes={{ root: styles.avatar_root }}
-            src={ account.data?.avatar }
+            src={account.data?.avatar}
           />
-          :
+        ) : (
           // 画像なしのアバター
           <Avatar
-            className={ styles.avatar }
+            className={styles.avatar}
             classes={{ root: styles.avatar_root }}
             sx={{ bgcolor: color }}
           >
-              { newUserName.slice(0, 1) }
+            {newUserName.slice(0, 1)}
           </Avatar>
-        }
+        )}
       </IconButton>
 
       {/* 表示せずボタンと連携するinput */}
       <input
-        className={ styles.hidden_button }
-        accept="image/*"
-        id="input-button"
-        type="file"
-        onChange={ handleImage }
+        className={styles.hidden_button}
+        accept='image/*'
+        id='input-button'
+        type='file'
+        onChange={handleImage}
       />
 
       <Button
-        className={ styles.text_button }
+        className={styles.text_button}
         classes={{ root: styles.text_button_root }}
-        aria-label="upload picture"
+        aria-label='upload picture'
         component='span'
       >
         変更する
       </Button>
 
       <Button
-        className={ styles.text_button }
+        className={styles.text_button}
         classes={{ root: styles.text_button_root }}
-        onClick={ handleCancel }
+        onClick={handleCancel}
         color='info'
       >
         削除する
       </Button>
 
       {/* 切り抜きのダイアログ */}
-      <Crop
-        selectImage={ selectImage }
-        setSelectImage={ setSelectImage }
-      />
+      <Crop selectImage={selectImage} setSelectImage={setSelectImage} />
     </label>
   )
 }

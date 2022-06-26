@@ -5,27 +5,26 @@ import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
 
 const FetchData = async (pageParam: string | undefined) => {
-  const { data, error } = pageParam ?
-  // 初回読み込み
-  await supabase
-    .from<ArticleType>('person_articles')
-    .select('*')
-    .order('created_at', {
-      ascending: false
-    })
-    .lt('created_at', pageParam)
-    .limit(10)
-  :
-  // 追加読み込み
-  await supabase
-    .from<ArticleType>('person_articles')
-    .select('*')
-    .order('created_at', {
-      ascending: false
-    })
-    .limit(10)
+  const { data, error } = pageParam
+    ? // 初回読み込み
+      await supabase
+        .from<ArticleType>('person_articles')
+        .select('*')
+        .order('created_at', {
+          ascending: false,
+        })
+        .lt('created_at', pageParam)
+        .limit(10)
+    : // 追加読み込み
+      await supabase
+        .from<ArticleType>('person_articles')
+        .select('*')
+        .order('created_at', {
+          ascending: false,
+        })
+        .limit(10)
 
-  if(error) throw error
+  if (error) throw error
 
   console.log(data)
 
@@ -35,17 +34,20 @@ const FetchData = async (pageParam: string | undefined) => {
 const useArticlesNoWord = () => {
   const setNotificate = useSetRecoilState(notificateState)
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(['articles_no_word'],
-    ({ pageParam }) => FetchData(pageParam), {
-      onError: error => {
+  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    ['articles_no_word'],
+    ({ pageParam }) => FetchData(pageParam),
+    {
+      onError: (error) => {
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。'
+          message: 'エラーが発生しました。',
         })
 
-        console.log(error);
+        console.log(error)
       },
-      getNextPageParam: (lastPage) => (lastPage && (lastPage.length === 10)) ? lastPage[lastPage.length - 1].created_at : false
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,
     },
   )
 

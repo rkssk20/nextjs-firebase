@@ -12,39 +12,33 @@ const Front = () => {
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   return (
-    <Layout
-      type='article'
-      title='フロント'
-      description=''
-      image=''
-    >
+    <Layout type='article' title='フロント' description='' image=''>
       <Header text='フロント' url='front' />
 
       {/* 投稿一覧 */}
-      { data && data.pages.map((page, page_index) => (
-        page.map((item, index) => (
-          <Post
-            key={ item.id }
-            data={ item }
-            setRef={
-              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
-            }
-          />
-        ))
-      ))}
+      {data &&
+        data.pages.map((page, page_index) =>
+          page.map((item, index) => (
+            <Post
+              key={item.id}
+              data={item}
+              setRef={data.pages.length - 1 === page_index && page.length - 1 === index && setRef}
+            />
+          )),
+        )}
 
       {/* 読み込み中 */}
-      { isFetching && <Circular /> }
+      {isFetching && <Circular />}
     </Layout>
   )
 }
 
 export default Front
 
-Front.getLayout = function getLayout (page: ReactElement) {
+Front.getLayout = function getLayout(page: ReactElement) {
   return (
     <>
-      { page }
+      {page}
       <Side />
     </>
   )

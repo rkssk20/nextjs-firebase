@@ -11,12 +11,12 @@ type Props = {
 const Popup = ({ anchorEl, setAnchorEl, children }: Props) => {
   return (
     <Menu
-      id="positioned-menu"
-      anchorEl={ anchorEl }
-      open={ Boolean(anchorEl) }
-      onClose={ () => setAnchorEl(null) }
+      id='positioned-menu'
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      onClose={() => setAnchorEl(null)}
     >
-      { children }
+      {children}
     </Menu>
   )
 }

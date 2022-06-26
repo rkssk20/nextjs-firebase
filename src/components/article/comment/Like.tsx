@@ -4,19 +4,15 @@ import type { definitions } from '@/types/supabase'
 import useMutateCommentsLikes from '@/hooks/mutate/useMutateCommentsLikes'
 
 import IconButton from '@mui/material/IconButton'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
-const Login = dynamic((import('@/components/dialog/Login')))
+const Login = dynamic(import('@/components/dialog/Login'))
 
-const Like = ({ handle, children }: { handle: () => void, children: ReactElement }) => {
+const Like = ({ handle, children }: { handle: () => void; children: ReactElement }) => {
   return (
-    <IconButton
-      aria-label='いいね'
-      color='primary'
-      onClick={ handle }
-    >
-      { children }
+    <IconButton aria-label='いいね' color='primary' onClick={handle}>
+      {children}
     </IconButton>
   )
 }
@@ -33,14 +29,18 @@ export const LoginLike = ({ path, id, comments_likes }: LoginLikeProps) => {
 
   // いいね
   const handleLikes = () => {
-    if(isLoading) return
+    if (isLoading) return
 
-    mutate((comments_likes && (comments_likes.length > 0)) ? comments_likes[0].id : undefined) 
+    mutate(comments_likes && comments_likes.length > 0 ? comments_likes[0].id : undefined)
   }
 
   return (
-    <Like handle={ handleLikes }>
-      { comments_likes && comments_likes[0]?.id ? <FavoriteIcon /> : <FavoriteBorderIcon color='info' /> }
+    <Like handle={handleLikes}>
+      {comments_likes && comments_likes[0]?.id ? (
+        <FavoriteIcon />
+      ) : (
+        <FavoriteBorderIcon color='info' />
+      )}
     </Like>
   )
 }
@@ -49,12 +49,10 @@ export const LoginLike = ({ path, id, comments_likes }: LoginLikeProps) => {
 export const LogoutLike = () => {
   const [dialog, setDialog] = useState(false)
 
-  if(dialog) return (
-    <Login dialog={ dialog } handleClose={ () => setDialog(false) } />
-  )
+  if (dialog) return <Login dialog={dialog} handleClose={() => setDialog(false)} />
 
   return (
-    <Like handle={ () => setDialog(true) }>
+    <Like handle={() => setDialog(true)}>
       <FavoriteBorderIcon color='info' />
     </Like>
   )

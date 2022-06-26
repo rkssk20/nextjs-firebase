@@ -25,13 +25,13 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     // recoil
     <RecoilRoot>
       {/* react-query */}
-      <QueryClientProvider client={ client }>
+      <QueryClientProvider client={client}>
         <Auth>
           {/* Mui */}
           <Mui>
-            { getLayout(<Component {...pageProps} />) }
+            {getLayout(<Component {...pageProps} />)}
 
-            <ReactQueryDevtools initialIsOpen={ false } />
+            <ReactQueryDevtools initialIsOpen={false} />
           </Mui>
         </Auth>
       </QueryClientProvider>

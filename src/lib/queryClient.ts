@@ -10,7 +10,7 @@ const client = new QueryClient({
       // 5分間キャッシュ
       cacheTime: 300000,
       // 5分間キャッシュを最新に
-      staleTime: 300000
+      staleTime: 300000,
     },
   },
 })

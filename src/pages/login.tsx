@@ -12,25 +12,19 @@ const Login = () => {
   const router = useRouter()
 
   // ログイン時
-  if (supabase.auth.user()) { 
-    router.replace('/')
-    .then(() => {
+  if (supabase.auth.user()) {
+    router.replace('/').then(() => {
       setNotificate({
         open: true,
-        message: '既にログインしています。'
+        message: '既にログインしています。',
       })
     })
-    
+
     return null
     // ログアウト時
   } else {
     return (
-      <Layout
-      type='article'
-      title=''
-      description=''
-      image=''
-      >
+      <Layout type='article' title='' description='' image=''>
         <DialogContent>
           <LoginContent />
         </DialogContent>

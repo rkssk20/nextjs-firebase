@@ -19,28 +19,33 @@ type AccountProps = {
 
 const Account = ({ id, username, avatar, details, setRef }: AccountProps) => {
   const router = useRouter()
-  
+
   return (
     <ListItemButton
-      className={ styles.list_item_button }
+      className={styles.list_item_button}
       classes={{ root: styles.list_item_button_root }}
-      ref={ setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined }
-      onClick={ () => router.push(`/account/${ id }`)}
+      ref={setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined}
+      onClick={() => router.push(`/account/${id}`)}
     >
       <ListItemIcon>
-        { avatar ?
-          <AvatarIcon src={ process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar } variant='medium' />
-          :
-          <InitialIcon username={ username } variant='medium' />
-        }
+        {avatar ? (
+          <AvatarIcon
+            src={
+              process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar
+            }
+            variant='medium'
+          />
+        ) : (
+          <InitialIcon username={username} variant='medium' />
+        )}
       </ListItemIcon>
 
       <ListItemText
         secondaryTypographyProps={{
-          noWrap: true
+          noWrap: true,
         }}
-        primary={ username }
-        secondary={ details }
+        primary={username}
+        secondary={details}
       />
     </ListItemButton>
   )

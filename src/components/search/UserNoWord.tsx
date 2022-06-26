@@ -10,22 +10,21 @@ const UserNoWord = () => {
 
   return (
     <React.Fragment>
-      { data && data.pages.map((page, page_index) => (
-        page.map((item, index) => (
-          <Account
-            key={ item.id }
-            id={ item.id }
-            username={ item.username }
-            avatar={ item.avatar }
-            details={ item.details }
-            setRef={
-              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
-            }
-          />
-        ))
-      ))}
+      {data &&
+        data.pages.map((page, page_index) =>
+          page.map((item, index) => (
+            <Account
+              key={item.id}
+              id={item.id}
+              username={item.username}
+              avatar={item.avatar}
+              details={item.details}
+              setRef={data.pages.length - 1 === page_index && page.length - 1 === index && setRef}
+            />
+          )),
+        )}
 
-      { isFetching && <Circular /> }
+      {isFetching && <Circular />}
     </React.Fragment>
   )
 }

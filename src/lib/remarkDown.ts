@@ -1,8 +1,8 @@
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeStringify from 'rehype-stringify';
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeStringify from 'rehype-stringify'
 
 const RemarkDown = async (markdown: string) => {
   const result = await unified()
@@ -10,9 +10,9 @@ const RemarkDown = async (markdown: string) => {
     .use(remarkRehype)
     .use(rehypeHighlight)
     .use(rehypeStringify)
-    .process(markdown);
+    .process(markdown)
 
-  return result.toString();
-};
+  return result.toString()
+}
 
 export default RemarkDown

@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Response = {
-  display_id: string
-  name: string
-} | {}
+type Response =
+  | {
+      display_id: string
+      name: string
+    }
+  | {}
 
 export default (req: NextApiRequest, res: NextApiResponse<Response>) => {
   // ログイン時

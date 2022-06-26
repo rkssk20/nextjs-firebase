@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import { useMutation } from "react-query";
-import { useSetRecoilState } from "recoil";
-import type { definitions } from "@/types/supabase";
-import { supabase } from "@/lib/supabaseClient";
-import { notificateState } from "@/lib/recoil";
+import { useRouter } from 'next/router'
+import { useMutation } from 'react-query'
+import { useSetRecoilState } from 'recoil'
+import type { definitions } from '@/types/supabase'
+import { supabase } from '@/lib/supabaseClient'
+import { notificateState } from '@/lib/recoil'
 
-const Mutate = async(path: string) => {
+const Mutate = async (path: string) => {
   const { data, error } = await supabase
-  .from<definitions['articles']>('articles')
-  .delete({ returning: 'minimal' })
-  .eq('id', path)
+    .from<definitions['articles']>('articles')
+    .delete({ returning: 'minimal' })
+    .eq('id', path)
 
-  if(error) throw error
+  if (error) throw error
 
   return data
 }
@@ -25,18 +25,18 @@ const useArticleDelete = (path: string) => {
       router.push('/').then(() =>
         setNotificate({
           open: true,
-          message: '記事を削除しました。'
-        })
+          message: '記事を削除しました。',
+        }),
       )
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error)
 
       setNotificate({
         open: true,
-        message: 'エラーが発生しました。'
+        message: 'エラーが発生しました。',
       })
-    }
+    },
   })
 
   return { mutate, isLoading }

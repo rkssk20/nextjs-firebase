@@ -1,15 +1,12 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
   render() {
     return (
       <Html lang='ja'>
-         <Head prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#'>
+        <Head prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#'>
           {/* 文字コード */}
           <meta charSet='utf-8' />
-
-          {/* スマホ表示設定 */}
-          <meta name='viewport' content='width=device-width,initial-scale=1.0' />
           {/* スマホ表示で数字を電話番号のリンクにしない */}
           <meta name='format-detection' content='telephone=no,email=no,address=no' />
           {/* apple ホーム画面追加時のアイコン */}
@@ -20,7 +17,7 @@ class MyDocument extends Document {
           <meta name='msapplication-config' content='' />
 
           {/* OGPを設定するサイトURL */}
-          <meta property='og:url' content={ process.env.NEXT_PUBLIC_WEB_URL } />
+          <meta property='og:url' content={process.env.NEXT_PUBLIC_WEB_URL} />
           {/* OGP画像サイズ(Facebookでの初回レンダリング用) */}
           <meta property='og:image:width' content='1200' />
           <meta property='og:image:height' content='630' />
@@ -33,8 +30,8 @@ class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MyDocument;
+export default MyDocument

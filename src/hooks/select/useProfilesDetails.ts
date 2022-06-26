@@ -5,7 +5,7 @@ import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
 
 export const FetchData = async (id: string | undefined) => {
-  if(id === undefined) throw 'error'
+  if (id === undefined) throw 'error'
 
   const { data, error } = await supabase
     .from<definitions['profiles']>('profiles')
@@ -13,7 +13,7 @@ export const FetchData = async (id: string | undefined) => {
     .eq('id', id)
     .single()
 
-  if(error) throw error
+  if (error) throw error
 
   return data
 }
@@ -21,15 +21,18 @@ export const FetchData = async (id: string | undefined) => {
 const useProfilesDetails = () => {
   const setNotificate = useSetRecoilState(notificateState)
 
-  const { data, isFetching } = useQuery(['profiles_details'], () => FetchData(supabase.auth.user()?.id), {
+  const { data, isFetching } = useQuery(
+    ['profiles_details'],
+    () => FetchData(supabase.auth.user()?.id),
+    {
       onError: () => {
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。'
+          message: 'エラーが発生しました。',
         })
-      }
+      },
     },
-  )  
+  )
 
   return { data, isFetching }
 }

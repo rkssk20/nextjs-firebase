@@ -16,17 +16,17 @@ const Content = ({ title, details, categories }: ContentProps) => {
   const escape_text = details.replace(/\_|\*|\\|\`|\#|\+|\-|\!|\{|\}|\[|\]/g, '')
 
   return (
-    <div className={ styles.content }>
-      <Typography variant='h5'>{ title }</Typography>
-      <Typography variant='body1'>{ escape_text + '...' }</Typography>
+    <div className={styles.content}>
+      <Typography variant='h5'>{title}</Typography>
+      <Typography variant='body1'>{escape_text + '...'}</Typography>
 
-      { categories &&
-        <Stack className={ styles.tags } direction='row' alignItems='center'>
-          { categories.map(item => 
-            <Category key={ item } category={ item } />
-          )}
+      {categories && (
+        <Stack className={styles.tags} direction='row' alignItems='center'>
+          {categories.map((item) => (
+            <Category key={item} category={item} />
+          ))}
         </Stack>
-      }
+      )}
     </div>
   )
 }

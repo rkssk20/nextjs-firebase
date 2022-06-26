@@ -8,24 +8,21 @@ const Bar = ({ path }: { path: string }) => {
   const router = useRouter()
 
   console.log(router.pathname)
-  
+
   const tab_list = [
-    { name: '投稿', url: `/account/${ path }` },
-    { name: 'いいね', url: `/account/${ path }/likes` }
+    { name: '投稿', url: `/account/${path}` },
+    { name: 'いいね', url: `/account/${path}/likes` },
   ]
 
   return (
     <AppBar
-      className={ styles.app_bar }
+      className={styles.app_bar}
       classes={{ root: styles.app_bar_root }}
       position='sticky'
       color='inherit'
-      elevation={ 0 }
+      elevation={0}
     >
-      <AtomsBar
-        tab_list={ tab_list }
-        value={ (router.pathname === '/account/[id]/likes') ? 1 : 0 }
-      />
+      <AtomsBar tab_list={tab_list} value={router.pathname === '/account/[id]/likes' ? 1 : 0} />
     </AppBar>
   )
 }

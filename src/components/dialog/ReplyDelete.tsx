@@ -18,42 +18,36 @@ const ReplyDelete = ({ dialog, handleClose, id, comment_id }: Props) => {
 
   // 記事を削除
   const handleDelete = () => {
-    if(isLoading) return
+    if (isLoading) return
     mutate()
   }
 
   return (
-    <Dialog dialog={ dialog } handleClose={ handleClose }>
-      <Typography variant='h3'>
-        このコメントを削除しますか？
-      </Typography>
+    <Dialog dialog={dialog} handleClose={handleClose}>
+      <Typography variant='h3'>このコメントを削除しますか？</Typography>
 
-      <Typography
-        className={ styles.error }
-        variant='body1'
-        color='error'
-      >
+      <Typography className={styles.error} variant='body1' color='error'>
         削除されたコメントは戻すことができません。
       </Typography>
 
       <Stack direction='row' justifyContent='center'>
         <Button
-          className={ styles.button }
-          color="error"
-          variant="contained"
+          className={styles.button}
+          color='error'
+          variant='contained'
           disableElevation
-          onClick={ handleDelete }
+          onClick={handleDelete}
         >
           削除
         </Button>
 
         <Button
-          className={ styles.cancel }
+          className={styles.cancel}
           classes={{ root: styles.cancel_root }}
-          color="inherit"
-          variant="contained"
+          color='inherit'
+          variant='contained'
           disableElevation
-          onClick={ handleClose }
+          onClick={handleClose}
         >
           キャンセル
         </Button>

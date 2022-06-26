@@ -9,14 +9,14 @@ import Login from '@/components/header/hamburger/Login'
 import Logout from '@/components/header/hamburger/Logout'
 
 import styles from '@/styles/components/header/hamburger/hamburger.module.scss'
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
 import Divider from '@mui/material/Divider'
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TagIcon from '@mui/icons-material/Tag';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import TagIcon from '@mui/icons-material/Tag'
 
 type HamburgerProps = {
   hamburger: boolean
@@ -28,21 +28,24 @@ const Hamburger = ({ hamburger, setHamburger }: HamburgerProps) => {
   const account = useRecoilValue(accountState)
   const id = supabase.auth.user()?.id
 
-  const main_list = [{
-    url: '/',
-    text: 'トレンド',
-    icon: <TrendingUpIcon />
-  }, {
-    url: '/categories',
-    text: 'カテゴリ',
-    icon: <TagIcon />
-  }]
+  const main_list = [
+    {
+      url: '/',
+      text: 'トレンド',
+      icon: <TrendingUpIcon />,
+    },
+    {
+      url: '/categories',
+      text: 'カテゴリ',
+      icon: <TagIcon />,
+    },
+  ]
 
   // メニューを閉じる
   const handleClose = () => {
     setHamburger(false)
   }
-  
+
   // 戻る、進むボタンで遷移した場合
   useEffect(() => {
     router.beforePopState(() => {
@@ -53,62 +56,57 @@ const Hamburger = ({ hamburger, setHamburger }: HamburgerProps) => {
 
   return (
     <Drawer
-      className={ styles.drawer }
+      className={styles.drawer}
       classes={{ paper: styles.drawer_paper }}
       ModalProps={{ BackdropProps: { classes: { root: styles.back_root } } }}
       variant='temporary'
-      open={ hamburger }
-      onClose={ handleClose }
+      open={hamburger}
+      onClose={handleClose}
     >
       {/* アカウント関連のリンク  */}
-      { account.loading ?
+      {account.loading ? (
         <Loading />
-        :
-        id && account.data ?
+      ) : id && account.data ? (
         <Login
-          id={ id }
-          username={ account.data.username }
-          avatar={ account.data.avatar }
-          handleClose={ handleClose }
+          id={id}
+          username={account.data.username}
+          avatar={account.data.avatar}
+          handleClose={handleClose}
         />
-        :
-        <Logout handleClose={ handleClose } />
-      }
+      ) : (
+        <Logout handleClose={handleClose} />
+      )}
 
-      <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
+      <Divider className={styles.divider} classes={{ root: styles.divider_root }} />
 
       {/* 主要ページへのリンク */}
       <List>
-        { main_list.map(item => (
-          <Link key={ item.url } href={ item.url } passHref>
+        {main_list.map((item) => (
+          <Link key={item.url} href={item.url} passHref>
             <ListItemButton
-              className={ styles.list_item_button }
+              className={styles.list_item_button}
               classes={{ root: styles.list_item_button_root }}
               component='a'
-              onClick={ handleClose }
+              onClick={handleClose}
             >
-              <ListItemIcon>
-                { item.icon }
-              </ListItemIcon>
+              <ListItemIcon>{item.icon}</ListItemIcon>
 
-              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
-                { item.text }
-              </ListItemText>
+              <ListItemText primaryTypographyProps={{ variant: 'h5' }}>{item.text}</ListItemText>
             </ListItemButton>
           </Link>
-        )) }
+        ))}
       </List>
 
-      <Divider className={ styles.divider } classes={{ root: styles.divider_root }} />
+      <Divider className={styles.divider} classes={{ root: styles.divider_root }} />
 
       {/* その他のページへのリンク */}
       <List>
         <Link href='/about' passHref>
           <ListItemButton
-            className={ styles.list_item_button }
+            className={styles.list_item_button}
             classes={{ root: styles.list_item_button_root }}
             component='a'
-            onClick={ handleClose }
+            onClick={handleClose}
           >
             <ListItemText primaryTypographyProps={{ variant: 'h5' }}>
               このサイトについて

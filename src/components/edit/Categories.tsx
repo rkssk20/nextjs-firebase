@@ -1,16 +1,16 @@
-import type { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react'
 
 import styles from '@/styles/components/edit/categories.module.scss'
-import type { SelectChangeEvent } from "@mui/material";
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import InputBase from '@mui/material/InputBase';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import type { SelectChangeEvent } from '@mui/material'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Checkbox from '@mui/material/Checkbox'
+import InputBase from '@mui/material/InputBase'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 interface CategoriesProps {
-  categories: number[];
-  setCategories: Dispatch<SetStateAction<number[]>>;
+  categories: number[]
+  setCategories: Dispatch<SetStateAction<number[]>>
 }
 
 const Categories = ({ categories, setCategories }: CategoriesProps) => {
@@ -21,49 +21,48 @@ const Categories = ({ categories, setCategories }: CategoriesProps) => {
 
   return (
     <Select
-      className={ styles.select }
+      className={styles.select}
       classes={{ select: styles.select_root }}
       multiple
       displayEmpty
-      value={ categories }
+      value={categories}
       color='info'
-      renderValue={selected =>
-        (selected.length === 0) ?
-        <span className={ styles.empty }>
-          カテゴリを選択
-          <ArrowDropDownIcon />
-        </span>
-        :
-        selected.map(item => (
-          <span key={ item }>
-            { (item === 0) ? '# フロント' : '# サーバーレス' }
+      renderValue={(selected) =>
+        selected.length === 0 ? (
+          <span className={styles.empty}>
+            カテゴリを選択
+            <ArrowDropDownIcon />
           </span>
-        ))
+        ) : (
+          selected.map((item) => (
+            <span key={item}>{item === 0 ? '# フロント' : '# サーバーレス'}</span>
+          ))
+        )
       }
       input={
         <InputBase
-          className={ styles.input }
+          className={styles.input}
           classes={{
             input: styles.input_input,
-            focused: styles.input_focused
+            focused: styles.input_focused,
           }}
         />
       }
       MenuProps={{ PaperProps: { elevation: 3 } }}
-      IconComponent={ () => <></> }
-      onChange={ handleChange }
+      IconComponent={() => <></>}
+      onChange={handleChange}
     >
-      { ['# フロント', '# サーバーレス'].map((item, index) => (
+      {['# フロント', '# サーバーレス'].map((item, index) => (
         <MenuItem
-          className={ styles.menu_item }
+          className={styles.menu_item}
           classes={{ root: styles.menu_item_selected }}
-          key={item }
-          value={ index }
+          key={item}
+          value={index}
         >
-          <Checkbox checked={ categories.indexOf(index) > -1 } />
-          { item }
+          <Checkbox checked={categories.indexOf(index) > -1} />
+          {item}
         </MenuItem>
-      )) }
+      ))}
     </Select>
   )
 }

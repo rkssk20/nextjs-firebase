@@ -4,1368 +4,1368 @@
  */
 
 export interface paths {
-  "/": {
+  '/': {
     get: {
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/articles": {
+        200: unknown
+      }
+    }
+  }
+  '/articles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.articles.id"];
-          user_id?: parameters["rowFilter.articles.user_id"];
-          title?: parameters["rowFilter.articles.title"];
-          details?: parameters["rowFilter.articles.details"];
-          image?: parameters["rowFilter.articles.image"];
-          like_count?: parameters["rowFilter.articles.like_count"];
-          comment_count?: parameters["rowFilter.articles.comment_count"];
-          created_at?: parameters["rowFilter.articles.created_at"];
+          id?: parameters['rowFilter.articles.id']
+          user_id?: parameters['rowFilter.articles.user_id']
+          title?: parameters['rowFilter.articles.title']
+          details?: parameters['rowFilter.articles.details']
+          image?: parameters['rowFilter.articles.image']
+          like_count?: parameters['rowFilter.articles.like_count']
+          comment_count?: parameters['rowFilter.articles.comment_count']
+          created_at?: parameters['rowFilter.articles.created_at']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["articles"][];
-        };
+          schema: definitions['articles'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** articles */
-          articles?: definitions["articles"];
-        };
+          articles?: definitions['articles']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.articles.id"];
-          user_id?: parameters["rowFilter.articles.user_id"];
-          title?: parameters["rowFilter.articles.title"];
-          details?: parameters["rowFilter.articles.details"];
-          image?: parameters["rowFilter.articles.image"];
-          like_count?: parameters["rowFilter.articles.like_count"];
-          comment_count?: parameters["rowFilter.articles.comment_count"];
-          created_at?: parameters["rowFilter.articles.created_at"];
-        };
+          id?: parameters['rowFilter.articles.id']
+          user_id?: parameters['rowFilter.articles.user_id']
+          title?: parameters['rowFilter.articles.title']
+          details?: parameters['rowFilter.articles.details']
+          image?: parameters['rowFilter.articles.image']
+          like_count?: parameters['rowFilter.articles.like_count']
+          comment_count?: parameters['rowFilter.articles.comment_count']
+          created_at?: parameters['rowFilter.articles.created_at']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.articles.id"];
-          user_id?: parameters["rowFilter.articles.user_id"];
-          title?: parameters["rowFilter.articles.title"];
-          details?: parameters["rowFilter.articles.details"];
-          image?: parameters["rowFilter.articles.image"];
-          like_count?: parameters["rowFilter.articles.like_count"];
-          comment_count?: parameters["rowFilter.articles.comment_count"];
-          created_at?: parameters["rowFilter.articles.created_at"];
-        };
+          id?: parameters['rowFilter.articles.id']
+          user_id?: parameters['rowFilter.articles.user_id']
+          title?: parameters['rowFilter.articles.title']
+          details?: parameters['rowFilter.articles.details']
+          image?: parameters['rowFilter.articles.image']
+          like_count?: parameters['rowFilter.articles.like_count']
+          comment_count?: parameters['rowFilter.articles.comment_count']
+          created_at?: parameters['rowFilter.articles.created_at']
+        }
         body: {
           /** articles */
-          articles?: definitions["articles"];
-        };
+          articles?: definitions['articles']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/categories": {
+        204: never
+      }
+    }
+  }
+  '/categories': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.categories.id"];
-          articles_id?: parameters["rowFilter.categories.articles_id"];
-          category?: parameters["rowFilter.categories.category"];
+          id?: parameters['rowFilter.categories.id']
+          articles_id?: parameters['rowFilter.categories.articles_id']
+          category?: parameters['rowFilter.categories.category']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["categories"][];
-        };
+          schema: definitions['categories'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** categories */
-          categories?: definitions["categories"];
-        };
+          categories?: definitions['categories']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.categories.id"];
-          articles_id?: parameters["rowFilter.categories.articles_id"];
-          category?: parameters["rowFilter.categories.category"];
-        };
+          id?: parameters['rowFilter.categories.id']
+          articles_id?: parameters['rowFilter.categories.articles_id']
+          category?: parameters['rowFilter.categories.category']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.categories.id"];
-          articles_id?: parameters["rowFilter.categories.articles_id"];
-          category?: parameters["rowFilter.categories.category"];
-        };
+          id?: parameters['rowFilter.categories.id']
+          articles_id?: parameters['rowFilter.categories.articles_id']
+          category?: parameters['rowFilter.categories.category']
+        }
         body: {
           /** categories */
-          categories?: definitions["categories"];
-        };
+          categories?: definitions['categories']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/comments": {
+        204: never
+      }
+    }
+  }
+  '/comments': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.comments.id"];
-          user_id?: parameters["rowFilter.comments.user_id"];
-          articles_id?: parameters["rowFilter.comments.articles_id"];
-          comment?: parameters["rowFilter.comments.comment"];
-          reply_count?: parameters["rowFilter.comments.reply_count"];
-          created_at?: parameters["rowFilter.comments.created_at"];
-          like_count?: parameters["rowFilter.comments.like_count"];
+          id?: parameters['rowFilter.comments.id']
+          user_id?: parameters['rowFilter.comments.user_id']
+          articles_id?: parameters['rowFilter.comments.articles_id']
+          comment?: parameters['rowFilter.comments.comment']
+          reply_count?: parameters['rowFilter.comments.reply_count']
+          created_at?: parameters['rowFilter.comments.created_at']
+          like_count?: parameters['rowFilter.comments.like_count']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["comments"][];
-        };
+          schema: definitions['comments'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** comments */
-          comments?: definitions["comments"];
-        };
+          comments?: definitions['comments']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.comments.id"];
-          user_id?: parameters["rowFilter.comments.user_id"];
-          articles_id?: parameters["rowFilter.comments.articles_id"];
-          comment?: parameters["rowFilter.comments.comment"];
-          reply_count?: parameters["rowFilter.comments.reply_count"];
-          created_at?: parameters["rowFilter.comments.created_at"];
-          like_count?: parameters["rowFilter.comments.like_count"];
-        };
+          id?: parameters['rowFilter.comments.id']
+          user_id?: parameters['rowFilter.comments.user_id']
+          articles_id?: parameters['rowFilter.comments.articles_id']
+          comment?: parameters['rowFilter.comments.comment']
+          reply_count?: parameters['rowFilter.comments.reply_count']
+          created_at?: parameters['rowFilter.comments.created_at']
+          like_count?: parameters['rowFilter.comments.like_count']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.comments.id"];
-          user_id?: parameters["rowFilter.comments.user_id"];
-          articles_id?: parameters["rowFilter.comments.articles_id"];
-          comment?: parameters["rowFilter.comments.comment"];
-          reply_count?: parameters["rowFilter.comments.reply_count"];
-          created_at?: parameters["rowFilter.comments.created_at"];
-          like_count?: parameters["rowFilter.comments.like_count"];
-        };
+          id?: parameters['rowFilter.comments.id']
+          user_id?: parameters['rowFilter.comments.user_id']
+          articles_id?: parameters['rowFilter.comments.articles_id']
+          comment?: parameters['rowFilter.comments.comment']
+          reply_count?: parameters['rowFilter.comments.reply_count']
+          created_at?: parameters['rowFilter.comments.created_at']
+          like_count?: parameters['rowFilter.comments.like_count']
+        }
         body: {
           /** comments */
-          comments?: definitions["comments"];
-        };
+          comments?: definitions['comments']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/comments_likes": {
+        204: never
+      }
+    }
+  }
+  '/comments_likes': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.comments_likes.id"];
-          user_id?: parameters["rowFilter.comments_likes.user_id"];
-          comment_id?: parameters["rowFilter.comments_likes.comment_id"];
+          id?: parameters['rowFilter.comments_likes.id']
+          user_id?: parameters['rowFilter.comments_likes.user_id']
+          comment_id?: parameters['rowFilter.comments_likes.comment_id']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["comments_likes"][];
-        };
+          schema: definitions['comments_likes'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** comments_likes */
-          comments_likes?: definitions["comments_likes"];
-        };
+          comments_likes?: definitions['comments_likes']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.comments_likes.id"];
-          user_id?: parameters["rowFilter.comments_likes.user_id"];
-          comment_id?: parameters["rowFilter.comments_likes.comment_id"];
-        };
+          id?: parameters['rowFilter.comments_likes.id']
+          user_id?: parameters['rowFilter.comments_likes.user_id']
+          comment_id?: parameters['rowFilter.comments_likes.comment_id']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.comments_likes.id"];
-          user_id?: parameters["rowFilter.comments_likes.user_id"];
-          comment_id?: parameters["rowFilter.comments_likes.comment_id"];
-        };
+          id?: parameters['rowFilter.comments_likes.id']
+          user_id?: parameters['rowFilter.comments_likes.user_id']
+          comment_id?: parameters['rowFilter.comments_likes.comment_id']
+        }
         body: {
           /** comments_likes */
-          comments_likes?: definitions["comments_likes"];
-        };
+          comments_likes?: definitions['comments_likes']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/follows": {
+        204: never
+      }
+    }
+  }
+  '/follows': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.follows.id"];
-          user_id?: parameters["rowFilter.follows.user_id"];
-          follower_id?: parameters["rowFilter.follows.follower_id"];
-          created_at?: parameters["rowFilter.follows.created_at"];
+          id?: parameters['rowFilter.follows.id']
+          user_id?: parameters['rowFilter.follows.user_id']
+          follower_id?: parameters['rowFilter.follows.follower_id']
+          created_at?: parameters['rowFilter.follows.created_at']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["follows"][];
-        };
+          schema: definitions['follows'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** follows */
-          follows?: definitions["follows"];
-        };
+          follows?: definitions['follows']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.follows.id"];
-          user_id?: parameters["rowFilter.follows.user_id"];
-          follower_id?: parameters["rowFilter.follows.follower_id"];
-          created_at?: parameters["rowFilter.follows.created_at"];
-        };
+          id?: parameters['rowFilter.follows.id']
+          user_id?: parameters['rowFilter.follows.user_id']
+          follower_id?: parameters['rowFilter.follows.follower_id']
+          created_at?: parameters['rowFilter.follows.created_at']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.follows.id"];
-          user_id?: parameters["rowFilter.follows.user_id"];
-          follower_id?: parameters["rowFilter.follows.follower_id"];
-          created_at?: parameters["rowFilter.follows.created_at"];
-        };
+          id?: parameters['rowFilter.follows.id']
+          user_id?: parameters['rowFilter.follows.user_id']
+          follower_id?: parameters['rowFilter.follows.follower_id']
+          created_at?: parameters['rowFilter.follows.created_at']
+        }
         body: {
           /** follows */
-          follows?: definitions["follows"];
-        };
+          follows?: definitions['follows']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/front_articles": {
+        204: never
+      }
+    }
+  }
+  '/front_articles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.front_articles.id"];
-          user_id?: parameters["rowFilter.front_articles.user_id"];
-          title?: parameters["rowFilter.front_articles.title"];
-          details?: parameters["rowFilter.front_articles.details"];
-          image?: parameters["rowFilter.front_articles.image"];
-          like_count?: parameters["rowFilter.front_articles.like_count"];
-          comment_count?: parameters["rowFilter.front_articles.comment_count"];
-          created_at?: parameters["rowFilter.front_articles.created_at"];
-          avatar?: parameters["rowFilter.front_articles.avatar"];
-          username?: parameters["rowFilter.front_articles.username"];
-          categories?: parameters["rowFilter.front_articles.categories"];
+          id?: parameters['rowFilter.front_articles.id']
+          user_id?: parameters['rowFilter.front_articles.user_id']
+          title?: parameters['rowFilter.front_articles.title']
+          details?: parameters['rowFilter.front_articles.details']
+          image?: parameters['rowFilter.front_articles.image']
+          like_count?: parameters['rowFilter.front_articles.like_count']
+          comment_count?: parameters['rowFilter.front_articles.comment_count']
+          created_at?: parameters['rowFilter.front_articles.created_at']
+          avatar?: parameters['rowFilter.front_articles.avatar']
+          username?: parameters['rowFilter.front_articles.username']
+          categories?: parameters['rowFilter.front_articles.categories']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["front_articles"][];
-        };
+          schema: definitions['front_articles'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
-  };
-  "/likes": {
+        206: unknown
+      }
+    }
+  }
+  '/likes': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.likes.id"];
-          user_id?: parameters["rowFilter.likes.user_id"];
-          articles_id?: parameters["rowFilter.likes.articles_id"];
-          created_at?: parameters["rowFilter.likes.created_at"];
+          id?: parameters['rowFilter.likes.id']
+          user_id?: parameters['rowFilter.likes.user_id']
+          articles_id?: parameters['rowFilter.likes.articles_id']
+          created_at?: parameters['rowFilter.likes.created_at']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["likes"][];
-        };
+          schema: definitions['likes'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** likes */
-          likes?: definitions["likes"];
-        };
+          likes?: definitions['likes']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.likes.id"];
-          user_id?: parameters["rowFilter.likes.user_id"];
-          articles_id?: parameters["rowFilter.likes.articles_id"];
-          created_at?: parameters["rowFilter.likes.created_at"];
-        };
+          id?: parameters['rowFilter.likes.id']
+          user_id?: parameters['rowFilter.likes.user_id']
+          articles_id?: parameters['rowFilter.likes.articles_id']
+          created_at?: parameters['rowFilter.likes.created_at']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.likes.id"];
-          user_id?: parameters["rowFilter.likes.user_id"];
-          articles_id?: parameters["rowFilter.likes.articles_id"];
-          created_at?: parameters["rowFilter.likes.created_at"];
-        };
+          id?: parameters['rowFilter.likes.id']
+          user_id?: parameters['rowFilter.likes.user_id']
+          articles_id?: parameters['rowFilter.likes.articles_id']
+          created_at?: parameters['rowFilter.likes.created_at']
+        }
         body: {
           /** likes */
-          likes?: definitions["likes"];
-        };
+          likes?: definitions['likes']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/likes_articles": {
+        204: never
+      }
+    }
+  }
+  '/likes_articles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.likes_articles.id"];
-          user_id?: parameters["rowFilter.likes_articles.user_id"];
-          title?: parameters["rowFilter.likes_articles.title"];
-          details?: parameters["rowFilter.likes_articles.details"];
-          image?: parameters["rowFilter.likes_articles.image"];
-          like_count?: parameters["rowFilter.likes_articles.like_count"];
-          comment_count?: parameters["rowFilter.likes_articles.comment_count"];
-          created_at?: parameters["rowFilter.likes_articles.created_at"];
-          avatar?: parameters["rowFilter.likes_articles.avatar"];
-          username?: parameters["rowFilter.likes_articles.username"];
-          categories?: parameters["rowFilter.likes_articles.categories"];
-          likes_id?: parameters["rowFilter.likes_articles.likes_id"];
-          likes_created?: parameters["rowFilter.likes_articles.likes_created"];
-          likes_user?: parameters["rowFilter.likes_articles.likes_user"];
+          id?: parameters['rowFilter.likes_articles.id']
+          user_id?: parameters['rowFilter.likes_articles.user_id']
+          title?: parameters['rowFilter.likes_articles.title']
+          details?: parameters['rowFilter.likes_articles.details']
+          image?: parameters['rowFilter.likes_articles.image']
+          like_count?: parameters['rowFilter.likes_articles.like_count']
+          comment_count?: parameters['rowFilter.likes_articles.comment_count']
+          created_at?: parameters['rowFilter.likes_articles.created_at']
+          avatar?: parameters['rowFilter.likes_articles.avatar']
+          username?: parameters['rowFilter.likes_articles.username']
+          categories?: parameters['rowFilter.likes_articles.categories']
+          likes_id?: parameters['rowFilter.likes_articles.likes_id']
+          likes_created?: parameters['rowFilter.likes_articles.likes_created']
+          likes_user?: parameters['rowFilter.likes_articles.likes_user']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["likes_articles"][];
-        };
+          schema: definitions['likes_articles'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
-  };
-  "/person_articles": {
+        206: unknown
+      }
+    }
+  }
+  '/person_articles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.person_articles.id"];
-          user_id?: parameters["rowFilter.person_articles.user_id"];
-          title?: parameters["rowFilter.person_articles.title"];
-          details?: parameters["rowFilter.person_articles.details"];
-          image?: parameters["rowFilter.person_articles.image"];
-          like_count?: parameters["rowFilter.person_articles.like_count"];
-          comment_count?: parameters["rowFilter.person_articles.comment_count"];
-          created_at?: parameters["rowFilter.person_articles.created_at"];
-          avatar?: parameters["rowFilter.person_articles.avatar"];
-          username?: parameters["rowFilter.person_articles.username"];
-          categories?: parameters["rowFilter.person_articles.categories"];
+          id?: parameters['rowFilter.person_articles.id']
+          user_id?: parameters['rowFilter.person_articles.user_id']
+          title?: parameters['rowFilter.person_articles.title']
+          details?: parameters['rowFilter.person_articles.details']
+          image?: parameters['rowFilter.person_articles.image']
+          like_count?: parameters['rowFilter.person_articles.like_count']
+          comment_count?: parameters['rowFilter.person_articles.comment_count']
+          created_at?: parameters['rowFilter.person_articles.created_at']
+          avatar?: parameters['rowFilter.person_articles.avatar']
+          username?: parameters['rowFilter.person_articles.username']
+          categories?: parameters['rowFilter.person_articles.categories']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["person_articles"][];
-        };
+          schema: definitions['person_articles'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
-  };
-  "/person_followers": {
+        206: unknown
+      }
+    }
+  }
+  '/person_followers': {
     get: {
       parameters: {
         query: {
-          user_id?: parameters["rowFilter.person_followers.user_id"];
-          follower_id?: parameters["rowFilter.person_followers.follower_id"];
-          created_at?: parameters["rowFilter.person_followers.created_at"];
-          username?: parameters["rowFilter.person_followers.username"];
-          avatar?: parameters["rowFilter.person_followers.avatar"];
-          details?: parameters["rowFilter.person_followers.details"];
+          user_id?: parameters['rowFilter.person_followers.user_id']
+          follower_id?: parameters['rowFilter.person_followers.follower_id']
+          created_at?: parameters['rowFilter.person_followers.created_at']
+          username?: parameters['rowFilter.person_followers.username']
+          avatar?: parameters['rowFilter.person_followers.avatar']
+          details?: parameters['rowFilter.person_followers.details']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["person_followers"][];
-        };
+          schema: definitions['person_followers'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
-  };
-  "/person_follows": {
+        206: unknown
+      }
+    }
+  }
+  '/person_follows': {
     get: {
       parameters: {
         query: {
-          user_id?: parameters["rowFilter.person_follows.user_id"];
-          follower_id?: parameters["rowFilter.person_follows.follower_id"];
-          created_at?: parameters["rowFilter.person_follows.created_at"];
-          username?: parameters["rowFilter.person_follows.username"];
-          avatar?: parameters["rowFilter.person_follows.avatar"];
-          details?: parameters["rowFilter.person_follows.details"];
+          user_id?: parameters['rowFilter.person_follows.user_id']
+          follower_id?: parameters['rowFilter.person_follows.follower_id']
+          created_at?: parameters['rowFilter.person_follows.created_at']
+          username?: parameters['rowFilter.person_follows.username']
+          avatar?: parameters['rowFilter.person_follows.avatar']
+          details?: parameters['rowFilter.person_follows.details']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["person_follows"][];
-        };
+          schema: definitions['person_follows'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
-  };
-  "/profiles": {
+        206: unknown
+      }
+    }
+  }
+  '/profiles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          username?: parameters["rowFilter.profiles.username"];
-          avatar?: parameters["rowFilter.profiles.avatar"];
-          details?: parameters["rowFilter.profiles.details"];
-          follow_count?: parameters["rowFilter.profiles.follow_count"];
-          follower_count?: parameters["rowFilter.profiles.follower_count"];
+          id?: parameters['rowFilter.profiles.id']
+          username?: parameters['rowFilter.profiles.username']
+          avatar?: parameters['rowFilter.profiles.avatar']
+          details?: parameters['rowFilter.profiles.details']
+          follow_count?: parameters['rowFilter.profiles.follow_count']
+          follower_count?: parameters['rowFilter.profiles.follower_count']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["profiles"][];
-        };
+          schema: definitions['profiles'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** profiles */
-          profiles?: definitions["profiles"];
-        };
+          profiles?: definitions['profiles']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          username?: parameters["rowFilter.profiles.username"];
-          avatar?: parameters["rowFilter.profiles.avatar"];
-          details?: parameters["rowFilter.profiles.details"];
-          follow_count?: parameters["rowFilter.profiles.follow_count"];
-          follower_count?: parameters["rowFilter.profiles.follower_count"];
-        };
+          id?: parameters['rowFilter.profiles.id']
+          username?: parameters['rowFilter.profiles.username']
+          avatar?: parameters['rowFilter.profiles.avatar']
+          details?: parameters['rowFilter.profiles.details']
+          follow_count?: parameters['rowFilter.profiles.follow_count']
+          follower_count?: parameters['rowFilter.profiles.follower_count']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          username?: parameters["rowFilter.profiles.username"];
-          avatar?: parameters["rowFilter.profiles.avatar"];
-          details?: parameters["rowFilter.profiles.details"];
-          follow_count?: parameters["rowFilter.profiles.follow_count"];
-          follower_count?: parameters["rowFilter.profiles.follower_count"];
-        };
+          id?: parameters['rowFilter.profiles.id']
+          username?: parameters['rowFilter.profiles.username']
+          avatar?: parameters['rowFilter.profiles.avatar']
+          details?: parameters['rowFilter.profiles.details']
+          follow_count?: parameters['rowFilter.profiles.follow_count']
+          follower_count?: parameters['rowFilter.profiles.follower_count']
+        }
         body: {
           /** profiles */
-          profiles?: definitions["profiles"];
-        };
+          profiles?: definitions['profiles']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/profiles_summary": {
+        204: never
+      }
+    }
+  }
+  '/profiles_summary': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles_summary.id"];
-          username?: parameters["rowFilter.profiles_summary.username"];
-          avatar?: parameters["rowFilter.profiles_summary.avatar"];
-          details?: parameters["rowFilter.profiles_summary.details"];
-          follower_count?: parameters["rowFilter.profiles_summary.follower_count"];
+          id?: parameters['rowFilter.profiles_summary.id']
+          username?: parameters['rowFilter.profiles_summary.username']
+          avatar?: parameters['rowFilter.profiles_summary.avatar']
+          details?: parameters['rowFilter.profiles_summary.details']
+          follower_count?: parameters['rowFilter.profiles_summary.follower_count']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["profiles_summary"][];
-        };
+          schema: definitions['profiles_summary'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** profiles_summary */
-          profiles_summary?: definitions["profiles_summary"];
-        };
+          profiles_summary?: definitions['profiles_summary']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles_summary.id"];
-          username?: parameters["rowFilter.profiles_summary.username"];
-          avatar?: parameters["rowFilter.profiles_summary.avatar"];
-          details?: parameters["rowFilter.profiles_summary.details"];
-          follower_count?: parameters["rowFilter.profiles_summary.follower_count"];
-        };
+          id?: parameters['rowFilter.profiles_summary.id']
+          username?: parameters['rowFilter.profiles_summary.username']
+          avatar?: parameters['rowFilter.profiles_summary.avatar']
+          details?: parameters['rowFilter.profiles_summary.details']
+          follower_count?: parameters['rowFilter.profiles_summary.follower_count']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles_summary.id"];
-          username?: parameters["rowFilter.profiles_summary.username"];
-          avatar?: parameters["rowFilter.profiles_summary.avatar"];
-          details?: parameters["rowFilter.profiles_summary.details"];
-          follower_count?: parameters["rowFilter.profiles_summary.follower_count"];
-        };
+          id?: parameters['rowFilter.profiles_summary.id']
+          username?: parameters['rowFilter.profiles_summary.username']
+          avatar?: parameters['rowFilter.profiles_summary.avatar']
+          details?: parameters['rowFilter.profiles_summary.details']
+          follower_count?: parameters['rowFilter.profiles_summary.follower_count']
+        }
         body: {
           /** profiles_summary */
-          profiles_summary?: definitions["profiles_summary"];
-        };
+          profiles_summary?: definitions['profiles_summary']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/replies": {
+        204: never
+      }
+    }
+  }
+  '/replies': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.replies.id"];
-          user_id?: parameters["rowFilter.replies.user_id"];
-          comment_id?: parameters["rowFilter.replies.comment_id"];
-          comment?: parameters["rowFilter.replies.comment"];
-          like_count?: parameters["rowFilter.replies.like_count"];
-          created_at?: parameters["rowFilter.replies.created_at"];
+          id?: parameters['rowFilter.replies.id']
+          user_id?: parameters['rowFilter.replies.user_id']
+          comment_id?: parameters['rowFilter.replies.comment_id']
+          comment?: parameters['rowFilter.replies.comment']
+          like_count?: parameters['rowFilter.replies.like_count']
+          created_at?: parameters['rowFilter.replies.created_at']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["replies"][];
-        };
+          schema: definitions['replies'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** replies */
-          replies?: definitions["replies"];
-        };
+          replies?: definitions['replies']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.replies.id"];
-          user_id?: parameters["rowFilter.replies.user_id"];
-          comment_id?: parameters["rowFilter.replies.comment_id"];
-          comment?: parameters["rowFilter.replies.comment"];
-          like_count?: parameters["rowFilter.replies.like_count"];
-          created_at?: parameters["rowFilter.replies.created_at"];
-        };
+          id?: parameters['rowFilter.replies.id']
+          user_id?: parameters['rowFilter.replies.user_id']
+          comment_id?: parameters['rowFilter.replies.comment_id']
+          comment?: parameters['rowFilter.replies.comment']
+          like_count?: parameters['rowFilter.replies.like_count']
+          created_at?: parameters['rowFilter.replies.created_at']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.replies.id"];
-          user_id?: parameters["rowFilter.replies.user_id"];
-          comment_id?: parameters["rowFilter.replies.comment_id"];
-          comment?: parameters["rowFilter.replies.comment"];
-          like_count?: parameters["rowFilter.replies.like_count"];
-          created_at?: parameters["rowFilter.replies.created_at"];
-        };
+          id?: parameters['rowFilter.replies.id']
+          user_id?: parameters['rowFilter.replies.user_id']
+          comment_id?: parameters['rowFilter.replies.comment_id']
+          comment?: parameters['rowFilter.replies.comment']
+          like_count?: parameters['rowFilter.replies.like_count']
+          created_at?: parameters['rowFilter.replies.created_at']
+        }
         body: {
           /** replies */
-          replies?: definitions["replies"];
-        };
+          replies?: definitions['replies']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/replies_likes": {
+        204: never
+      }
+    }
+  }
+  '/replies_likes': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.replies_likes.id"];
-          user_id?: parameters["rowFilter.replies_likes.user_id"];
-          replies_id?: parameters["rowFilter.replies_likes.replies_id"];
+          id?: parameters['rowFilter.replies_likes.id']
+          user_id?: parameters['rowFilter.replies_likes.user_id']
+          replies_id?: parameters['rowFilter.replies_likes.replies_id']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["replies_likes"][];
-        };
+          schema: definitions['replies_likes'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** replies_likes */
-          replies_likes?: definitions["replies_likes"];
-        };
+          replies_likes?: definitions['replies_likes']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.replies_likes.id"];
-          user_id?: parameters["rowFilter.replies_likes.user_id"];
-          replies_id?: parameters["rowFilter.replies_likes.replies_id"];
-        };
+          id?: parameters['rowFilter.replies_likes.id']
+          user_id?: parameters['rowFilter.replies_likes.user_id']
+          replies_id?: parameters['rowFilter.replies_likes.replies_id']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.replies_likes.id"];
-          user_id?: parameters["rowFilter.replies_likes.user_id"];
-          replies_id?: parameters["rowFilter.replies_likes.replies_id"];
-        };
+          id?: parameters['rowFilter.replies_likes.id']
+          user_id?: parameters['rowFilter.replies_likes.user_id']
+          replies_id?: parameters['rowFilter.replies_likes.replies_id']
+        }
         body: {
           /** replies_likes */
-          replies_likes?: definitions["replies_likes"];
-        };
+          replies_likes?: definitions['replies_likes']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/serverless_articles": {
+        204: never
+      }
+    }
+  }
+  '/serverless_articles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.serverless_articles.id"];
-          user_id?: parameters["rowFilter.serverless_articles.user_id"];
-          title?: parameters["rowFilter.serverless_articles.title"];
-          details?: parameters["rowFilter.serverless_articles.details"];
-          image?: parameters["rowFilter.serverless_articles.image"];
-          like_count?: parameters["rowFilter.serverless_articles.like_count"];
-          comment_count?: parameters["rowFilter.serverless_articles.comment_count"];
-          created_at?: parameters["rowFilter.serverless_articles.created_at"];
-          avatar?: parameters["rowFilter.serverless_articles.avatar"];
-          username?: parameters["rowFilter.serverless_articles.username"];
-          categories?: parameters["rowFilter.serverless_articles.categories"];
+          id?: parameters['rowFilter.serverless_articles.id']
+          user_id?: parameters['rowFilter.serverless_articles.user_id']
+          title?: parameters['rowFilter.serverless_articles.title']
+          details?: parameters['rowFilter.serverless_articles.details']
+          image?: parameters['rowFilter.serverless_articles.image']
+          like_count?: parameters['rowFilter.serverless_articles.like_count']
+          comment_count?: parameters['rowFilter.serverless_articles.comment_count']
+          created_at?: parameters['rowFilter.serverless_articles.created_at']
+          avatar?: parameters['rowFilter.serverless_articles.avatar']
+          username?: parameters['rowFilter.serverless_articles.username']
+          categories?: parameters['rowFilter.serverless_articles.categories']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["serverless_articles"][];
-        };
+          schema: definitions['serverless_articles'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
-  };
-  "/rpc/handle_user_search_more": {
+        206: unknown
+      }
+    }
+  }
+  '/rpc/handle_user_search_more': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: uuid */
-            uid: string;
+            uid: string
             /** Format: text */
-            word: string;
+            word: string
             /** Format: integer */
-            fcount: number;
-          };
-        };
+            fcount: number
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/handle_articles_search": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/handle_articles_search': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: text */
-            word: string;
-          };
-        };
+            word: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/handle_insert_articles": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/handle_insert_articles': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            qid: string;
+            qid: string
             /** Format: character varying */
-            details: string;
+            details: string
             /** Format: character varying */
-            title: string;
+            title: string
             /** Format: text */
-            image: string;
+            image: string
             /** Format: smallint[] */
-            categories: string;
-          };
-        };
+            categories: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/handle_articles_search_more": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/handle_articles_search_more': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: timestamp without time zone */
-            created: string;
+            created: string
             /** Format: integer */
-            lcount: number;
+            lcount: number
             /** Format: text */
-            word: string;
-          };
-        };
+            word: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/handle_user_search": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/handle_user_search': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: text */
-            word: string;
-          };
-        };
+            word: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
+        200: unknown
+      }
+    }
+  }
 }
 
 export interface definitions {
@@ -1375,434 +1375,434 @@ export interface definitions {
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: string;
+    id: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id: string;
+    user_id: string
     /** Format: character varying */
-    title: string;
+    title: string
     /** Format: character varying */
-    details: string;
+    details: string
     /** Format: text */
-    image?: string;
+    image?: string
     /**
      * Format: integer
      * @default 0
      */
-    like_count: number;
+    like_count: number
     /**
      * Format: integer
      * @default 0
      */
-    comment_count: number;
+    comment_count: number
     /**
      * Format: timestamp without time zone
      * @default now()
      */
-    created_at: string;
-  };
+    created_at: string
+  }
   categories: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: character varying
      * @description Note:
      * This is a Foreign Key to `articles.id`.<fk table='articles' column='id'/>
      */
-    articles_id: string;
+    articles_id: string
     /** Format: smallint */
-    category: number;
-  };
+    category: number
+  }
   comments: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id: string;
+    user_id: string
     /**
      * Format: character varying
      * @description Note:
      * This is a Foreign Key to `articles.id`.<fk table='articles' column='id'/>
      */
-    articles_id: string;
+    articles_id: string
     /** Format: character varying */
-    comment: string;
+    comment: string
     /**
      * Format: integer
      * @default 0
      */
-    reply_count: number;
+    reply_count: number
     /**
      * Format: timestamp without time zone
      * @default now()
      */
-    created_at: string;
+    created_at: string
     /**
      * Format: integer
      * @default 0
      */
-    like_count: number;
-  };
+    like_count: number
+  }
   comments_likes: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id?: string;
+    user_id?: string
     /**
      * Format: integer
      * @description Note:
      * This is a Foreign Key to `comments.id`.<fk table='comments' column='id'/>
      */
-    comment_id?: number;
-  };
+    comment_id?: number
+  }
   follows: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id: string;
+    user_id: string
     /** Format: uuid */
-    follower_id: string;
+    follower_id: string
     /**
      * Format: timestamp without time zone
      * @default now()
      */
-    created_at: string;
-  };
+    created_at: string
+  }
   front_articles: {
     /**
      * Format: character varying
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id?: string;
+    id?: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    user_id?: string;
+    user_id?: string
     /** Format: character varying */
-    title?: string;
+    title?: string
     /** Format: text */
-    details?: string;
+    details?: string
     /** Format: text */
-    image?: string;
+    image?: string
     /** Format: integer */
-    like_count?: number;
+    like_count?: number
     /** Format: integer */
-    comment_count?: number;
+    comment_count?: number
     /** Format: timestamp without time zone */
-    created_at?: string;
+    created_at?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: ARRAY */
-    categories?: unknown[];
-  };
+    categories?: unknown[]
+  }
   likes: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id?: string;
+    user_id?: string
     /**
      * Format: character varying
      * @description Note:
      * This is a Foreign Key to `articles.id`.<fk table='articles' column='id'/>
      */
-    articles_id?: string;
+    articles_id?: string
     /**
      * Format: timestamp without time zone
      * @default now()
      */
-    created_at: string;
-  };
+    created_at: string
+  }
   likes_articles: {
     /**
      * Format: character varying
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id?: string;
+    id?: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    user_id?: string;
+    user_id?: string
     /** Format: character varying */
-    title?: string;
+    title?: string
     /** Format: text */
-    details?: string;
+    details?: string
     /** Format: text */
-    image?: string;
+    image?: string
     /** Format: integer */
-    like_count?: number;
+    like_count?: number
     /** Format: integer */
-    comment_count?: number;
+    comment_count?: number
     /** Format: timestamp without time zone */
-    created_at?: string;
+    created_at?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: ARRAY */
-    categories?: unknown[];
+    categories?: unknown[]
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    likes_id?: number;
+    likes_id?: number
     /** Format: timestamp without time zone */
-    likes_created?: string;
+    likes_created?: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    likes_user?: string;
-  };
+    likes_user?: string
+  }
   person_articles: {
     /**
      * Format: character varying
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id?: string;
+    id?: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    user_id?: string;
+    user_id?: string
     /** Format: character varying */
-    title?: string;
+    title?: string
     /** Format: text */
-    details?: string;
+    details?: string
     /** Format: text */
-    image?: string;
+    image?: string
     /** Format: integer */
-    like_count?: number;
+    like_count?: number
     /** Format: integer */
-    comment_count?: number;
+    comment_count?: number
     /** Format: timestamp without time zone */
-    created_at?: string;
+    created_at?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: ARRAY */
-    categories?: unknown[];
-  };
+    categories?: unknown[]
+  }
   person_followers: {
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    user_id?: string;
+    user_id?: string
     /** Format: uuid */
-    follower_id?: string;
+    follower_id?: string
     /** Format: timestamp without time zone */
-    created_at?: string;
+    created_at?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: text */
-    details?: string;
-  };
+    details?: string
+  }
   person_follows: {
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    user_id?: string;
+    user_id?: string
     /** Format: uuid */
-    follower_id?: string;
+    follower_id?: string
     /** Format: timestamp without time zone */
-    created_at?: string;
+    created_at?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: text */
-    details?: string;
-  };
+    details?: string
+  }
   profiles: {
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: string;
+    id: string
     /**
      * Format: character varying
      * @default 新しいユーザー
      */
-    username: string;
+    username: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: character varying */
-    details?: string;
+    details?: string
     /**
      * Format: integer
      * @default 0
      */
-    follow_count: number;
+    follow_count: number
     /**
      * Format: integer
      * @default 0
      */
-    follower_count: number;
-  };
+    follower_count: number
+  }
   profiles_summary: {
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id?: string;
+    id?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: text */
-    details?: string;
+    details?: string
     /** Format: integer */
-    follower_count?: number;
-  };
+    follower_count?: number
+  }
   replies: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id: string;
+    user_id: string
     /**
      * Format: integer
      * @description Note:
      * This is a Foreign Key to `comments.id`.<fk table='comments' column='id'/>
      */
-    comment_id: number;
+    comment_id: number
     /** Format: character varying */
-    comment: string;
+    comment: string
     /**
      * Format: integer
      * @default 0
      */
-    like_count: number;
+    like_count: number
     /**
      * Format: timestamp without time zone
      * @default now()
      */
-    created_at: string;
-  };
+    created_at: string
+  }
   replies_likes: {
     /**
      * Format: integer
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    id: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      * @default auth.uid()
      */
-    user_id?: string;
+    user_id?: string
     /**
      * Format: integer
      * @description Note:
      * This is a Foreign Key to `replies.id`.<fk table='replies' column='id'/>
      */
-    replies_id?: number;
-  };
+    replies_id?: number
+  }
   serverless_articles: {
     /**
      * Format: character varying
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    id?: string;
+    id?: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    user_id?: string;
+    user_id?: string
     /** Format: character varying */
-    title?: string;
+    title?: string
     /** Format: text */
-    details?: string;
+    details?: string
     /** Format: text */
-    image?: string;
+    image?: string
     /** Format: integer */
-    like_count?: number;
+    like_count?: number
     /** Format: integer */
-    comment_count?: number;
+    comment_count?: number
     /** Format: timestamp without time zone */
-    created_at?: string;
+    created_at?: string
     /** Format: text */
-    avatar?: string;
+    avatar?: string
     /** Format: character varying */
-    username?: string;
+    username?: string
     /** Format: ARRAY */
-    categories?: unknown[];
-  };
+    categories?: unknown[]
+  }
 }
 
 export interface parameters {
@@ -1810,282 +1810,282 @@ export interface parameters {
    * @description Preference
    * @enum {string}
    */
-  preferParams: "params=single-object";
+  preferParams: 'params=single-object'
   /**
    * @description Preference
    * @enum {string}
    */
-  preferReturn: "return=representation" | "return=minimal" | "return=none";
+  preferReturn: 'return=representation' | 'return=minimal' | 'return=none'
   /**
    * @description Preference
    * @enum {string}
    */
-  preferCount: "count=none";
+  preferCount: 'count=none'
   /** @description Filtering Columns */
-  select: string;
+  select: string
   /** @description On Conflict */
-  on_conflict: string;
+  on_conflict: string
   /** @description Ordering */
-  order: string;
+  order: string
   /** @description Limiting and Pagination */
-  range: string;
+  range: string
   /**
    * @description Limiting and Pagination
    * @default items
    */
-  rangeUnit: string;
+  rangeUnit: string
   /** @description Limiting and Pagination */
-  offset: string;
+  offset: string
   /** @description Limiting and Pagination */
-  limit: string;
+  limit: string
   /** @description articles */
-  "body.articles": definitions["articles"];
+  'body.articles': definitions['articles']
   /** Format: character varying */
-  "rowFilter.articles.id": string;
+  'rowFilter.articles.id': string
   /** Format: uuid */
-  "rowFilter.articles.user_id": string;
+  'rowFilter.articles.user_id': string
   /** Format: character varying */
-  "rowFilter.articles.title": string;
+  'rowFilter.articles.title': string
   /** Format: character varying */
-  "rowFilter.articles.details": string;
+  'rowFilter.articles.details': string
   /** Format: text */
-  "rowFilter.articles.image": string;
+  'rowFilter.articles.image': string
   /** Format: integer */
-  "rowFilter.articles.like_count": string;
+  'rowFilter.articles.like_count': string
   /** Format: integer */
-  "rowFilter.articles.comment_count": string;
+  'rowFilter.articles.comment_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.articles.created_at": string;
+  'rowFilter.articles.created_at': string
   /** @description categories */
-  "body.categories": definitions["categories"];
+  'body.categories': definitions['categories']
   /** Format: integer */
-  "rowFilter.categories.id": string;
+  'rowFilter.categories.id': string
   /** Format: character varying */
-  "rowFilter.categories.articles_id": string;
+  'rowFilter.categories.articles_id': string
   /** Format: smallint */
-  "rowFilter.categories.category": string;
+  'rowFilter.categories.category': string
   /** @description comments */
-  "body.comments": definitions["comments"];
+  'body.comments': definitions['comments']
   /** Format: integer */
-  "rowFilter.comments.id": string;
+  'rowFilter.comments.id': string
   /** Format: uuid */
-  "rowFilter.comments.user_id": string;
+  'rowFilter.comments.user_id': string
   /** Format: character varying */
-  "rowFilter.comments.articles_id": string;
+  'rowFilter.comments.articles_id': string
   /** Format: character varying */
-  "rowFilter.comments.comment": string;
+  'rowFilter.comments.comment': string
   /** Format: integer */
-  "rowFilter.comments.reply_count": string;
+  'rowFilter.comments.reply_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.comments.created_at": string;
+  'rowFilter.comments.created_at': string
   /** Format: integer */
-  "rowFilter.comments.like_count": string;
+  'rowFilter.comments.like_count': string
   /** @description comments_likes */
-  "body.comments_likes": definitions["comments_likes"];
+  'body.comments_likes': definitions['comments_likes']
   /** Format: integer */
-  "rowFilter.comments_likes.id": string;
+  'rowFilter.comments_likes.id': string
   /** Format: uuid */
-  "rowFilter.comments_likes.user_id": string;
+  'rowFilter.comments_likes.user_id': string
   /** Format: integer */
-  "rowFilter.comments_likes.comment_id": string;
+  'rowFilter.comments_likes.comment_id': string
   /** @description follows */
-  "body.follows": definitions["follows"];
+  'body.follows': definitions['follows']
   /** Format: integer */
-  "rowFilter.follows.id": string;
+  'rowFilter.follows.id': string
   /** Format: uuid */
-  "rowFilter.follows.user_id": string;
+  'rowFilter.follows.user_id': string
   /** Format: uuid */
-  "rowFilter.follows.follower_id": string;
+  'rowFilter.follows.follower_id': string
   /** Format: timestamp without time zone */
-  "rowFilter.follows.created_at": string;
+  'rowFilter.follows.created_at': string
   /** @description front_articles */
-  "body.front_articles": definitions["front_articles"];
+  'body.front_articles': definitions['front_articles']
   /** Format: character varying */
-  "rowFilter.front_articles.id": string;
+  'rowFilter.front_articles.id': string
   /** Format: uuid */
-  "rowFilter.front_articles.user_id": string;
+  'rowFilter.front_articles.user_id': string
   /** Format: character varying */
-  "rowFilter.front_articles.title": string;
+  'rowFilter.front_articles.title': string
   /** Format: text */
-  "rowFilter.front_articles.details": string;
+  'rowFilter.front_articles.details': string
   /** Format: text */
-  "rowFilter.front_articles.image": string;
+  'rowFilter.front_articles.image': string
   /** Format: integer */
-  "rowFilter.front_articles.like_count": string;
+  'rowFilter.front_articles.like_count': string
   /** Format: integer */
-  "rowFilter.front_articles.comment_count": string;
+  'rowFilter.front_articles.comment_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.front_articles.created_at": string;
+  'rowFilter.front_articles.created_at': string
   /** Format: text */
-  "rowFilter.front_articles.avatar": string;
+  'rowFilter.front_articles.avatar': string
   /** Format: character varying */
-  "rowFilter.front_articles.username": string;
+  'rowFilter.front_articles.username': string
   /** Format: ARRAY */
-  "rowFilter.front_articles.categories": string;
+  'rowFilter.front_articles.categories': string
   /** @description likes */
-  "body.likes": definitions["likes"];
+  'body.likes': definitions['likes']
   /** Format: integer */
-  "rowFilter.likes.id": string;
+  'rowFilter.likes.id': string
   /** Format: uuid */
-  "rowFilter.likes.user_id": string;
+  'rowFilter.likes.user_id': string
   /** Format: character varying */
-  "rowFilter.likes.articles_id": string;
+  'rowFilter.likes.articles_id': string
   /** Format: timestamp without time zone */
-  "rowFilter.likes.created_at": string;
+  'rowFilter.likes.created_at': string
   /** @description likes_articles */
-  "body.likes_articles": definitions["likes_articles"];
+  'body.likes_articles': definitions['likes_articles']
   /** Format: character varying */
-  "rowFilter.likes_articles.id": string;
+  'rowFilter.likes_articles.id': string
   /** Format: uuid */
-  "rowFilter.likes_articles.user_id": string;
+  'rowFilter.likes_articles.user_id': string
   /** Format: character varying */
-  "rowFilter.likes_articles.title": string;
+  'rowFilter.likes_articles.title': string
   /** Format: text */
-  "rowFilter.likes_articles.details": string;
+  'rowFilter.likes_articles.details': string
   /** Format: text */
-  "rowFilter.likes_articles.image": string;
+  'rowFilter.likes_articles.image': string
   /** Format: integer */
-  "rowFilter.likes_articles.like_count": string;
+  'rowFilter.likes_articles.like_count': string
   /** Format: integer */
-  "rowFilter.likes_articles.comment_count": string;
+  'rowFilter.likes_articles.comment_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.likes_articles.created_at": string;
+  'rowFilter.likes_articles.created_at': string
   /** Format: text */
-  "rowFilter.likes_articles.avatar": string;
+  'rowFilter.likes_articles.avatar': string
   /** Format: character varying */
-  "rowFilter.likes_articles.username": string;
+  'rowFilter.likes_articles.username': string
   /** Format: ARRAY */
-  "rowFilter.likes_articles.categories": string;
+  'rowFilter.likes_articles.categories': string
   /** Format: integer */
-  "rowFilter.likes_articles.likes_id": string;
+  'rowFilter.likes_articles.likes_id': string
   /** Format: timestamp without time zone */
-  "rowFilter.likes_articles.likes_created": string;
+  'rowFilter.likes_articles.likes_created': string
   /** Format: uuid */
-  "rowFilter.likes_articles.likes_user": string;
+  'rowFilter.likes_articles.likes_user': string
   /** @description person_articles */
-  "body.person_articles": definitions["person_articles"];
+  'body.person_articles': definitions['person_articles']
   /** Format: character varying */
-  "rowFilter.person_articles.id": string;
+  'rowFilter.person_articles.id': string
   /** Format: uuid */
-  "rowFilter.person_articles.user_id": string;
+  'rowFilter.person_articles.user_id': string
   /** Format: character varying */
-  "rowFilter.person_articles.title": string;
+  'rowFilter.person_articles.title': string
   /** Format: text */
-  "rowFilter.person_articles.details": string;
+  'rowFilter.person_articles.details': string
   /** Format: text */
-  "rowFilter.person_articles.image": string;
+  'rowFilter.person_articles.image': string
   /** Format: integer */
-  "rowFilter.person_articles.like_count": string;
+  'rowFilter.person_articles.like_count': string
   /** Format: integer */
-  "rowFilter.person_articles.comment_count": string;
+  'rowFilter.person_articles.comment_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.person_articles.created_at": string;
+  'rowFilter.person_articles.created_at': string
   /** Format: text */
-  "rowFilter.person_articles.avatar": string;
+  'rowFilter.person_articles.avatar': string
   /** Format: character varying */
-  "rowFilter.person_articles.username": string;
+  'rowFilter.person_articles.username': string
   /** Format: ARRAY */
-  "rowFilter.person_articles.categories": string;
+  'rowFilter.person_articles.categories': string
   /** @description person_followers */
-  "body.person_followers": definitions["person_followers"];
+  'body.person_followers': definitions['person_followers']
   /** Format: uuid */
-  "rowFilter.person_followers.user_id": string;
+  'rowFilter.person_followers.user_id': string
   /** Format: uuid */
-  "rowFilter.person_followers.follower_id": string;
+  'rowFilter.person_followers.follower_id': string
   /** Format: timestamp without time zone */
-  "rowFilter.person_followers.created_at": string;
+  'rowFilter.person_followers.created_at': string
   /** Format: character varying */
-  "rowFilter.person_followers.username": string;
+  'rowFilter.person_followers.username': string
   /** Format: text */
-  "rowFilter.person_followers.avatar": string;
+  'rowFilter.person_followers.avatar': string
   /** Format: text */
-  "rowFilter.person_followers.details": string;
+  'rowFilter.person_followers.details': string
   /** @description person_follows */
-  "body.person_follows": definitions["person_follows"];
+  'body.person_follows': definitions['person_follows']
   /** Format: uuid */
-  "rowFilter.person_follows.user_id": string;
+  'rowFilter.person_follows.user_id': string
   /** Format: uuid */
-  "rowFilter.person_follows.follower_id": string;
+  'rowFilter.person_follows.follower_id': string
   /** Format: timestamp without time zone */
-  "rowFilter.person_follows.created_at": string;
+  'rowFilter.person_follows.created_at': string
   /** Format: character varying */
-  "rowFilter.person_follows.username": string;
+  'rowFilter.person_follows.username': string
   /** Format: text */
-  "rowFilter.person_follows.avatar": string;
+  'rowFilter.person_follows.avatar': string
   /** Format: text */
-  "rowFilter.person_follows.details": string;
+  'rowFilter.person_follows.details': string
   /** @description profiles */
-  "body.profiles": definitions["profiles"];
+  'body.profiles': definitions['profiles']
   /** Format: uuid */
-  "rowFilter.profiles.id": string;
+  'rowFilter.profiles.id': string
   /** Format: character varying */
-  "rowFilter.profiles.username": string;
+  'rowFilter.profiles.username': string
   /** Format: text */
-  "rowFilter.profiles.avatar": string;
+  'rowFilter.profiles.avatar': string
   /** Format: character varying */
-  "rowFilter.profiles.details": string;
+  'rowFilter.profiles.details': string
   /** Format: integer */
-  "rowFilter.profiles.follow_count": string;
+  'rowFilter.profiles.follow_count': string
   /** Format: integer */
-  "rowFilter.profiles.follower_count": string;
+  'rowFilter.profiles.follower_count': string
   /** @description profiles_summary */
-  "body.profiles_summary": definitions["profiles_summary"];
+  'body.profiles_summary': definitions['profiles_summary']
   /** Format: uuid */
-  "rowFilter.profiles_summary.id": string;
+  'rowFilter.profiles_summary.id': string
   /** Format: character varying */
-  "rowFilter.profiles_summary.username": string;
+  'rowFilter.profiles_summary.username': string
   /** Format: text */
-  "rowFilter.profiles_summary.avatar": string;
+  'rowFilter.profiles_summary.avatar': string
   /** Format: text */
-  "rowFilter.profiles_summary.details": string;
+  'rowFilter.profiles_summary.details': string
   /** Format: integer */
-  "rowFilter.profiles_summary.follower_count": string;
+  'rowFilter.profiles_summary.follower_count': string
   /** @description replies */
-  "body.replies": definitions["replies"];
+  'body.replies': definitions['replies']
   /** Format: integer */
-  "rowFilter.replies.id": string;
+  'rowFilter.replies.id': string
   /** Format: uuid */
-  "rowFilter.replies.user_id": string;
+  'rowFilter.replies.user_id': string
   /** Format: integer */
-  "rowFilter.replies.comment_id": string;
+  'rowFilter.replies.comment_id': string
   /** Format: character varying */
-  "rowFilter.replies.comment": string;
+  'rowFilter.replies.comment': string
   /** Format: integer */
-  "rowFilter.replies.like_count": string;
+  'rowFilter.replies.like_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.replies.created_at": string;
+  'rowFilter.replies.created_at': string
   /** @description replies_likes */
-  "body.replies_likes": definitions["replies_likes"];
+  'body.replies_likes': definitions['replies_likes']
   /** Format: integer */
-  "rowFilter.replies_likes.id": string;
+  'rowFilter.replies_likes.id': string
   /** Format: uuid */
-  "rowFilter.replies_likes.user_id": string;
+  'rowFilter.replies_likes.user_id': string
   /** Format: integer */
-  "rowFilter.replies_likes.replies_id": string;
+  'rowFilter.replies_likes.replies_id': string
   /** @description serverless_articles */
-  "body.serverless_articles": definitions["serverless_articles"];
+  'body.serverless_articles': definitions['serverless_articles']
   /** Format: character varying */
-  "rowFilter.serverless_articles.id": string;
+  'rowFilter.serverless_articles.id': string
   /** Format: uuid */
-  "rowFilter.serverless_articles.user_id": string;
+  'rowFilter.serverless_articles.user_id': string
   /** Format: character varying */
-  "rowFilter.serverless_articles.title": string;
+  'rowFilter.serverless_articles.title': string
   /** Format: text */
-  "rowFilter.serverless_articles.details": string;
+  'rowFilter.serverless_articles.details': string
   /** Format: text */
-  "rowFilter.serverless_articles.image": string;
+  'rowFilter.serverless_articles.image': string
   /** Format: integer */
-  "rowFilter.serverless_articles.like_count": string;
+  'rowFilter.serverless_articles.like_count': string
   /** Format: integer */
-  "rowFilter.serverless_articles.comment_count": string;
+  'rowFilter.serverless_articles.comment_count': string
   /** Format: timestamp without time zone */
-  "rowFilter.serverless_articles.created_at": string;
+  'rowFilter.serverless_articles.created_at': string
   /** Format: text */
-  "rowFilter.serverless_articles.avatar": string;
+  'rowFilter.serverless_articles.avatar': string
   /** Format: character varying */
-  "rowFilter.serverless_articles.username": string;
+  'rowFilter.serverless_articles.username': string
   /** Format: ARRAY */
-  "rowFilter.serverless_articles.categories": string;
+  'rowFilter.serverless_articles.categories': string
 }
 
 export interface operations {}

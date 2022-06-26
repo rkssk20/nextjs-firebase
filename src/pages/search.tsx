@@ -15,37 +15,40 @@ const Search = () => {
   const sorce = router.query.sorce
 
   const tab_list = [
-    { name: '投稿', url: `/search${ q ? `?q=${ q }` : '' }` },
-    { name: 'ユーザー', url: `/search?${ q ? `q=${ q }&` : '' }sorce=user` }
+    { name: '投稿', url: `/search${q ? `?q=${q}` : ''}` },
+    { name: 'ユーザー', url: `/search?${q ? `q=${q}&` : ''}sorce=user` },
   ]
 
   return (
-    <Layout
-      type='article'
-      title={ q ? q + 'の検索結果' : '検索' }
-      description=''
-      image=''
-    >
+    <Layout type='article' title={q ? q + 'の検索結果' : '検索'} description='' image=''>
       {/* 検索欄と検索履歴 */}
       <Input />
 
       {/* 検索対象の選択バー */}
-      <Bar tab_list={ tab_list } value={ Boolean(sorce) ? 1 : 0 } />
+      <Bar tab_list={tab_list} value={Boolean(sorce) ? 1 : 0} />
 
       {/* 検索結果一覧 */}
-      { q ? sorce ?  <UserSearch word={ q } /> : <ArticlesSearch word={ q } />
-        : sorce ? <UserNoWord /> : <ArticlesNoWord />
-      }
+      {q ? (
+        sorce ? (
+          <UserSearch word={q} />
+        ) : (
+          <ArticlesSearch word={q} />
+        )
+      ) : sorce ? (
+        <UserNoWord />
+      ) : (
+        <ArticlesNoWord />
+      )}
     </Layout>
   )
 }
 
 export default Search
 
-Search.getLayout = function getLayout (page: ReactElement) {
+Search.getLayout = function getLayout(page: ReactElement) {
   return (
     <>
-      { page }
+      {page}
       <Side />
     </>
   )

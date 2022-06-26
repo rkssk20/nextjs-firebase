@@ -22,56 +22,42 @@ const Post = ({ data, setRef }: PostProps) => {
   const router = useRouter()
 
   return (
-    <Card
-      className={ styles.card }
-      classes={{ root: styles.card_root }}
-      elevation={ 0 }
-    >
+    <Card className={styles.card} classes={{ root: styles.card_root }} elevation={0}>
       <CardActionArea
-        className={ styles.actionarea }
+        className={styles.actionarea}
         classes={{ root: styles.actionarea_root }}
-        ref={ setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined }
+        ref={setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined}
         component='div'
-        onClick={ () => router.push(`/article/${ data.id }`) }
+        onClick={() => router.push(`/article/${data.id}`)}
       >
         {/* ヘッダー */}
         <Header
-          id={ data.user_id }
-          username={ data.username }
-          avatar={ data.avatar }
-          created_at={  data.created_at }
+          id={data.user_id}
+          username={data.username}
+          avatar={data.avatar}
+          created_at={data.created_at}
         />
 
         {/* 画像 */}
-        { (data.image && (data.image.length > 0)) ?
-          <ArticleImage image={ data.image } />
-          :
-          <NoArticleImage title={ data.title } />
-        }
+        {data.image && data.image.length > 0 ? (
+          <ArticleImage image={data.image} />
+        ) : (
+          <NoArticleImage title={data.title} />
+        )}
 
         {/* タイトル、詳細、タグ */}
-        <Content
-          title={ data.title }
-          details={ data.details }
-          categories={ data.categories }
-        />
+        <Content title={data.title} details={data.details} categories={data.categories} />
 
         {/* 投稿時間、いいね、コメント数、詳細ボタン */}
         <Actions
-          like_count={ data.like_count }
-          comment_count={ data.comment_count }
-          setDialog={ setDialog }
+          like_count={data.like_count}
+          comment_count={data.comment_count}
+          setDialog={setDialog}
         />
       </CardActionArea>
 
       {/* 共有ダイアログ */}
-      { dialog &&
-        <Share
-          dialog={ dialog }
-          handleClose={ () => setDialog(false) }
-          path={ data.id }
-        />
-      }
+      {dialog && <Share dialog={dialog} handleClose={() => setDialog(false)} path={data.id} />}
     </Card>
   )
 }

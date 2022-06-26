@@ -1,5 +1,5 @@
-import { useMemo, useCallback, Dispatch, SetStateAction } from "react";
-import SimpleMde from "react-simplemde-editor";
+import { useMemo, useCallback, Dispatch, SetStateAction } from 'react'
+import SimpleMde from 'react-simplemde-editor'
 import 'easymde/dist/easymde.min.css'
 
 import styles from '@/styles/components/edit/markdown.module.scss'
@@ -25,10 +25,10 @@ const Markdown = ({ details, setDetails }: MarkdownProps) => {
 
   return (
     <SimpleMde
-      className={ styles.markdown }
-      options={ options }
-      value={ details }
-      onChange={ handleChange }
+      className={styles.markdown}
+      options={options}
+      value={details}
+      onChange={handleChange}
     />
   )
 }

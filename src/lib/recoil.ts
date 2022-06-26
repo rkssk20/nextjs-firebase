@@ -5,15 +5,15 @@ const { persistAtom } = recoilPersist()
 
 type AccountProps = {
   loading: boolean
-  data:{
+  data: {
     username: string
     avatar: string | undefined
   } | null
 }
 
 type NotificateProps = {
-  open: boolean;
-  message: string;
+  open: boolean
+  message: string
 }
 
 type DraftProps = {
@@ -27,8 +27,8 @@ export const accountState = atom<AccountProps>({
   key: 'account',
   default: {
     loading: true,
-    data: null
-  }
+    data: null,
+  },
 })
 
 // 通知
@@ -36,8 +36,8 @@ export const notificateState = atom<NotificateProps>({
   key: 'notificate',
   default: {
     open: false,
-    message: ''
-  }
+    message: '',
+  },
 })
 
 // 下書き
@@ -46,7 +46,7 @@ export const draftState = atom<DraftProps>({
   default: {
     title: '',
     details: '',
-    categories: []
+    categories: [],
   },
   effects_UNSTABLE: [persistAtom],
 })

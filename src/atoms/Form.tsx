@@ -8,7 +8,7 @@ import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 import styles from '@/styles/components/article/comment/form.module.scss'
 import InputBase from '@mui/material/InputBase'
 
-const Login = dynamic((import('@/components/dialog/Login')))
+const Login = dynamic(import('@/components/dialog/Login'))
 
 type FormProps = {
   children: ReactNode
@@ -22,29 +22,28 @@ export const LoginForm = ({ children, text, setText, name, placeholder }: FormPr
   const account = useRecoilValue(accountState)
 
   return (
-    <div className={ styles.field }>
+    <div className={styles.field}>
       <InputBase
-        className={ styles.input_base }
+        className={styles.input_base}
         classes={{
           root: styles.input_base_root,
-          input: styles.input_base_input
+          input: styles.input_base_input,
         }}
-        placeholder={ placeholder }
+        placeholder={placeholder}
         multiline
-        maxRows={ 5 }
+        maxRows={5}
         startAdornment={
-          account.data?.avatar ?
-          <AvatarIcon src={ account.data.avatar } variant='medium' />
-          :
-          <InitialIcon username={ name } variant='medium' />
+          account.data?.avatar ? (
+            <AvatarIcon src={account.data.avatar} variant='medium' />
+          ) : (
+            <InitialIcon username={name} variant='medium' />
+          )
         }
-        value={ text }
-        onChange={ (e) => setText(e.target.value) }
+        value={text}
+        onChange={(e) => setText(e.target.value)}
       />
-      
-      <div className={ styles.under }>
-        { children }
-      </div>
+
+      <div className={styles.under}>{children}</div>
     </div>
   )
 }
@@ -53,21 +52,21 @@ export const LogoutForm = ({ placeholder }: { placeholder: string }) => {
   const [dialog, setDialog] = useState(false)
 
   return (
-    <div className={ styles.field }>
+    <div className={styles.field}>
       <InputBase
-        className={ styles.input_base }
+        className={styles.input_base}
         classes={{
           root: styles.input_base_root,
-          input: styles.input_base_input
+          input: styles.input_base_input,
         }}
-        placeholder={ placeholder }
+        placeholder={placeholder}
         multiline
-        startAdornment={ <InitialIcon username='' variant='medium' /> }
-        onClick={ () => setDialog(true) }
+        startAdornment={<InitialIcon username='' variant='medium' />}
+        onClick={() => setDialog(true)}
       />
 
       {/* ログインダイアログ */}
-      { dialog && <Login dialog={ dialog } handleClose={ () => setDialog(false) } /> }
+      {dialog && <Login dialog={dialog} handleClose={() => setDialog(false)} />}
     </div>
   )
 }

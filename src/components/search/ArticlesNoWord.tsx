@@ -10,19 +10,18 @@ const ArticlesNoWord = () => {
 
   return (
     <React.Fragment>
-      { data && data.pages.map((page, page_index) => (
-        page.map((item, index) => (
-          <Post
-            key={ item.id }
-            data={ item }
-            setRef={
-              ((data.pages.length - 1) === page_index) && ((page.length - 1) === index) && setRef
-            }
-          />
-        ))
-      ))}
+      {data &&
+        data.pages.map((page, page_index) =>
+          page.map((item, index) => (
+            <Post
+              key={item.id}
+              data={item}
+              setRef={data.pages.length - 1 === page_index && page.length - 1 === index && setRef}
+            />
+          )),
+        )}
 
-      { isFetching && <Circular /> }
+      {isFetching && <Circular />}
     </React.Fragment>
   )
 }

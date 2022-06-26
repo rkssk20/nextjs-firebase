@@ -1,10 +1,10 @@
-import { ReactElement } from "react"
+import { ReactElement } from 'react'
 import NextLink from 'next/link'
-import { useRouter } from "next/router"
-import Introduction from "@/atoms/Introduction"
-import Layout from "@/components/provider/Layout"
+import { useRouter } from 'next/router'
+import Introduction from '@/atoms/Introduction'
+import Layout from '@/components/provider/Layout'
 import Side from '@/components/side/Side'
-import { ContainedButton } from "@/atoms/Button"
+import { ContainedButton } from '@/atoms/Button'
 
 import styles from '@/styles/pages/about.module.scss'
 import Typography from '@mui/material/Typography'
@@ -14,58 +14,37 @@ const About = () => {
   const router = useRouter()
 
   return (
-    <Layout
-      type='article'
-      title='このサイトについて'
-      description=''
-      image=''
-    >
+    <Layout type='article' title='このサイトについて' description='' image=''>
       <Introduction />
 
-      <Typography
-        className={ styles.title }
-        classes={{ root: styles.title_root }}
-        variant="h3"
-      >
+      <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
         技術選定
       </Typography>
 
       <NextLink href='/article/' passHref>
-        <MuiLink className={ styles.link }>
-          Next.js × Supabaseの技術選定
-        </MuiLink>
+        <MuiLink className={styles.link}>Next.js × Supabaseの技術選定</MuiLink>
       </NextLink>
 
-      <Typography
-        className={ styles.title }
-        classes={{ root: styles.title_root }}
-        variant="h3"
-      >
+      <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
         機能一覧
       </Typography>
 
       <NextLink href='/article/' passHref>
-        <MuiLink className={ styles.link }>
-          Next.js × Supabaseで実装した機能
-        </MuiLink>
+        <MuiLink className={styles.link}>Next.js × Supabaseで実装した機能</MuiLink>
       </NextLink>
 
-      <Typography
-        className={ styles.title }
-        classes={{ root: styles.title_root }}
-        variant='h3'
-      >
+      <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
         githubリポジトリ
       </Typography>
 
       <NextLink href='https://github.com/rkssk20/nextjs-supabase' passHref>
-        <MuiLink className={ styles.link } target='_blank'>
+        <MuiLink className={styles.link} target='_blank'>
           rkssk20/nextjs-supabase
         </MuiLink>
       </NextLink>
 
-      <div className={ styles.button }>
-        <ContainedButton text='かんたんログイン' handle={ () => router.push('/login')} />
+      <div className={styles.button}>
+        <ContainedButton text='かんたんログイン' handle={() => router.push('/login')} />
       </div>
     </Layout>
   )
@@ -73,10 +52,10 @@ const About = () => {
 
 export default About
 
-About.getLayout = function getLayout (page: ReactElement) {
+About.getLayout = function getLayout(page: ReactElement) {
   return (
     <div>
-      { page }
+      {page}
 
       <Side />
     </div>

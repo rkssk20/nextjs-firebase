@@ -14,29 +14,28 @@ type ResultType = {
 }
 
 const FetchData = async (pageParam: string | undefined, path: string) => {
-  const { data, error } = pageParam ?
-  // 初回読み込み
-  await supabase
-    .from<ResultType>('person_follows')
-    .select('follower_id, username, avatar, details')
-    .eq('user_id', path)
-    .order('created_at', {
-      ascending: false
-    })
-    .lt('created_at', pageParam)
-    .limit(10)
-  :
-  // 追加読み込み
-  await supabase
-    .from<ResultType>('person_follows')
-    .select('follower_id, username, avatar, details')
-    .eq('user_id', path)
-    .order('created_at', {
-      ascending: false
-    })
-    .limit(10)
+  const { data, error } = pageParam
+    ? // 初回読み込み
+      await supabase
+        .from<ResultType>('person_follows')
+        .select('follower_id, username, avatar, details')
+        .eq('user_id', path)
+        .order('created_at', {
+          ascending: false,
+        })
+        .lt('created_at', pageParam)
+        .limit(10)
+    : // 追加読み込み
+      await supabase
+        .from<ResultType>('person_follows')
+        .select('follower_id, username, avatar, details')
+        .eq('user_id', path)
+        .order('created_at', {
+          ascending: false,
+        })
+        .limit(10)
 
-  if(error) throw error
+  if (error) throw error
 
   console.log(data)
 
@@ -46,17 +45,20 @@ const FetchData = async (pageParam: string | undefined, path: string) => {
 const usePersonFollows = (path: string) => {
   const setNotificate = useSetRecoilState(notificateState)
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(['person_follows', path],
-    ({ pageParam }) => FetchData(pageParam, path), {
-      onError: error => {
+  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    ['person_follows', path],
+    ({ pageParam }) => FetchData(pageParam, path),
+    {
+      onError: (error) => {
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。'
+          message: 'エラーが発生しました。',
         })
 
-        console.log(error);
+        console.log(error)
       },
-      getNextPageParam: (lastPage) => (lastPage && (lastPage.length === 10)) ? lastPage[lastPage.length - 1].created_at : false
+      getNextPageParam: (lastPage) =>
+        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,
     },
   )
 

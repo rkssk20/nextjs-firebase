@@ -24,34 +24,29 @@ const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
 
   // 返信を送信
   const handlePost = () => {
-    if(isLoading) return
+    if (isLoading) return
     mutate(text)
     setFormOpen(false)
   }
 
   return (
-    <LoginForm
-      text={ text }
-      setText={ setText }
-      name={ username }
-      placeholder='返信する'
-    >
+    <LoginForm text={text} setText={setText} name={username} placeholder='返信する'>
       {/* キャンセルボタン */}
       <Button
-        className={ styles.cancel_button }
+        className={styles.cancel_button}
         classes={{ root: styles.cancel_button_root }}
         color='info'
-        onClick={ () => setFormOpen(false) }
+        onClick={() => setFormOpen(false)}
       >
         キャンセル
       </Button>
 
       {/* 送信ボタン */}
-      { Boolean(text) ?
-        <ContainedButton text='返信' handle={ handlePost } />
-        :
+      {Boolean(text) ? (
+        <ContainedButton text='返信' handle={handlePost} />
+      ) : (
         <DisabledButton text='返信' />
-      }
+      )}
     </LoginForm>
   )
 }
@@ -59,19 +54,12 @@ const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
 const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
   const account = useRecoilValue(accountState)
   console.log(account)
-  
-  // ログイン時
-  if(account.data) {
-    return (
-      <Login
-        path={ path }
-        id={ id }
-        setFormOpen={ setFormOpen }    
-        username={ account.data.username }
-      />
-    )
 
-  // ログアウト時
+  // ログイン時
+  if (account.data) {
+    return <Login path={path} id={id} setFormOpen={setFormOpen} username={account.data.username} />
+
+    // ログアウト時
   } else {
     return <LogoutForm placeholder='返信する' />
   }

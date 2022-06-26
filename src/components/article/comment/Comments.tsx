@@ -25,79 +25,72 @@ const Comments = ({ path, comments }: CommentsProps) => {
   return (
     <div>
       {/* タイトル */}
-      <Typography ref={ ref } className={ styles.title } variant='h6'>
+      <Typography ref={ref} className={styles.title} variant='h6'>
         コメント
-        { (comments > 0) &&
+        {comments > 0 && (
           <>
-            <span className={ styles.comments }>{ comments.toLocaleString() }</span>
-            件
+            <span className={styles.comments}>{comments.toLocaleString()}</span>件
           </>
-        }
+        )}
       </Typography>
 
       {/* コメントフォーム */}
-      <CommentForm path={ path } />
+      <CommentForm path={path} />
 
       {/* コメント欄 */}
-      { data && (data?.pages[0].length > 0) ? data.pages.map(pages => (
-        pages.map(item => (
-          <Card
-            key={ item.id }
-            id={ 'comment' + String(item.id) }
-            className={ styles.card }
-            elevation={ 0 }
-          >
-            {/* アカウント、投稿時間 */}
-            <Header
-              username={ item.profiles.username }
-              user_id={ item.user_id }
-              avatar={ item.profiles.avatar }
-              created_at={ item.created_at }
-            />
+      {data && data?.pages[0].length > 0
+        ? data.pages.map((pages) =>
+            pages.map((item) => (
+              <Card
+                key={item.id}
+                id={'comment' + String(item.id)}
+                className={styles.card}
+                elevation={0}
+              >
+                {/* アカウント、投稿時間 */}
+                <Header
+                  username={item.profiles.username}
+                  user_id={item.user_id}
+                  avatar={item.profiles.avatar}
+                  created_at={item.created_at}
+                />
 
-            {/* いいね、詳細ボタン */}
-            <Actions
-              path={ path }
-              id={ item.id }
-              user_id={ item.user_id }
-              comment={ item.comment }
-              like_count={ item.like_count }
-              comments_likes={ item.comments_likes }
-            />
+                {/* いいね、詳細ボタン */}
+                <Actions
+                  path={path}
+                  id={item.id}
+                  user_id={item.user_id}
+                  comment={item.comment}
+                  like_count={item.like_count}
+                  comments_likes={item.comments_likes}
+                />
 
-            {/* リプライ欄 */}
-            { (item.reply_count > 0) &&
-              <Replies
-                path={ path }
-                id={ item.id }
-                reply_count={ item.reply_count }
-              />
-            }
-          </Card>
-        ))
-      ))
-      :
-      !isFetching &&
-        <div className={ styles.empty_field }>
-          <Typography className={ styles.empty_text }>
-            まだコメントがありません。
-          </Typography>
-        </div>
-      }
+                {/* リプライ欄 */}
+                {item.reply_count > 0 && (
+                  <Replies path={path} id={item.id} reply_count={item.reply_count} />
+                )}
+              </Card>
+            )),
+          )
+        : !isFetching && (
+            <div className={styles.empty_field}>
+              <Typography className={styles.empty_text}>まだコメントがありません。</Typography>
+            </div>
+          )}
 
       {/* さらに表示ボタン */}
-      { (data && (data?.pages.length > 0 ) && !isFetching && hasNextPage) &&
+      {data && data?.pages.length > 0 && !isFetching && hasNextPage && (
         <Button
-          className={ styles.more_button }
+          className={styles.more_button}
           classes={{ root: styles.more_button_root }}
-          onClick={ () => fetchNextPage() }
+          onClick={() => fetchNextPage()}
         >
           さらに表示
         </Button>
-      }
+      )}
 
       {/* ローディング */}
-      { isFetching && <Circular /> }
+      {isFetching && <Circular />}
     </div>
   )
 }

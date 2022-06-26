@@ -4,7 +4,6 @@ const CreatedAt = (created_at: string) => {
 
   // 投稿されてから1時間以内は分表示
   if (elapsed < 3600000) {
-
     return (Math.floor(elapsed / 1000 / 60) % 60) + '分前'
 
     // 1日以内は時間

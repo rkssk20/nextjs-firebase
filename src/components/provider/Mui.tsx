@@ -10,7 +10,7 @@ import styles from '@/styles/components/provider/mui.module.scss'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Snackbar from '@mui/material/Snackbar'
 import Fade from '@mui/material/Fade'
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from '@mui/material/LinearProgress'
 
 interface MuiProps {
   children: ReactNode
@@ -51,17 +51,17 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#2b825b'
+        main: '#2b825b',
       },
       secondary: {
-        main: '#F8BBD0'
+        main: '#F8BBD0',
       },
       info: {
-        main: '#536471'
+        main: '#536471',
       },
       warning: {
-        main: '#F4212E'
-      }
+        main: '#F4212E',
+      },
     },
     typography: {
       fontFamily: [
@@ -75,7 +75,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
         'arial',
         'Hiragino Kaku Gothic ProN',
         'Meiryo',
-        'sans-serif'
+        'sans-serif',
       ].join(','),
       // 重要なタイトル (太字)
       h1: {
@@ -108,7 +108,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       // 少し大きいタイトル
       h6: {
         fontSize: 17,
-        color: '0F1419'
+        color: '0F1419',
       },
       // 少し大きい タグ、色付きリンク
       subtitle1: {
@@ -155,30 +155,28 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
   })
 
   return (
-    <ThemeProvider theme={ theme }>
+    <ThemeProvider theme={theme}>
       {/* 画面遷移の読み込みインジケーター */}
-      <Fade in={ progressOpen }>
+      <Fade in={progressOpen}>
         <LinearProgress
-          className={ styles.liner }
+          className={styles.liner}
           classes={{ root: styles.liner_root }}
-          variant="determinate"
-          value={ progress }
+          variant='determinate'
+          value={progress}
         />
       </Fade>
 
       {/* ヘッダー */}
-      <Header setHamburger={ setHamburger } />
+      <Header setHamburger={setHamburger} />
 
       {/* メインコンテンツ */}
-      <div className={ styles.container }>
-        { children }
-      </div>
+      <div className={styles.container}>{children}</div>
 
       {/* 通知 */}
       <Snackbar
-        open={ notificate.open }
-        onClose={ () => setNotificate({ open: false, message: '' }) }
-        message={ notificate.message }
+        open={notificate.open}
+        onClose={() => setNotificate({ open: false, message: '' })}
+        message={notificate.message}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
@@ -186,7 +184,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
       />
 
       {/* ハンバーガーメニュー */}
-      <Hamburger hamburger={ hamburger} setHamburger={ setHamburger } />
+      <Hamburger hamburger={hamburger} setHamburger={setHamburger} />
     </ThemeProvider>
   )
 }

@@ -10,12 +10,7 @@ import { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 const Home = () => {
   return (
-    <Layout
-      type='website'
-      title=''
-      description=''
-      image=''
-    >
+    <Layout type='website' title='' description='' image=''>
       {/* { data.map((item, index) => (
         <Post
           key={ item.id }
@@ -31,22 +26,22 @@ const Home = () => {
 
 export default Home
 
-Home.getLayout = function getLayout (page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
   return (
     <div>
-      { page }
+      {page}
 
       <Side />
     </div>
   )
 }
 
-Home.getLayout = function getLayout (page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
   return (
     <div>
       <Introduction />
 
-      { page }
+      {page}
     </div>
   )
 }

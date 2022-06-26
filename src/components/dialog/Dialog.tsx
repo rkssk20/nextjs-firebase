@@ -1,10 +1,10 @@
-import type { MouseEvent, ReactNode } from 'react';
-import usePopState from '@/hooks/atoms/usePopState';
+import type { MouseEvent, ReactNode } from 'react'
+import usePopState from '@/hooks/atoms/usePopState'
 
-import MuiDialog from '@mui/material/Dialog';
+import MuiDialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close'
 import DialogContent from '@mui/material/DialogContent'
 
 type Props = {
@@ -18,21 +18,14 @@ const Dialog = ({ dialog, handleClose, children }: Props) => {
   usePopState(() => handleClose())
 
   return (
-    <MuiDialog
-      open={ dialog }
-      fullWidth
-      maxWidth='sm'
-      onClose={ () => handleClose() }
-    >
+    <MuiDialog open={dialog} fullWidth maxWidth='sm' onClose={() => handleClose()}>
       <DialogTitle>
-        <IconButton aria-label='戻る' onClick={ () => handleClose() }>
+        <IconButton aria-label='戻る' onClick={() => handleClose()}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent>
-        { children } 
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
     </MuiDialog>
   )
 }

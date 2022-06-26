@@ -13,7 +13,7 @@ const useObserver = ({ hasNextPage, fetchNextPage }: Props) => {
     if (ref === null) return
 
     const observer = new IntersectionObserver(([entry]) => {
-      if(entry.isIntersecting) {
+      if (entry.isIntersecting) {
         hasNextPage && fetchNextPage()
       }
     })
