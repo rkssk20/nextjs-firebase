@@ -23,7 +23,7 @@ const Header = ({ user_id, avatar, name, created_at }: HeaderProps) => {
       <NextLink href={`/account/${user_id}`} passHref>
         <MuiLink underline='none'>
           { avatar ?
-            <AvatarIcon src={ avatar } variant='link' />
+            <AvatarIcon src={  process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar } variant='link' />
             :
             <InitialIcon username={name} variant='link' />
           }

@@ -4,12 +4,9 @@ https://nextjs-supabase.tk
 
 Next.js と Supabase を使用した技術ブログ風のポートフォリオです。
 
-今回の技術選定
-https://nextjs-supabase.tk
-
 ## 技術選定
 
----
+詳細は、[今回の技術選定](https://nextjs-supabase.tk)
 
 ### フロント
 
