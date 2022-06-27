@@ -7,6 +7,7 @@ import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/article/comment/form.module.scss'
 import InputBase from '@mui/material/InputBase'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const Login = dynamic(import('@/components/dialog/Login'))
 
@@ -63,7 +64,9 @@ export const LogoutForm = ({ placeholder }: { placeholder: string }) => {
         placeholder={placeholder}
         multiline
         disabled
-        startAdornment={<InitialIcon username='' variant='medium' />}
+        startAdornment={
+          <AccountCircleIcon />
+        }
         onClick={() => setDialog(true)}
       />
 
