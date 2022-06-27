@@ -72,6 +72,7 @@ const LoginContent = () => {
           className={styles.social}
           classes={{ root: styles.social_root }}
           variant='contained'
+          color='info'
           startIcon={<Image src={`/image/${item.src}`} width={40} height={40} quality={70} />}
           onClick={() => handleAuth(item.text)}
         >

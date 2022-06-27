@@ -26,7 +26,7 @@ const Categories = ({ categories, setCategories }: CategoriesProps) => {
       multiple
       displayEmpty
       value={categories}
-      color='info'
+      color={ undefined }
       renderValue={(selected) =>
         selected.length === 0 ? (
           <span className={styles.empty}>

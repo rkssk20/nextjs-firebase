@@ -52,7 +52,7 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
           className={styles.reply_button}
           classes={{ root: styles.reply_button_root }}
           variant='outlined'
-          color='info'
+          color='inherit'
           startIcon={<ChatBubbleOutlineIcon />}
           onClick={() => setFormOpen(true)}
         >

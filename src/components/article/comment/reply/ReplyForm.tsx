@@ -35,7 +35,7 @@ const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
       <Button
         className={styles.cancel_button}
         classes={{ root: styles.cancel_button_root }}
-        color='info'
+        color='inherit'
         onClick={() => setFormOpen(false)}
       >
         キャンセル

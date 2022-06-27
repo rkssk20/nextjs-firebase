@@ -39,7 +39,7 @@ export const LoginLike = ({ path, id, comments_likes }: LoginLikeProps) => {
       {comments_likes && comments_likes[0]?.id ? (
         <FavoriteIcon />
       ) : (
-        <FavoriteBorderIcon color='info' />
+        <FavoriteBorderIcon color='action' />
       )}
     </Like>
   )
@@ -53,7 +53,7 @@ export const LogoutLike = () => {
 
   return (
     <Like handle={() => setDialog(true)}>
-      <FavoriteBorderIcon color='info' />
+      <FavoriteBorderIcon color='action' />
     </Like>
   )
 }

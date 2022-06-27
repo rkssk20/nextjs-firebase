@@ -54,7 +54,7 @@ const ShowReplies = ({ path, id }: ShowReplyProps) => {
               className={styles.reply_button}
               style={{ marginLeft: 16, borderRadius: 9999, flexShrink: 0 }}
               variant='outlined'
-              color='info'
+              color='inherit'
               startIcon={<ChatBubbleOutlineIcon />}
               onClick={() => setFormOpen(true)}
             >

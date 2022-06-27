@@ -100,7 +100,7 @@ const Icon = ({ newUserName }: IconProps) => {
         className={styles.text_button}
         classes={{ root: styles.text_button_root }}
         onClick={handleCancel}
-        color='info'
+        color='inherit'
       >
         削除する
       </Button>

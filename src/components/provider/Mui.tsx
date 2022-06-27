@@ -57,7 +57,7 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
         main: '#F8BBD0',
       },
       info: {
-        main: '#536471',
+        main: '#e7e7e8',
       },
       warning: {
         main: '#F4212E',

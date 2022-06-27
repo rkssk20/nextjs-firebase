@@ -24,7 +24,7 @@ const Actions = ({ like_count, comment_count, setDialog }: ActionsProps) => {
   return (
     <div className={styles.actions}>
       {/* いいねアイコン */}
-      <FavoriteBorderIcon className={styles.favorite} color='info' />
+      <FavoriteBorderIcon className={styles.favorite} color='action' />
 
       {/* いいね数 */}
       <Typography variant='caption'>{like_count.toLocaleString()}</Typography>
