@@ -65,12 +65,6 @@ const Mui: NextPage<MuiProps> = ({ children }) => {
     },
     typography: {
       fontFamily: [
-        // 'Segoe UI',
-        // 'Meiryo',
-        // 'system-ui',
-        // '-apple-system',
-        // 'BlinkMacSystemFont',
-        // 'sans-serif',
         'Helvetica Neue',
         'arial',
         'Hiragino Kaku Gothic ProN',

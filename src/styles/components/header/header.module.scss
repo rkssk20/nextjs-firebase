@@ -16,7 +16,9 @@
 
 // ハンバーガーメニューのボタン
 .hamburger_button {
-  margin-right: var(--sm);
+  &.hamburger_button_root {
+    margin-right: var(--sm);
+  }
 }
 
 // タイトルのリンク全体

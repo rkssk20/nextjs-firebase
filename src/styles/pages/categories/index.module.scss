@@ -13,15 +13,15 @@
 
 // 各カテゴリボタン
 .button {
-  border-radius: 13px;
-  min-width: 150px;
-  min-height: 130px;
-  padding: var(--md);
-  margin: var(--md);
   &.button_root {
+    border-radius: 13px;
+    min-width: 150px;
+    min-height: 130px;
+    padding: var(--md);
+    margin: var(--md);
     flex-direction: column;
-    color: black;
     background-color: #e7e7e8;
+    color: black;
   }
   .button_start_icon {
     margin: 0 0 var(--sm);

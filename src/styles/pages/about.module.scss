@@ -18,7 +18,8 @@
 
 // アカウント作成ボタン
 .button {
-  margin-top: var(--xl);
-  margin-bottom: var(--xl);
-  text-align: center;
+  height: 102.25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

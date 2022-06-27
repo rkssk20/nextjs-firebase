@@ -33,6 +33,7 @@ const Header = ({ setHamburger }: { setHamburger: Dispatch<SetStateAction<boolea
         {/* ハンバーガーメニューアイコン */}
         <IconButton
           className={styles.hamburger_button}
+          classes={{ root: styles.hamburger_button_root}}
           aria-label='メニュー'
           edge='start'
           onClick={() => setHamburger(true)}

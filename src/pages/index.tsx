@@ -29,16 +29,6 @@ export default Home
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
     <div>
-      {page}
-
-      <Side />
-    </div>
-  )
-}
-
-Home.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <div>
       <Introduction />
 
       {page}

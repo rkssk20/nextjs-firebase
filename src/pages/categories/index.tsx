@@ -33,6 +33,7 @@ const Categories = () => {
               className={styles.button}
               classes={{
                 root: styles.button_root,
+                focusVisible: styles.button_focus,
                 startIcon: styles.button_start_icon,
               }}
               variant='contained'
