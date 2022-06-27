@@ -27,7 +27,7 @@ export const LoginForm = ({ children, text, setText, name, placeholder }: FormPr
         className={styles.input_base}
         classes={{
           root: styles.input_base_root,
-          input: styles.input_base_input,
+          input: styles.input_base_input
         }}
         placeholder={placeholder}
         multiline
@@ -58,9 +58,11 @@ export const LogoutForm = ({ placeholder }: { placeholder: string }) => {
         classes={{
           root: styles.input_base_root,
           input: styles.input_base_input,
+          disabled: styles.input_base_disabled
         }}
         placeholder={placeholder}
         multiline
+        disabled
         startAdornment={<InitialIcon username='' variant='medium' />}
         onClick={() => setDialog(true)}
       />

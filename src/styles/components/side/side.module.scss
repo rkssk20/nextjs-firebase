@@ -55,9 +55,6 @@
 .list_item {
   width: 100%;
   padding: var(--md);
-  @include utils.mq(md) {
-    padding: var(--sm);
-  }
 }
 
 // 画像全体

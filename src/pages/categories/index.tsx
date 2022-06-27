@@ -37,6 +37,7 @@ const Categories = () => {
                 startIcon: styles.button_start_icon,
               }}
               variant='contained'
+              color='info'
               disableElevation
               component='a'
               startIcon={
