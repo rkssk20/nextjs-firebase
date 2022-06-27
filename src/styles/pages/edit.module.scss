@@ -21,7 +21,9 @@
 
 // キャンセルボタン
 .cancel {
-  margin-right: auto;
+  &.cancel_root {
+    margin-right: auto;
+  }
 }
 
 // 中身全体

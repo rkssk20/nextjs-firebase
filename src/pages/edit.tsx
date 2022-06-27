@@ -75,7 +75,12 @@ const Edit = () => {
           </CardContent>
         ) : (
           <CardContent className={styles.header} classes={{ root: styles.header_root }}>
-            <IconButton className={styles.cancel} aria-label='戻る' onClick={() => router.back()}>
+            <IconButton
+              className={styles.cancel}
+              classes={{ root: styles.cancel_root }}
+              aria-label='戻る'
+              onClick={() => router.back()}
+            >
               <CloseIcon />
             </IconButton>
 

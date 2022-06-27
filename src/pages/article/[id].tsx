@@ -85,8 +85,8 @@ const Article = ({ item, path }: ArticleProps) => {
     <Layout
       type='article'
       title={item.title}
-      description={item.details}
-      image={item.image ? item.image : 'nextjssupabase'}
+      description={item.details.replace(/\_|\*|\\|\`|\#|\+|\-|\!|\{|\}|\[|\]/g, '').slice(0, 100)}
+      image={item.image ? (process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/' + item.image) : 'nextjssupabase'}
     >
       {/* 画像 */}
       {item.image ? <ArticleImage image={item.image} /> : <NoArtcileImage title={item.title} />}

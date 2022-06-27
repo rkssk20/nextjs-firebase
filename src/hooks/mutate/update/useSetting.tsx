@@ -58,8 +58,6 @@ const useSetting = ({ newUserName, newDetails }: Props) => {
         message: 'プロフィールを変更しました',
       })
 
-      if (existing?.username === newUserName) return
-
       // キャッシュがあるなら変更
       if (existing) {
         queryClient.setQueryData('profiles_details', {
