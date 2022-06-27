@@ -95,7 +95,12 @@ const Article = ({ item, path }: ArticleProps) => {
       <Title categories={item.categories} title={item.title} />
 
       {/* 投稿者、投稿日時 */}
-      <Header user_id={item.user_id} name={item.profiles.username} created_at={item.created_at} />
+      <Header
+        user_id={item.user_id}
+        avatar={ item.profiles.avatar }
+        name={item.profiles.username}
+        created_at={item.created_at}
+      />
 
       {/* 記事の詳細 */}
       <div className={styles.content}>

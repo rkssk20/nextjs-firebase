@@ -1,17 +1,20 @@
 import NextLink from 'next/link'
+import type { definitions } from '@/types/supabase'
 import InitialIcon from '@/atoms/Icon/InitialIcon'
+import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 
 import styles from '@/styles/components/article/header.module.scss'
 import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 interface HeaderProps {
-  user_id: string
-  name: string
-  created_at: string
+  user_id: definitions['articles']['user_id']
+  avatar: definitions['profiles']['avatar']
+  name: definitions['profiles']['username']
+  created_at: definitions['articles']['created_at']
 }
 
-const Header = ({ user_id, name, created_at }: HeaderProps) => {
+const Header = ({ user_id, avatar, name, created_at }: HeaderProps) => {
   const created = new Date(created_at)
 
   return (
@@ -19,7 +22,11 @@ const Header = ({ user_id, name, created_at }: HeaderProps) => {
       {/* アバター */}
       <NextLink href={`/account/${user_id}`} passHref>
         <MuiLink underline='none'>
-          <InitialIcon username={name} variant='link' />
+          { avatar ?
+            <AvatarIcon src={ avatar } variant='link' />
+            :
+            <InitialIcon username={name} variant='link' />
+          }
         </MuiLink>
       </NextLink>
 
