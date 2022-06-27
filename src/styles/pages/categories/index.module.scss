@@ -22,6 +22,9 @@
     flex-direction: column;
     background-color: #e7e7e8;
     color: black;
+    :hover {
+      background-color: rgb(161, 161, 162);
+    }
   }
   .button_start_icon {
     margin: 0 0 var(--sm);
