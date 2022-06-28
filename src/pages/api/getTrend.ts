@@ -45,7 +45,7 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     res.status(400).json({
       error: {
-        message: '接続エラー'
+        error
       }
     })
   }
