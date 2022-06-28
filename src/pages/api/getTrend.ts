@@ -45,7 +45,10 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     res.status(400).json({
       error: {
-        error
+        error,
+        email: process.env.NEXT_PUBLIC_GA_EMAIL,
+        key: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY?.replace("\\n", "\n"),
+        key_natural: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY
       }
     })
   }
