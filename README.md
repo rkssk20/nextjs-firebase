@@ -4,6 +4,8 @@ Next.js と Supabase を使用した技術ブログ風のポートフォリオ�
 
 [Next.js × Supabase](https://nextjs-supabase.tk)
 
+<br>
+
 ## 技術選定
 
 詳細は、[今回の技術選定](https://nextjs-supabase.tk)をご覧ください。
@@ -22,12 +24,14 @@ Next.js と Supabase を使用した技術ブログ風のポートフォリオ�
 
 ### ホスティング
 
-Vercel
+- Vercel
 
 ### その他
 
 - ESlint, Prettier
 - Google Analytics
+
+<br>
 
 ## 実装した機能
 

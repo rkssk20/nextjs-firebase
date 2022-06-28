@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import client from '@/lib/queryClient'
+import useGA from '@/hooks/useGA'
 import Mui from '@/components/provider/Mui'
 import Auth from '@/components/provider/Auth'
 
@@ -20,6 +21,7 @@ type AppPropsWithLayout = AppProps & {
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page)
+  useGA() 
 
   return (
     // recoil

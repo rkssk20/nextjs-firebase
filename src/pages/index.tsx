@@ -8,7 +8,15 @@ import Post from '@/components/post/Post'
 
 import { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
+
 const Home = () => {
+  useEffect(() => {
+    fetch(`/api/getTrend`)
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }, [])
+
   return (
     <Layout type='website' title='' description='' image=''>
       {/* { data.map((item, index) => (

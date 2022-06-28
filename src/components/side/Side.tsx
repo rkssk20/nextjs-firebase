@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
-import useTrend from '@/hooks/useTrend'
 
 import styles from '@/styles/components/side/side.module.scss'
 import List from '@mui/material/List'
@@ -13,12 +12,11 @@ import Button from '@mui/material/Button'
 import MuiLink from '@mui/material/Link'
 
 const Side = () => {
-  const { loading, data } = useTrend()
   const router = useRouter()
 
   return (
     <div className={styles.field}>
-      {loading ? null : (
+      {/* {loading ? null : (
         <List className={styles.list} classes={{ root: styles.list_root }}>
           <li className={styles.header}>
             <TrendingUpIcon />
@@ -58,7 +56,7 @@ const Side = () => {
                   secondaryTypographyProps={{ noWrap: true }}
                 />
               </ListItemButton>
-            ))}
+            ))} */}
 
           <NextLink href='/' passHref>
             <Button
@@ -69,8 +67,8 @@ const Side = () => {
               さらに表示
             </Button>
           </NextLink>
-        </List>
-      )}
+        {/* </List> */}
+      {/* )} */}
 
       {/* 最下部 */}
       <div className={styles.list_under}>

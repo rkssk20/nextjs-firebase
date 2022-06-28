@@ -74,7 +74,7 @@ const Comments = ({ path, comments }: CommentsProps) => {
           )
         : !isFetching && (
             <div className={styles.empty_field}>
-              <Typography className={styles.empty_text}>まだコメントがありません。</Typography>
+              <Typography variant='body1'>まだコメントがありません。</Typography>
             </div>
           )}
 

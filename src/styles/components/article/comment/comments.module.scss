@@ -16,13 +16,10 @@
 
 // コメントがない場合の全体
 .empty_field {
-  height: 163px;
+  height: 88px;
   display: flex;
-}
-
-// コメントがない場合のテキスト
-.empty_text {
-  margin: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 // さらに表示ボタン
