@@ -5,7 +5,7 @@ import { BetaAnalyticsDataClient } from '@google-analytics/data'
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
     client_email: process.env.NEXT_PUBLIC_GA_EMAIL,
-    private_key: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY?.replace("\\n", "\n")
+    private_key: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY?.replace(/\\n/g, '\n')
   }
 });
 
@@ -47,7 +47,7 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
       error: {
         error,
         email: process.env.NEXT_PUBLIC_GA_EMAIL,
-        key: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY?.replace("\\n", "\n"),
+        key: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY?.replace(/\\n/g, '\n'),
         key_natural: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY
       }
     })
