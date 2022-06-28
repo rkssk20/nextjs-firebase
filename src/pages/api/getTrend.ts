@@ -10,37 +10,45 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 });
 
 const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
-  const [response] = await analyticsDataClient.runReport({
-    property: `properties/${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_PROPERTY_ID}`,
-    dateRanges: [
-      {
-        startDate: '30daysAgo',
-        endDate: 'today',
-      },
-    ],
-    dimensions: [
-      {
-        name: 'pagePath',
-      },
-    ],
-    dimensionFilter: {
-      filter: {
-        stringFilter: {
-          value: 'article',
-          matchType: 'CONTAINS',
+  try {
+    const [response] = await analyticsDataClient.runReport({
+      property: `properties/${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_PROPERTY_ID}`,
+      dateRanges: [
+        {
+          startDate: '30daysAgo',
+          endDate: 'today',
         },
-        fieldName: 'pagePath',
+      ],
+      dimensions: [
+        {
+          name: 'pagePath',
+        },
+      ],
+      dimensionFilter: {
+        filter: {
+          stringFilter: {
+            value: 'article',
+            matchType: 'CONTAINS',
+          },
+          fieldName: 'pagePath',
+        },
       },
-    },
-    metrics: [{
-      name: "screenPageViews",
-    }],
-    limit: 5
-  })
+      metrics: [{
+        name: "screenPageViews",
+      }],
+      limit: 5
+    })
 
-  res.status(200).json({
-    response
-  })
+    res.status(200).json({
+      response
+    })
+  } catch (error) {
+    res.status(400).json({
+      error: {
+        message: '接続エラー'
+      }
+    })
+  }
 }
 
 export default getTrend
