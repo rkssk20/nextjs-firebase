@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { BetaAnalyticsDataClient } from '@google-analytics/data'
+// const credentialsJsonPath = '../credential.json'
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
@@ -41,10 +42,13 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({
       response
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       error: {
-        message: 'エラーが発生しました。'
+        error,
+        email: process.env.NEXT_PUBLIC_GA_EMAIL,
+        key: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        key_natural: process.env.NEXT_PUBLIC_GA_PRIVATE_KEY
       }
     })
   }
