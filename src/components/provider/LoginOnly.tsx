@@ -19,9 +19,7 @@ const LoginOnly: NextPage<Props> = ({ children }) => {
     if (supabase.auth.user()?.id) {
       setAuth(true)
     } else {
-      router
-        .push('/login')
-        .then(() => setNotificate({ open: true, message: 'ログインが必要です。' }))
+      router.push('/login').then(() => setNotificate({ open: true, message: 'ログインが必要です。' }))
     }
   }, [])
 
