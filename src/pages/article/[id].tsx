@@ -4,7 +4,8 @@ import RemarkDown from '@/lib/remarkDown'
 import { supabase } from '@/lib/supabaseClient'
 import ArticleImage from '@/atoms/Image/ArticleImage'
 import NoArtcileImage from '@/atoms/Image/NoArticleImage'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Title from '@/components/article/Title'
 import Header from '@/components/article/Header'
 import Share from '@/components/article/Share'
@@ -82,7 +83,7 @@ interface ArticleProps {
 
 const Article = ({ item, path }: ArticleProps) => {
   return (
-    <Layout
+    <ContainerLayout
       type='article'
       title={item.title}
       description={item.details.replace(/\_|\*|\\|\`|\#|\+|\-|\!|\{|\}|\[|\]/g, '').slice(0, 100)}
@@ -122,7 +123,7 @@ const Article = ({ item, path }: ArticleProps) => {
 
       {/* コメント欄 */}
       <Comments path={path} comments={item.comment_count} />
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -130,10 +131,10 @@ export default Article
 
 Article.getLayout = function getLayout(page: ReactElement) {
   return (
-    <div>
+    <PageLayout>
       {page}
 
       <Side />
-    </div>
+    </PageLayout>
   )
 }

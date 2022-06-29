@@ -3,7 +3,8 @@ import useCategoriesArticles from '@/hooks/select/useCategoriesArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Header from '@/components/categories/Header'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Post from '@/components/post/Post'
 import Side from '@/components/side/Side'
 
@@ -12,7 +13,12 @@ const Serverless = () => {
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   return (
-    <Layout type='article' title='フロント' description='' image=''>
+    <ContainerLayout
+      type='article'
+      title='フロント'
+      description=''
+      image=''
+    >
       <Header text='サーバーレス' url='serverless' />
 
       {/* 投稿一覧 */}
@@ -29,17 +35,18 @@ const Serverless = () => {
 
       {/* 読み込み中 */}
       {isFetching && <Circular />}
-    </Layout>
+    </ContainerLayout>
   )
 }
 
 export default Serverless
 
-Serverless.getLayout = function getLayout(page: ReactElement) {
+Serverless.getLayout = function getLayout (page: ReactElement) {
   return (
-    <>
-      {page}
+    <PageLayout>
+      { page }
+
       <Side />
-    </>
+    </PageLayout>
   )
 }

@@ -5,7 +5,8 @@ import dynamic from 'next/dynamic'
 import { draftState } from '@/lib/recoil'
 import useInsertArticles from '@/hooks/mutate/insert/useInsertArticles'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
-import Layout from '@/components/provider/Layout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
+import PageLayout from '@/components/provider/PageLayout'
 import LoginOnly from '@/components/provider/LoginOnly'
 import Categories from '@/components/edit/Categories'
 import Image from '@/components/edit/Image'
@@ -22,13 +23,14 @@ import CircularProgress from '@mui/material/CircularProgress'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Edit = () => {
-  const [draft, setDraft] = useRecoilState(draftState)
   const [title, setTitle] = useState('')
   const [details, setDetails] = useState('')
   const [categories, setCategories] = useState<number[]>([])
   const [image, setImage] = useState<Blob | null>(null)
-  const router = useRouter()
+  const [draft, setDraft] = useRecoilState(draftState)
   const { mutate, isLoading } = useInsertArticles()
+  const router = useRouter()
+  const tablet = useMediaQuery('(min-width: 768px)')
 
   const ImageMemo = useMemo(() => <Image image={image} setImage={setImage} />, [image])
 
@@ -67,7 +69,7 @@ const Edit = () => {
   }
 
   return (
-    <Layout type='article' title='記事の作成' description='' image=''>
+    <ContainerLayout type='article' title='記事の作成' description='' image=''>
       <LoginOnly>
         {isLoading ? (
           <CardContent className={styles.header} classes={{ root: styles.header_root }}>
@@ -115,20 +117,33 @@ const Edit = () => {
           {/* 本文 */}
           <Markdown details={details} setDetails={setDetails} />
         </CardContent>
+
+        {/* サイド */}
+        { tablet && <Side /> }
       </LoginOnly>
-    </Layout>
+    </ContainerLayout>
   )
 }
 
 export default Edit
 
-Edit.getLayout = function getLayout(page: ReactElement) {
-  const md = useMediaQuery('(min-width: 768px)')
+// タブレットサイズ以上でサイドを表示
+const MediaQuery = () => {
+  const tablet = useMediaQuery('(min-width: 768px)')
 
+  if(tablet) {
+    return <Side />
+  } else {
+    return null
+  }
+}
+
+Edit.getLayout = function getLayout (page: ReactElement) {
   return (
-    <>
+    <PageLayout>
       {page}
-      {md && <Side />}
-    </>
+
+      <MediaQuery />
+    </PageLayout>
   )
 }

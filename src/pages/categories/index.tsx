@@ -1,7 +1,8 @@
 import type { ReactElement } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/categories/index.module.scss'
@@ -21,7 +22,12 @@ const Categories = () => {
   ]
 
   return (
-    <Layout type='article' title='' description='' image=''>
+    <ContainerLayout
+      type='article'
+      title=''
+      description=''
+      image=''
+    >
       <Typography className={styles.title} variant='h3'>
         カテゴリ一覧
       </Typography>
@@ -55,7 +61,7 @@ const Categories = () => {
           </Link>
         ))}
       </div>
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -63,9 +69,9 @@ export default Categories
 
 Categories.getLayout = function getLayout(page: ReactElement) {
   return (
-    <>
+    <PageLayout>
       {page}
       <Side />
-    </>
+    </PageLayout>
   )
 }

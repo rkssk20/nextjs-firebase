@@ -1,9 +1,11 @@
+import type { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/supabaseClient'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import LoginContent from '@/atoms/LoginContent'
-import Layout from '@/components/provider/Layout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
+import PageLayout from '@/components/provider/PageLayout'
 
 import DialogContent from '@mui/material/DialogContent'
 
@@ -24,13 +26,21 @@ const Login = () => {
     // ログアウト時
   } else {
     return (
-      <Layout type='article' title='' description='' image=''>
+      <ContainerLayout type='article' title='' description='' image=''>
         <DialogContent>
           <LoginContent />
         </DialogContent>
-      </Layout>
+      </ContainerLayout>
     )
   }
 }
 
 export default Login
+
+Login.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <PageLayout>
+      {page}
+    </PageLayout>
+  )
+}

@@ -6,10 +6,11 @@ import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import client from '@/lib/queryClient'
 import useGA from '@/hooks/useGA'
-import Mui from '@/components/provider/Mui'
+import theme from '@/components/provider/Mui'
 import Auth from '@/components/provider/Auth'
 
 import '@/styles/globals.scss'
+import {ThemeProvider} from '@mui/material/styles'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -30,11 +31,11 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       <QueryClientProvider client={client}>
         <Auth>
           {/* Mui */}
-          <Mui>
+          <ThemeProvider theme={ theme }>
             {getLayout(<Component {...pageProps} />)}
 
             <ReactQueryDevtools initialIsOpen={false} />
-          </Mui>
+          </ThemeProvider>
         </Auth>
       </QueryClientProvider>
     </RecoilRoot>

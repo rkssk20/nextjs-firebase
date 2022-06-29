@@ -1,7 +1,8 @@
 import type { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import Bar from '@/atoms/Bar'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Input from '@/components/search/Input'
 import ArticlesNoWord from '@/components/search/ArticlesNoWord'
 import UserNoWord from '@/components/search/UserNoWord'
@@ -20,7 +21,12 @@ const Search = () => {
   ]
 
   return (
-    <Layout type='article' title={q ? q + 'の検索結果' : '検索'} description='' image=''>
+    <ContainerLayout
+      type='article'
+      title={q ? q + 'の検索結果' : '検索'}
+      description=''
+      image=''
+    >
       {/* 検索欄と検索履歴 */}
       <Input />
 
@@ -39,7 +45,7 @@ const Search = () => {
       ) : (
         <ArticlesNoWord />
       )}
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -47,9 +53,10 @@ export default Search
 
 Search.getLayout = function getLayout(page: ReactElement) {
   return (
-    <>
+    <PageLayout>
       {page}
+      
       <Side />
-    </>
+    </PageLayout>
   )
 }

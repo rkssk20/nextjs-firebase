@@ -1,10 +1,11 @@
 import { ReactElement } from 'react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
-import Introduction from '@/atoms/Introduction'
-import Layout from '@/components/provider/Layout'
-import Side from '@/components/side/Side'
 import { ContainedButton } from '@/atoms/Button'
+import Introduction from '@/atoms/Introduction'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
+import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/about.module.scss'
 import Typography from '@mui/material/Typography'
@@ -14,7 +15,12 @@ const About = () => {
   const router = useRouter()
 
   return (
-    <Layout type='article' title='このサイトについて' description='' image=''>
+    <ContainerLayout
+      type='article'
+      title='このサイトについて'
+      description=''
+      image=''
+    >
       <Introduction />
 
       <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
@@ -46,7 +52,7 @@ const About = () => {
       <div className={styles.button}>
         <ContainedButton text='かんたんログイン' handle={() => router.push('/login')} />
       </div>
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -54,10 +60,10 @@ export default About
 
 About.getLayout = function getLayout(page: ReactElement) {
   return (
-    <div>
+    <PageLayout>
       {page}
 
       <Side />
-    </div>
+    </PageLayout>
   )
 }

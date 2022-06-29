@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import type { GetStaticProps, GetStaticPaths } from 'next'
+import type { GetServerSideProps } from 'next'
 import Side from '@/components/side/Side'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
@@ -7,13 +7,14 @@ import usePersonArticles from '@/hooks/select/usePersonArticles'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Empty from '@/atoms/Empty'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Profile from '@/components/account/Profile'
 import Bar from '@/components/account/Bar'
 import Post from '@/components/post/Post'
 
 // ISR
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const id = params?.id
 
   if (!id || typeof id !== 'string') return { notFound: true }
@@ -31,19 +32,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         item: data,
         path: id,
-      },
-      // 5分キャッシュ
-      revalidate: 300,
+      }
     }
   } catch {
     return { notFound: true }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
   }
 }
 
@@ -57,7 +49,12 @@ const Account = ({ item, path }: AccountProps) => {
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   return (
-    <Layout type='profile' title={item.username} description={item.details || ''} image=''>
+    <ContainerLayout
+      type='profile'
+      title={item.username}
+      description={item.details || ''}
+      image=''
+    >
       {/* アカウント情報 */}
       <Profile path={path} item={item} />
 
@@ -78,7 +75,7 @@ const Account = ({ item, path }: AccountProps) => {
         : !isFetching && <Empty text='まだ投稿がありません' />}
 
       {isFetching && <Circular />}
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -86,9 +83,9 @@ export default Account
 
 Account.getLayout = function getLayout(page: ReactElement) {
   return (
-    <>
+    <PageLayout>
       {page}
       <Side />
-    </>
+    </PageLayout>
   )
 }

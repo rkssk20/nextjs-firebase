@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import styles from '@/styles/components/provider/layout.module.scss'
+import styles from '@/styles/components/provider/containerLayout.module.scss'
 
 type Props = {
   type: 'website' | 'article' | 'profile'
@@ -12,7 +12,7 @@ type Props = {
   children: ReactNode
 }
 
-const Layout: NextPage<Props> = ({ type, title, description, image, children }) => {
+const ContainerLayout: NextPage<Props> = ({ type, title, description, image, children }) => {
   const ogpTitle = title ? title + ' | Next.js × Supabase' : 'Next.js × Supabase'
   const ogpDescription = description
     ? description
@@ -22,7 +22,7 @@ const Layout: NextPage<Props> = ({ type, title, description, image, children }) 
     : `${process.env.NEXT_PUBLIC_STORAGE_URL}/nextjssupabase.png`
 
   return (
-    <>
+    <div className={styles.container}>
       <Head>
         {/* ページのタイトル */}
         <title>{ogpTitle}</title>
@@ -49,15 +49,14 @@ const Layout: NextPage<Props> = ({ type, title, description, image, children }) 
         {/* Twitterカードの説明文 */}
         <meta name='twitter:description' content={ogpDescription} />
         {/* Twitterカードの画像 */}
-
+        <meta name='twitter:image' content={ogpImageUrl} />
         {/* Twitterアカウント */}
         <meta name='twitter:site' content='' />
-        <meta name='twitter:image' content={ogpImageUrl} />
       </Head>
 
-      <div className={styles.container}>{children}</div>
-    </>
+      {children}
+    </div>
   )
 }
 
-export default Layout
+export default ContainerLayout

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
@@ -13,6 +14,13 @@ import MuiLink from '@mui/material/Link'
 
 const Side = () => {
   const router = useRouter()
+
+  useEffect(() => {
+    fetch(`/api/getTrend`)
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }, [])
 
   return (
     <div className={styles.field}>

@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import type { GetStaticProps, GetStaticPaths } from 'next'
+import type { GetServerSideProps } from 'next'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import useLikesArticles from '@/hooks/select/useLikesArticles'
@@ -7,13 +7,14 @@ import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Empty from '@/atoms/Empty'
 import Side from '@/components/side/Side'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Profile from '@/components/account/Profile'
 import Bar from '@/components/account/Bar'
 import Post from '@/components/post/Post'
 
 // ISR
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const id = params?.id
 
   if (typeof id !== 'string') return { notFound: true }
@@ -31,19 +32,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         item: data,
         path: id,
-      },
-      // 5分キャッシュ
-      revalidate: 300,
+      }
     }
   } catch {
     return { notFound: true }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
   }
 }
 
@@ -57,7 +49,7 @@ const Likes = ({ item, path }: AccountProps) => {
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   return (
-    <Layout
+    <ContainerLayout
       type='profile'
       title={item.username + 'がいいねした投稿一覧'}
       description={item.details || ''}
@@ -83,7 +75,7 @@ const Likes = ({ item, path }: AccountProps) => {
         : !isFetching && <Empty text='まだいいねした投稿がありません' />}
 
       {isFetching && <Circular />}
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -91,10 +83,10 @@ export default Likes
 
 Likes.getLayout = function getLayout(page: ReactElement) {
   return (
-    <div>
+    <PageLayout>
       {page}
 
       <Side />
-    </div>
+    </PageLayout>
   )
 }

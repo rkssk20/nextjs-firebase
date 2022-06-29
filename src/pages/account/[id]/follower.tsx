@@ -1,44 +1,40 @@
 import type { ReactElement } from 'react'
-import type { GetStaticProps, GetStaticPaths } from 'next'
+import type { GetServerSideProps } from 'next'
 import type { definitions } from '@/types/supabase'
 import { supabase } from '@/lib/supabaseClient'
 import usePersonFollowers from '@/hooks/select/usePersonFollowers'
 import useObserver from '@/hooks/atoms/useObserver'
 import Circular from '@/atoms/Circular'
 import Empty from '@/atoms/Empty'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Header from '@/components/account/follow/Header'
 import Account from '@/components/account/follow/Account'
 import Side from '@/components/side/Side'
 
 // ISR
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const id = params?.id
 
   if (typeof id !== 'string') return { notFound: true }
 
-  const { data, error } = await supabase
-    .from<definitions['profiles']>('profiles')
-    .select('username, avatar, details')
-    .eq('id', id)
-    .single()
-
-  if (error || !data) return { notFound: true }
-
-  return {
-    props: {
-      item: data,
-      path: id,
-    },
-    // 5分キャッシュ
-    revalidate: 300,
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
+  try {
+    const { data, error } = await supabase
+      .from<definitions['profiles']>('profiles')
+      .select('username, avatar, details')
+      .eq('id', id)
+      .single()
+  
+    if (error || !data) return { notFound: true }
+  
+    return {
+      props: {
+        item: data,
+        path: id,
+      }
+    }
+  } catch {
+    return { notFound: true }
   }
 }
 
@@ -52,7 +48,7 @@ const Follower = ({ item, path }: FollowerProps) => {
   const setRef = useObserver({ hasNextPage, fetchNextPage })
 
   return (
-    <Layout
+    <ContainerLayout
       type='profile'
       title={item.username + 'のフォロワー一覧'}
       description={item.details || ''}
@@ -78,7 +74,7 @@ const Follower = ({ item, path }: FollowerProps) => {
         : !isFetching && <Empty text='まだフォローされていません。' />}
 
       {isFetching && <Circular />}
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -86,9 +82,9 @@ export default Follower
 
 Follower.getLayout = function getLayout(page: ReactElement) {
   return (
-    <>
+    <PageLayout>
       {page}
       <Side />
-    </>
+    </PageLayout>
   )
 }

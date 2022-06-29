@@ -2,7 +2,8 @@ import { ReactElement, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/account/withdrawal.module.scss'
@@ -17,7 +18,12 @@ const Withdrawal = () => {
   const list = ['アカウントデータ', '記事、コメント', '記事、コメントへのいいね']
 
   return (
-    <Layout type='profile' title='アカウント削除 ' description='' image=''>
+    <ContainerLayout
+      type='profile'
+      title='アカウント削除'
+      description=''
+      image=''
+    >
       <div className={styles.field}>
         <Typography className={styles.title} variant='h3'>
           アカウントを削除しますか?
@@ -45,7 +51,7 @@ const Withdrawal = () => {
           <DisabledButton text='削除する' />
         )}
       </div>
-    </Layout>
+    </ContainerLayout>
   )
 }
 
@@ -53,9 +59,10 @@ export default Withdrawal
 
 Withdrawal.getLayout = function getLayout(page: ReactElement) {
   return (
-    <>
+    <PageLayout>
       {page}
+      
       <Side />
-    </>
+    </PageLayout>
   )
 }

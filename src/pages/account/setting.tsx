@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import NextLink from 'next/link'
-import Layout from '@/components/provider/Layout'
+import PageLayout from '@/components/provider/PageLayout'
+import ContainerLayout from '@/components/provider/ContainerLayout'
 import LoginOnly from '@/components/provider/LoginOnly'
 import Input from '@/components/account/setting/Input'
 import Side from '@/components/side/Side'
@@ -13,33 +14,45 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Setting = () => {
   return (
-    <Layout type='article' title='設定' description='' image=''>
-      <DialogContent>
-        <Input />
+    <ContainerLayout type='article' title='設定' description='' image=''>
+      <LoginOnly>
+        <DialogContent>
+          <Input />
 
-        <Divider className={styles.divider} classes={{ root: styles.divider_root }} />
+          <Divider className={styles.divider} classes={{ root: styles.divider_root }} />
 
-        <NextLink href='/account/withdrawal' passHref>
-          <MuiLink variant='caption' color='gray' underline='hover'>
-            退会する
-          </MuiLink>
-        </NextLink>
+          <NextLink href='/account/withdrawal' passHref>
+            <MuiLink variant='caption' color='gray' underline='hover'>
+              退会する
+            </MuiLink>
+          </NextLink>
 
-        <Divider className={styles.under_divider} />
-      </DialogContent>
-    </Layout>
+          <Divider className={styles.under_divider} />
+        </DialogContent>
+      </LoginOnly>
+    </ContainerLayout>
   )
 }
 
 export default Setting
 
+const MediaQuery = () => {
+  const tablet = useMediaQuery('(min-width: 768px)')
+
+  if(tablet) {
+    return <Side />
+  } else {
+    return null
+  }
+}
+
 Setting.getLayout = function getLayout(page: ReactElement) {
-  const md = useMediaQuery('(min-width: 768px)')
 
   return (
-    <LoginOnly>
+    <PageLayout>
       {page}
-      {md && <Side />}
-    </LoginOnly>
+      
+      <MediaQuery />
+    </PageLayout>
   )
 }
