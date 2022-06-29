@@ -13,7 +13,6 @@ import Profile from '@/components/account/Profile'
 import Bar from '@/components/account/Bar'
 import Post from '@/components/post/Post'
 
-// ISR
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const id = params?.id
 

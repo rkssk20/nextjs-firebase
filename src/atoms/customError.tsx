@@ -10,7 +10,11 @@ const CustomError = ({ status }: { status: '404' | '500' }) => {
 
       <div className={styles.text_field}>
         <Typography variant='h5'>{status}</Typography>
-        <Typography className={styles.text} variant='h6'>
+        <Typography
+          className={styles.text}
+          classes={{ root: styles.text_root }}
+          variant='h6'
+        >
           このページは存在しません
         </Typography>
       </div>

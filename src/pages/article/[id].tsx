@@ -24,7 +24,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   if (!id || typeof id !== 'string') return { notFound: true }
 
-  try {
+
     const { data, error } = await supabase
       .from<definitions['articles']>('articles')
       .select(
@@ -56,9 +56,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       // 5分キャッシュ
       revalidate: 300,
     }
-  } catch {
-    return { notFound: true }
-  }
+
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

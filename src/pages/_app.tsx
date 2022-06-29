@@ -6,7 +6,7 @@ import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import client from '@/lib/queryClient'
 import useGA from '@/hooks/useGA'
-import theme from '@/components/provider/Mui'
+import muiTheme from '@/lib/muiTheme'
 import Auth from '@/components/provider/Auth'
 
 import '@/styles/globals.scss'
@@ -22,6 +22,7 @@ type AppPropsWithLayout = AppProps & {
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page)
+  
   useGA() 
 
   return (
@@ -31,7 +32,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       <QueryClientProvider client={client}>
         <Auth>
           {/* Mui */}
-          <ThemeProvider theme={ theme }>
+          <ThemeProvider theme={ muiTheme }>
             {getLayout(<Component {...pageProps} />)}
 
             <ReactQueryDevtools initialIsOpen={false} />

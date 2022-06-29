@@ -7,8 +7,8 @@
 
 // 投稿のクリック部分
 .actionarea {
-  border-bottom: var(--border);
   &.actionarea_root {
     padding: var(--md);
+    border-bottom: var(--border);
   }
 }

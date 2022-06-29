@@ -25,6 +25,8 @@
 // エラー詳細
 .text {
   padding-left: var(--md);
-  margin-left: var(--md);
   border-left: var(--border);
+  &.text_root {
+    margin-left: var(--md);
+  }
 }

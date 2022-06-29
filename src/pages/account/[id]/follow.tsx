@@ -12,7 +12,6 @@ import Header from '@/components/account/follow/Header'
 import Account from '@/components/account/follow/Account'
 import Side from '@/components/side/Side'
 
-// ISR
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const id = params?.id
 
