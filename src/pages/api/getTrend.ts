@@ -14,7 +14,7 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
       property: `properties/${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_PROPERTY_ID}`,
       dateRanges: [
         {
-          startDate: '30daysAgo',
+          startDate: '2022-06-28',
           endDate: 'today',
         },
       ],
