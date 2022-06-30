@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { InfiniteData, useMutation, useQueryClient } from 'react-query'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
@@ -51,6 +52,7 @@ const mutateArticles = async ({ title, details, image, categories }: MutateType)
 }
 
 const useInsertArticles = () => {
+  const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
   const setDraft = useSetRecoilState(draftState)
   const queryClient = useQueryClient()
@@ -115,11 +117,18 @@ const useInsertArticles = () => {
           open: true,
           message: '投稿にエラーが発生しました。',
         })
+
+        setLoading(false)
       },
     },
   )
 
-  return { mutate, isLoading }
+  // 読み込み
+  useEffect(() => {
+    if(isLoading) setLoading(isLoading)
+  }, [isLoading])
+
+  return { mutate, loading }
 }
 
 export default useInsertArticles

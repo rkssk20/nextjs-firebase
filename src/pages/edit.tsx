@@ -28,7 +28,7 @@ const Edit = () => {
   const [categories, setCategories] = useState<number[]>([])
   const [image, setImage] = useState<Blob | null>(null)
   const [draft, setDraft] = useRecoilState(draftState)
-  const { mutate, isLoading } = useInsertArticles()
+  const { mutate, loading } = useInsertArticles()
   const router = useRouter()
   const tablet = useMediaQuery('(min-width: 768px)')
 
@@ -58,7 +58,7 @@ const Edit = () => {
 
   // 投稿する
   const handlePost = () => {
-    if (isLoading) return
+    if (loading) return
 
     mutate({
       title,
@@ -71,7 +71,7 @@ const Edit = () => {
   return (
     <ContainerLayout type='article' title='記事の作成' description='' image=''>
       <LoginOnly>
-        {isLoading ? (
+        {loading ? (
           <CardContent className={styles.header} classes={{ root: styles.header_root }}>
             <CircularProgress size={40} />
           </CardContent>
