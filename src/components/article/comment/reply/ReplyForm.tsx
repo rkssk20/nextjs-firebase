@@ -53,7 +53,6 @@ const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
 
 const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
   const account = useRecoilValue(accountState)
-  console.log(account)
 
   // ログイン時
   if (account.data) {

@@ -51,7 +51,9 @@ const Follower = ({ item, path }: FollowerProps) => {
       type='profile'
       title={item.username + 'のフォロワー一覧'}
       description={item.details || ''}
-      image=''
+      image={ item.avatar ?
+        process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar : ''
+      }
     >
       {/* ヘッダー */}
       <Header path={path} name={item.username} />

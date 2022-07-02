@@ -36,7 +36,7 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
   // アカウントのリンク
   const Account = () => {
     return (
-      <NextLink href={`/account/${id}`} passHref>
+      <NextLink href={`/account/${id}`} as={`/account/${id}`} passHref>
         <ListItemButton
           className={styles.list_item_button}
           classes={{ root: styles.list_item_button_root }}
@@ -86,7 +86,7 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
           classes={{ primary: styles.list_text_follow_primary }}
           primaryTypographyProps={{ variant: 'caption' }}
           primary={follow_list.map((item) => (
-            <NextLink key={item.url} href={item.url} passHref>
+            <NextLink key={item.url} href={item.url} as={item.url} passHref>
               <MuiLink underline='hover' color='inherit' onClick={handleClose}>
                 {item.text}
               </MuiLink>
@@ -106,8 +106,8 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
       <Follow />
 
       {/* アカウントの各ページ */}
-      {account_list.map((item) => (
-        <NextLink key={item.url} href={item.url} passHref>
+      { account_list.map((item) => (
+        <NextLink key={item.url} href={item.url} as={item.url} passHref>
           <ListItemButton
             className={styles.list_item_button}
             classes={{ root: styles.list_item_button_root }}
@@ -119,7 +119,7 @@ const Login = ({ id, username, avatar, handleClose }: LoginProps) => {
             <ListItemText primaryTypographyProps={{ variant: 'h5' }}>{item.text}</ListItemText>
           </ListItemButton>
         </NextLink>
-      ))}
+      )) }
     </List>
   )
 }

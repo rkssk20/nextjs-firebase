@@ -51,7 +51,9 @@ const Follow = ({ item, path }: FollowProps) => {
       type='profile'
       title={item.username + 'のフォロー一覧'}
       description={item.details || ''}
-      image=''
+      image={ item.avatar ?
+        process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar : ''
+      }
     >
       {/* ヘッダー */}
       <Header path={path} name={item.username} />
@@ -59,18 +61,18 @@ const Follow = ({ item, path }: FollowProps) => {
       {/* 各アカウント */}
       {data && data.pages[0].length > 0
         ? data.pages.map((page, page_index) =>
-            page.map((item, index) => (
-              <Account
-                key={item.follower_id}
-                id={item.follower_id}
-                username={item.username}
-                avatar={item.avatar}
-                details={item.details}
-                setRef={data.pages.length - 1 === page_index && page.length - 1 === index && setRef}
-              />
-            )),
-          )
-        : !isFetching && <Empty text='まだ誰もフォローしていません。' />}
+          page.map((item, index) => (
+            <Account
+              key={item.follower_id}
+              id={item.follower_id}
+              username={item.username}
+              avatar={item.avatar}
+              details={item.details}
+              setRef={data.pages.length - 1 === page_index && page.length - 1 === index && setRef}
+            />
+          )),
+        ) : !isFetching && <Empty text='まだ誰もフォローしていません。' />
+      }
 
       {isFetching && <Circular />}
     </ContainerLayout>

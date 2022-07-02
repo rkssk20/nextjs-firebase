@@ -20,6 +20,7 @@ type PostProps = {
 const Post = ({ data, setRef }: PostProps) => {
   const [dialog, setDialog] = useState(false)
   const router = useRouter()
+  const url = `/article/${data.id}`
 
   return (
     <Card className={styles.card} classes={{ root: styles.card_root }} elevation={0}>
@@ -28,7 +29,7 @@ const Post = ({ data, setRef }: PostProps) => {
         classes={{ root: styles.actionarea_root }}
         ref={setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined}
         component='div'
-        onClick={() => router.push(`/article/${data.id}`)}
+        onClick={ () => router.push(url, url) }
       >
         {/* ヘッダー */}
         <Header

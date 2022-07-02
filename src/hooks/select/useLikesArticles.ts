@@ -55,8 +55,6 @@ const FetchData = async (pageParam: string | undefined, path: string) => {
 
   if (error) throw error
 
-  console.log(data)
-
   return data
 }
 
@@ -74,13 +72,11 @@ const useLikesArticles = (path: string) => {
     ['likes_articles', path],
     ({ pageParam }) => FetchData(pageParam, path),
     {
-      onError: (error) => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'エラーが発生しました。',
         })
-
-        console.log(error)
       },
       getNextPageParam: (lastPage) =>
         lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].likes_created : false,

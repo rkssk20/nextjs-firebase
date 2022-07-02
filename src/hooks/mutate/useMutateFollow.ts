@@ -40,8 +40,6 @@ const useMutateFollow = (path: string) => {
 
   const { mutate, isLoading } = useMutation((id: number | undefined) => Mutate({ path, id }), {
     onSuccess: (data) => {
-      console.log(data)
-
       // フォローした場合、キャッシュに追加
       if (data) {
         queryClient.setQueryData(['following', path], {
@@ -63,9 +61,7 @@ const useMutateFollow = (path: string) => {
         })
       }
     },
-    onError: (error) => {
-      console.log(error)
-
+    onError: () => {
       setNotificate({
         open: true,
         message: 'エラーが発生しました。',

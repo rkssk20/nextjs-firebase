@@ -37,13 +37,10 @@ const useCommentDelete = ({ path, id, handleClose }: Props) => {
         const index = existing.pages.map((page) => page.findIndex((item) => item.id === id))
         const page = index.findIndex((item) => item !== -1)
 
-        console.log(existing.pages[page])
-        console.log(existing.pages[page][index[page]])
-
-        // // キャッシュからリプライを削除
+        // キャッシュからリプライを削除
         existing.pages[page].splice(index[page], 1)
 
-        // // キャッシュを更新
+        // キャッシュを更新
         queryClient.setQueryData(['comments', path], {
           pageParams: existing.pageParams,
           pages: existing.pages,
@@ -55,9 +52,7 @@ const useCommentDelete = ({ path, id, handleClose }: Props) => {
         message: 'コメントを削除しました。',
       })
     },
-    onError: (error) => {
-      console.log(error)
-
+    onError: () => {
       setNotificate({
         open: true,
         message: 'エラーが発生しました。',

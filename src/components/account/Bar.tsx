@@ -7,8 +7,6 @@ import AppBar from '@mui/material/AppBar'
 const Bar = ({ path }: { path: string }) => {
   const router = useRouter()
 
-  console.log(router.pathname)
-
   const tab_list = [
     { name: '投稿', url: `/account/${path}` },
     { name: 'いいね', url: `/account/${path}/likes` },

@@ -52,7 +52,9 @@ const Account = ({ item, path }: AccountProps) => {
       type='profile'
       title={item.username}
       description={item.details || ''}
-      image=''
+      image={ item.avatar ?
+        process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar : ''
+      }
     >
       {/* アカウント情報 */}
       <Profile path={path} item={item} />

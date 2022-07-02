@@ -31,8 +31,6 @@ const useSelectFollow = (path: string) => {
           open: true,
           message: 'エラーが発生しました。',
         })
-
-        console.log(error)
       },
     },
   )

@@ -26,8 +26,6 @@ const FetchData = async (pageParam: string | undefined) => {
 
   if (error) throw error
 
-  console.log(data)
-
   return data
 }
 
@@ -38,13 +36,11 @@ const useArticlesNoWord = () => {
     ['articles_no_word'],
     ({ pageParam }) => FetchData(pageParam),
     {
-      onError: (error) => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'エラーが発生しました。',
         })
-
-        console.log(error)
       },
       getNextPageParam: (lastPage) =>
         lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,

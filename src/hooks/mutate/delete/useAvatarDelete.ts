@@ -62,13 +62,11 @@ const useAvatarDelete = () => {
         message: 'アイコンを削除しました',
       })
     },
-    onError: (error) => {
+    onError: () => {
       setNotificate({
         open: true,
         message: '削除に失敗しました',
       })
-
-      console.log(error)
     },
   })
 

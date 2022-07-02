@@ -23,7 +23,7 @@ const Bar = ({ value, tab_list }: BarProps) => {
       textColor='inherit'
     >
       {tab_list.map((item) => (
-        <Link key={item.name} href={item.url} passHref>
+        <Link key={item.name} href={item.url} as={item.url} passHref>
           <Tab className={styles.tab} label={item.name} />
         </Link>
       ))}

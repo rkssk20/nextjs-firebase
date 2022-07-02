@@ -18,8 +18,6 @@ const mutateAvatar = async ({ blob, type }: MutateType) => {
       cacheControl: '31536000',
     })
 
-  console.log(data)
-
   if (error) throw error
 
   return data
@@ -63,13 +61,11 @@ const useAvatarUpload = (handleClose: () => void) => {
           message: 'アイコンをアップロードしました',
         })
       },
-      onError: (error) => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'アップロードに失敗しました',
         })
-
-        console.log(error)
       },
     },
   )

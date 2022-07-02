@@ -58,6 +58,10 @@ const Image = ({ image, setImage }: ImageProps) => {
         // 選択時、画像とキャンセルボタン
         <div className={styles.image_field}>
           <Badge
+            className={ styles.badge }
+            classes={{
+              root: styles.badge_root
+            }}
             badgeContent={
               <IconButton className={styles.cancel} onClick={handleCancel}>
                 <ClearIcon className={styles.clear} fontSize='large' />

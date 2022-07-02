@@ -29,22 +29,20 @@ const Crop = ({ selectImage, setSelectImage }: Props) => {
   const handleConfirm = () => {
     if ((ref=== null) || isLoading) return
 
-    // if (ref) {
-      // chromeならwebpに変換し、画質を0.5にする
-      // chrome以外ではpngに変換される
-      ref.current?.getImage().toBlob(
-        (blob: Blob | null) => {
-          if(blob === null) return
+    // chromeならwebpに変換し、画質を0.5にする
+    // chrome以外ではpngに変換される
+    ref.current?.getImage().toBlob(
+      (blob: Blob | null) => {
+        if(blob === null) return
 
-          const type = blob.type
-          const index = type.indexOf('/')
+        const type = blob.type
+        const index = type.indexOf('/')
 
-          mutate({ blob, type: type.substring(index + 1) })
-        },
-        'image/webp',
-        0.5,
-      )
-    // }
+        mutate({ blob, type: type.substring(index + 1) })
+      },
+      'image/webp',
+      0.5,
+    )
   }
 
   return (

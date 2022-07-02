@@ -20,7 +20,7 @@ const Header = ({ user_id, avatar, name, created_at }: HeaderProps) => {
   return (
     <div className={styles.field}>
       {/* アバター */}
-      <NextLink href={`/account/${user_id}`} passHref>
+      <NextLink href={`/account/${user_id}`} as={`/account/${user_id}`} passHref>
         <MuiLink underline='none'>
           { avatar ?
             <AvatarIcon src={  process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar } variant='link' />
@@ -32,7 +32,7 @@ const Header = ({ user_id, avatar, name, created_at }: HeaderProps) => {
 
       <div className={styles.text_field}>
         {/* タイトル */}
-        <NextLink href={`/account/${user_id}`} passHref>
+        <NextLink href={`/account/${user_id}`} as={`/account/${user_id}`} passHref>
           <MuiLink underline='hover' variant='body1' color='inherit'>
             {name}
           </MuiLink>

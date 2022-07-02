@@ -29,7 +29,6 @@ const useMutateLikes = (path: string, setLikeCountState: Dispatch<SetStateAction
 
   const { mutate, isLoading } = useMutation((id: number | undefined) => Mutate({ path, id }), {
     onSuccess: (data) => {
-      console.log(data)
       const cache_key = ['likes', path]
 
       const existing: definitions['likes'] | undefined = queryClient.getQueryData(cache_key)

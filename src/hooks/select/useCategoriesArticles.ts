@@ -28,8 +28,6 @@ export const FetchData = async (pageParam: string | undefined, category: 0 | 1) 
 
   if (error) throw error
 
-  console.log(data)
-
   return data
 }
 
@@ -40,13 +38,11 @@ const useCategoriesArticles = (category: 0 | 1) => {
     ['categories_articles', category],
     ({ pageParam }) => FetchData(pageParam, category),
     {
-      onError: (error) => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'エラーが発生しました。',
         })
-
-        console.log(error)
       },
       getNextPageParam: (lastPage) =>
         lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,

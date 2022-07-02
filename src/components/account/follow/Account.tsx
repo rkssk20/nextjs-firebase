@@ -19,13 +19,14 @@ type AccountProps = {
 
 const Account = ({ id, username, avatar, details, setRef }: AccountProps) => {
   const router = useRouter()
+  const url = `/account/${id}`
 
   return (
     <ListItemButton
       className={styles.list_item_button}
       classes={{ root: styles.list_item_button_root }}
       ref={setRef ? (ref: HTMLDivElement) => setRef(ref) : undefined}
-      onClick={() => router.push(`/account/${id}`)}
+      onClick={() => router.push(url, url)}
     >
       <ListItemIcon>
         {avatar ? (

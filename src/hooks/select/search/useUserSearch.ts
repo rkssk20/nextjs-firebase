@@ -30,8 +30,6 @@ const FetchData = async (
 
   if (error) throw error
 
-  console.log(data)
-
   return data as unknown as ResultType[]
 }
 
@@ -42,13 +40,11 @@ const useUserSearch = (word: string | string[]) => {
     ['user_search', word],
     ({ pageParam }) => FetchData(pageParam, word),
     {
-      onError: (error) => {
+      onError: () => {
         setNotificate({
           open: true,
           message: 'エラーが発生しました。',
         })
-
-        console.log(error)
       },
       getNextPageParam: (lastPage) =>
         lastPage && lastPage.length === 10

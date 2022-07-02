@@ -50,9 +50,7 @@ const Profile = ({ path, item }: ProfileProps) => {
         {item.avatar ? (
           <AvatarIcon
             src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL +
-              '/storage/v1/object/public/avatars/' +
-              item.avatar
+              process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar
             }
             variant='large'
           />
@@ -96,14 +94,14 @@ const Profile = ({ path, item }: ProfileProps) => {
 
       {/* フォローとフォロワー */}
       <Stack direction='row'>
-        <NextLink href={`/account/${router.query.id}/follow`} passHref>
+        <NextLink href={`/account/${router.query.id}/follow`} as={`/account/${router.query.id}/follow`} passHref>
           <MuiLink color='inherit' underline='hover' variant='body1'>
             <span className={styles.span_count}>{item.follow_count.toLocaleString()}</span>
             フォロー
           </MuiLink>
         </NextLink>
 
-        <NextLink href={`/account/${router.query.id}/follower`} passHref>
+        <NextLink href={`/account/${router.query.id}/follower`} as={`/account/${router.query.id}/follower`} passHref>
           <MuiLink
             className={styles.follower}
             classes={{ root: styles.follower_root }}

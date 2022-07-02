@@ -28,6 +28,13 @@
   border-radius: 13px;
 }
 
+// キャンセルボタン
+.badge {
+  .badge_rppt {
+    z-index: 0;
+  }
+}
+
 // キャンセルアイコン
 .cancel {
   opacity: 0.9;

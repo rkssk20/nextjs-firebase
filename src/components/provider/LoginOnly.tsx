@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import React, { ReactNode, useState, useEffect } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import { supabase } from '@/lib/supabaseClient'
@@ -23,7 +23,7 @@ const LoginOnly: NextPage<Props> = ({ children }) => {
     }
   }, [])
 
-  return <React.Fragment>{auth ? children : null}</React.Fragment>
+  return <>{auth ? children : null}</>
 }
 
 export default LoginOnly

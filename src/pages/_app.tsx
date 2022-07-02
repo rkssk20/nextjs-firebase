@@ -42,4 +42,5 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     </RecoilRoot>
   )
 }
+
 export default MyApp

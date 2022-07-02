@@ -29,9 +29,7 @@ const useArticleDelete = (path: string) => {
         }),
       )
     },
-    onError: (error) => {
-      console.log(error)
-
+    onError: () => {
       setNotificate({
         open: true,
         message: 'エラーが発生しました。',

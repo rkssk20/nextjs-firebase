@@ -37,7 +37,6 @@ const Login = ({ path, username }: { path: string; username: string }) => {
 
 const CommentForm = ({ path }: { path: string }) => {
   const account = useRecoilValue(accountState)
-  console.log(account)
 
   // ローディング
   if (account.loading) {

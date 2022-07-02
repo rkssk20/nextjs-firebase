@@ -33,7 +33,6 @@ const useMutateCommentsLikes = (path: string, comment_id: number) => {
     (id: number | undefined) => Mutate({ comment_id, id }),
     {
       onSuccess: (data) => {
-        console.log(data)
         const cache_key = ['comments', path]
 
         const existing:
@@ -67,8 +66,6 @@ const useMutateCommentsLikes = (path: string, comment_id: number) => {
               },
             ]
 
-            console.log(existing)
-
             // キャッシュを更新
             queryClient.setQueryData(['comments', path], {
               pageParams: existing.pageParams,
@@ -88,8 +85,6 @@ const useMutateCommentsLikes = (path: string, comment_id: number) => {
               existing.pages[page][index[page]].like_count - 1
             // キャッシュからいいねを削除
             existing.pages[page][index[page]].comments_likes = []
-
-            console.log(existing)
 
             // キャッシュを更新
             queryClient.setQueryData(['comments', path], {
