@@ -79,8 +79,8 @@ const Input = () => {
       </div>
 
       <div className={styles.save}>
-        {(newUserName.length > 0 && data.username !== newUserName) ||
-        data.details !== newDetails ? (
+        {(newUserName.length > 0) && ((data.username !== newUserName) ||
+        (data.details !== newDetails)) ? (
           <ContainedButton text='保存する' handle={() => mutate()} />
         ) : (
           <DisabledButton text='保存する' />
