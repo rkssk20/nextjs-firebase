@@ -40,7 +40,7 @@ const Header = ({ user_id, avatar, name, created_at }: HeaderProps) => {
 
         {/* 投稿日時 */}
         <Typography className={styles.created} variant='caption'>
-          {created.getFullYear() + '年' + created.getMonth() + '月' + created.getDay() + '日'}
+          {created.getFullYear() + '年' + (created.getMonth() + 1) + '月' + created.getDate() + '日'}
         </Typography>
       </div>
     </div>
