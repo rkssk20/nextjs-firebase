@@ -17,15 +17,14 @@ const ReplyDelete = dynamic(import('@/components/dialog/ReplyDelete'))
 const Report = dynamic(import('@/components/dialog/Report'))
 
 type Props = {
-  id: definitions['replies']['id']
-  user_id: definitions['replies']['user_id']
-  comment_id: definitions['replies']['comment_id']
-  comment: definitions['replies']['comment']
-  like_count: definitions['replies']['like_count']
-  replies_like: definitions['replies_likes'][] | undefined
+  id: string
+  user_id: string
+  comment: string
+  like_count: number
+  replies_like: boolean
 }
 
-const Actions = ({ id, user_id, comment_id, comment, like_count, replies_like }: Props) => {
+const Actions = ({ id, user_id, comment, like_count, replies_like }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [dialog, setDialog] = useState(false)
   const open = Boolean(anchorEl)
@@ -50,7 +49,7 @@ const Actions = ({ id, user_id, comment_id, comment, like_count, replies_like }:
       <div className={styles.actions_field}>
         {/* いいねボタン */}
         {account.data ? (
-          <LoginLike comment_id={comment_id} id={id} replies_like={replies_like} />
+          <LoginLike id={id} replies_like={replies_like} />
         ) : (
           <LogoutLike />
         )}
@@ -88,7 +87,6 @@ const Actions = ({ id, user_id, comment_id, comment, like_count, replies_like }:
           dialog={dialog}
           handleClose={() => setDialog(false)}
           id={id}
-          comment_id={comment_id}
         />
       ) : (
         // 報告ダイアログ

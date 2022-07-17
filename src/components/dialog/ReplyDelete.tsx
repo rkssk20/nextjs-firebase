@@ -9,18 +9,11 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 
 type Props = DialogProps & {
-  id: definitions['replies']['id']
-  comment_id: definitions['replies']['comment_id']
+  id: string
 }
 
-const ReplyDelete = ({ dialog, handleClose, id, comment_id }: Props) => {
-  const { mutate, isLoading } = useReplyDelete({ id, comment_id, handleClose })
-
-  // 記事を削除
-  const handleDelete = () => {
-    if (isLoading) return
-    mutate()
-  }
+const ReplyDelete = ({ dialog, handleClose, id }: Props) => {
+  // const { mutate, isLoading } = useReplyDelete({ id, comment_id, handleClose })
 
   return (
     <Dialog dialog={dialog} handleClose={handleClose}>
@@ -36,7 +29,7 @@ const ReplyDelete = ({ dialog, handleClose, id, comment_id }: Props) => {
           color='error'
           variant='contained'
           disableElevation
-          onClick={handleDelete}
+          onClick={() => {}}
         >
           削除
         </Button>

@@ -1,98 +1,73 @@
 import { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { useQuery } from 'react-query'
-import { definitions } from '@/types/supabase'
-import { accountState, notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-const FetchData = async () => {
-  if (typeof window === 'undefined') return
-
-  const user = supabase.auth.user()
-
-  if (!user?.id) return
-
-  const { data, error } = await supabase
-    .from<definitions['profiles']>('profiles')
-    .select('username, avatar')
-    .eq('id', user.id)
-    .single()
-
-  if (error) throw error
-
-  return data
-}
+import { onAuthStateChanged } from 'firebase/auth'
+import { collection, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref } from 'firebase/storage'
+import { accountState } from '@/lib/recoil'
+import { auth, db } from '@/lib/firebase'
 
 const useProfile = () => {
-  const setNotificate = useSetRecoilState(notificateState)
   const setAccount = useSetRecoilState(accountState)
 
-  const id = supabase.auth.user()?.id
-
-  const { refetch } = useQuery(['profiles'], FetchData, {
-    enabled: false,
-    onSuccess: (data) => {
+  useEffect(() => {
+    // ログイン状態の変更を検知
+    onAuthStateChanged(auth, async(user) => {
       // ログイン時
-      if (data) {
-        setAccount({
-          loading: false,
-          data: {
-            username: data.username,
-            avatar: data.avatar
-              ? process.env.NEXT_PUBLIC_SUPABASE_URL +
-                '/storage/v1/object/public/avatars/' +
-                data.avatar
-              : undefined,
-          },
-        })
+      if(user) {
+        const profilesCollection = collection(db, "profiles")
+        const profilesRef = doc(profilesCollection, user.uid)
+        const document = await getDoc(profilesRef)
+        const data = document.data()
 
-        // ログアウト時
-      } else {
-        setAccount({
-          loading: false,
-          data: null,
-        })
+        let fullPath = '';
 
-        // ログインしているのにユーザー情報が存在しなかった場合
-        if (supabase.auth.user()?.id) {
-          supabase.auth.signOut().then(() => {
-            setNotificate({
-              open: true,
-              message: 'ユーザーが見つかりませんでした。',
+        if(data?.avatar) {
+          fullPath = await getDownloadURL(ref(getStorage(), data.avatar))
+          console.log(fullPath)
+        }
+
+        // 既存のアカウントにログイン
+        if(data) {
+          setAccount({
+            loading: false,
+            data: {
+              id: user.uid,
+              username: data?.username,
+              avatar: fullPath
+            }
+          })
+
+        // 新規アカウントでログイン
+        } else {
+          setDoc(profilesRef, {
+            username: user.displayName ?? "アカウント",
+            avatar: "",
+            details: "",
+            follow_count: 0,
+            follower_count: 0,
+            created_at: serverTimestamp()
+          }).then(() => {
+            console.log('a')
+            setAccount({
+              loading: false,
+              data: {
+                id: user.uid,
+                username: user.displayName ?? "アカウント",
+                avatar: ""
+              }
             })
           })
         }
-      }
-    },
-    onError: () => {
-      setNotificate({
-        open: true,
-        message: 'エラーが発生しました。',
-      })
-    },
-  })
 
-  useEffect(() => {
-    if (id) {
-      refetch()
-    } else {
-      setAccount({
-        loading: false,
-        data: null,
-      })
-    }
-
-    supabase.auth.onAuthStateChange((_, session) => {
-      if (session) {
-        refetch()
+      // ログアウト時
       } else {
         setAccount({
           loading: false,
-          data: null,
+          data: null
         })
       }
     })
-  }, [id])
+  }, [])
 }
 
 export default useProfile

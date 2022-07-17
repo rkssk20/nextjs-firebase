@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import type { definitions } from '@/types/supabase'
-import { supabase } from '@/lib/supabaseClient'
+import { signOut } from 'firebase/auth'
 import { accountState, notificateState } from '@/lib/recoil'
+import { auth } from '@/lib/firebase'
+import type { ProfileType } from '@/types/types'
 import AvatarIcon from '@/atoms/Icon/AvatarIcon'
 import { ContainedButton, OutlinedButton } from '@/atoms/Button'
 import InitialIcon from '@/atoms/Icon/InitialIcon'
@@ -18,29 +19,24 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 type ProfileProps = {
   path: string
-  item: definitions['profiles']
+  item: ProfileType
 }
 
 const Profile = ({ path, item }: ProfileProps) => {
   const account = useRecoilValue(accountState)
   const setNotificate = useSetRecoilState(notificateState)
-  const user = supabase.auth.user()
   const router = useRouter()
 
   // ログアウト処理
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut()
-
-    if (error) {
+    signOut(auth).then(() => {
+      router.push('/')
+    }).catch(() => {
       setNotificate({
         open: true,
         message: 'ログアウトに失敗しました。',
       })
-
-      return
-    }
-
-    router.push('/')
+    })
   }
 
   return (
@@ -49,9 +45,7 @@ const Profile = ({ path, item }: ProfileProps) => {
         {/* ユーザーアイコン */}
         {item.avatar ? (
           <AvatarIcon
-            src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar
-            }
+            src={item.avatar}
             variant='large'
           />
         ) : (
@@ -70,7 +64,7 @@ const Profile = ({ path, item }: ProfileProps) => {
               classes={{ root: styles.circular_root }}
               size={38.25}
             />
-          ) : path == user?.id ? (
+          ) : (path == account.data?.id) ? (
             // 本人なら設定、ログアウト
             <Stack
               className={styles.buttons}

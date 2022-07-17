@@ -1,50 +1,47 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { accountState } from '@/lib/recoil'
+import type { CommentType } from '@/types/types'
 import useInsertComments from '@/hooks/mutate/insert/useInsertComments'
 import { DisabledButton, ContainedButton } from '@/atoms/Button'
 import { LoginForm, LogoutForm } from '@/atoms/Form'
 
-import styles from '@/styles/components/article/comment/commentForm.module.scss'
-import Skeleton from '@mui/material/Skeleton'
+type Props = {
+  path: string
+  user_id: string
+  setData: Dispatch<SetStateAction<CommentType[]>>
+}
 
-const Login = ({ path, username }: { path: string; username: string }) => {
+const Login = ({ path, user_id, username, setData }: Props & { username: string}) => {
   const [text, setText] = useState('')
-  const { mutate, isLoading } = useInsertComments(path)
-
-  // コメントの投稿
-  const handlePost = () => {
-    if (isLoading) return
-
-    mutate(text)
-
-    setText('')
-  }
+  const mutate = useInsertComments(path, user_id, setData, setText)
 
   return (
     <LoginForm text={text} setText={setText} name={username} placeholder='コメントする'>
-      <div className={styles.under}>
+      {/* <div> */}
         {/* 送信ボタン */}
         {Boolean(text) ? (
-          <ContainedButton text='送信' handle={handlePost} />
+          <ContainedButton text='送信' handle={() => mutate(text)} />
         ) : (
           <DisabledButton text='送信' />
         )}
-      </div>
+      {/* </div> */}
     </LoginForm>
   )
 }
 
-const CommentForm = ({ path }: { path: string }) => {
+const CommentForm = ({ path, user_id, setData }: Props) => {
   const account = useRecoilValue(accountState)
 
-  // ローディング
-  if (account.loading) {
-    return <Skeleton className={styles.skeleton} variant='rectangular' />
-
-    // ログイン時
-  } else if (account.data) {
-    return <Login path={path} username={account.data.username} />
+  if (account.data) {
+    return (
+      <Login
+        path={path}
+        user_id={ user_id }
+        username={account.data.username}
+        setData={ setData }
+      />
+    )
 
     // ログアウト時
   } else {

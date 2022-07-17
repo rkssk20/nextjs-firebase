@@ -31,9 +31,7 @@ const Account = ({ id, username, avatar, details, setRef }: AccountProps) => {
       <ListItemIcon>
         {avatar ? (
           <AvatarIcon
-            src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar
-            }
+            src={ avatar }
             variant='medium'
           />
         ) : (

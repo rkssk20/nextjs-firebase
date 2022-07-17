@@ -1,55 +1,133 @@
-import { useInfiniteQuery } from 'react-query'
+import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
+import { db } from '@/lib/firebase'
+import { collectionGroup, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-export const FetchData = async (pageParam: string | undefined, category: 0 | 1) => {
-  const view = category === 0 ? 'front_articles' : 'serverless_articles'
-
-  const { data, error } = pageParam
-    ? // 初回読み込み
-      await supabase
-        .from<ArticleType>(view)
-        .select('*')
-        .order('created_at', {
-          ascending: false,
-        })
-        .lt('created_at', pageParam)
-        .limit(10)
-    : // 追加読み込み
-      await supabase
-        .from<ArticleType>(view)
-        .select('*')
-        .order('created_at', {
-          ascending: false,
-        })
-        .limit(10)
-
-  if (error) throw error
-
-  return data
-}
 
 const useCategoriesArticles = (category: 0 | 1) => {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
+  const articlesCollection = collectionGroup(db, "articles")
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['categories_articles', category],
-    ({ pageParam }) => FetchData(pageParam, category),
-    {
-      onError: () => {
+  useEffect(() => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const articlesDocument = await getDocs(query(articlesCollection, where("categories", "array-contains", category), orderBy("created_at", "desc"), limit(10)))
+
+        const array: any[] = []
+    
+        if(articlesDocument.size < 10) {
+          setHasNextPage(false)
+        }
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          array.push({
+            user_id: item.ref.parent.parent?.id,
+            profilesRef: item.ref.parent.parent,
+            id: item.id,
+            ...data,
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          array.map(async(item, index) => {
+            const profiles = await getDoc(item.profilesRef)
+            const data: any = profiles.data();
+            
+            array[index].username = data.username;
+            array[index].avatar = data.avatar;
+            delete array[index].profilesRef;
+
+            if(item.avatar) {
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+            }
+
+            if(item.image) {
+              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            }
+          })
+        )
+    
+        setData(array)
+
+      } catch {
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。',
+          message: 'エラーが発生しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })();
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage }
+  const fetchMore = () => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const articlesDocument = await getDocs(query(articlesCollection, where("created_at", "<", data[data.length - 1].created_at), where("categories", "array-contains", category), orderBy("created_at", "desc"), limit(10)))
+
+        const array: any[] = []
+    
+        if(articlesDocument.size < 10) {
+          setHasNextPage(false)
+        }
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          array.push({
+            user_id: item.ref.parent.parent?.id,
+            profilesRef: item.ref.parent.parent,
+            id: item.id,
+            ...data,
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          array.map(async(item, index) => {
+            const profiles = await getDoc(item.profilesRef)
+            const data: any = profiles.data();
+            array[index].username = data.username;
+            array[index].avatar = data.avatar;
+            delete array[index].profilesRef;
+
+            if(item.avatar) {
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+            }
+
+            if(item.image) {
+              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            }
+          })
+        )
+    
+        setData(prev => [...prev, ...array])
+      } catch {
+        setNotificate({
+          open: true,
+          message: 'エラーが発生しました'
+        })
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }
+
+  return { data, loading, hasNextPage, fetchMore }
 }
 
 export default useCategoriesArticles

@@ -1,56 +1,130 @@
-import { useInfiniteQuery } from 'react-query'
+import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-const FetchData = async (pageParam: string | undefined, path: string) => {
-  const { data, error } = pageParam
-    ? // 初回読み込み
-      await supabase
-        .from<ArticleType>('person_articles')
-        .select('*')
-        .eq('user_id', path)
-        .order('created_at', {
-          ascending: false,
-        })
-
-        .lt('created_at', pageParam)
-        .limit(10)
-    : // 追加読み込み
-      await supabase
-        .from<ArticleType>('person_articles')
-        .select('*')
-        .eq('user_id', path)
-        .order('created_at', {
-          ascending: false,
-        })
-        .limit(10)
-
-  if (error) throw error
-
-  return data
-}
+import { db } from '@/lib/firebase'
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 
 const usePersonArticles = (path: string) => {
+  const [account, setAccount] = useState({
+    username: '',
+    avatar: ''
+  })
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
+  const profilesCollection = collection(db, "profiles")
+  const articlesCollection = collection(db, "profiles", path, "articles")
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['person_articles', path],
-    ({ pageParam }) => FetchData(pageParam, path),
-    {
-      onError: () => {
+  useEffect(() => {
+    if(loading) return
+    setLoading(true);
+
+    (async() => {
+      try {
+        // 投稿主の情報
+        const profilesDocument = await getDoc(doc(profilesCollection, path))
+        const profiles = profilesDocument.data()
+
+        let avatar = '';
+
+        if(profiles?.avatar) { 
+          avatar = await getDownloadURL(ref(getStorage(), profiles?.avatar))
+        }
+
+        setAccount({
+          username: profiles?.username,
+          avatar: avatar
+        })
+
+        // 投稿10件
+        const articlesDocument = await getDocs(query(articlesCollection, orderBy("created_at", "desc"), limit(10))) 
+
+        const array: any[] = []
+    
+        if(articlesDocument.size < 10) {
+          setHasNextPage(false)
+        }
+
+        articlesDocument.forEach((item) => {          
+          array.push({
+            user_id: path,
+            username: profiles?.username,
+            avatar,
+            id: item.id,
+            ...item.data(),
+            created_at: item.data().created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          array.map(async(item, index) => {          
+            if(item.image) { 
+              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            }
+          })
+        )
+    
+        setData(array)
+
+      } catch {
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。',
+          message: 'エラーが発生しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })();
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage }
-}
+  // 追加の読み込み
+  const fetchMore = async () => {
+    if(loading) return
+    setLoading(true)
+
+    try {
+      const articlesDocument = await getDocs(query(articlesCollection, where("created_at", "<", data[data.length - 1].created_at), orderBy("created_at", "desc"), limit(10)))
+
+      const array: any[] = []
+    
+      if(articlesDocument.size < 10) {
+        setHasNextPage(false)
+      }
+
+      articlesDocument.forEach((item) => {
+        array.push({
+          user_id: path,
+          username: account.username,
+          avatar: account.avatar,
+          id: item.id,
+          ...item.data(),
+          created_at: item.data().created_at.toDate()
+        })
+      })
+
+      await Promise.all(
+        array.map(async(item, index) => {          
+          if(item.image) { 
+            array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+          }
+        })
+      )
+  
+      setData(prev => [...prev, ...array])
+
+    } catch {
+      setNotificate({
+        open: true,
+        message: 'エラーが発生しました'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { data, loading, hasNextPage, fetchMore }
+} 
 
 export default usePersonArticles

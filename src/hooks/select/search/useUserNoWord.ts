@@ -1,65 +1,110 @@
-import { useInfiniteQuery } from 'react-query'
+import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import type { ProfilesSummaryType } from '@/types/types'
+import { db } from '@/lib/firebase'
+import { collection, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-const FetchData = async (pageParam: { follower_count: number; id: string }) => {
-  const { data, error } = pageParam
-    ? // 初回読み込み
-      await supabase
-        .from<ProfilesSummaryType>('profiles_summary')
-        .select('id, username, avatar, details')
-        .order('follower_count', {
-          ascending: false,
-        })
-        .order('id', {
-          ascending: false,
-        })
-        .lt('follower_count', pageParam.follower_count)
-        .lt('id', pageParam.id)
-        .limit(10)
-    : // 追加読み込み
-      await supabase
-        .from<ProfilesSummaryType>('profiles_summary')
-        .select('id, username, avatar, details')
-        .order('follower_count', {
-          ascending: false,
-        })
-        .order('id', {
-          ascending: false,
-        })
-        .limit(10)
-
-  if (error) throw error
-
-  return data
-}
 
 const useUserNoWord = () => {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
+  const articlesCollection = collection(db, "profiles")
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['user_no_word'],
-    ({ pageParam }) => FetchData(pageParam),
-    {
-      onError: () => {
+  useEffect(() => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const articlesDocument = await getDocs(query(articlesCollection, orderBy("created_at", "desc"), limit(10)))
+
+        const array: any[] = []
+    
+        if(articlesDocument.size < 10) {
+          setHasNextPage(false)
+        }
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          array.push({
+            id: item.ref.id,
+            username: data.username,
+            avatar: data.avatar,
+            details: data.details.slice(0, 50)
+          })
+        })
+
+        await Promise.all(
+          array.map(async(item, index) => {
+            if(item.avatar) {
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+            }
+          })
+        )
+    
+        setData(array)
+
+      } catch (e){
+        console.log(e)
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。',
+          message: 'エラーが発生しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10
-          ? {
-              follower_count: lastPage[lastPage.length - 1].follower_count,
-              id: lastPage[lastPage.length - 1].id,
-            }
-          : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })();
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage }
+  const fetchMore = () => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const articlesDocument = await getDocs(query(articlesCollection, where("created_at", "<", data[data.length - 1].created_at), orderBy("created_at", "desc"), limit(10)))
+
+        const array: any[] = []
+    
+        if(articlesDocument.size < 10) {
+          setHasNextPage(false)
+        }
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          array.push({
+            username: data.username,
+            avatar: data.avatar,
+            details: data.details.slice(0, 50)
+          })
+        })
+
+        await Promise.all(
+          array.map(async(item, index) => {
+            if(item.avatar) {
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+            }
+          })
+        )
+    
+        setData(prev => [...prev, ...array])
+      } catch {
+        setNotificate({
+          open: true,
+          message: 'エラーが発生しました'
+        })
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }
+
+  return { data, loading, hasNextPage, fetchMore }
 }
 
 export default useUserNoWord

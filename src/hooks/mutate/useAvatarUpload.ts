@@ -1,76 +1,71 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { nanoid } from 'nanoid'
-import type { definitions } from '@/types/supabase'
-import { supabase } from '@/lib/supabaseClient'
+import { db } from '@/lib/firebase'
+import { doc, updateDoc } from 'firebase/firestore'
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { accountState, notificateState } from '@/lib/recoil'
 
-type MutateType = {
-  blob: Blob
-  type: string
-}
-
-const mutateAvatar = async ({ blob, type }: MutateType) => {
-  const { error, data } = await supabase.storage
-    .from('avatars')
-    .upload(`public/${nanoid()}.${type}`, blob, {
-      // 1年キャッシュ
-      cacheControl: '31536000',
-    })
-
-  if (error) throw error
-
-  return data
-}
-
 const useAvatarUpload = (handleClose: () => void) => {
+  const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
   const [account, setAccount] = useRecoilState(accountState)
-  const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(
-    ({ blob, type }: MutateType) => mutateAvatar({ blob, type }),
-    {
-      onSuccess: (data) => {
-        // アカウントデータのアバターを更新
-        setAccount({
-          loading: false,
-          data: {
-            username: account.data?.username ?? '',
-            avatar: process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/' + data?.Key,
-          },
-        })
+  const mutate = async (blob: Blob) => {
+    if(loading || !account.data) return
+    setLoading(true)
 
-        const existing: definitions['profiles'] | undefined =
-          queryClient.getQueryData('profiles_details')
+    try {
+      const type = blob.type
+      const index = type.indexOf('/')
+      const url = `avatar/${nanoid()}.${type.substring(index + 1)}`
 
-        // キャッシュがあるなら追加
-        if (existing) {
-          queryClient.setQueryData('profiles_etails', {
-            ...existing,
-            avatar: data?.Key,
-          })
+      const storage = getStorage();
+      const storageRef = ref(storage, url);
+      await uploadBytes(storageRef, blob)
+
+      // 画像をアップロード
+      await updateDoc(doc(db, 'profiles', account.data.id), {
+        avatar: url
+      })
+
+      const fullPath = await getDownloadURL(ref(getStorage(), url))
+
+      let oldAvatar = account.data.avatar
+
+      // アカウントの状態を変更
+      setAccount({
+        loading: false,
+        data: {
+          id: account.data.id,
+          username: account.data.username,
+          avatar: fullPath
         }
+      })
 
-        // 切り抜きダイアログを閉じる
-        handleClose()
+      // ダイアログを閉じる
+      handleClose()
 
-        // 通知
-        setNotificate({
-          open: true,
-          message: 'アイコンをアップロードしました',
-        })
-      },
-      onError: () => {
-        setNotificate({
-          open: true,
-          message: 'アップロードに失敗しました',
-        })
-      },
-    },
-  )
+      // 通知
+      setNotificate({
+        open: true,
+        message: 'プロフィール画像を変更しました'
+      })
 
-  return { mutate, isLoading }
+      // 既存の画像を削除
+      deleteObject(ref(storage, oldAvatar))
+
+    } catch {
+      setNotificate({
+        open: true,
+        message: 'エラーが発生しました'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { mutate, loading }
 }
 
 export default useAvatarUpload

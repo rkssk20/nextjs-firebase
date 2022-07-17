@@ -1,6 +1,16 @@
 import type { MouseEvent } from 'react'
 import type { definitions } from '@/types/supabase'
 
+// プロフィール
+export type ProfileType = {
+  id: string
+  username: string
+  avatar: string
+  details: string
+  follow_count: number
+  follower_count: number
+}
+
 // カテゴリ
 export type CategoriesProps = {
   text: 'フロント' | 'サーバーレス'
@@ -9,16 +19,16 @@ export type CategoriesProps = {
 
 // 記事一つ
 export type ArticleType = {
-  id: definitions['articles']['id']
-  user_id: definitions['articles']['user_id']
-  image: definitions['articles']['image']
-  title: definitions['articles']['title']
-  details: definitions['articles']['details']
-  like_count: definitions['articles']['like_count']
-  comment_count: definitions['articles']['comment_count']
-  created_at: definitions['articles']['created_at']
-  avatar: definitions['profiles']['avatar']
-  username: definitions['profiles']['username']
+  id: string
+  user_id:string
+  image: string
+  title: string
+  details: string
+  like_count: number
+  comment_count: number
+  created_at: string
+  avatar: string
+  username: string
   categories: string[] | number[]
 }
 
@@ -37,28 +47,6 @@ export type DialogProps = {
   handleClose: (e?: MouseEvent) => void
 }
 
-// 記事一つ
-// export type ArticleType = {
-//   id: string;
-//   title: string;
-//   details: string;
-//   image?: string | undefined;
-//   like_count: number;
-//   comment_count: number;
-//   created_at: string;
-//   categories: {
-//     category: number
-//   }[]
-//   profiles: {
-//     id: string
-//     usernmae: string
-//     avatar: string | null
-//   }
-//   likes: {
-//     id: number | undefined
-//   }[]
-// }
-
 // プロフィールの詳細api
 export type ProfileDetailsType = {
   follow: number
@@ -75,30 +63,28 @@ export type FollowType = {
 
 // コメント
 export type CommentType = {
-  id: number
-  display_id: string
+  id: string
+  user_id: string
+  comment: string
+  like_count: number
+  comments_likes: boolean
+  reply_count: number
   created_at: string
-  image: string
-  likes: number
-  like: boolean
-  content: string
-  name: string
-  mine: boolean
-  replies: number
+  username: string
+  avatar: string
 }
 
 // リプライ
 export type RepliesType = {
-  id: number
-  comment_id: number
-  display_id: string
+  id: string
+  user_id: string
+  comment: string
+  like_count: number
+  replies_likes: boolean
   created_at: string
-  image: string
-  likes: number
-  like: boolean
-  content: string
-  name: string
-  mine: boolean
+  username: string
+  avatar: string
+  
 }
 
 // トレンド

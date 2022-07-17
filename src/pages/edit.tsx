@@ -56,15 +56,13 @@ const Edit = () => {
     return () => router.beforePopState(() => true)
   }, [title, details, categories])
 
-  // 投稿する
+  // 投稿
   const handlePost = () => {
-    if (loading) return
-
     mutate({
       title,
       details,
       image,
-      categories,
+      categories
     })
   }
 
@@ -87,7 +85,7 @@ const Edit = () => {
             </IconButton>
 
             {title.length > 0 && details.length > 0 ? (
-              <ContainedButton text='投稿' handle={handlePost} />
+              <ContainedButton text='投稿' handle={ handlePost } />
             ) : (
               <DisabledButton text='投稿' />
             )}

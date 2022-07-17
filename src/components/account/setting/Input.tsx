@@ -12,8 +12,8 @@ import InputBase from '@mui/material/InputBase'
 const Input = () => {
   const [newUserName, setNewUserName] = useState('')
   const [newDetails, setNewDetails] = useState<string | null>('')
-  const { data, isFetching } = useProfilesDetails()
-  const { isLoading, mutate } = useSetting({ newUserName, newDetails })
+  const { data, loading } = useProfilesDetails()
+  const mutate = useSetting()
 
   useEffect(() => {
     if (!data) return
@@ -22,7 +22,7 @@ const Input = () => {
     setNewDetails(data.details ?? null)
   }, [data])
 
-  if (isFetching) <Circular />
+  if (loading) <Circular />
 
   if (data === undefined) return null
 
@@ -79,9 +79,9 @@ const Input = () => {
       </div>
 
       <div className={styles.save}>
-        {(newUserName.length > 0) && ((data.username !== newUserName) ||
-        (data.details !== newDetails)) ? (
-          <ContainedButton text='保存する' handle={() => mutate()} />
+        {(newUserName.length > 0) && ((data?.username !== newUserName) ||
+        (data?.details !== newDetails)) ? (
+          <ContainedButton text='保存する' handle={() => mutate({ newUserName, newDetails })} />
         ) : (
           <DisabledButton text='保存する' />
         )}

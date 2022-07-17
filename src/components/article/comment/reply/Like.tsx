@@ -18,27 +18,29 @@ const Like = ({ handle, children }: { handle: () => void; children: ReactElement
 }
 
 type LoginLikeProps = {
-  comment_id: definitions['replies']['comment_id']
-  id: definitions['replies']['id']
-  replies_like: definitions['replies_likes'][] | undefined
+  id: string
+  replies_like: boolean
+}
+
+const InsertLikes = () => {
+  return (
+    <Like handle={() => {}}>
+      <FavoriteBorderIcon color='action' />
+    </Like>
+  )
+}
+
+const DeleteLikes = () => {
+  return (
+    <Like handle={() => {}}>
+      <FavoriteIcon />
+    </Like>
+  )
 }
 
 // ログイン時のいいねボタン
-export const LoginLike = ({ comment_id, id, replies_like }: LoginLikeProps) => {
-  const { mutate, isLoading } = useMutateRepliesLike(comment_id, id)
-
-  // いいね
-  const handleLikes = () => {
-    if (isLoading) return
-
-    mutate(replies_like && replies_like.length > 0 ? replies_like[0].id : undefined)
-  }
-
-  return (
-    <Like handle={handleLikes}>
-      {replies_like && replies_like[0]?.id ? <FavoriteIcon /> : <FavoriteBorderIcon color='action' />}
-    </Like>
-  )
+export const LoginLike = ({ id, replies_like }: LoginLikeProps) => {
+  return ( replies_like ? <DeleteLikes /> : <InsertLikes /> )
 }
 
 // ログアウト時のいいねボタン

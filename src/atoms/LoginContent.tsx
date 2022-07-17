@@ -1,15 +1,13 @@
 import Image from 'next/image'
-import { useSetRecoilState } from 'recoil'
-import { supabase } from '@/lib/supabaseClient'
-import { notificateState } from '@/lib/recoil'
+
+import { signInWithRedirect, TwitterAuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
+import { auth } from '@/lib/firebase'
 
 import styles from '@/styles/atoms/loginContent.module.scss'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
 const LoginContent = () => {
-  const setNotificate = useSetRecoilState(notificateState)
-
   const social = [
     {
       text: 'Twitter',
@@ -26,19 +24,17 @@ const LoginContent = () => {
   ]
 
   const handleAuth = async (provider: string) => {
-    try {
-      const { error } = await supabase.auth.signIn({
-        provider:
-          provider === 'Twitter' ? 'twitter' : provider === 'Facebook' ? 'facebook' : 'google',
-      })
+    let authProvider: TwitterAuthProvider | FacebookAuthProvider | GoogleAuthProvider;
 
-      if (error) throw error
-    } catch (error) {
-      setNotificate({
-        open: true,
-        message: '認証でエラーが発生しました。',
-      })
+    if(provider === 'twitter') {
+      authProvider = new TwitterAuthProvider()
+    } else if(provider === 'facebook') {
+      authProvider = new FacebookAuthProvider()
+    } else {
+      authProvider = new GoogleAuthProvider()
     }
+
+    return signInWithRedirect(auth, authProvider)
   }
 
   return (

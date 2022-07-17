@@ -43,7 +43,11 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
   return (
     <div className={styles.card_actions}>
       {account.data ? (
-        <LoginLike path={path} setLikeCountState={setLikeCountState} />
+        <LoginLike
+          path={path}
+          user_id={ user_id}
+          setLikeCountState={setLikeCountState}
+        />
       ) : (
         <LogoutLike />
       )}
@@ -68,13 +72,15 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
       </IconButton>
 
       {/* 詳細メニュー */}
-      <Popup anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-        <MenuItem onClick={handleDialog}>
-          {user_id === supabase.auth.user()?.id ? '記事を削除' : '記事の問題を報告'}
-        </MenuItem>
-      </Popup>
+      { !account.loading &&
+        <Popup anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+          <MenuItem onClick={handleDialog}>
+            {(user_id === account.data?.id) ? '記事を削除' : '記事の問題を報告'}
+          </MenuItem>
+        </Popup>
+      }
 
-      {dialog && user_id === supabase.auth.user()?.id ? (
+      {dialog && (user_id === account.data?.id) ? (
         // 削除ダイアログ
         <ArticleDelete dialog={dialog} handleClose={() => setDialog(false)} path={path} />
       ) : (

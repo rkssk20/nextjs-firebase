@@ -1,7 +1,8 @@
-import { ReactElement, useState } from 'react'
+import { Dispatch, ReactElement, SetStateAction, useState } from 'react'
 import dynamic from 'next/dynamic'
-import type { definitions } from '@/types/supabase'
-import useMutateCommentsLikes from '@/hooks/mutate/useMutateCommentsLikes'
+import type { CommentType } from '@/types/types'
+import useInsertCommentsLikes from '@/hooks/mutate/insert/useInsertCommentsLikes'
+import useDeleteCommentsLikes from '@/hooks/mutate/delete/useDeleteCommentsLikes'
 
 import IconButton from '@mui/material/IconButton'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
@@ -17,31 +18,48 @@ const Like = ({ handle, children }: { handle: () => void; children: ReactElement
   )
 }
 
-type LoginLikeProps = {
-  path: string
-  id: definitions['replies']['id']
-  comments_likes: definitions['comments_likes'][] | undefined
+type Props = {
+  index: number
+  id: string
+  setData: Dispatch<SetStateAction<CommentType[]>>
+}
+
+const InsertLikes = ({ index, id, setData }: Props) => {
+  const mutate = useInsertCommentsLikes(index, id, setData)
+
+  return (
+    <Like handle={() => mutate()}>
+      <FavoriteBorderIcon color='action' />
+    </Like>
+  )
+}
+
+const DeleteLikes = ({ index, id, setData }: Props) => {
+  const mutate = useDeleteCommentsLikes(index, id, setData)
+
+  return (
+    <Like handle={() => mutate()}>
+      <FavoriteIcon />
+    </Like>
+  )
 }
 
 // ログイン時のいいねボタン
-export const LoginLike = ({ path, id, comments_likes }: LoginLikeProps) => {
-  const { mutate, isLoading } = useMutateCommentsLikes(path, id)
-
-  // いいね
-  const handleLikes = () => {
-    if (isLoading) return
-
-    mutate(comments_likes && comments_likes.length > 0 ? comments_likes[0].id : undefined)
-  }
-
+export const LoginLike = ({ index, id, comments_likes, setData }: Props & { comments_likes: boolean }) => {
   return (
-    <Like handle={handleLikes}>
-      {comments_likes && comments_likes[0]?.id ? (
-        <FavoriteIcon />
-      ) : (
-        <FavoriteBorderIcon color='action' />
-      )}
-    </Like>
+    comments_likes ? (
+      <DeleteLikes
+        index={ index }
+        id={ id }
+        setData={ setData }
+      />
+    ) : (
+      <InsertLikes
+        index={ index }
+        id={ id }
+        setData={ setData }
+      />
+    )
   )
 }
 

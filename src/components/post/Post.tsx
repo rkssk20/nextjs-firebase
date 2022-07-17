@@ -40,7 +40,7 @@ const Post = ({ data, setRef }: PostProps) => {
         />
 
         {/* 画像 */}
-        {data.image && data.image.length > 0 ? (
+        {data.image ? (
           <ArticleImage image={data.image} />
         ) : (
           <NoArticleImage title={data.title} />

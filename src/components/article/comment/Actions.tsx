@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRecoilValue } from 'recoil'
-import type { definitions } from '@/types/supabase'
-import { supabase } from '@/lib/supabaseClient'
 import { accountState } from '@/lib/recoil'
+import type { CommentType } from '@/types/types'
 import { LoginLike, LogoutLike } from '@/components/article/comment/Like'
 import Popup from '@/atoms/Popup'
 import ReplyForm from '@/components/article/comment/reply/ReplyForm'
@@ -20,15 +19,17 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import MenuItem from '@mui/material/MenuItem'
 
 type ActionsProps = {
+  index: number
   path: string
-  id: definitions['comments']['id']
-  user_id: definitions['comments']['user_id']
-  comment: definitions['comments']['comment']
-  like_count: definitions['comments']['like_count']
-  comments_likes: definitions['comments_likes'][] | undefined
+  id: string
+  user_id: string
+  comment: string
+  like_count: number
+  comments_likes: boolean
+  setData: Dispatch<SetStateAction<CommentType[]>>
 }
 
-const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: ActionsProps) => {
+const Actions = ({ index, path, id, user_id, comment, like_count, comments_likes, setData }: ActionsProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [formOpen, setFormOpen] = useState(false)
   const [dialog, setDialog] = useState(false)
@@ -39,6 +40,15 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
   const handleDialog = () => {
     setDialog(true)
     setAnchorEl(null)
+  }
+
+  const handleReply = () => {
+    setData(prev => prev.map((item, number) => (
+      (index === number) ? {
+        ...item,
+        reply_count: item.reply_count + 1
+      } : item
+    )))
   }
 
   return (
@@ -61,7 +71,12 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
 
         {/* いいねボタン */}
         {account.data ? (
-          <LoginLike path={path} id={id} comments_likes={comments_likes} />
+          <LoginLike
+            index={ index }
+            id={id}
+            comments_likes={comments_likes}
+            setData={ setData }
+          />
         ) : (
           <LogoutLike />
         )}
@@ -87,16 +102,30 @@ const Actions = ({ path, id, user_id, comment, like_count, comments_likes }: Act
 
         <Popup anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
           <MenuItem onClick={handleDialog}>
-            {user_id === supabase.auth.user()?.id ? 'コメントを削除' : 'コメントの問題を報告'}
+            {(user_id === account.data?.id) ? 'コメントを削除' : 'コメントの問題を報告'}
           </MenuItem>
         </Popup>
       </div>
 
       {/* 返信フォーム */}
-      {formOpen && <ReplyForm path={path} id={id} setFormOpen={setFormOpen} />}
+      {formOpen &&
+        <ReplyForm
+          id={id}
+          user_id={ user_id }
+          setFormOpen={setFormOpen}
+          handleReply={ handleReply }
+        />}
 
-      {dialog && user_id === supabase.auth.user()?.id ? (
-        <CommentDelete dialog={dialog} handleClose={() => setDialog(false)} path={path} id={id} />
+      {dialog && (user_id === account.data?.id) ? (
+        <CommentDelete
+          dialog={dialog}
+          handleClose={() => setDialog(false)}
+          index={ index }
+          user_id={ user_id }
+          path={path}
+          id={id}
+          setData={ setData }
+        />
       ) : (
         <Report dialog={dialog} handleClose={() => setDialog(false)} />
       )}

@@ -1,4 +1,4 @@
-import type { MouseEvent, TouchEvent } from 'react'
+import { MouseEvent, TouchEvent } from 'react'
 import NextLink from 'next/link'
 import { ArticleType } from '@/types/types'
 import CreatedAt from '@/lib/createdAt'
@@ -29,11 +29,9 @@ const Header = ({ id, username, avatar, created_at }: HeaderProps) => {
           onMouseDown={(e: MouseEvent<HTMLSpanElement>) => e.stopPropagation()}
           onTouchStart={(e: TouchEvent<HTMLSpanElement>) => e.stopPropagation()}
         >
-          {avatar ? (
+          {Boolean(avatar) ? (
             <AvatarIcon
-              src={
-                process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar
-              }
+              src={ avatar }
               variant='link'
             />
           ) : (

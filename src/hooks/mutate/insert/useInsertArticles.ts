@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { InfiniteData, useMutation, useQueryClient } from 'react-query'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { nanoid } from 'nanoid'
-import type { ArticleType } from '@/types/types'
-import { supabase } from '@/lib/supabaseClient'
+import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { db } from '@/lib/firebase'
 import { accountState, notificateState, draftState } from '@/lib/recoil'
 
 type MutateType = {
@@ -14,89 +14,50 @@ type MutateType = {
   categories: number[]
 }
 
-const mutateArticles = async ({ title, details, image, categories }: MutateType) => {
-  let image_result: string | undefined
-
-  // 画像があれば投稿
-  if (image) {
-    const type = image.type
-    const index = type.indexOf('/')
-
-    const { data, error } = await supabase.storage
-      .from('articles')
-      .upload(`public/${nanoid()}.${type.substring(index + 1)}`, image, {
-        // 1年キャッシュ
-        cacheControl: '31536000',
-        upsert: false,
-      })
-
-    if (error) throw error
-
-    image_result = data?.Key
-  }
-
-  const payload = {
-    qid: nanoid(),
-    title,
-    details,
-    image: image_result ?? null,
-    categories,
-  }
-
-  // 記事の投稿
-  const { data: articlesData, error } = await supabase.rpc('handle_insert_articles', payload)
-
-  if (error) throw error
-
-  return payload
-}
-
 const useInsertArticles = () => {
   const [loading, setLoading] = useState(false)
+  const account = useRecoilValue(accountState)
   const setNotificate = useSetRecoilState(notificateState)
   const setDraft = useSetRecoilState(draftState)
-  const queryClient = useQueryClient()
-  const account = useRecoilValue(accountState)
   const router = useRouter()
 
-  const { mutate, isLoading } = useMutation(
-    ({ title, details, image, categories }: MutateType) =>
-      mutateArticles({
+  const mutate = async ({ title, details, image, categories }: MutateType) => {
+    if(loading) return
+    setLoading(true)
+
+    if(account.data) {
+      let url = ''
+
+      // 画像がある場合アップロード
+      if(image) {
+        const type = image.type
+        const index = type.indexOf('/')
+        url = `image/${nanoid()}.${type.substring(index + 1)}`
+  
+        const storage = getStorage();
+        const storageRef = ref(storage, url);
+        await uploadBytes(storageRef, image).catch(() => {
+          setNotificate({
+            open: true,
+            message: '投稿に失敗しました'
+          })
+
+          setLoading(false)
+          return
+        });
+      }
+
+      // 記事を投稿
+      const profilesCollection = collection(db, 'profiles', account.data.id, 'articles')
+      setDoc(doc(profilesCollection), {
         title,
         details,
-        image,
         categories,
-      }),
-    {
-      onSuccess: (data) => {
-        const key = ['person_articles', supabase.auth.user()?.id]
-
-        const existing: InfiniteData<ArticleType[]> | undefined = queryClient.getQueryData(key)
-
-        // 自分の投稿一覧に追加
-        if (existing) {
-          queryClient.setQueryData(key, {
-            pageParams: existing.pageParams,
-            pages: [
-              [
-                {
-                  ...data,
-                  details: data.details.slice(0, 50),
-                  like_count: 0,
-                  comment_count: 0,
-                  id: data.qid,
-                  username: account.data?.username,
-                  avatar: account.data?.avatar?.replace(
-                    process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/',
-                    '',
-                  ),
-                },
-              ],
-              ...existing.pages,
-            ],
-          })
-        }
-
+        image: url,
+        like_count: 0,
+        comment_count: 0,
+        created_at: serverTimestamp()
+      }).then(() => {
         // 下書きを削除
         setDraft({
           title: '',
@@ -104,29 +65,24 @@ const useInsertArticles = () => {
           categories: [],
         })
 
-        router.push(`/account/${supabase.auth.user()?.id}`).then(() => {
-          // 通知
+        router.push(`/account/${ account.data?.id }`).then(() => {
           setNotificate({
             open: true,
-            message: '記事を投稿しました。',
+            message: '記事を投稿しました'
           })
         })
-      },
-      onError: () => {
+      }).catch((error) => {
+        console.log(error)
         setNotificate({
           open: true,
-          message: '投稿にエラーが発生しました。',
+          message: '投稿に失敗しました'
         })
-
+      }).finally(() => {
         setLoading(false)
-      },
-    },
-  )
-
-  // 読み込み
-  useEffect(() => {
-    if(isLoading) setLoading(isLoading)
-  }, [isLoading])
+      })
+    }
+  }
+  
 
   return { mutate, loading }
 }

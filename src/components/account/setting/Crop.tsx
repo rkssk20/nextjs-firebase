@@ -18,16 +18,16 @@ const Crop = ({ selectImage, setSelectImage }: Props) => {
 
   // キャンセル
   const handleClose = () => {
-    if (isLoading) return
+    if (loading) return
     ;(document.getElementById('icon-button-file') as HTMLInputElement).value = ''
     setSelectImage('')
   }
 
-  const { mutate, isLoading } = useAvatarUpload(handleClose)
+  const { mutate, loading } = useAvatarUpload(handleClose)
 
   // 送信
   const handleConfirm = () => {
-    if ((ref=== null) || isLoading) return
+    if ((ref=== null) || loading) return
 
     // chromeならwebpに変換し、画質を0.5にする
     // chrome以外ではpngに変換される
@@ -35,10 +35,7 @@ const Crop = ({ selectImage, setSelectImage }: Props) => {
       (blob: Blob | null) => {
         if(blob === null) return
 
-        const type = blob.type
-        const index = type.indexOf('/')
-
-        mutate({ blob, type: type.substring(index + 1) })
+        mutate(blob)
       },
       'image/webp',
       0.5,
@@ -63,7 +60,7 @@ const Crop = ({ selectImage, setSelectImage }: Props) => {
       <CropSlider scale={scale} setScale={setScale} />
 
       {/* ボタン全体 */}
-      {isLoading ? (
+      {loading ? (
         <Circular />
       ) : (
         <CropButtons handleClose={handleClose} handleConfirm={handleConfirm} />

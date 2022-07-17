@@ -1,88 +1,127 @@
-import { useInfiniteQuery } from 'react-query'
-import { useSetRecoilState } from 'recoil'
-import type { definitions } from '@/types/supabase'
-import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
+import { useState, useEffect } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { accountState, notificateState } from '@/lib/recoil'
+import { db } from '@/lib/firebase'
+import type { RepliesType } from '@/types/types'
+import { collectionGroup, getDocs, getDoc, limit, orderBy, query, where } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 
-type ResultType = definitions['replies'] & { profiles: definitions['profiles'] } & {
-  replies_likes: definitions['replies_likes'][] | undefined
-}
-
-const FetchData = async (
-  pageParam: string | undefined,
-  comment_id: definitions['comments']['id'],
-) => {
-  const id = supabase.auth.user()?.id
-
-  const { data, error } =
-    // ログイン中
-    id
-      ? pageParam
-        ? // 初回読み込み
-          await supabase
-            .from<ResultType>('replies')
-            .select('*, profiles!reference_replies_profiles(username, avatar), replies_likes(id)')
-            .eq('comment_id', comment_id)
-            .order('created_at', {
-              ascending: true,
-            })
-            .gt('created_at', pageParam)
-            .limit(10)
-        : // 追加読み込み
-          await supabase
-            .from<ResultType>('replies')
-            .select('*, profiles!reference_replies_profiles(username, avatar), replies_likes(id)')
-            .eq('comment_id', comment_id)
-            .order('created_at', {
-              ascending: true,
-            })
-            .limit(10)
-      : // ログアウト中
-      pageParam
-      ? // 初回読み込み
-        await supabase
-          .from<ResultType>('replies')
-          .select('*,  profiles!reference_replies_profiles(username, avatar)')
-          .eq('comment_id', comment_id)
-          .order('created_at', {
-            ascending: true,
-          })
-          .gt('created_at', pageParam)
-          .limit(10)
-      : // 追加読み込み
-        await supabase
-          .from<ResultType>('replies')
-          .select('*, profiles!reference_replies_profiles(username, avatar)')
-          .eq('comment_id', comment_id)
-          .order('created_at', {
-            ascending: true,
-          })
-          .limit(10)
-
-  if (error) throw error
-
-  return data
-}
-
-const useSelectReplies = (id: definitions['comments']['id']) => {
+const useSelectReplies = (id: string) => {
+  const [data, setData] = useState<RepliesType[]>([])
+  const [loading, setLoading] = useState(true)
+  const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
+  const account = useRecoilValue(accountState)
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['replies', id],
-    ({ pageParam }) => FetchData(pageParam, id),
-    {
-      onError: () => {
+  useEffect(() => {
+    (async() => {
+      try {
+        const commentsCollection = collectionGroup(db, "replies")
+        const comments = await getDocs(query(commentsCollection, where("comment_id", "==", id), orderBy("created_at", "asc"), limit(10)))
+
+        if(comments.size < 10) {
+          setHasNextPage(false)
+        }
+
+        let array: any[] = []
+        
+        comments.forEach(item => {
+          const itemData = item.data()
+
+          array.push({
+            ...itemData,
+            id: item.ref.id,
+            like_count: itemData.replies_likes.length,
+            replies_likes: itemData.replies_likes.indexOf(account.data?.id) > -1 ? true : false,
+            user_id: itemData.user_id,
+            created_at: itemData.created_at.toDate(),
+            profilesRef: item.ref.parent.parent
+          })
+        })
+
+        await Promise.all (
+          array.map(async(item, index) => {
+            const profiles = await getDoc(item.profilesRef)
+            const itemData: any = profiles.data();
+
+            array[index].username = itemData?.username
+            array[index].avatar = itemData?.avatar
+            delete array[index].profilesRef
+            
+            if(item.avatar) {
+              array[index].avatar = await getDownloadURL(ref(getStorage(), item.avatar))  
+            }
+          })
+        )
+
+        setData(array)
+      } catch (e) {
+        console.log(e)
         setNotificate({
           open: true,
-          message: 'コメントの取得に失敗しました。',
+          message: 'コメントの取得に失敗しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage }
+  const fetchMore = async() => {
+    if(loading) return
+    setLoading(true)
+
+    try {
+      const commentsCollection = collectionGroup(db, "replies")
+      const comments = await getDocs(query(commentsCollection, where("comment_id", "==", id), where("created_at", ">", data[data.length - 1].created_at), orderBy("created_at", "asc"), limit(10)))
+
+      if(comments.size < 10) {
+        setHasNextPage(false)
+      }
+
+      let array: any[] = []
+      
+      comments.forEach(item => {
+        const itemData = item.data()
+
+        array.push({
+          ...itemData,
+          id: item.ref.id,
+          like_count: itemData.replies_likes.length,
+          replies_likes: itemData.replies_likes.indexOf(account.data?.id) > -1 ? true : false,
+          user_id: itemData.user_id,
+          created_at: itemData.created_at.toDate(),
+          profilesRef: item.ref.parent.parent
+        })
+      })
+
+      await Promise.all (
+        array.map(async(item, index) => {
+          const profiles: any = await getDoc(item.profilesRef)
+          const itemData = profiles.data()
+
+          array[index].username = itemData?.username
+          array[index].avatar = itemData?.avatar
+          delete array[index].profilesRef
+
+          if(item.avatar) {
+            array[index].avatar =  await getDownloadURL(ref(getStorage(), item.avatar))  
+          }
+        })
+      )
+
+      setData(prev => [...prev, ...array])
+    } catch {
+      setNotificate({
+        open: true,
+        message: 'コメントの取得に失敗しました'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { data, loading, hasNextPage, fetchMore, setData }
 }
 
 export default useSelectReplies

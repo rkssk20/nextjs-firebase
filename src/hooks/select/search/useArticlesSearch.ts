@@ -1,54 +1,72 @@
-import { useInfiniteQuery } from 'react-query'
+import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
+import { db } from '@/lib/firebase'
+import { collectionGroup, getDoc, getDocs, limit, orderBy, query, startAt, endAt } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-const FetchData = async (
-  pageParam: { like_count: number; created_at: string } | undefined,
-  word: string | string[],
-) => {
-  const { data, error } = pageParam
-    ? // 初回読み込み
-      await supabase.rpc('handle_articles_search_more', {
-        word,
-        lcount: pageParam.like_count,
-        created: pageParam.created_at,
-      })
-    : // 追加読み込み
-      await supabase.rpc('handle_articles_search', {
-        word,
-      })
-
-  if (error) throw error
-
-  return data as unknown as ArticleType[]
-}
 
 const useArticlesSearch = (word: string | string[]) => {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
+  const articlesCollection = collectionGroup(db, "articles")
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['articles_search', word],
-    ({ pageParam }) => FetchData(pageParam, word),
-    {
-      onError: () => {
+  useEffect(() => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const articlesDocument = await getDocs(query(articlesCollection, orderBy("title"), orderBy("details"), startAt(word), endAt(word + '\uf8ff'), limit(10)))
+
+        const array: any[] = []
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          array.push({
+            user_id: item.ref.parent.parent?.id,
+            profilesRef: item.ref.parent.parent,
+            id: item.id,
+            ...data,
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          array.map(async(item, index) => {
+            const profiles = await getDoc(item.profilesRef)
+            const data: any = profiles.data();
+            array[index].username = data.username;
+            array[index].avatar = data.avatar;
+            delete array[index].profilesRef;
+
+            if(item.avatar) {
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+            }
+
+            if(item.image) {
+              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            }
+          })
+        )
+    
+        setData(array)
+
+      } catch (e){
+        console.log(e)
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。',
+          message: 'エラーが発生しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10
-          ? {
-              like_count: lastPage[lastPage.length - 1].like_count,
-              created_at: lastPage[lastPage.length - 1].created_at,
-            }
-          : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })();
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage }
+  return { data, loading }
 }
 
 export default useArticlesSearch

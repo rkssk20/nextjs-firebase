@@ -25,9 +25,7 @@ const Header = ({ username, user_id, avatar, created_at }: HeaderProps) => {
         <MuiLink underline='none'>
           {avatar ? (
             <AvatarIcon
-              src={
-                process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + avatar
-              }
+              src={ avatar }
               variant='link'
             />
           ) : (

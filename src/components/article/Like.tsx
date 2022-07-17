@@ -1,7 +1,8 @@
 import { ReactElement, Dispatch, SetStateAction, useState } from 'react'
 import dynamic from 'next/dynamic'
 import useSelectLikes from '@/hooks/select/useSelectLikes'
-import useMutateLikes from '@/hooks/mutate/useMutateLikes'
+import useInsertArticlesLikes from '@/hooks/mutate/insert/useInsertArticlesLikes'
+import useArticlesLikesDelete from '@/hooks/mutate/delete/useArticlesLikesDelete'
 
 import IconButton from '@mui/material/IconButton'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
@@ -19,25 +20,57 @@ const Like = ({ handle, children }: { handle: () => void; children: ReactElement
 
 type LoginLikeProps = {
   path: string
+  user_id: string
   setLikeCountState: Dispatch<SetStateAction<number>>
 }
 
-// ログイン時のいいねボタン
-export const LoginLike = ({ path, setLikeCountState }: LoginLikeProps) => {
-  const { data, isFetching } = useSelectLikes(path)
-  const { mutate, isLoading } = useMutateLikes(path, setLikeCountState)
+type MutateProps = LoginLikeProps & {
+  setData: Dispatch<SetStateAction<boolean>>
+}
 
-  // いいね処理
-  const handleLikes = () => {
-    if (isFetching || isLoading) return
-
-    mutate(data?.id)
-  }
+// いいねするボタン
+const InsertLike = ({ path, user_id, setLikeCountState, setData }: MutateProps) => {
+  const mutate = useInsertArticlesLikes(user_id, path, setLikeCountState, setData)
 
   return (
-    <Like handle={handleLikes}>
-      {data?.id && data.id ? <FavoriteIcon /> : <FavoriteBorderIcon color='action' />}
+    <Like handle={() => mutate()}>
+      <FavoriteBorderIcon color='action' />
     </Like>
+  )
+}
+
+// いいねを取り消すボタン
+const DeleteLikes = ({path, user_id, setLikeCountState, setData}: MutateProps) => {
+  const mutate = useArticlesLikesDelete(path, user_id, setData, setLikeCountState)
+  
+  return (
+    <Like handle={() => mutate()}>
+      <FavoriteIcon />
+    </Like>
+  )
+}
+
+// ログイン時のいいねボタン
+export const LoginLike = ({ path, user_id, setLikeCountState }: LoginLikeProps) => {
+  const { data, loading, setData } = useSelectLikes(path)
+
+  if(loading) return null
+
+  return (
+    !loading && data ?
+      <DeleteLikes
+        path={ path }
+        user_id={ user_id }
+        setData={ setData }
+        setLikeCountState={ setLikeCountState }
+      />
+      :
+      <InsertLike
+        user_id={ user_id }
+        path={ path }
+        setLikeCountState={ setLikeCountState}
+        setData={ setData }
+      />
   )
 }
 

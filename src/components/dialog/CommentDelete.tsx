@@ -1,6 +1,6 @@
-import type { DialogProps } from '@/types/types'
-import type { definitions } from '@/types/supabase'
-import useCommentDelete from '@/hooks/mutate/delete/useCommentDelete'
+import type { Dispatch, SetStateAction } from 'react'
+import type { CommentType, DialogProps } from '@/types/types'
+import useDeleteComments from '@/hooks/mutate/delete/useDeleteComments'
 import Dialog from '@/components/dialog/Dialog'
 
 import styles from '@/styles/components/dialog/_delete.module.scss'
@@ -9,18 +9,15 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 
 type Props = DialogProps & {
+  index: number
+  user_id: string
   path: string
-  id: definitions['comments']['id']
+  id: string
+  setData: Dispatch<SetStateAction<CommentType[]>>
 }
 
-const CommentDelete = ({ dialog, handleClose, path, id }: Props) => {
-  const { mutate, isLoading } = useCommentDelete({ path, id, handleClose })
-
-  // 記事を削除
-  const handleDelete = () => {
-    if (isLoading) return
-    mutate()
-  }
+const CommentDelete = ({ dialog, handleClose, index, user_id, path, id, setData }: Props) => {
+  const mutate = useDeleteComments(index, id, user_id, path, setData, handleClose)
 
   return (
     <Dialog dialog={dialog} handleClose={handleClose}>
@@ -36,7 +33,7 @@ const CommentDelete = ({ dialog, handleClose, path, id }: Props) => {
           color='error'
           variant='contained'
           disableElevation
-          onClick={handleDelete}
+          onClick={() => mutate()}
         >
           削除
         </Button>

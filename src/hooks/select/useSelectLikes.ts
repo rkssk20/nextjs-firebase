@@ -1,37 +1,39 @@
-import { useQuery } from 'react-query'
-import { useSetRecoilState } from 'recoil'
-import { definitions } from '@/types/supabase'
-import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-const FetchData = async (path: string) => {
-  const id = supabase.auth.user()?.id
-
-  if (!id) throw 'error'
-
-  const { data, error } = await supabase
-    .from<definitions['likes']>('likes')
-    .select('id')
-    .match({ articles_id: path, user_id: id })
-
-  if (error) throw error
-
-  return data[0]
-}
+import { useState, useEffect } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { collection, getDoc, doc } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
+import { accountState, notificateState } from '@/lib/recoil'
 
 const useSelectLikes = (path: string) => {
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(false)
+  const account = useRecoilValue(accountState)
   const setNotificate = useSetRecoilState(notificateState)
+  
+  useEffect(() => {
+    (async() => {
+      if(!account.data) return
 
-  const { data, isFetching } = useQuery(['likes', path], () => FetchData(path), {
-    onError: () => {
-      setNotificate({
-        open: true,
-        message: 'エラーが発生しました。',
-      })
-    },
-  })
+      try {
+        const likesCollection = collection(db, "profiles", account.data.id, "likes")
+        const likesRef = doc(likesCollection, path)
+        const document = await getDoc(likesRef)
 
-  return { data, isFetching }
+        document.data() && setData(true)
+
+      } catch (e) {
+        console.log(e)
+        setNotificate({
+          open: true,
+          message: 'エラーが発生しました'
+        })
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [account.data])
+
+  return { data, loading, setData }
 }
 
 export default useSelectLikes

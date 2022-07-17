@@ -13,12 +13,13 @@ import Button from '@mui/material/Button'
 
 type CommentsProps = {
   path: string
+  user_id: string
   comments: number
 }
 
-const Comments = ({ path, comments }: CommentsProps) => {
+const Comments = ({ path, user_id, comments }: CommentsProps) => {
   // コメントの取得
-  const { data, refetch, isFetching, hasNextPage, fetchNextPage } = useSelectComments(path)
+  const { data, refetch, loading, hasNextPage, fetchMore, setData } = useSelectComments(path)
   // タイトルを監視して初回の取得
   const ref = useFirstObserve(refetch)
 
@@ -35,62 +36,68 @@ const Comments = ({ path, comments }: CommentsProps) => {
       </Typography>
 
       {/* コメントフォーム */}
-      <CommentForm path={path} />
+      <CommentForm
+        path={path}
+        user_id={ user_id }
+        setData={ setData }
+      />
 
       {/* コメント欄 */}
-      {data && data?.pages[0].length > 0
-        ? data.pages.map((pages) =>
-            pages.map((item) => (
-              <Card
-                key={item.id}
-                id={'comment' + String(item.id)}
-                className={styles.card}
-                elevation={0}
-              >
-                {/* アカウント、投稿時間 */}
-                <Header
-                  username={item.profiles.username}
-                  user_id={item.user_id}
-                  avatar={item.profiles.avatar}
-                  created_at={item.created_at}
-                />
+      {data && (data.length > 0) ? data.map((item, index) =>
+        <Card
+          key={item.id}
+          id={'comment' + String(item.id)}
+          className={styles.card}
+          elevation={0}
+        >
+          {/* アカウント、投稿時間 */}
+          <Header
+            username={item.username}
+            user_id={item.user_id}
+            avatar={item.avatar}
+            created_at={item.created_at}
+          />
 
-                {/* いいね、詳細ボタン */}
-                <Actions
-                  path={path}
-                  id={item.id}
-                  user_id={item.user_id}
-                  comment={item.comment}
-                  like_count={item.like_count}
-                  comments_likes={item.comments_likes}
-                />
+          {/* いいね、詳細ボタン */}
+          <Actions
+            index={ index }
+            path={path}
+            id={item.id}
+            user_id={item.user_id}
+            comment={item.comment}
+            like_count={item.like_count}
+            comments_likes={item.comments_likes}
+            setData={ setData }
+          />
 
-                {/* リプライ欄 */}
-                {item.reply_count > 0 && (
-                  <Replies path={path} id={item.id} reply_count={item.reply_count} />
-                )}
-              </Card>
-            )),
-          )
-        : !isFetching && (
-            <div className={styles.empty_field}>
-              <Typography variant='body1'>まだコメントがありません。</Typography>
-            </div>
+          {/* リプライ欄 */}
+          {(item.reply_count > 0) && (
+            <Replies
+              id={item.id}
+              user_id={ item.user_id }
+              reply_count={item.reply_count}
+            />
           )}
+        </Card>
+      ) : !loading && (
+        <div className={styles.empty_field}>
+          <Typography variant='body1'>まだコメントがありません。</Typography>
+        </div>
+      )}
 
       {/* さらに表示ボタン */}
-      {data && data?.pages.length > 0 && !isFetching && hasNextPage && (
+      {data && (data.length > 0) && !loading && hasNextPage && (
         <Button
           className={styles.more_button}
           classes={{ root: styles.more_button_root }}
-          onClick={() => fetchNextPage()}
+          onClick={() => fetchMore()}
         >
           さらに表示
         </Button>
       )}
 
       {/* ローディング */}
-      {isFetching && <Circular />}
+      {loading && <Circular />}
     </div>
   )
 }

@@ -9,25 +9,19 @@ import styles from '@/styles/components/article/comment/reply/replyForm.module.s
 import Button from '@mui/material/Button'
 
 type ReplyFormProps = {
-  path: string
-  id: number
+  id: string
+  user_id: string
   setFormOpen: Dispatch<SetStateAction<boolean>>
+  handleReply: (uuid: string, comment: string) => void
 }
 
 type LoginProps = ReplyFormProps & {
   username: string
 }
 
-const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
+const Login = ({ id, user_id, setFormOpen, username, handleReply }: LoginProps) => {
   const [text, setText] = useState('')
-  const { mutate, isLoading } = useInsertReplies(path, id)
-
-  // 返信を送信
-  const handlePost = () => {
-    if (isLoading) return
-    mutate(text)
-    setFormOpen(false)
-  }
+  const mutate = useInsertReplies(id, user_id, setText, handleReply)
 
   return (
     <LoginForm text={text} setText={setText} name={username} placeholder='返信する'>
@@ -43,7 +37,7 @@ const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
 
       {/* 送信ボタン */}
       {Boolean(text) ? (
-        <ContainedButton text='返信' handle={handlePost} />
+        <ContainedButton text='返信' handle={() => mutate(text)} />
       ) : (
         <DisabledButton text='返信' />
       )}
@@ -51,12 +45,18 @@ const Login = ({ path, id, setFormOpen, username }: LoginProps) => {
   )
 }
 
-const ReplyForm = ({ path, id, setFormOpen }: ReplyFormProps) => {
+const ReplyForm = ({ id, user_id, setFormOpen, handleReply }: ReplyFormProps) => {
   const account = useRecoilValue(accountState)
 
   // ログイン時
   if (account.data) {
-    return <Login path={path} id={id} setFormOpen={setFormOpen} username={account.data.username} />
+    return <Login
+      id={id}
+      user_id={ user_id }
+      setFormOpen={setFormOpen}
+      username={account.data.username}
+      handleReply={ handleReply }
+    />
 
     // ログアウト時
   } else {
