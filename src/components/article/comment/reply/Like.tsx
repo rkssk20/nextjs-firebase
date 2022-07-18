@@ -1,11 +1,12 @@
-import { useState, ReactElement } from 'react'
+import { useState, ReactElement, Dispatch, SetStateAction } from 'react'
 import dynamic from 'next/dynamic'
-import type { definitions } from '@/types/supabase'
-import useMutateRepliesLike from '@/hooks/mutate/useMutateRepliesLikes'
+import useInsertRepliesLikes from '@/hooks/mutate/insert/useInsertRepliesLikes'
+import useDeleteRepliesLikes from '@/hooks/mutate/delete/useDeleteRepliesLikes'
 
 import IconButton from '@mui/material/IconButton'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import { RepliesType } from '@/types/types'
 
 const Login = dynamic(import('@/components/dialog/Login'))
 
@@ -17,30 +18,51 @@ const Like = ({ handle, children }: { handle: () => void; children: ReactElement
   )
 }
 
-type LoginLikeProps = {
+type Props = {
+  index: number
   id: string
-  replies_like: boolean
+  user_id: string
+  setData: Dispatch<SetStateAction<RepliesType[]>>
 }
 
-const InsertLikes = () => {
+const InsertLikes = ({ index, id, user_id, setData }: Props) => {
+  const mutate = useInsertRepliesLikes(index, id, user_id, setData)
+
   return (
-    <Like handle={() => {}}>
+    <Like handle={() => mutate()}>
       <FavoriteBorderIcon color='action' />
     </Like>
   )
 }
 
-const DeleteLikes = () => {
+const DeleteLikes = ({ index, id, user_id, setData }: Props) => {
+  const mutate = useDeleteRepliesLikes(index, id, user_id, setData)
+
   return (
-    <Like handle={() => {}}>
+    <Like handle={() => mutate()}>
       <FavoriteIcon />
     </Like>
   )
 }
 
 // ログイン時のいいねボタン
-export const LoginLike = ({ id, replies_like }: LoginLikeProps) => {
-  return ( replies_like ? <DeleteLikes /> : <InsertLikes /> )
+export const LoginLike = ({ index, id, user_id, setData, replies_like }: Props & { replies_like: boolean }) => {
+  return (
+    replies_like ?
+    <DeleteLikes
+      index={ index }
+      id={ id }
+      user_id={ user_id }
+      setData={ setData }
+    />
+    :
+    <InsertLikes
+      index={ index }
+      id={ id }
+      user_id={ user_id }
+      setData={ setData }
+    />
+  )
 }
 
 // ログアウト時のいいねボタン

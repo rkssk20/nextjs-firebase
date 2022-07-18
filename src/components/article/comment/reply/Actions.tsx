@@ -1,8 +1,6 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRecoilValue } from 'recoil'
-import { definitions } from '@/types/supabase'
-import { supabase } from '@/lib/supabaseClient'
 import { accountState } from '@/lib/recoil'
 import { LoginLike, LogoutLike } from '@/components/article/comment/reply/Like'
 
@@ -12,19 +10,25 @@ import Typography from '@mui/material/Typography'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import { RepliesType } from '@/types/types'
 
 const ReplyDelete = dynamic(import('@/components/dialog/ReplyDelete'))
 const Report = dynamic(import('@/components/dialog/Report'))
 
 type Props = {
+  path: string
+  index: number
   id: string
+  articles_user_id: string
   user_id: string
+  comment_id: string
   comment: string
   like_count: number
   replies_like: boolean
+  setData: Dispatch<SetStateAction<RepliesType[]>>
 }
 
-const Actions = ({ id, user_id, comment, like_count, replies_like }: Props) => {
+const Actions = ({ path, index, id, articles_user_id, user_id, comment_id, comment, like_count, replies_like, setData }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [dialog, setDialog] = useState(false)
   const open = Boolean(anchorEl)
@@ -49,7 +53,13 @@ const Actions = ({ id, user_id, comment, like_count, replies_like }: Props) => {
       <div className={styles.actions_field}>
         {/* いいねボタン */}
         {account.data ? (
-          <LoginLike id={id} replies_like={replies_like} />
+          <LoginLike
+            index={ index }
+            id={id}
+            user_id={ user_id }
+            setData={ setData }
+            replies_like={replies_like}
+          />
         ) : (
           <LogoutLike />
         )}
@@ -74,19 +84,27 @@ const Actions = ({ id, user_id, comment, like_count, replies_like }: Props) => {
         </IconButton>
 
         {/* 詳細メニュー */}
-        <Menu id='positioned-menu' anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <MenuItem onClick={handleDialogOpen}>
-            {user_id === supabase.auth.user()?.id ? 'コメントを削除' : 'コメントの問題を報告'}
-          </MenuItem>
-        </Menu>
+        { !account.loading &&
+          <Menu id='positioned-menu' anchorEl={anchorEl} open={open} onClose={handleClose}>
+            <MenuItem onClick={handleDialogOpen}>
+              {user_id === account.data?.id ? 'コメントを削除' : 'コメントの問題を報告'}
+            </MenuItem>
+          </Menu>
+        }
       </div>
 
-      {dialog && user_id === supabase.auth.user()?.id ? (
+      {dialog && user_id === account.data?.id ? (
         // 削除ダイアログ
         <ReplyDelete
           dialog={dialog}
           handleClose={() => setDialog(false)}
+          path={ path }
+          articles_user_id={ articles_user_id }
+          index={ index }
+          comment_id={ comment_id }
+          user_id={ user_id }
           id={id}
+          setData={ setData }
         />
       ) : (
         // 報告ダイアログ

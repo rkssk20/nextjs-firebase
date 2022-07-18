@@ -1,64 +1,137 @@
-import { useInfiniteQuery } from 'react-query'
+import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import type { definitions } from '@/types/supabase'
+import { db } from '@/lib/firebase'
+import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-type ResultType = {
-  follower_id: definitions['follows']['follower_id']
-  username: definitions['profiles']['username']
-  avatar: definitions['profiles']['avatar']
-  details: definitions['profiles']['details']
-  user_id: definitions['follows']['user_id']
-  created_at: definitions['follows']['created_at']
-}
-
-const FetchData = async (pageParam: string | undefined, path: string) => {
-  const { data, error } = pageParam
-    ? // 初回読み込み
-      await supabase
-        .from<ResultType>('person_follows')
-        .select('follower_id, username, avatar, details')
-        .eq('user_id', path)
-        .order('created_at', {
-          ascending: false,
-        })
-        .lt('created_at', pageParam)
-        .limit(10)
-    : // 追加読み込み
-      await supabase
-        .from<ResultType>('person_follows')
-        .select('follower_id, username, avatar, details')
-        .eq('user_id', path)
-        .order('created_at', {
-          ascending: false,
-        })
-        .limit(10)
-
-  if (error) throw error
-
-  return data
-}
 
 const usePersonFollows = (path: string) => {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
+  const followsCollection = collection(db, "profiles", path, "follows")
+  const profilesCollection = collection(db, "profiles")
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['person_follows', path],
-    ({ pageParam }) => FetchData(pageParam, path),
-    {
-      onError: () => {
+  useEffect(() => {
+    (async() => {
+      try {
+        const followsDocument = await getDocs(query(followsCollection, orderBy("created_at", "desc"), limit(10)))
+
+        if(followsDocument.size < 10) {
+          setHasNextPage(false)
+
+          if(followsDocument.size === 0) {
+            return
+          }
+        }
+
+        let followsArray: any[] = []
+
+        followsDocument.forEach(item => {
+          followsArray.push(item.ref.id)
+        })
+
+        const profilesDocument = await getDocs(query(profilesCollection, where("id", "in", followsArray), limit(10)))
+
+        console.log(profilesDocument.size)
+
+        profilesDocument.forEach((item) => {
+          const data = item.data()
+
+          console.log(data)
+
+          const index = followsArray.indexOf(data.id)
+
+          followsArray.splice(index, 1, {
+            ...data,
+            details: data.details.slice(0, 50),
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        console.log(followsArray)
+
+        await Promise.all(
+          followsArray.map(async(item, index) => {
+            if(item.avatar) {
+              followsArray[index].avatar = await getDownloadURL(ref(getStorage(), followsArray[index].avatar))
+            }
+          })
+        )
+    
+        setData(followsArray)
+
+      } catch(e) {
+        console.log(e)
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。',
+          message: 'エラーが発生しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].created_at : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })();
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage }
+  const fetchMore = () => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const followsDocument = await getDocs(query(followsCollection, where("user_id", "==", path), where("created_at", "<", data[data.length - 1].created_at), orderBy("created_at", "desc"), limit(10)))        
+
+        if(followsDocument.size < 10) {
+          setHasNextPage(false)
+
+          if(followsDocument.size === 0) {
+            return
+          }
+        }
+
+        let followsArray: any[] = []
+
+        followsDocument.forEach(item => {
+          followsArray.push(item.ref.id)
+        })
+
+        const articlesDocument = await getDocs(query(profilesCollection, where("id", "in", followsArray), limit(10)))
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          const index = followsArray.indexOf(data.id)
+
+          followsArray.splice(index, 1, {
+            ...data,
+            details: data.details.slice(0, 50),
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          followsArray.map(async(item, index) => {
+            if(item.avatar) {
+              followsArray[index].avatar = await getDownloadURL(ref(getStorage(), followsArray[index].avatar))
+            }
+          })
+        )
+    
+        setData(prev => [...prev, ...followsArray])
+      } catch (e) {
+        console.log(e)
+        setNotificate({
+          open: true,
+          message: 'エラーが発生しました'
+        })
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }
+
+  return { data, loading, hasNextPage, fetchMore }
 }
 
 export default usePersonFollows

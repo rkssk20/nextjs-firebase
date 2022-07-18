@@ -6,7 +6,7 @@ import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
 
-const useCategoriesArticles = (category: 0 | 1) => {
+const useCategoriesArticles = (category: 0 | 1 | 2 | 3) => {
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [hasNextPage, setHasNextPage] = useState(true)

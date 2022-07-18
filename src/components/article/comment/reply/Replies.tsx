@@ -12,11 +12,13 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import CircularProgress from '@mui/material/CircularProgress'
 
 type ShowReplyProps = {
+  path: string
   id: string
+  articles_user_id: string
   user_id: string
 }
 
-const ShowReplies = ({ id, user_id }: ShowReplyProps) => {
+const ShowReplies = ({ path, id, articles_user_id, user_id }: ShowReplyProps) => {
   const [formOpen, setFormOpen] = useState(false)
   const { data, loading, hasNextPage, fetchMore, setData } = useSelectReplies(id)
   const account = useRecoilValue(accountState)
@@ -38,7 +40,7 @@ const ShowReplies = ({ id, user_id }: ShowReplyProps) => {
   return (
     <div>
       {/* リプライ欄 */}
-      {data && data.map((item) =>
+      {data && data.map((item, index) =>
         <div key={item.id} id={'reply' + String(item.id)}>
           {/* アカウント、投稿日時 */}
           <Header
@@ -50,11 +52,16 @@ const ShowReplies = ({ id, user_id }: ShowReplyProps) => {
 
           {/* いいね、詳細ボタン */}
           <Actions
+            path={ path }
+            index={ index }
             id={item.id}
+            articles_user_id={ articles_user_id }
             user_id={item.user_id}
+            comment_id={ id }
             comment={item.comment}
-            replies_like={item.replies_likes}
             like_count={item.like_count}
+            replies_like={item.replies_likes}
+            setData={ setData }
           />
         </div>
       )}
@@ -91,7 +98,9 @@ const ShowReplies = ({ id, user_id }: ShowReplyProps) => {
       {/* 返信フォーム */}
       { formOpen &&
         <ReplyForm
+          path={ path }
           id={id}
+          articles_user_id={ articles_user_id }
           user_id={ user_id }
           setFormOpen={setFormOpen}
           handleReply={ handleReply }
@@ -112,11 +121,16 @@ type RepliesProps = ShowReplyProps & {
   reply_count: number
 }
 
-const Replies = ({ id, user_id, reply_count }: RepliesProps) => {
+const Replies = ({ path, id, user_id, articles_user_id, reply_count }: RepliesProps) => {
   const [open, setOpen] = useState(false)
 
   return open ? (
-    <ShowReplies id={id} user_id={ user_id } />
+    <ShowReplies
+      path={ path }
+      id={id}
+      articles_user_id={ articles_user_id }
+      user_id={ user_id }
+    />
   ) : (
     <Button
       className={styles.more_button}

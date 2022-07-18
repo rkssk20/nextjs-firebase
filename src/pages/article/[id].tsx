@@ -178,7 +178,11 @@ const Article = ({ item, path }: ArticleProps) => {
       </div>
 
       {/* いいね、詳細ボタン */}
-      <Actions path={ path } user_id={item.user_id} like_count={item.like_count} />
+      <Actions
+        path={ path }
+        user_id={item.user_id}
+        like_count={item.like_count}
+      />
 
       {/* コメント欄 */}
       { !account.loading &&

@@ -8,27 +8,27 @@ import ContainerLayout from '@/components/provider/ContainerLayout'
 import Post from '@/components/post/Post'
 import Side from '@/components/side/Side'
 
-const Serverless = () => {
-  const { data, loading, hasNextPage, fetchMore } = useCategoriesArticles(1)
+const Firebase = () => {
+  const { data, loading, hasNextPage, fetchMore } = useCategoriesArticles(3)
   const setRef = useObserver({ hasNextPage, fetchMore })
 
   return (
     <ContainerLayout
       type='article'
-      title='フロント'
+      title='Firebase'
       description=''
       image=''
     >
-      <Header text='サーバーレス' url='serverless' />
+      <Header text='Firebase' url='firebase' />
 
       {/* 投稿一覧 */}
-      {data && data.map((item, index) =>
+      {data && data.map((item, index) => (
         <Post
           key={item.id}
           data={item}
           setRef={((data.length - 1) === index) && setRef}
         />
-      )}
+      ))}
 
       {/* 読み込み中 */}
       {loading && <Circular />}
@@ -36,13 +36,13 @@ const Serverless = () => {
   )
 }
 
-export default Serverless
+export default Firebase
 
-Serverless.getLayout = function getLayout (page: ReactElement) {
+Firebase.getLayout = function getLayout(page: ReactElement) {
   return (
     <PageLayout>
-      { page }
-
+      {page}
+      
       <Side />
     </PageLayout>
   )

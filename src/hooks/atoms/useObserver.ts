@@ -26,7 +26,7 @@ const useObserver = ({ hasNextPage, fetchMore }: Props) => {
         observer.unobserve(ref)
       }
     }
-  }, [ref])
+  }, [ref, hasNextPage])
 
   return setRef
 }

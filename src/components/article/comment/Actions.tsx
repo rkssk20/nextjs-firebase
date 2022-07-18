@@ -22,6 +22,7 @@ type ActionsProps = {
   index: number
   path: string
   id: string
+  articles_user_id: string
   user_id: string
   comment: string
   like_count: number
@@ -29,7 +30,7 @@ type ActionsProps = {
   setData: Dispatch<SetStateAction<CommentType[]>>
 }
 
-const Actions = ({ index, path, id, user_id, comment, like_count, comments_likes, setData }: ActionsProps) => {
+const Actions = ({ index, path, id, articles_user_id, user_id, comment, like_count, comments_likes, setData }: ActionsProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [formOpen, setFormOpen] = useState(false)
   const [dialog, setDialog] = useState(false)
@@ -110,7 +111,9 @@ const Actions = ({ index, path, id, user_id, comment, like_count, comments_likes
       {/* 返信フォーム */}
       {formOpen &&
         <ReplyForm
+          path={ path }
           id={id}
+          articles_user_id={ articles_user_id }
           user_id={ user_id }
           setFormOpen={setFormOpen}
           handleReply={ handleReply }

@@ -1,89 +1,159 @@
-import { FetchNextPageOptions, InfiniteData, useInfiniteQuery } from 'react-query'
+import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import type { definitions } from '@/types/supabase'
+import { db } from '@/lib/firebase'
+import { collectionGroup, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
-
-const FetchData = async (pageParam: string | undefined, path: string) => {
-  const { data, error } = pageParam
-    ? // 初回読み込み
-      await supabase
-        .from<definitions['likes_articles']>('likes_articles')
-        .select(
-          `id,
-      user_id,
-      title,
-      details,
-      image,
-      like_count,
-      comment_count,
-      created_at,
-      avatar,
-      username,
-      categories,
-      likes_created`,
-        )
-        .eq('likes_user', path)
-        .order('likes_created', {
-          ascending: false,
-        })
-        .lt('likes_created', pageParam)
-        .limit(10)
-    : // 追加読み込み
-      await supabase
-        .from<definitions['likes_articles']>('likes_articles')
-        .select(
-          `id,
-      user_id,
-      title,
-      details,
-      image,
-      like_count,
-      comment_count,
-      created_at,
-      avatar,
-      username,
-      categories,
-      likes_created`,
-        )
-        .eq('likes_user', path)
-        .order('likes_created', {
-          ascending: false,
-        })
-        .limit(10)
-
-  if (error) throw error
-
-  return data
-}
-
-type ReturnProps = {
-  data: InfiniteData<ArticleType[]> | undefined
-  isFetching: boolean
-  hasNextPage: boolean | undefined
-  fetchNextPage: () => void
-}
 
 const useLikesArticles = (path: string) => {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
+  const likesCollection = collectionGroup(db, "likes")
+  const articlesCollection = collectionGroup(db, "articles")
 
-  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['likes_articles', path],
-    ({ pageParam }) => FetchData(pageParam, path),
-    {
-      onError: () => {
+  useEffect(() => {
+    (async() => {
+      try {
+        const likesDocument = await getDocs(query(likesCollection, where("user_id", "==", path), orderBy("created_at", "desc"), limit(10)))
+
+        if(likesDocument.size < 10) {
+          setHasNextPage(false)
+
+          if(likesDocument.size === 0) {
+            return
+          }
+        }
+
+        let likesArray: any[] = []
+
+        likesDocument.forEach(item => {
+          likesArray.push(item.ref.id)
+        })
+
+        const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", likesArray), limit(10)))
+
+        console.log(articlesDocument.size)
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          const index = likesArray.indexOf(data.id)
+
+          likesArray.splice(index, 1, {
+            user_id: item.ref.parent.parent?.id,
+            profilesRef: item.ref.parent.parent,
+            id: item.id,
+            ...data,
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          likesArray.map(async(item, index) => {
+            const profiles = await getDoc(item.profilesRef)
+            const data: any = profiles.data();
+            
+            likesArray[index].username = data.username;
+            likesArray[index].avatar = data.avatar;
+            delete likesArray[index].profilesRef;
+
+            if(item.avatar) {
+              likesArray[index].avatar = await getDownloadURL(ref(getStorage(), likesArray[index].avatar))
+            }
+
+            if(item.image) {
+              likesArray[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            }
+          })
+        )
+    
+        setData(likesArray)
+
+      } catch {
         setNotificate({
           open: true,
-          message: 'エラーが発生しました。',
+          message: 'エラーが発生しました'
         })
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage && lastPage.length === 10 ? lastPage[lastPage.length - 1].likes_created : false,
-    },
-  )
+      } finally {
+        setLoading(false)
+      }
+    })();
+  }, [])
 
-  return { data, isFetching, hasNextPage, fetchNextPage } as unknown as ReturnProps
+  const fetchMore = () => {
+    if(loading) return;
+    setLoading(true);
+
+    (async() => {
+      try {
+        const likesDocument = await getDocs(query(likesCollection, where("user_id", "==", path), where("created_at", "<", data[data.length - 1].created_at), orderBy("created_at", "desc"), limit(10)))        
+
+        if(likesDocument.size < 10) {
+          setHasNextPage(false)
+
+          if(likesDocument.size === 0) {
+            return
+          }
+        }
+
+        let likesArray: any[] = []
+
+        likesDocument.forEach(item => {
+          likesArray.push(item.ref.id)
+        })
+
+        const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", likesArray), limit(10)))
+
+        articlesDocument.forEach((item) => {
+          const data = item.data()
+
+          const index = likesArray.indexOf(data.id)
+
+          likesArray.splice(index, 1, {
+            user_id: item.ref.parent.parent?.id,
+            profilesRef: item.ref.parent.parent,
+            id: item.id,
+            ...data,
+            created_at: data.created_at.toDate()
+          })
+        })
+
+        await Promise.all(
+          likesArray.map(async(item, index) => {
+            const profiles = await getDoc(item.profilesRef)
+            const data: any = profiles.data();
+            
+            likesArray[index].username = data.username;
+            likesArray[index].avatar = data.avatar;
+            delete likesArray[index].profilesRef;
+
+            if(item.avatar) {
+              likesArray[index].avatar = await getDownloadURL(ref(getStorage(), likesArray[index].avatar))
+            }
+
+            if(item.image) {
+              likesArray[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            }
+          })
+        )
+    
+        setData(prev => [...prev, ...likesArray])
+      } catch (e) {
+        console.log(e)
+        setNotificate({
+          open: true,
+          message: 'エラーが発生しました'
+        })
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }
+
+  return { data, loading, hasNextPage, fetchMore }
 }
 
 export default useLikesArticles

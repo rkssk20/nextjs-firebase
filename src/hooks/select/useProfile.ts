@@ -40,6 +40,7 @@ const useProfile = () => {
         // 新規アカウントでログイン
         } else {
           setDoc(profilesRef, {
+            id: user.uid,
             username: user.displayName ?? "アカウント",
             avatar: "",
             details: "",
@@ -47,7 +48,6 @@ const useProfile = () => {
             follower_count: 0,
             created_at: serverTimestamp()
           }).then(() => {
-            console.log('a')
             setAccount({
               loading: false,
               data: {

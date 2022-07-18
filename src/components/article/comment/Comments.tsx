@@ -63,6 +63,7 @@ const Comments = ({ path, user_id, comments }: CommentsProps) => {
             index={ index }
             path={path}
             id={item.id}
+            articles_user_id={ user_id }
             user_id={item.user_id}
             comment={item.comment}
             like_count={item.like_count}
@@ -73,7 +74,9 @@ const Comments = ({ path, user_id, comments }: CommentsProps) => {
           {/* リプライ欄 */}
           {(item.reply_count > 0) && (
             <Replies
+              path={ path }
               id={item.id}
+              articles_user_id={ user_id }
               user_id={ item.user_id }
               reply_count={item.reply_count}
             />

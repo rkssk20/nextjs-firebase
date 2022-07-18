@@ -5,7 +5,7 @@ import { doc, setDoc, updateDoc, increment, serverTimestamp } from 'firebase/fir
 import { db } from '@/lib/firebase'
 import { accountState, notificateState } from '@/lib/recoil'
 
-const useInsertReplies = (id: string, user_id: string, setText: Dispatch<SetStateAction<string>>, handleReply: (uuid: string, comment: string) => void) => {
+const useInsertReplies = (path: string, id: string, articles_user_id: string, user_id: string, setFormOpen: Dispatch<SetStateAction<boolean>>, handleReply: (uuid: string, comment: string) => void) => {
   const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
   const account = useRecoilValue(accountState)
@@ -17,9 +17,9 @@ const useInsertReplies = (id: string, user_id: string, setText: Dispatch<SetStat
 
       const uuid = nanoid()
 
-      await setDoc(doc(db, 'profiles', account.data.id, "replies", id), {
+      await setDoc(doc(db, 'profiles', account.data.id, "replies", uuid), {
         user_id: account.data.id,
-        comment_id: uuid,
+        comment_id: id,
         comment,
         replies_likes: [],
         created_at: serverTimestamp()
@@ -29,9 +29,13 @@ const useInsertReplies = (id: string, user_id: string, setText: Dispatch<SetStat
         reply_count: increment(1)
       })
 
+      await updateDoc(doc(db, "profiles", articles_user_id, "articles", path), {
+        comment_count: increment(1)
+      })
+
       handleReply(uuid, comment)
 
-      setText('')
+      setFormOpen(false)
 
       setNotificate({
         open: true,

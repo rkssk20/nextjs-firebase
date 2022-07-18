@@ -1,19 +1,15 @@
 import { Dispatch, SetStateAction, useState } from 'react'
+import { doc, updateDoc, arrayRemove } from 'firebase/firestore'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { deleteDoc, updateDoc, doc, increment } from 'firebase/firestore'
-import { accountState, notificateState } from '@/lib/recoil'
 import { db } from '@/lib/firebase'
+import { accountState, notificateState } from '@/lib/recoil'
 import type { RepliesType } from '@/types/types'
 
-const useReplyDelete = (
-  path: string,
-  articles_user_id: string,
-  comment_id: string,
-  user_id: string,
+const useDeleteRepliesLikes = (
   index: number,
   id: string,
+  user_id: string,
   setData: Dispatch<SetStateAction<RepliesType[]>>,
-  handleClose: () => void
 ) => {
   const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
@@ -24,23 +20,22 @@ const useReplyDelete = (
     setLoading(true)
 
     try {
-      await deleteDoc(doc(db, "profiles", account.data.id, "replies", id))
-
-      await updateDoc(doc(db, "profiles", user_id, "comments", comment_id), {
-        reply_count: increment(-1)
+      await updateDoc(doc(db, "profiles", user_id, "replies", id), {
+        replies_likes: arrayRemove(account.data.id)
       })
 
-      await updateDoc(doc(db, "profiles", articles_user_id, "articles", path), {
-        comment_count: increment(-1)
-      })
-
-      setData(prev => prev.filter((item, number) => index !== number))
-
-      handleClose()
+      setData(prev => prev.map((item, number) => (
+        (index === number) ? {
+          ...item,
+          like_count: item.like_count - 1,
+          replies_likes: false
+        } : item
+      ))
+    )
 
       setNotificate({
         open: true,
-        message: 'コメントを削除しました'
+        message: 'いいねを取り消しました'
       })
 
     } catch {
@@ -56,4 +51,4 @@ const useReplyDelete = (
   return mutate
 }
 
-export default useReplyDelete
+export default useDeleteRepliesLikes

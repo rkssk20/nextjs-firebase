@@ -11,16 +11,13 @@ const usePersonArticles = (path: string) => {
     avatar: ''
   })
   const [data, setData] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [hasNextPage, setHasNextPage] = useState(true)
   const setNotificate = useSetRecoilState(notificateState)
   const profilesCollection = collection(db, "profiles")
   const articlesCollection = collection(db, "profiles", path, "articles")
 
   useEffect(() => {
-    if(loading) return
-    setLoading(true);
-
     (async() => {
       try {
         // 投稿主の情報
