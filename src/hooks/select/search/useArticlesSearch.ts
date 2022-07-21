@@ -23,14 +23,15 @@ const useArticlesSearch = (word: string | string[]) => {
         const array: any[] = []
 
         articlesDocument.forEach((item) => {
-          const data = item.data()
+          const itemData = item.data()
 
           array.push({
             user_id: item.ref.parent.parent?.id,
             profilesRef: item.ref.parent.parent,
             id: item.id,
-            ...data,
-            created_at: data.created_at.toDate()
+            ...itemData,
+            details: itemData.details.slice(0, 50),
+            created_at: itemData.created_at.toDate()
           })
         })
 

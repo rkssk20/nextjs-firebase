@@ -62,7 +62,7 @@ const Follow = ({ item, path }: AccountProps) => {
       type='profile'
       title={item.username + 'のフォロー一覧'}
       description={item.details || ''}
-      image={ item.avatar ? item.avatar : '' }
+      image={ item.avatar ?? '' }
     >
       {/* ヘッダー */}
       <Header path={path} name={item.username} />

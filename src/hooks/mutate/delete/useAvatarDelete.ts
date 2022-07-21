@@ -1,76 +1,57 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { supabase } from '@/lib/supabaseClient'
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { getStorage, ref, deleteObject } from "firebase/storage";
+import { db } from "@/lib/firebase";
 import { accountState, notificateState } from '@/lib/recoil'
 
-type MutateType = {
-  blob: Blob
-  type: string
-}
-
-type ExistingType =
-  | {
-      username: string
-      details: string | null
-      avatar: string | null
-    }
-  | undefined
-
-const mutateAvatar = async (avatar: string | undefined) => {
-  if (!avatar) throw 'error'
-
-  const { error, data } = await supabase.storage
-    .from('avatars')
-    .remove([
-      avatar.replace(
-        process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/',
-        '',
-      ),
-    ])
-
-  if (error) throw error
-
-  return data
-}
-
 const useAvatarDelete = () => {
+  const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
   const [account, setAccount] = useRecoilState(accountState)
-  const queryClient = useQueryClient()
 
-  const { mutate } = useMutation(() => mutateAvatar(account.data?.avatar), {
-    onSuccess: () => {
+  const mutate = async() => {
+    if(loading) return
+    setLoading(true)
+
+    try {
+      const profilesCollection = collection(db, "profiles")
+      const profilesRef = doc(profilesCollection, account.data?.id)
+      const document = await getDoc(profilesRef)
+  
+      const storage = getStorage()
+      const desertRef = ref(storage, document.data()?.avatar)
+      await deleteObject(desertRef)
+  
+      await updateDoc(doc(db, 'profiles', account.data?.id as string), {
+        avatar: ''
+      })
+
       setAccount({
         loading: false,
         data: {
-          username: account.data?.username ?? '',
-          avatar: undefined,
-        },
+          id: account.data?.id as string,
+          username: account.data?.username as string,
+          avatar: ''
+        }
       })
-
-      const existing: ExistingType = queryClient.getQueryData('profilesDetails')
-
-      if (existing) {
-        queryClient.setQueryData('profilesDetails', {
-          ...existing,
-          avatar: null,
-        })
-      }
 
       setNotificate({
         open: true,
-        message: 'アイコンを削除しました',
+        message: 'プロフィール画像を変更しました'
       })
-    },
-    onError: () => {
+    } catch {
       setNotificate({
         open: true,
-        message: '削除に失敗しました',
+        message: 'エラーが発生しました'
       })
-    },
-  })
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  return { mutate }
+
+  return mutate
 }
 
 export default useAvatarDelete

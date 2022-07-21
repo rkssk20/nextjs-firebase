@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRecoilValue } from 'recoil'
-import type { definitions } from '@/types/supabase'
 import { accountState } from '@/lib/recoil'
-import { supabase } from '@/lib/supabaseClient'
 import Popup from '@/atoms/Popup'
 import { LoginLike, LogoutLike } from '@/components/article/Like'
 
@@ -17,8 +15,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import MenuItem from '@mui/material/MenuItem'
 
 type ActionsProps = {
-  like_count: definitions['articles']['like_count']
-  user_id: definitions['articles']['user_id']
+  like_count: number
+  user_id: string
   path: string
 }
 
@@ -82,7 +80,12 @@ const Actions = ({ like_count, user_id, path }: ActionsProps) => {
 
       {dialog && (user_id === account.data?.id) ? (
         // 削除ダイアログ
-        <ArticleDelete dialog={dialog} handleClose={() => setDialog(false)} path={path} />
+        <ArticleDelete
+          dialog={dialog}
+          handleClose={() => setDialog(false)}
+          path={path}
+          user_id={ user_id }
+        />
       ) : (
         // 報告ダイアログ
         <Report dialog={dialog} handleClose={() => setDialog(false)} />

@@ -28,13 +28,13 @@ const useUserNoWord = () => {
         }
 
         articlesDocument.forEach((item) => {
-          const data = item.data()
+          const itemData = item.data()
 
           array.push({
             id: item.ref.id,
-            username: data.username,
-            avatar: data.avatar,
-            details: data.details.slice(0, 50)
+            username: itemData.username,
+            avatar: itemData.avatar,
+            details: itemData.details.slice(0, 50)
           })
         })
 
@@ -75,12 +75,12 @@ const useUserNoWord = () => {
         }
 
         articlesDocument.forEach((item) => {
-          const data = item.data()
+          const itemData = item.data()
 
           array.push({
-            username: data.username,
-            avatar: data.avatar,
-            details: data.details.slice(0, 50)
+            username: itemData.username,
+            avatar: itemData.avatar,
+            details: itemData.details.slice(0, 50)
           })
         })
 

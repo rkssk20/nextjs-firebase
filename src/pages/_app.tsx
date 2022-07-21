@@ -2,9 +2,6 @@ import type { ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { RecoilRoot } from 'recoil'
-import { QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
-import client from '@/lib/queryClient'
 import useGA from '@/hooks/useGA'
 import muiTheme from '@/lib/muiTheme'
 import Auth from '@/components/provider/Auth'
@@ -28,17 +25,12 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   return (
     // recoil
     <RecoilRoot>
-      {/* react-query */}
-      <QueryClientProvider client={client}>
-        <Auth>
-          {/* Mui */}
-          <ThemeProvider theme={ muiTheme }>
-            {getLayout(<Component {...pageProps} />)}
-
-            <ReactQueryDevtools initialIsOpen={false} />
-          </ThemeProvider>
-        </Auth>
-      </QueryClientProvider>
+      <Auth>
+        {/* Mui */}
+        <ThemeProvider theme={ muiTheme }>
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
+      </Auth>
     </RecoilRoot>
   )
 }

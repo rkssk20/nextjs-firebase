@@ -9,18 +9,13 @@ import Button from '@mui/material/Button'
 
 type Props = DialogProps & {
   path: string
+  user_id: string
 }
 
-const ArticleDelete = ({ dialog, handleClose, path }: Props) => {
-  const { mutate, isLoading } = useArticleDelete(path)
+const ArticleDelete = ({ dialog, handleClose, path, user_id }: Props) => {
+  const mutate = useArticleDelete(path, user_id)
 
   const list = ['記事に関するデータ', '記事へのコメント', '記事、コメントへのいいね']
-
-  // 記事を削除
-  const handleDelete = () => {
-    if (isLoading) return
-    mutate()
-  }
 
   return (
     <Dialog dialog={dialog} handleClose={handleClose}>
@@ -42,7 +37,7 @@ const ArticleDelete = ({ dialog, handleClose, path }: Props) => {
           color='error'
           variant='contained'
           disableElevation
-          onClick={handleDelete}
+          onClick={() => mutate()}
         >
           削除
         </Button>

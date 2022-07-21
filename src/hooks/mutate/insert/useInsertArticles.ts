@@ -47,9 +47,12 @@ const useInsertArticles = () => {
         });
       }
 
+      const id = nanoid()
+
       // 記事を投稿
       const profilesCollection = collection(db, 'profiles', account.data.id, 'articles')
-      setDoc(doc(profilesCollection), {
+      setDoc(doc(profilesCollection, id), {
+        id,
         title,
         details,
         categories,

@@ -1,43 +1,73 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useMutation } from 'react-query'
+import { doc, collection, collectionGroup, getDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore'
+import { getStorage, ref, deleteObject } from 'firebase/storage'
+import { db } from '@/lib/firebase'
 import { useSetRecoilState } from 'recoil'
-import type { definitions } from '@/types/supabase'
-import { supabase } from '@/lib/supabaseClient'
 import { notificateState } from '@/lib/recoil'
 
-const Mutate = async (path: string) => {
-  const { data, error } = await supabase
-    .from<definitions['articles']>('articles')
-    .delete({ returning: 'minimal' })
-    .eq('id', path)
-
-  if (error) throw error
-
-  return data
-}
-
-const useArticleDelete = (path: string) => {
+const useArticleDelete = (path: string, user_id: string) => {
+  const [loading, setLoading] = useState(false)
   const setNotificate = useSetRecoilState(notificateState)
   const router = useRouter()
 
-  const { mutate, isLoading } = useMutation(() => Mutate(path), {
-    onSuccess: () => {
-      router.push('/').then(() =>
+  const mutate = async() => {
+    if(loading) return
+    setLoading(true)
+
+    try {
+      const articleCollection = collection(db, "profiles", user_id, "articles")
+      const articleRef = doc(articleCollection, path)
+      const articleDocument = await getDoc(articleRef)
+
+      const avatar = articleDocument.data()?.avagar
+      
+      if(avatar) {
+        const storage = getStorage()
+        const desertRef = ref(storage, avatar)
+        await deleteObject(desertRef)
+      }
+
+      await deleteDoc(doc(db, "profiles", user_id, "articles", path))
+
+      // 関連データの削除は、本来はCloud Functionで発動させる処理
+      const commentsCollection = collectionGroup(db, "comments")
+      const comments = await getDocs(query(commentsCollection, where("articles_id", "==", path)))
+
+      comments.forEach(async(item) => {
+        const itemData = item.data()
+
+        await deleteDoc(doc(db, "profiles", itemData.user_id, "comments", item.ref.id))
+      })
+
+      const likesCollection = collectionGroup(db, "likes")
+      const likes = await getDocs(query(likesCollection, where("articles_id", "==", path)))
+
+      likes.forEach(async(item) => {
+        const itemData = item.data()
+
+        await deleteDoc(doc(db, "profiles", itemData.user_id, "likes", item.ref.id))
+      })
+
+
+      router.push('/').then(() => {
         setNotificate({
           open: true,
-          message: '記事を削除しました。',
-        }),
-      )
-    },
-    onError: () => {
+          message: '投稿が完了しました'
+        })
+      })
+    } catch (e) {
+      console.log(e)
       setNotificate({
         open: true,
-        message: 'エラーが発生しました。',
+        message: 'エラーが発生しました'
       })
-    },
-  })
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  return { mutate, isLoading }
+  return mutate
 }
 
 export default useArticleDelete

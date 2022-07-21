@@ -27,50 +27,51 @@ const useLikesArticles = (path: string) => {
           }
         }
 
-        let likesArray: any[] = []
+        let array: any[] = []
 
         likesDocument.forEach(item => {
-          likesArray.push(item.ref.id)
+          array.push(item.ref.id)
         })
 
-        const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", likesArray), limit(10)))
+        console.log(array)
 
-        console.log(articlesDocument.size)
+        const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", array), limit(10)))
 
         articlesDocument.forEach((item) => {
-          const data = item.data()
+          const itemData = item.data()
 
-          const index = likesArray.indexOf(data.id)
+          const index = array.indexOf(itemData.id)
 
-          likesArray.splice(index, 1, {
+          array.splice(index, 1, {
             user_id: item.ref.parent.parent?.id,
             profilesRef: item.ref.parent.parent,
             id: item.id,
-            ...data,
-            created_at: data.created_at.toDate()
+            ...itemData,
+            details: itemData.details.slice(0, 50),
+            created_at: itemData.created_at.toDate()
           })
         })
 
         await Promise.all(
-          likesArray.map(async(item, index) => {
+          array.map(async(item, index) => {
             const profiles = await getDoc(item.profilesRef)
             const data: any = profiles.data();
             
-            likesArray[index].username = data.username;
-            likesArray[index].avatar = data.avatar;
-            delete likesArray[index].profilesRef;
+            array[index].username = data.username;
+            array[index].avatar = data.avatar;
+            delete array[index].profilesRef;
 
             if(item.avatar) {
-              likesArray[index].avatar = await getDownloadURL(ref(getStorage(), likesArray[index].avatar))
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
             }
 
             if(item.image) {
-              likesArray[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
             }
           })
         )
     
-        setData(likesArray)
+        setData(array)
 
       } catch {
         setNotificate({
@@ -99,48 +100,49 @@ const useLikesArticles = (path: string) => {
           }
         }
 
-        let likesArray: any[] = []
+        let array: any[] = []
 
         likesDocument.forEach(item => {
-          likesArray.push(item.ref.id)
+          array.push(item.ref.id)
         })
 
-        const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", likesArray), limit(10)))
+        const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", array), limit(10)))
 
         articlesDocument.forEach((item) => {
-          const data = item.data()
+          const itemData = item.data()
 
-          const index = likesArray.indexOf(data.id)
+          const index = array.indexOf(itemData.id)
 
-          likesArray.splice(index, 1, {
+          array.splice(index, 1, {
             user_id: item.ref.parent.parent?.id,
             profilesRef: item.ref.parent.parent,
             id: item.id,
-            ...data,
-            created_at: data.created_at.toDate()
+            ...itemData,
+            details: itemData.details.slice(0, 50),
+            created_at: itemData.created_at.toDate()
           })
         })
 
         await Promise.all(
-          likesArray.map(async(item, index) => {
+          array.map(async(item, index) => {
             const profiles = await getDoc(item.profilesRef)
             const data: any = profiles.data();
             
-            likesArray[index].username = data.username;
-            likesArray[index].avatar = data.avatar;
-            delete likesArray[index].profilesRef;
+            array[index].username = data.username;
+            array[index].avatar = data.avatar;
+            delete array[index].profilesRef;
 
             if(item.avatar) {
-              likesArray[index].avatar = await getDownloadURL(ref(getStorage(), likesArray[index].avatar))
+              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
             }
 
             if(item.image) {
-              likesArray[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
             }
           })
         )
     
-        setData(prev => [...prev, ...likesArray])
+        setData(prev => [...prev, ...array])
       } catch (e) {
         console.log(e)
         setNotificate({

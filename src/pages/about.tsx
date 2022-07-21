@@ -21,14 +21,12 @@ const About = () => {
       description=''
       image=''
     >
-      <Introduction />
-
       <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
         技術選定
       </Typography>
 
       <NextLink href='/article/' passHref>
-        <MuiLink className={styles.link}>Next.js × Supabaseの技術選定</MuiLink>
+        <MuiLink className={styles.link}>Next.js × Firebaseの技術選定</MuiLink>
       </NextLink>
 
       <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
@@ -36,16 +34,16 @@ const About = () => {
       </Typography>
 
       <NextLink href='/article/' passHref>
-        <MuiLink className={styles.link}>Next.js × Supabaseで実装した機能</MuiLink>
+        <MuiLink className={styles.link}>Next.js × Firebaseで実装した機能</MuiLink>
       </NextLink>
 
       <Typography className={styles.title} classes={{ root: styles.title_root }} variant='h3'>
         GitHubリポジトリ
       </Typography>
 
-      <NextLink href='https://github.com/rkssk20/nextjs-supabase' passHref>
+      <NextLink href='https://github.com/rkssk20/nextjs-firebase' passHref>
         <MuiLink className={styles.link} target='_blank'>
-          rkssk20/nextjs-supabase
+          rkssk20/nextjs-firebase
         </MuiLink>
       </NextLink>
 
@@ -61,6 +59,8 @@ export default About
 About.getLayout = function getLayout(page: ReactElement) {
   return (
     <PageLayout>
+      <Introduction details={ false } />
+
       {page}
 
       <Side />

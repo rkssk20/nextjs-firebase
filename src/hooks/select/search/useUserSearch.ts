@@ -23,12 +23,12 @@ const useUserSearch = (word: string | string[]) => {
         const array: any[] = []
 
         articlesDocument.forEach((item) => {
-          const data = item.data()
+          const itemData = item.data()
 
           array.push({
-            username: data.username,
-            avatar: data.avatar,
-            details: data.details.slice(0, 50)
+            username: itemData.username,
+            avatar: itemData.avatar,
+            details: itemData.details.slice(0, 50)
           })
         })
 

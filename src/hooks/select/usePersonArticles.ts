@@ -44,14 +44,17 @@ const usePersonArticles = (path: string) => {
           setHasNextPage(false)
         }
 
-        articlesDocument.forEach((item) => {          
+        articlesDocument.forEach((item) => {   
+          const itemData = item.data()
+
           array.push({
             user_id: path,
             username: profiles?.username,
             avatar,
             id: item.id,
-            ...item.data(),
-            created_at: item.data().created_at.toDate()
+            ...itemData,
+            details: itemData.details.slice(0, 50),
+            created_at: itemData.created_at.toDate()
           })
         })
 
@@ -91,13 +94,16 @@ const usePersonArticles = (path: string) => {
       }
 
       articlesDocument.forEach((item) => {
+        const itemData = item.data()
+
         array.push({
           user_id: path,
           username: account.username,
           avatar: account.avatar,
           id: item.id,
-          ...item.data(),
-          created_at: item.data().created_at.toDate()
+          ...itemData,
+          details: itemData.details.slice(0, 50),
+          created_at: itemData.created_at.toDate()
         })
       })
 

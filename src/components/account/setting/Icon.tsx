@@ -18,7 +18,7 @@ const Icon = ({ newUserName }: IconProps) => {
   const [selectImage, setSelectImage] = useState('')
   const account = useRecoilValue(accountState)
   const setNotificate = useSetRecoilState(notificateState)
-  const { mutate } = useAvatarDelete()
+  const mutate = useAvatarDelete()
   const color = Color(newUserName)
 
   // 画像選択

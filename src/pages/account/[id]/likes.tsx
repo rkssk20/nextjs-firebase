@@ -63,9 +63,7 @@ const Likes = ({ item, path }: AccountProps) => {
       type='profile'
       title={item.username + 'がいいねした投稿一覧'}
       description={item.details || ''}
-      image={ item.avatar ?
-        process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/avatars/' + item.avatar : ''
-      }
+      image={ item.avatar ?? '' }
     >
       {/* アカウント情報 */}
       <Profile path={path} item={item} />

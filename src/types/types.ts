@@ -1,5 +1,4 @@
 import type { MouseEvent } from 'react'
-import type { definitions } from '@/types/supabase'
 
 // プロフィール
 export type ProfileType = {
@@ -30,15 +29,6 @@ export type ArticleType = {
   avatar: string
   username: string
   categories: string[] | number[]
-}
-
-// アカウントトップ10
-export type ProfilesSummaryType = {
-  id: definitions['profiles']['id']
-  username: definitions['profiles']['username']
-  avatar: definitions['profiles']['avatar']
-  details: definitions['profiles']['details']
-  follower_count: definitions['profiles']['follower_count']
 }
 
 // ダイアログ

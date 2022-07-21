@@ -7,9 +7,6 @@ import PageLayout from '@/components/provider/PageLayout'
 import ContainerLayout from '@/components/provider/ContainerLayout'
 import Post from '@/components/post/Post'
 
-import { definitions } from '@/types/supabase'
-import { supabase } from '@/lib/supabaseClient'
-
 const Home = () => {
   return (
     <ContainerLayout
@@ -36,7 +33,7 @@ export default Home
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
     <PageLayout>
-      <Introduction />
+      <Introduction details />
       
       { page }
     </PageLayout>

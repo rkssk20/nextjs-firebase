@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import { doc, deleteDoc, updateDoc, increment } from 'firebase/firestore'
+import { collectionGroup, getDocs, query, where, doc, deleteDoc, updateDoc, increment } from 'firebase/firestore'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { db } from '@/lib/firebase'
 import { accountState, notificateState } from '@/lib/recoil'
@@ -29,6 +29,16 @@ const useDeleteComments = (
       })
 
       setData(prev => prev.filter((item, number) => index !== number))
+
+      // 関連データの削除は、本来はCloud Functionで発動させる処理
+      const repliesCollection = collectionGroup(db, "replies")
+      const replies = await getDocs(query(repliesCollection, where("comment_id", "==", id)))
+
+      replies.forEach(async(item) => {
+        const itemData = item.data()
+
+        await deleteDoc(doc(db, "profiles", itemData.user_id, "replies", item.ref.id))
+      })
 
       handleClose()
 
