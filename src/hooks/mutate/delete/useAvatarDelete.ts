@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
-import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db } from "@/lib/firebase";
+import { ref, deleteObject } from "firebase/storage";
+import { db, storage } from "@/lib/firebase";
 import { accountState, notificateState } from '@/lib/recoil'
 
 const useAvatarDelete = () => {
@@ -19,7 +19,6 @@ const useAvatarDelete = () => {
       const profilesRef = doc(profilesCollection, account.data?.id)
       const document = await getDoc(profilesRef)
   
-      const storage = getStorage()
       const desertRef = ref(storage, document.data()?.avatar)
       await deleteObject(desertRef)
   
@@ -49,7 +48,6 @@ const useAvatarDelete = () => {
       setLoading(false)
     }
   }
-
 
   return mutate
 }

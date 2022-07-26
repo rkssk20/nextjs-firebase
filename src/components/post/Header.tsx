@@ -22,7 +22,11 @@ const Header = ({ id, username, avatar, created_at }: HeaderProps) => {
   return (
     <div className={styles.field}>
       {/* アバター */}
-      <NextLink href={`/account/${id}`} as={`/account/${id}`} passHref>
+      <NextLink
+        href={`/account/${id}`} as={`/account/${id}`}
+        passHref
+        aria-label='プロフィールページへ移動'
+      >
         <MuiLink
           underline='none'
           onClick={(e: MouseEvent<HTMLSpanElement>) => e.stopPropagation()}

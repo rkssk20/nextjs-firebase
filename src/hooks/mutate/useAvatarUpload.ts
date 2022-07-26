@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { nanoid } from 'nanoid'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import { doc, updateDoc } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { accountState, notificateState } from '@/lib/recoil'
 
 const useAvatarUpload = (handleClose: () => void) => {
@@ -20,7 +20,6 @@ const useAvatarUpload = (handleClose: () => void) => {
       const index = type.indexOf('/')
       const url = `avatar/${nanoid()}.${type.substring(index + 1)}`
 
-      const storage = getStorage();
       const storageRef = ref(storage, url);
       await uploadBytes(storageRef, blob)
 
@@ -29,7 +28,7 @@ const useAvatarUpload = (handleClose: () => void) => {
         avatar: url
       })
 
-      const fullPath = await getDownloadURL(ref(getStorage(), url))
+      const fullPath = await getDownloadURL(ref(storage, url))
 
       let oldAvatar = account.data.avatar
 
@@ -52,8 +51,10 @@ const useAvatarUpload = (handleClose: () => void) => {
         message: 'プロフィール画像を変更しました'
       })
 
-      // 既存の画像を削除
-      deleteObject(ref(storage, oldAvatar))
+      if(oldAvatar) { 
+        // 既存の画像を削除
+        deleteObject(ref(storage, oldAvatar))
+      }
 
     } catch {
       setNotificate({

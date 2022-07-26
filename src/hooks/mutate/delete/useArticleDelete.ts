@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { doc, collection, collectionGroup, getDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore'
-import { getStorage, ref, deleteObject } from 'firebase/storage'
-import { db } from '@/lib/firebase'
+import { ref, deleteObject } from 'firebase/storage'
+import { db, storage } from '@/lib/firebase'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 
@@ -23,7 +23,6 @@ const useArticleDelete = (path: string, user_id: string) => {
       const avatar = articleDocument.data()?.avagar
       
       if(avatar) {
-        const storage = getStorage()
         const desertRef = ref(storage, avatar)
         await deleteObject(desertRef)
       }
@@ -49,15 +48,13 @@ const useArticleDelete = (path: string, user_id: string) => {
         await deleteDoc(doc(db, "profiles", itemData.user_id, "likes", item.ref.id))
       })
 
-
       router.push('/').then(() => {
         setNotificate({
           open: true,
-          message: '投稿が完了しました'
+          message: '投稿を削除しました'
         })
       })
-    } catch (e) {
-      console.log(e)
+    } catch {
       setNotificate({
         open: true,
         message: 'エラーが発生しました'

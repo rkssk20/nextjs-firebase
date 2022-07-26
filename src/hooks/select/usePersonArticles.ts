@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 const usePersonArticles = (path: string) => {
   const [account, setAccount] = useState({
@@ -27,7 +27,7 @@ const usePersonArticles = (path: string) => {
         let avatar = '';
 
         if(profiles?.avatar) { 
-          avatar = await getDownloadURL(ref(getStorage(), profiles?.avatar))
+          avatar = await getDownloadURL(ref(storage, profiles?.avatar))
         }
 
         setAccount({
@@ -61,7 +61,7 @@ const usePersonArticles = (path: string) => {
         await Promise.all(
           array.map(async(item, index) => {          
             if(item.image) { 
-              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+              array[index].image = await getDownloadURL(ref(storage, item.image))            
             }
           })
         )
@@ -110,7 +110,7 @@ const usePersonArticles = (path: string) => {
       await Promise.all(
         array.map(async(item, index) => {          
           if(item.image) { 
-            array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+            array[index].image = await getDownloadURL(ref(storage, item.image))            
           }
         })
       )

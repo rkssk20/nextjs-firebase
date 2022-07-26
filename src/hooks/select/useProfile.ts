@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { onAuthStateChanged } from 'firebase/auth'
 import { collection, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
-import { getDownloadURL, getStorage, ref } from 'firebase/storage'
+import { getDownloadURL, ref } from 'firebase/storage'
 import { accountState } from '@/lib/recoil'
-import { auth, db } from '@/lib/firebase'
+import { auth, db, storage } from '@/lib/firebase'
 
 const useProfile = () => {
   const setAccount = useSetRecoilState(accountState)
@@ -22,7 +22,7 @@ const useProfile = () => {
         let fullPath = '';
 
         if(data?.avatar) {
-          fullPath = await getDownloadURL(ref(getStorage(), data.avatar))
+          fullPath = await getDownloadURL(ref(storage, data.avatar))
           console.log(fullPath)
         }
 

@@ -1,10 +1,11 @@
 import { initializeApp, getApps } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
+import { getStorage } from "firebase/storage"
 
 const apps = getApps()
 
-if(!apps.length) { 
+if(!apps.length) {
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -17,6 +18,6 @@ if(!apps.length) {
   initializeApp(firebaseConfig)
 }
 
-
 export const auth = getAuth()
 export const db = getFirestore()
+export const storage = getStorage()

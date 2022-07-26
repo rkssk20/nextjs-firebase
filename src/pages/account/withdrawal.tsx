@@ -1,4 +1,5 @@
 import { ReactElement, useState } from 'react'
+import NextLink from 'next/link'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
 import { ContainedButton, DisabledButton } from '@/atoms/Button'
@@ -7,9 +8,13 @@ import ContainerLayout from '@/components/provider/ContainerLayout'
 import Side from '@/components/side/Side'
 
 import styles from '@/styles/pages/account/withdrawal.module.scss'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
+import MuiLink from '@mui/material/Link'
 
 const Withdrawal = () => {
   const [confirm, setConfirm] = useState(false)
@@ -33,11 +38,13 @@ const Withdrawal = () => {
           アカウントを削除すると、以下の情報も全て削除されます。
         </Typography>
 
-        {list.map((item) => (
-          <Typography className={styles.list_item} color='error' key={item}>
-            ・{item}
-          </Typography>
-        ))}
+        <List className={ styles.list } classes={{ root: styles.list_root }}>
+          { list.map(item => (
+            <ListItem  className={ styles.list_item } classes={{ root: styles.list_item_root }}>
+              <ListItemText primary={ item } primaryTypographyProps={{ color: 'error' }} />
+            </ListItem>
+          ))}
+        </List>
 
         <FormControlLabel
           className={styles.checkbox}
@@ -46,10 +53,20 @@ const Withdrawal = () => {
         />
 
         {confirm ? (
-          <ContainedButton text='削除する' handle={() => setNotificate({ open: true, message: 'ポートフォリオのため機能を制限しています。' })} />
+          <ContainedButton text='削除する' handle={() => setNotificate({ open: true, message: '機能を制限しています'})} />
         ) : (
           <DisabledButton text='削除する' />
         )}
+        
+        <p>
+          Next.js × Firebaseでは退会機能を制限しています。詳細は、
+          <NextLink href={ `/article/GEN_YJAfox2mKj2V47frO`} passHref>
+            <MuiLink underline='hover'>
+              Firebaseの退会機能を見送った
+            </MuiLink>
+          </NextLink>
+          に書き残しています。
+        </p>
       </div>
     </ContainerLayout>
   )

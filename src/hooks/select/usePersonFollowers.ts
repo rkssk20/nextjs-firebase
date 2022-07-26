@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import { collectionGroup, collection, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
 
@@ -56,7 +56,7 @@ const usePersonFollowers = (path: string) => {
         await Promise.all(
           followsArray.map(async(item, index) => {
             if(item.avatar) {
-              followsArray[index].avatar = await getDownloadURL(ref(getStorage(), followsArray[index].avatar))
+              followsArray[index].avatar = await getDownloadURL(ref(storage, followsArray[index].avatar))
             }
           })
         )
@@ -114,7 +114,7 @@ const usePersonFollowers = (path: string) => {
         await Promise.all(
           followsArray.map(async(item, index) => {
             if(item.avatar) {
-              followsArray[index].avatar = await getDownloadURL(ref(getStorage(), followsArray[index].avatar))
+              followsArray[index].avatar = await getDownloadURL(ref(storage, followsArray[index].avatar))
             }
           })
         )

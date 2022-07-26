@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import { collectionGroup, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
 
@@ -50,11 +50,11 @@ const useCategoriesArticles = (category: 0 | 1 | 2 | 3) => {
             delete array[index].profilesRef;
 
             if(item.avatar) {
-              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+              array[index].avatar = await getDownloadURL(ref(storage, array[index].avatar))
             }
 
             if(item.image) {
-              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+              array[index].image = await getDownloadURL(ref(storage, item.image))            
             }
           })
         )
@@ -108,11 +108,11 @@ const useCategoriesArticles = (category: 0 | 1 | 2 | 3) => {
             delete array[index].profilesRef;
 
             if(item.avatar) {
-              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+              array[index].avatar = await getDownloadURL(ref(storage, array[index].avatar))
             }
 
             if(item.image) {
-              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+              array[index].image = await getDownloadURL(ref(storage, item.image))            
             }
           })
         )

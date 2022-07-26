@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { accountState, notificateState } from '@/lib/recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import type { CommentType } from '@/types/types'
 import { collectionGroup, getDocs, getDoc, limit, orderBy, query, where, doc } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 const useSelectComments = (path: string) => {
   const [data, setData] = useState<CommentType[]>([])
@@ -50,7 +50,7 @@ const useSelectComments = (path: string) => {
           delete array[index].profilesRef
           
           if(item.avatar) {
-            array[index].avatar = await getDownloadURL(ref(getStorage(), item.avatar))  
+            array[index].avatar = await getDownloadURL(ref(storage, item.avatar))  
           }
         })
       )
@@ -105,7 +105,7 @@ const useSelectComments = (path: string) => {
           delete array[index].profilesRef
 
           if(item.avatar) {
-            array[index].avatar =  await getDownloadURL(ref(getStorage(), item.avatar))  
+            array[index].avatar =  await getDownloadURL(ref(storage, item.avatar))  
           }
         })
       )

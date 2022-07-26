@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { notificateState } from '@/lib/recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import { collectionGroup, getDoc, getDocs, query, where } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 const useTrend = () => {
   const [data, setData] = useState<any[]>([])
@@ -49,15 +49,14 @@ const useTrend = () => {
             delete array[index].profilesRef;
 
             if(item.image) {
-              array[index].image = await getDownloadURL(ref(getStorage(), item.image))            
+              array[index].image = await getDownloadURL(ref(storage, item.image))            
             }
           })
         )
     
         setData(array)
 
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'

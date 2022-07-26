@@ -21,11 +21,11 @@ const Side = () => {
 
   return (
     <div className={styles.field}>
-      <List className={styles.list} classes={{ root: styles.list_root }}>
-        <li className={styles.header}>
+      <div className={styles.list}>
+        <div className={styles.header}>
           <TrendingUpIcon />
           <Typography className={styles.title}>トレンド</Typography>
-        </li>
+        </div>
 
         {data.length > 0 &&
           data.map((item) => (
@@ -41,6 +41,7 @@ const Side = () => {
                     src={item.image}
                     alt='記事のトップ画像'
                     quality={70}
+                    layout='fixed'
                     width={80}
                     height={80}
                     objectFit='cover'
@@ -48,7 +49,14 @@ const Side = () => {
                 </div>
               ) : (
                 <div className={styles.noimage}>
-                  <Image src='/favicon.png' quality={80} width={32} height={32} />
+                  <Image
+                    src='/favicon.png'
+                    quality={80}
+                    layout='fixed'
+                    width={32}
+                    height={32}
+                    alt='Next.js × Firebaseのトップ画像'
+                  />
                 </div>
               )}
 
@@ -71,7 +79,7 @@ const Side = () => {
             さらに表示
           </Button>
         </NextLink>
-      </List>
+      </div>
 
       {/* 最下部 */}
       <div className={styles.list_under}>

@@ -17,9 +17,18 @@
 }
 
 // リスト
+.list {
+  &.list_root {
+    margin-left: var(--md);
+  }
+}
+
+// リストアイテム
 .list_item {
-  padding-top: var(--sm);
-  text-align: left;
+  &.list_item_root {
+    display: list-item;
+    list-style: disc;
+  }
 }
 
 // チェックボックス

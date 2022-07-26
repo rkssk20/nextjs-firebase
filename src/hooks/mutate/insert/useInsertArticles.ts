@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { nanoid } from 'nanoid'
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
-import { db } from '@/lib/firebase'
+import { ref, uploadBytes } from 'firebase/storage'
+import { db, storage} from '@/lib/firebase'
 import { accountState, notificateState, draftState } from '@/lib/recoil'
 
 type MutateType = {
@@ -34,7 +34,6 @@ const useInsertArticles = () => {
         const index = type.indexOf('/')
         url = `image/${nanoid()}.${type.substring(index + 1)}`
   
-        const storage = getStorage();
         const storageRef = ref(storage, url);
         await uploadBytes(storageRef, image).catch(() => {
           setNotificate({

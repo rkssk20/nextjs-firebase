@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import NextLink from 'next/link'
 
 import { signInWithRedirect, TwitterAuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
@@ -6,6 +7,7 @@ import { auth } from '@/lib/firebase'
 import styles from '@/styles/atoms/loginContent.module.scss'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import MuiLink from '@mui/material/Link'
 
 const LoginContent = () => {
   const social = [
@@ -77,6 +79,16 @@ const LoginContent = () => {
           </Typography>
         </Button>
       ))}
+
+      <Typography variant='body1' className={ styles.firebase }>
+        Next.js × Firebaseでは退会機能を制限しています。詳細は、
+        <NextLink href={ `/article/GEN_YJAfox2mKj2V47frO` } passHref>
+          <MuiLink underline='hover'>
+            Firebaseの退会機能を見送った
+          </MuiLink>
+        </NextLink>
+        に書き残しています。
+      </Typography>
     </div>
   )
 }

@@ -2,10 +2,10 @@ import type { ReactElement } from 'react'
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import { useRecoilValue } from 'recoil'
 import { collectionGroup, query, limit, where, getDocs, getDoc } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
 import RemarkDown from '@/lib/remarkDown'
 import { accountState } from '@/lib/recoil';
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import ArticleImage from '@/atoms/Image/ArticleImage'
 import NoArtcileImage from '@/atoms/Image/NoArticleImage'
 import PageLayout from '@/components/provider/PageLayout'
@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         let path = ''
 
         if(result?.avatar) {
-          path = await getDownloadURL(ref(getStorage(), result?.avatar))
+          path = await getDownloadURL(ref(storage, result?.avatar))
         }
 
         resolve(path)
@@ -73,7 +73,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         let path = ''
         
         if(result?.image) {
-          path = await getDownloadURL(ref(getStorage(), result?.image))
+          path = await getDownloadURL(ref(storage, result?.image))
         }
         
         resolve(path)

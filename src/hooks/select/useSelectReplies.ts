@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { accountState, notificateState } from '@/lib/recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import type { RepliesType } from '@/types/types'
 import { collectionGroup, getDocs, getDoc, limit, orderBy, query, where } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 const useSelectReplies = (id: string) => {
   const [data, setData] = useState<RepliesType[]>([])
@@ -49,7 +49,7 @@ const useSelectReplies = (id: string) => {
             delete array[index].profilesRef
             
             if(item.avatar) {
-              array[index].avatar = await getDownloadURL(ref(getStorage(), item.avatar))  
+              array[index].avatar = await getDownloadURL(ref(storage, item.avatar))  
             }
           })
         )
@@ -105,7 +105,7 @@ const useSelectReplies = (id: string) => {
           delete array[index].profilesRef
 
           if(item.avatar) {
-            array[index].avatar =  await getDownloadURL(ref(getStorage(), item.avatar))  
+            array[index].avatar =  await getDownloadURL(ref(storage, item.avatar))  
           }
         })
       )

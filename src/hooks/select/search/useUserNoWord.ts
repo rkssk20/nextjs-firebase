@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { db } from '@/lib/firebase'
+import { db, storage } from '@/lib/firebase'
 import { collection, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
 
@@ -41,7 +41,7 @@ const useUserNoWord = () => {
         await Promise.all(
           array.map(async(item, index) => {
             if(item.avatar) {
-              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+              array[index].avatar = await getDownloadURL(ref(storage, array[index].avatar))
             }
           })
         )
@@ -87,7 +87,7 @@ const useUserNoWord = () => {
         await Promise.all(
           array.map(async(item, index) => {
             if(item.avatar) {
-              array[index].avatar = await getDownloadURL(ref(getStorage(), array[index].avatar))
+              array[index].avatar = await getDownloadURL(ref(storage, array[index].avatar))
             }
           })
         )

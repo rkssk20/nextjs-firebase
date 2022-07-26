@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react'
 import type { GetServerSideProps } from 'next'
 import { collection, doc, getDoc } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { db } from '@/lib/firebase'
+import { ref, getDownloadURL } from "firebase/storage";
+import { db, storage } from '@/lib/firebase'
 import type { ProfileType } from '@/types/types'
 import useLikesArticles from '@/hooks/select/useLikesArticles'
 import useObserver from '@/hooks/atoms/useObserver'
@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   let fullPath = '';
 
   if(document.data()?.avatar) {
-    fullPath = await getDownloadURL(ref(getStorage(), document.data()?.avatar))
+    fullPath = await getDownloadURL(ref(storage, document.data()?.avatar))
   }
 
   if(document.data()) {
