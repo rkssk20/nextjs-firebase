@@ -39,7 +39,7 @@ const usePersonArticles = (path: string) => {
         const articlesDocument = await getDocs(query(articlesCollection, orderBy("created_at", "desc"), limit(10))) 
 
         const array: any[] = []
-    
+
         if(articlesDocument.size < 10) {
           setHasNextPage(false)
         }

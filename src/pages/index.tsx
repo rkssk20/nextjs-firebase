@@ -1,6 +1,6 @@
-import { useEffect, ReactElement } from 'react'
-import Side from '@/components/side/Side'
-import useObserver from '@/hooks/atoms/useObserver'
+import type { ReactElement } from 'react'
+import SideUser from '@/components/side/SideUser'
+import useTrend from '@/hooks/select/useTrend'
 import Circular from '@/atoms/Circular'
 import Introduction from '@/atoms/Introduction'
 import PageLayout from '@/components/provider/PageLayout'
@@ -8,6 +8,8 @@ import ContainerLayout from '@/components/provider/ContainerLayout'
 import Post from '@/components/post/Post'
 
 const Home = () => {
+  const { data, loading } = useTrend()
+
   return (
     <ContainerLayout
       type='website'
@@ -15,15 +17,15 @@ const Home = () => {
       description=''
       image=''
     >
-      {/* { data.map((item, index) => (
+      { data.map(item => (
         <Post
           key={ item.id }
           data={ item }
-          setRef={ ((data.length - 1) === index) && setRef }
+          setRef={ false }
         />
-      )) } */}
+      )) }
 
-      {/* { loading && <Circular /> } */}
+      { loading && <Circular /> }
     </ContainerLayout>
   )
 }
@@ -36,6 +38,8 @@ Home.getLayout = function getLayout(page: ReactElement) {
       <Introduction details />
       
       { page }
+
+      <SideUser />
     </PageLayout>
   )
 }

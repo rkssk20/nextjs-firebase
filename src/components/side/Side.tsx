@@ -1,11 +1,9 @@
-import { useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
-import useTrend from '@/hooks/select/useTrend'
+import useSideTrend from '@/hooks/select/useSideTrend'
 
 import styles from '@/styles/components/side/side.module.scss'
-import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
@@ -14,7 +12,7 @@ import Button from '@mui/material/Button'
 import MuiLink from '@mui/material/Link'
 
 const Side = () => {
-  const data = useTrend()
+  const data = useSideTrend()
   const router = useRouter()
 
   if(data.length === 0) return null
@@ -64,7 +62,7 @@ const Side = () => {
                 className={styles.list_text}
                 classes={{ primary: styles.list_text_primary }}
                 primary={item.title}
-                secondary={item.name}
+                secondary={item.username}
                 secondaryTypographyProps={{ noWrap: true }}
               />
             </ListItemButton>

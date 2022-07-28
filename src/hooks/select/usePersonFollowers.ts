@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { db, storage } from '@/lib/firebase'
-import { collectionGroup, collection, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { collectionGroup, collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
 import { ref, getDownloadURL } from 'firebase/storage'
-import type { ArticleType } from '@/types/types'
 import { notificateState } from '@/lib/recoil'
 
 const usePersonFollowers = (path: string) => {
@@ -30,17 +29,13 @@ const usePersonFollowers = (path: string) => {
         let followsArray: any[] = []
 
         followsDocument.forEach(item => {
-          followsArray.push(item.ref.id)
+          followsArray.push(item.data().user_id)
         })
 
         const profilesDocument = await getDocs(query(profilesCollection, where("id", "in", followsArray), limit(10)))
 
-        console.log(profilesDocument.size)
-
         profilesDocument.forEach((item) => {
           const data = item.data()
-
-          console.log(data)
 
           const index = followsArray.indexOf(data.id)
 
@@ -50,8 +45,6 @@ const usePersonFollowers = (path: string) => {
             created_at: data.created_at.toDate()
           })
         })
-
-        console.log(followsArray)
 
         await Promise.all(
           followsArray.map(async(item, index) => {

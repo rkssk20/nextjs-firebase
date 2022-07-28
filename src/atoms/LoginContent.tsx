@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
 
-import { signInWithRedirect, TwitterAuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
+import { signInWithEmailAndPassword, signInWithRedirect, TwitterAuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 
 import styles from '@/styles/atoms/loginContent.module.scss'
@@ -24,6 +24,14 @@ const LoginContent = () => {
       src: 'google.svg',
     },
   ]
+
+  const handleEazy = async() => {
+    await signInWithEmailAndPassword(
+      auth,
+      process.env.NEXT_PUBLIC_EAZY_LOGIN_EMAIL as string,
+      process.env.NEXT_PUBLIC_EAZY_LOGIN_PASSWORD as string
+    )
+  }
 
   const handleAuth = async (provider: string) => {
     let authProvider: TwitterAuthProvider | FacebookAuthProvider | GoogleAuthProvider;
@@ -52,6 +60,7 @@ const LoginContent = () => {
         classes={{ root: styles.eazy_root }}
         variant='contained'
         color='info'
+        onClick={ handleEazy }
       >
         簡単ログイン
       </Button>

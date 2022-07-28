@@ -46,7 +46,7 @@ const useInsertArticles = () => {
         });
       }
 
-      const id = nanoid()
+      const id = 'EnmX3Rfgxpp8BY6GHQi1i';
 
       // 記事を投稿
       const profilesCollection = collection(db, 'profiles', account.data.id, 'articles')

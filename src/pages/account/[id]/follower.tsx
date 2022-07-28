@@ -57,6 +57,8 @@ const Follower = ({ item, path }: AccountProps) => {
   const { data, loading, hasNextPage, fetchMore } = usePersonFollowers(path)
   const setRef = useObserver({ hasNextPage, fetchMore })
 
+  console.log(data)
+
   return (
     <ContainerLayout
       type='profile'
