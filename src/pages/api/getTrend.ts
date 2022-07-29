@@ -49,7 +49,7 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(e)
     res.status(400).json({
       error: {
-        message: 'エラーが発生しました。'  
+        e  
       }
     })
   }

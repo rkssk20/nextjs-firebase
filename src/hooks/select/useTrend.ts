@@ -14,7 +14,7 @@ const useSideTrend = () => {
   useEffect(() => {
     (async() => {
       try {
-        fetch('/api/getTrend').then(data => data.json()).then(async(result) => {
+        fetch('/api/getTrend').then(res => res.json()).then(async(result) => {
 
           console.log(result)
 
@@ -61,7 +61,6 @@ const useSideTrend = () => {
       
           setData(array)
         })
-
       } catch (e) {
         console.log(e)
         setNotificate({
