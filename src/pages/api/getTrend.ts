@@ -38,18 +38,15 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
       limit: 5
     })
 
-    console.log(response.rows)
-
     // 一日キャッシュ
-    // res.setHeader('Cache-Control', 's-maxage=86400');
+    res.setHeader('Cache-Control', 's-maxage=86400');
     res.status(200).json({
       response: response.rows
     })
-  } catch (e) {
-    console.log(e)
+  } catch {
     res.status(400).json({
       error: {
-        e  
+        message: 'エラーが発生しました。'  
       }
     })
   }
