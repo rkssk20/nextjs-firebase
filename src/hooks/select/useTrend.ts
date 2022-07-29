@@ -60,7 +60,8 @@ const useSideTrend = () => {
           setData(array)
         })
 
-      } catch {
+      } catch (e) {
+        console.log(e)
         setNotificate({
           open: true,
           message: 'エラーが発生しました'
