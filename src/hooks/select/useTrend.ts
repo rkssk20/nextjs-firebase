@@ -14,52 +14,51 @@ const useSideTrend = () => {
   useEffect(() => {
     (async() => {
       try {
-        const res = await fetch(`/api/getTrend`)
+        fetch('/api/getTrend').then(data => data.json()).then(async(result) => {
 
-        const gaRes = await res.json()
+          let array: any[] = []
         
-        let array: any[] = []
-        
-        gaRes.response.map((item: any) => (
-          array.push(item.dimensionValues[0].value.replace('/article/', ''))
-        ))
+          result.response.map((item: any) => (
+            array.push(item.dimensionValues[0].value.replace('/article/', ''))
+          ))
 
-        const articlesDocument = await getDocs(query(articlescollection, where("id", "in", array)))
+          const articlesDocument = await getDocs(query(articlescollection, where("id", "in", array)))
 
-        articlesDocument.forEach((item) => {
-          const itemData = item.data()
+          articlesDocument.forEach((item) => {
+            const itemData = item.data()
 
-          const index = array.indexOf(itemData.id)
+            const index = array.indexOf(itemData.id)
 
-          array.splice(index, 1, {
-            user_id: item.ref.parent.parent?.id,
-            profilesRef: item.ref.parent.parent,
-            id: item.id,
-            ...itemData,
-            details: itemData.details.slice(0, 50),
-            created_at: itemData.created_at.toDate()
+            array.splice(index, 1, {
+              user_id: item.ref.parent.parent?.id,
+              profilesRef: item.ref.parent.parent,
+              id: item.id,
+              ...itemData,
+              details: itemData.details.slice(0, 50),
+              created_at: itemData.created_at.toDate()
+            })
           })
+
+          await Promise.all(
+            array.map(async(item, index) => {
+              const profiles = await getDoc(item.profilesRef)
+              const data: any = profiles.data();
+              array[index].username = data.username;
+              array[index].avatar = data.avatar;
+              delete array[index].profilesRef;
+
+              if(item.avatar) {
+                array[index].avatar = await getDownloadURL(ref(storage, array[index].avatar))
+              }
+
+              if(item.image) {
+                array[index].image = await getDownloadURL(ref(storage, item.image))            
+              }
+            })
+          )
+      
+          setData(array)
         })
-
-        await Promise.all(
-          array.map(async(item, index) => {
-            const profiles = await getDoc(item.profilesRef)
-            const data: any = profiles.data();
-            array[index].username = data.username;
-            array[index].avatar = data.avatar;
-            delete array[index].profilesRef;
-
-            if(item.avatar) {
-              array[index].avatar = await getDownloadURL(ref(storage, array[index].avatar))
-            }
-
-            if(item.image) {
-              array[index].image = await getDownloadURL(ref(storage, item.image))            
-            }
-          })
-        )
-    
-        setData(array)
 
       } catch {
         setNotificate({
