@@ -33,8 +33,6 @@ const useLikesArticles = (path: string) => {
           array.push(item.ref.id)
         })
 
-        console.log(array)
-
         const articlesDocument = await getDocs(query(articlesCollection, where("id", "in", array), limit(10)))
 
         articlesDocument.forEach((item) => {
@@ -143,8 +141,7 @@ const useLikesArticles = (path: string) => {
         )
     
         setData(prev => [...prev, ...array])
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'

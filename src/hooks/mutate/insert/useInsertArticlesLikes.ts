@@ -36,8 +36,7 @@ const useInsertArticlesLikes = (
         open: true,
         message: 'この記事にいいねしました'
       })
-    } catch (e) {
-      console.log(e)
+    } catch {
       setNotificate({
         open: true,
         message: 'エラーが発生しました'

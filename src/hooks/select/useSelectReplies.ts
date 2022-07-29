@@ -55,8 +55,7 @@ const useSelectReplies = (id: string) => {
         )
 
         setData(array)
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'コメントの取得に失敗しました'

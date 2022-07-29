@@ -18,12 +18,9 @@ const useSelectFollows = (path: string) => {
         const document = await getDoc(followsRef)
         const data = document.data()
 
-        console.log(data)
-
         data && setData(true)
 
-      } catch(e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'

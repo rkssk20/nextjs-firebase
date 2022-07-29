@@ -65,7 +65,7 @@ const Withdrawal = () => {
               Firebaseの退会機能を見送った
             </MuiLink>
           </NextLink>
-          に書き残しています。
+          をご覧ください。
         </p>
       </div>
     </ContainerLayout>

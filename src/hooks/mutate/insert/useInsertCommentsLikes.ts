@@ -25,8 +25,6 @@ const useInsertCommentsLikes = (
         comments_likes: arrayUnion(account.data.id)
       })
 
-      console.log(index)
-
       setData(prev => prev.map((item, number) => (
           (index === number) ? {
             ...item,

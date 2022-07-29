@@ -3,13 +3,13 @@
 [https://nextjs-firebase.tk](https://nextjs-firebase.tk)
 
 Next.js と Firebase を使用した技術ブログ風のポートフォリオです。ログイン・投稿・いいね・コメントなどをお試しください
-[Supabase 版](https://nextjs-supabase)と[Hasura 版](https://nextjs-hasura.tk)もあります
+[Supabase 版](https://nextjs-firebase.tk)と[Hasura 版](https://nextjs-hasura.tk)もあります
 
 <br>
 
 ## 技術選定
 
-詳細は[Next.js × Firebase の技術選定](https://nextjs-supabase/article/5fdS-oH1HKBOScdXUjJzz)
+詳細は[Next.js × Firebase の技術選定](https://nextjs-firebase.tk/article/5fdS-oH1HKBOScdXUjJzz)
 
 ### フロント
 

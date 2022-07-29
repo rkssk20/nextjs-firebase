@@ -23,7 +23,6 @@ const useProfile = () => {
 
         if(data?.avatar) {
           fullPath = await getDownloadURL(ref(storage, data.avatar))
-          console.log(fullPath)
         }
 
         // 既存のアカウントにログイン

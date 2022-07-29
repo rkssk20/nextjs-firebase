@@ -21,8 +21,7 @@ const useSelectLikes = (path: string) => {
 
         document.data() && setData(true)
 
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'

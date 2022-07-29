@@ -56,8 +56,7 @@ const usePersonFollowers = (path: string) => {
     
         setData(followsArray)
 
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'
@@ -113,8 +112,7 @@ const usePersonFollowers = (path: string) => {
         )
     
         setData(prev => [...prev, ...followsArray])
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'

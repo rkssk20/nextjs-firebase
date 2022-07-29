@@ -34,12 +34,8 @@ const usePersonFollows = (path: string) => {
 
         const profilesDocument = await getDocs(query(profilesCollection, where("id", "in", followsArray), limit(10)))
 
-        console.log(profilesDocument.size)
-
         profilesDocument.forEach((item) => {
           const data = item.data()
-
-          console.log(data)
 
           const index = followsArray.indexOf(data.id)
 
@@ -49,8 +45,6 @@ const usePersonFollows = (path: string) => {
             created_at: data.created_at.toDate()
           })
         })
-
-        console.log(followsArray)
 
         await Promise.all(
           followsArray.map(async(item, index) => {
@@ -62,8 +56,7 @@ const usePersonFollows = (path: string) => {
     
         setData(followsArray)
 
-      } catch(e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'
@@ -119,8 +112,7 @@ const usePersonFollows = (path: string) => {
         )
     
         setData(prev => [...prev, ...followsArray])
-      } catch (e) {
-        console.log(e)
+      } catch {
         setNotificate({
           open: true,
           message: 'エラーが発生しました'

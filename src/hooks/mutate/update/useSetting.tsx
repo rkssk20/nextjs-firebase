@@ -15,7 +15,6 @@ const useSetting = () => {
   const [account, setAccount] = useRecoilState(accountState)
 
   const mutate = ({ newUserName, newDetails }: MutateType) => {
-    console.log(loading)
     if(loading || !account.data) return
     setLoading(true)
 

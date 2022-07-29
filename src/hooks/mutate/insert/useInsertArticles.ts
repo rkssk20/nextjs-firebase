@@ -46,7 +46,7 @@ const useInsertArticles = () => {
         });
       }
 
-      const id = 'EnmX3Rfgxpp8BY6GHQi1i';
+      const id = nanoid();
 
       // 記事を投稿
       const profilesCollection = collection(db, 'profiles', account.data.id, 'articles')
@@ -73,8 +73,7 @@ const useInsertArticles = () => {
             message: '記事を投稿しました'
           })
         })
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
         setNotificate({
           open: true,
           message: '投稿に失敗しました'
