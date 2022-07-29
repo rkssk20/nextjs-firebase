@@ -1,8 +1,11 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState, useEffect } from 'react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
+import { getDownloadURL, ref } from 'firebase/storage'
+import { storage } from '@/lib/firebase'
 import { ContainedButton } from '@/atoms/Button'
 import Introduction from '@/atoms/Introduction'
+import ArticleImage from '@/atoms/Image/ArticleImage'
 import PageLayout from '@/components/provider/PageLayout'
 import ContainerLayout from '@/components/provider/ContainerLayout'
 import Side from '@/components/side/Side'
@@ -12,7 +15,15 @@ import Typography from '@mui/material/Typography'
 import MuiLink from '@mui/material/Link'
 
 const About = () => {
+  const [image, setImage] = useState('')
   const router = useRouter()
+
+  useEffect(() => {
+    (async() => {
+      const url = await getDownloadURL(ref(storage, 'other/C61F8A5A-DEB2-4673-85B1-3B96ED656A69_1_201_a.jpeg'));
+      setImage(url);
+    })();
+  }, [])
 
   return (
     <ContainerLayout
@@ -42,6 +53,8 @@ const About = () => {
       <div className={styles.button}>
         <ContainedButton text='かんたんログイン' handle={() => router.push('/login')} />
       </div>
+
+      { image && <ArticleImage image={ image } /> }
     </ContainerLayout>
   )
 }
