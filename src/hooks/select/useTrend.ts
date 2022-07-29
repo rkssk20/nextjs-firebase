@@ -16,6 +16,8 @@ const useSideTrend = () => {
       try {
         fetch('/api/getTrend').then(data => data.json()).then(async(result) => {
 
+          console.log(result)
+
           let array: any[] = []
         
           result.response.map((item: any) => (

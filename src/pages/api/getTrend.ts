@@ -37,17 +37,19 @@ const getTrend = async (req: NextApiRequest, res: NextApiResponse) => {
       }],
       limit: 5
     })
-    
+
+    console.log(response.rows)
+
     // 一日キャッシュ
     res.setHeader('Cache-Control', 's-maxage=86400');
     res.status(200).json({
-      response:[{"dimensionValues":[{"value":"/article/wodA79ull1oeWMACFFye","oneValue":"value"}],"metricValues":[{"value":"127","oneValue":"value"}]},{"dimensionValues":[{"value":"/article/8GvdHk8HosMCPD70Ckh0k","oneValue":"value"}],"metricValues":[{"value":"106","oneValue":"value"}]},{"dimensionValues":[{"value":"/article/27mlamD9xm7eXgPD1VfMv","oneValue":"value"}],"metricValues":[{"value":"75","oneValue":"value"}]},{"dimensionValues":[{"value":"/article/07ZpbXAhYzvaBUrd1O6KX","oneValue":"value"}],"metricValues":[{"value":"74","oneValue":"value"}]},{"dimensionValues":[{"value":"/article/EnmX3Rfgxpp8BY6GHQi1i","oneValue":"value"}],"metricValues":[{"value":"67","oneValue":"value"}]}]
+      response: response.rows
     })
   } catch (e) {
     console.log(e)
     res.status(400).json({
       error: {
-        message: e
+        message: 'エラーが発生しました。'  
       }
     })
   }
